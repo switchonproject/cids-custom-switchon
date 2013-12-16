@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>run</actionName>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+        </goals>
+        <properties>
+            <jalopy.skip>true</jalopy.skip>
+            <exec.classpathScope>runtime</exec.classpathScope>
+            <exec.workingdir>${de.cismet.cids.navigator.workingDir}</exec.workingdir>
+            <exec.args>-Duser.country=US -Duser.language=en -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8899 -Xms512m -Xmx1024m -XX:MaxPermSize=128m -ea -classpath ${de.cismet.cids.classpath} Sirius.navigator.Navigator ${de.cismet.cids.navigator.workingDir}/config/log4j.debug.properties ${de.cismet.cids.navigator.workingDir}/config/navigator.cfg ${de.cismet.cids.navigator.workingDir} ${de.cismet.cids.navigator.workingDir}/plugins ${de.cismet.cids.navigator.workingDir}/search ${de.cismet.cids.navigator.workingDir}/profiles</exec.args>
+            <exec.executable>java</exec.executable>
+        </properties>
+    </action>
+    <action>
+        <actionName>debug</actionName>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+        </goals>
+        <properties>
+            <jalopy.skip>true</jalopy.skip>
+            <exec.classpathScope>runtime</exec.classpathScope>
+            <exec.workingdir>${de.cismet.cids.navigator.workingDir}</exec.workingdir>
+            <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Xms512m -Xmx1024m -XX:MaxPermSize=128m -ea -classpath ${de.cismet.cids.classpath} Sirius.navigator.Navigator ${de.cismet.cids.navigator.workingDir}/config/log4j.debug.properties ${de.cismet.cids.navigator.workingDir}/config/navigator.cfg ${de.cismet.cids.navigator.workingDir} ${de.cismet.cids.navigator.workingDir}/plugins ${de.cismet.cids.navigator.workingDir}/search ${de.cismet.cids.navigator.workingDir}/profiles</exec.args>
+            <jpda.listen>true</jpda.listen>
+            <exec.executable>java</exec.executable>
+        </properties>
+    </action>
+    <action>
+        <actionName>profile</actionName>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+        </goals>
+        <properties>
+            <exec.args>${profiler.args} -Xms512m -Xmx1024m -XX:MaxPermSize=128m -ea -classpath ${de.cismet.cids.classpath} Sirius.navigator.Navigator ${de.cismet.cids.navigator.workingDir}/config/log4j.debug.properties ${de.cismet.cids.navigator.workingDir}/config/navigator.cfg ${de.cismet.cids.navigator.workingDir} ${de.cismet.cids.navigator.workingDir}/plugins ${de.cismet.cids.navigator.workingDir}/search ${de.cismet.cids.navigator.workingDir}/profiles</exec.args>
+            <exec.workingdir>${de.cismet.cids.navigator.workingDir}</exec.workingdir>
+            <profiler.action>profile</profiler.action>
+            <exec.executable>${profiler.java}</exec.executable>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-public-deploy-flexo</actionName>
+        <displayName>public-deploy-flexo</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>deploy</goal>
+        </goals>
+        <activatedProfiles>
+            <activatedProfile>deploy</activatedProfile>
+            <activatedProfile>deploy-public</activatedProfile>
+        </activatedProfiles>
+    </action>
+    <action>
+        <actionName>debug.test.single</actionName>
+        <goals>
+            <goal>test-compile</goal>
+            <goal>surefire:test</goal>
+        </goals>
+        <properties>
+            <jpda.listen>true</jpda.listen>
+            <maven.surefire.debug>-Xmx1024m -Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address}</maven.surefire.debug>
+            <forkMode>once</forkMode>
+            <test>${packageClassName}</test>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-fresh build</actionName>
+        <displayName>fresh build</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>install</goal>
+        </goals>
+    </action>
+    <action>
+            <actionName>run.single.main</actionName>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>-classpath %classpath ${packageClassName}</exec.args>
+                <exec.executable>java</exec.executable>
+                <exec.classpathScope>${classPathScope}</exec.classpathScope>
+                <jalopy.skip>true</jalopy.skip>
+            </properties>
+        </action>
+    <action>
+            <actionName>debug.single.main</actionName>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath ${packageClassName}</exec.args>
+                <exec.executable>java</exec.executable>
+                <exec.classpathScope>${classPathScope}</exec.classpathScope>
+                <jpda.listen>true</jpda.listen>
+                <jalopy.skip>true</jalopy.skip>
+            </properties>
+        </action>
+</actions>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : build.xml
+    Created on : 13. Juli 2007, 15:06
+    Author     : mscholl
+    Description:
+        Purpose of the document follows.
+-->
+
+<project name="de.cismet.cids.lib.support">
+    <description>targets for cids library support</description>
+    
+    <target name="extractJar">
+        <unjar src="${jar.sourcefile}" dest="${jar.tmpdir}"/>
+    </target>
+    
+    <target name="deleteDir">
+        <delete dir="${jar.tmpdir}"/>
+    </target>
+
+    <target name="createJar">
+        <jar destfile="${jar.destfile}" 
+             basedir="${jar.sourcepath}" 
+             manifest="${jar.manifest}"/>
+    </target>
+
+    <target name="signJar">
+	<signjar jar="${jar.destfile}" 
+                 alias="${jar.sign.alias}" 
+                 storepass="${jar.sign.storepass}" 
+                 keystore="${jar.sign.keystorepath}"/>
+    </target>
+    
+    <target name="deployJar" depends="createJar, signJar">
+        <!--echo message="${jar.deploy.successful}"/-->
+    </target>
+    
+    <target name="deployAllJars">
+        
+    </target>
+    
+</project>
