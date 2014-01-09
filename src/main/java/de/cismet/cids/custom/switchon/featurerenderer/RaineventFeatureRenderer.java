@@ -34,11 +34,11 @@ import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
  * @author   mscholl
  * @version  $Revision$, $Date$
  */
-public class IdfCurveFeatureRenderer extends CustomCidsFeatureRenderer {
+public class RaineventFeatureRenderer extends CustomCidsFeatureRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final transient Logger LOG = Logger.getLogger(IdfCurveFeatureRenderer.class);
+    private static final transient Logger LOG = Logger.getLogger(RaineventFeatureRenderer.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -52,14 +52,14 @@ public class IdfCurveFeatureRenderer extends CustomCidsFeatureRenderer {
     /**
      * Creates new form TimeseriesFeatureRenderer.
      */
-    public IdfCurveFeatureRenderer() {
+    public RaineventFeatureRenderer() {
         initComponents();
         BufferedImage image = null;
         try {
-            final InputStream is = getClass().getResourceAsStream("idf_16.png"); // NOI18N
+            final InputStream is = getClass().getResourceAsStream("thunder_storm_16.png"); // NOI18N
             image = ImageIO.read(is);
         } catch (final IOException ex) {
-            LOG.warn("cannot load idf curve feature icon", ex);                  // NOI18N
+            LOG.warn("cannot load idf curve feature icon", ex);                            // NOI18N
         }
 
         rainPointSymbolUnselected = image;
@@ -89,19 +89,19 @@ public class IdfCurveFeatureRenderer extends CustomCidsFeatureRenderer {
             LOG.debug("assign"); // NOI18N
         }
 
-        final String json = (String)cidsBean.getProperty("uri");
-        final ObjectMapper mapper = new ObjectMapper();
-        final IDFCurve curve;
-
-        try {
-            curve = mapper.readValue(new StringReader(json), IDFCurve.class);
-            curve.setSelf(cidsBean);
-            final IDFTablePanel panel = new IDFTablePanel(curve);
-            add(panel, BorderLayout.CENTER);
-        } catch (final Exception ex) {
-            final String message = "cannot create idf feature renderer component"; // NOI18N
-            LOG.error(message, ex);
-        }
+//        final String json = (String)cidsBean.getProperty("uri");
+//        final ObjectMapper mapper = new ObjectMapper();
+//        final IDFCurve curve;
+//
+//        try {
+//            curve = mapper.readValue(new StringReader(json), IDFCurve.class);
+//            curve.setSelf(cidsBean);
+//            final IDFTablePanel panel = new IDFTablePanel(curve);
+//            add(panel, BorderLayout.CENTER);
+//        } catch (final Exception ex) {
+//            final String message = "cannot create idf feature renderer component"; // NOI18N
+//            LOG.error(message, ex);
+//        }
     }
 
     // TODO: not necessarily only rain symbol, symbol selection must be cidsbean dependent

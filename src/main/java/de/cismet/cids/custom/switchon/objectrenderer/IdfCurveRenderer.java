@@ -182,6 +182,7 @@ public class IdfCurveRenderer extends AbstractCidsBeanRenderer implements Reques
             final Integer year = (Integer)cidsBean.getProperty("year");
             curve.setForecast(forecast);
             curve.setCenterYear(year);
+            curve.setSelf(cidsBean);
             pnlIdf.add(new IDFCurvePanel(curve));
 
             final Runnable r = new Runnable() {

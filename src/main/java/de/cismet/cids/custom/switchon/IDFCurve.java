@@ -20,6 +20,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import de.cismet.cids.dynamics.CidsBean;
+
 /**
  * DOCUMENT ME!
  *
@@ -32,6 +34,7 @@ public final class IDFCurve {
 
     // duration, frequency, intensity
     private transient SortedMap<Integer, SortedMap<Integer, Double>> data;
+    private transient CidsBean self;
     private transient Geometry geom;
     private transient Integer centerYear;
     private transient Boolean forecast;
@@ -213,6 +216,25 @@ public final class IDFCurve {
      */
     public void setGeom(final Geometry geom) {
         this.geom = geom;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @JsonIgnore
+    public CidsBean getSelf() {
+        return self;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  self  DOCUMENT ME!
+     */
+    public void setSelf(final CidsBean self) {
+        this.self = self;
     }
 
     /**

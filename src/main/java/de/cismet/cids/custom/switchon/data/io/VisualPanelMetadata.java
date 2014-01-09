@@ -78,8 +78,7 @@ public class VisualPanelMetadata extends javax.swing.JPanel {
      */
     public VisualPanelMetadata(final WizardPanelMetadata ctrl) {
         if (ctrl == null) {
-            throw new NullPointerException("Given TimeSeriesConverterChoosePanelCtrl instance "
-                        + "must not be null"); // NOI18N
+            throw new NullPointerException("Given WizardPanelMetadata instance must not be null"); // NOI18N
         }
 
         this.ctrl = ctrl;
@@ -88,7 +87,7 @@ public class VisualPanelMetadata extends javax.swing.JPanel {
 
         initComponents();
 
-        this.setName(NbBundle.getMessage(VisualPanelMetadata.class, "TimeSeriesMetaDataPanel.this.name"));
+        this.setName(NbBundle.getMessage(VisualPanelMetadata.class, "VisualPanelMetadata.this.name"));
 
         this.cboStation.addActionListener(new ActionListener() {
 

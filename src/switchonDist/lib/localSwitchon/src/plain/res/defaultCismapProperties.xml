@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<cismetConfigurationManager>
+    <metaSearch>
+        <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
+        <searchTopic name="Areas" description="Search for available areas" key="cmdAreas" icon="/de/cismet/cids/custom/switchon/area_16.png" selected="false">
+            <!-- arbitrary number of searchClass -->
+            <!-- domain = name of domainserver, cidsClass = name of class in domain -->
+            <searchClass domain="SWITCHON" cidsClass="named_area"/>
+        </searchTopic>
+        <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
+        <searchTopic name="Monitor stations" description="Search for available monitor stations" key="cmdMonitorStations" icon="/de/cismet/cids/custom/switchon/monitor_16.png" selected="true">
+            <!-- arbitrary number of searchClass -->
+            <!-- domain = name of domainserver, cidsClass = name of class in domain -->
+            <searchClass domain="SWITCHON" cidsClass="monitorstation"/>
+        </searchTopic>
+        <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
+        <searchTopic name="IDF curves" description="Search for available IDF curves" key="cmdIdfCurves" icon="/de/cismet/cids/custom/switchon/idf_16.png" selected="false">
+            <!-- arbitrary number of searchClass -->
+            <!-- domain = name of domainserver, cidsClass = name of class in domain -->
+            <searchClass domain="SWITCHON" cidsClass="idf_curve"/>
+        </searchTopic>
+        <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
+        <searchTopic name="Rain events" description="Search for available Rain events" key="cmdRainEvents" icon="/de/cismet/cids/custom/switchon/thunder_storm_16.png" selected="false">
+            <!-- arbitrary number of searchClass -->
+            <!-- domain = name of domainserver, cidsClass = name of class in domain -->
+            <searchClass domain="SWITCHON" cidsClass="rainevent"/>
+        </searchTopic>
+    </metaSearch>
+    <cismapOverviewComponentPreferences srs="EPSG:4326">
+        <overviewExtent>
+            <!--<BoundingBox x1="-180" y1="-90" x2="180" y2="90" />-->
+            <BoundingBox x1="-40.559635162353516" y1="16.14273476635759" x2="62.82768630981447" y2="86.18421912158185" />
+        </overviewExtent>
+        <background>
+            <simpleWms skip="false" enabled="true">
+                <![CDATA[
+                http://www2.demis.nl/wms/wms.asp?wms=WorldMap&&WMTVER=1.0.0&REQUEST=map&BBOX=<cismap:boundingBox>&WIDTH=<cismap:width>&HEIGHT=<cismap:height>&SRS=EPSG:4326&FORMAT=image/png&TRANSPARENT=true&BGCOLOR=0xF0F0F0&EXCEPTIONS=application/vnd.ogc.se_inimage&LAYERS=Bathymetry,Countries,Topography,Hillshading,Builtup%20areas,Coastlines,Waterbodies,Inundated,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Spot%20elevations,Airports,Ocean%20features
+                 ]]>
+            </simpleWms>
+        </background>
+    </cismapOverviewComponentPreferences>
+
+    <cismapCapabilitiesPreferences>
+        <capabilities type="OGC-WMS"><![CDATA[http://www2.demis.nl/worldmap/wms.asp?Service=WMS&Version=1.1.0&Request=GetCapabilities]]>
+        </capabilities>
+        <capabilitiesList titlestring="Demis NL WMS"  type="OGC-WMS"><![CDATA[http://www2.demis.nl/worldmap/wms.asp?Service=WMS&Version=1.1.0&Request=GetCapabilities]]>
+        </capabilitiesList>
+    </cismapCapabilitiesPreferences>
+
+    <cismapWFSFormsPreferences/>
+
+    <cismapMappingPreferences interactionMode="ZOOM" creationMode="POLYGON" handleInteractionMode="MOVE_HANDLE" snapping="false">
+        <home default="true" srs="EPSG:4326" metric="true">
+            <BoundingBox x1="-13.194288369255645" y1="34.763647716331306" x2="40.55888613149754" y2="60.22093488558994" />
+        </home>
+        <Position>
+            <BoundingBox x1="-13.194288369255645" y1="34.763647716331306" x2="40.55888613149754" y2="60.22093488558994" />
+        </Position>
+        <crsList>
+            <crs shortname="EPSG:4326" name="EPSG:4326" code="EPSG:4326" metric="true" selected="true"/>
+        </crsList>
+        <defaultCrs geometrySridAlias="-1"/>
+        <printing/>
+    </cismapMappingPreferences>
+
+    <cismapActiveLayerConfiguration/>
+    <cismapPluginSelectedSearchClasses/>
+    <cismapPluginUIPreferences/>
+    <cismapFeatureControl/>
+    <serverProfiles/>
+</cismetConfigurationManager>
+

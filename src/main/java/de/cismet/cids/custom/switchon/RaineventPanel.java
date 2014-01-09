@@ -87,7 +87,7 @@ public class RaineventPanel extends javax.swing.JPanel {
                 "RaineventPanel.createExportRaineventButton().tooltiptext"));
         btnExport.setIcon(ImageUtilities.loadImageIcon(
                 RaineventPanel.class.getPackage().getName().replaceAll("\\.", "/")
-                        + "/rain_16.png",
+                        + "/thunder_storm_16.png",
                 false));
 
         // TODO: enable if export action is available

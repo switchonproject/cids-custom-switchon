@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+    Document        : plugin.xsd
+    Created on      : 05/2003
+    Author          : Pascal Dihé <pascal.dihe@enviromatics.net>
+    Description:
+        Purpose of XML Schema document follows.
+-->
+<plugin xmlns="http://www.enviromatics.net/sirius/navigator/plugins" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.enviromatics.net/sirius/navigator/plugins
+    file:///D:%5Cwork%5Cweb%5CSirius%5CNavigator%5Cplugins%5Cplugin.xsd" 
+    id="cismap"
+    
+    usergroup="Administratoren@WRRL_DB_MV">
+
+    <metainfo 
+        name="CISMAP" 
+        version="0.8"
+        copyright="GPL"
+        company="cismet GmbH" 
+        homepage="http://www.cismet.de" 
+        author="Thorsten Hell" 
+        contact="thorsten.hell@cismet.de">
+        <description>cismap MapSurfer
+        </description>
+    </metainfo>
+    
+    <properties>
+        <capabilities>
+            <progressobservable>true</progressobservable>
+            <propertyobservable>false</propertyobservable> 
+            <internationalized>false</internationalized> 
+            <unloadable>true</unloadable>
+            <deactivateable>true</deactivateable> 
+        </capabilities>
+    </properties>
+    
+    <deployment>
+        <pluginclass>de.cismet.cismap.navigatorplugin.CismapPlugin</pluginclass>
+        <libraries>
+            
+          </libraries>
+        <rights>
+            <users>
+            </users>
+            <usergroups>
+  <!--              <name>Administratoren@WRRL_DB_MV</name>
+				<name>Demo@WRRL_DB_MV</name>
+                <name>Schulung@WRRL_DB_MV</name>
+				<name>Administratoren@VERDIS</name>
+				<name>VORN@VERDIS</name>
+				<name>VORN_GAST@VERDIS</name>
+				<name>Administratoren@KIGA</name>
+             <name>Altlasten@WRRL_DB_MV</name>
+             <name>Feuerwehr@WRRL_DB_MV</name>
+             <name>Akuk@WRRL_DB_MV</name>
+             <name>TIM@WRRL_DB_MV</name>
+             <name>TIM_LIEGENSCHAFTSKARTE@WRRL_DB_MV</name>
+            <name>VORN@WRRL_DB_MV</name>
+            <name>VORN_GAST@WRRL_DB_MV</name>
+            <name>Luftbild_SA@WRRL_DB_MV</name>
+            <name>Lagerbuch bearbeiten R105@WUNDA_LAGER</name>
+            <name>Lagerbuch R105@WUNDA_LAGER</name>
+			<name>Administratoren@SCHULUNG</name>-->
+            </usergroups>
+        </rights>
+
+
+		<params>
+            <param>
+                <name>cismapconfig:default</name>
+                <value>defaultCismapProperties.xml</value>
+            </param> 
+            <!-- für Administratoren@WRRL_DB_MV -->
+            <param>
+                <name>cismapconfig:*@Administratoren@WRRL_DB_MV</name>
+                <value>AdminsWundaBlauCismapProperties.xml</value>
+            </param>
+            <param>
+                <name>cismapconfig:*@Altlasten@WRRL_DB_MV</name>
+                <value>AdminsWundaBlauCismapProperties.xml</value>
+            </param>
+            <param>
+                <name>cismapconfig:*@Feuerwehr@WRRL_DB_MV</name>
+                <value>AdminsWundaBlauCismapProperties.xml</value>
+            </param>
+            <param>
+                <name>cismapconfig:*@Akuk@WRRL_DB_MV</name>
+                <value>AdminsWundaBlauCismapProperties.xml</value>
+            </param>
+            <param>
+                <name>cismapconfig:*@TIM@WRRL_DB_MV</name>
+                <value>AdminsWundaBlauCismapProperties.xml</value>
+            </param>
+            <param>
+                <name>cismapconfig:*@TIM_LIEGENSCHAFTSKARTE@WRRL_DB_MV</name>
+                <value>AdminsWundaBlauCismapProperties.xml</value>
+            </param>
+            <param>
+                <name>cismapconfig:*@VORN@WRRL_DB_MV</name>
+                <value>AdminsWundaBlauCismapProperties.xml</value>
+            </param>
+            <param>
+                <name>cismapconfig:*@VORN_GAST@WRRL_DB_MV</name>
+                <value>AdminsWundaBlauCismapProperties.xml</value>
+            </param>
+            <param>
+                <name>cismapconfig:*@Luftbild_SA@WRRL_DB_MV</name>
+                <value>AdminsWundaBlauCismapProperties.xml</value>
+            </param>
+            <param>
+                <name>cismapconfig:*@Lagerbuch bearbeiten R105@WUNDA_LAGER</name>
+                <value>AdminsWundaBlauCismapProperties.xml</value>
+            </param>
+            <param>
+                <name>cismapconfig:*@Lagerbuch R105@WUNDA_LAGER</name>
+                <value>AdminsWundaBlauCismapProperties.xml</value>
+            </param>
+		<param>
+                <name>geosuche</name>
+                <value>GEOSEARCH@WRRL_DB_MV</value>
+            </param> 
+        </params>
+        
+        <mappings/>
+    </deployment>
+    
+    <methods>
+		
+		<method>
+		<id>de.cismet.cismap.navigatorplugin.CismapPlugin$ShowObjectsMethod</id>
+		<name>ShowObject</name>
+		<description>
+			Zeigt die selektierten Objekte im Navigator Katalog in der Karte an.
+		</description>
+		<multithreaded>false</multithreaded>
+		<availability>100</availability>
+		</method>	
+		
+    </methods>
+     
+    <ui>
+        <widgets>
+            <widget>
+                <component>
+                    <id>cismap</id>
+                    <name>Map</name>
+                    <tooltip>cismap</tooltip>
+                    <icon>images/cismap.png</icon>
+                    <position>P3</position>
+                    <preferredindex>0</preferredindex>
+                    <componentevents>false</componentevents>
+                </component>
+                <container>
+                    <floatingframe>
+                        <menubaravailable>true</menubaravailable>
+                        <swapmenubar>true</swapmenubar>
+                        <disablemenubar>false</disablemenubar>
+                        <toolbaravailable>false</toolbaravailable>
+                        <swaptoolbar>true</swaptoolbar>
+                        <disabletoolbar>true</disabletoolbar>
+                        <floatingevents>false</floatingevents>
+                    </floatingframe>
+                </container>
+            </widget>
+        </widgets>
+        
+        <actions>
+<!--		
+			 <menu>
+                <properties>
+                    <name>SIS OGC Client</name>
+                    <mnemonic>S</mnemonic>
+                    <icon>images/cross.gif</icon>
+                </properties>
+			</menu>-->
+			<popupmenu>
+                <properties>
+                    <name>CismapClient</name>
+                    <mnemonic>S</mnemonic>
+                    <icon>images/cismap.png</icon>
+                </properties>
+                <items>
+					<item>
+                        <name>Show Objects</name>
+                        <mnemonic>O</mnemonic>
+                        <icon>images/cismap.png</icon>
+                        <method>de.cismet.cismap.navigatorplugin.CismapPlugin$ShowObjectsMethod</method>
+                        <accelerator>alt O</accelerator>
+                </item>
+				</items>
+				</popupmenu>
+				
+        </actions>
+    </ui>
+</plugin>

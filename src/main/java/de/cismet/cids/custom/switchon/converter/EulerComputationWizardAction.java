@@ -190,22 +190,28 @@ public class EulerComputationWizardAction extends AbstractCidsBeanAction {
                     }
                 }
 
+                final CidsBean station = (CidsBean)idfCurve.getSelf().getProperty("station");
+
                 rainevent.setProperty("data", data.toString()); // NOI18N
+                rainevent.setProperty("station", station);
 
                 rainevent = rainevent.persist();
                 final ComponentRegistry reg = ComponentRegistry.getRegistry();
                 reg.getDescriptionPane().gotoMetaObject(rainevent.getMetaObject(), null);
 
-                ComponentRegistry.getRegistry().getCatalogueTree().requestRefreshNode("rainfall.rainevent");
+                ComponentRegistry.getRegistry()
+                        .getCatalogueTree()
+                        .requestRefreshNode("monitorstation(" + station.getMetaObject().getClassID() + ")@"
+                            + station.getMetaObject().getID());
             } catch (final Exception ex) {
-                final String title = "Cannot perform Euler-Computation";
+                final String title = "Cannot create new rain event";
                 final String message = org.openide.util.NbBundle.getMessage(
                         EulerComputationWizardPanelCompute.class,
                         "EulerComputationWizardAction.actionPerformed(ActionEvent).errorCreatingRainevent");
                 LOG.error(message, ex);
                 JOptionPane.showMessageDialog(ComponentRegistry.getRegistry().getMainWindow(),
-                    title,
                     message,
+                    title,
                     JOptionPane.ERROR_MESSAGE);
             }
         }
