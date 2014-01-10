@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <settings>
-  <localRepository>/home/schollm/m2</localRepository>
-  <servers>
-    <server>
-      <id>central-proxy</id>
-      <username>switchon</username>
-      <password>\{DESede\}6IYF7djk/AwJXa8AIDM5RiZVuK8LA91RNxJ9St2gBvU6WKvCFIDxeg==</password>
-    </server>
-    <server>
-      <id>cismet-repo</id>
-      <username>switchon</username>
-      <password>\{DESede\}6IYF7djk/AwJXa8AIDM5RiZVuK8LA91RNxJ9St2gBvU6WKvCFIDxeg==</password>
-    </server>
-  </servers>
+  <localRepository>/home/schollm/gitwork/cids-custom-switchon/src/switchonDist/lib/m2</localRepository>
+  <profiles>
+    <profile>
+      <id>global-properties</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <de.cismet.keystore.path>/home/schollm/cismet_keystore</de.cismet.keystore.path>
+        <de.cismet.keystore.pass></de.cismet.keystore.pass>
+      </properties>
+    </profile>
+  </profiles>
   <mirrors>
     <mirror>
       <id>central-proxy</id>
