@@ -1,0 +1,112 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.cismet</groupId>
+        <artifactId>global-parent</artifactId>
+        <version>2.0</version>
+    </parent>
+
+    <groupId>de.cismet.cids.custom.switchon</groupId>
+    <artifactId>switchon-dist</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>cids Custom Switch-On Distribution</name>
+    <description>Generates a cids distribution</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.cismet.cids.custom.switchon</groupId>
+            <artifactId>cids-custom-switchon</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>de.cismet.cids</groupId>
+            <artifactId>cids-server</artifactId>
+            <version>2.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>de.cismet.cids</groupId>
+                <artifactId>cids-maven-plugin</artifactId>
+                <version>2.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-lib</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <vendor>cismet</vendor>
+                    <homepage>http://www.cismet.de</homepage>
+                    <codebase>http://tl-ap001.xtr.deltares.nl/switchonDist</codebase>
+                    <m2codebase>lib/m2</m2codebase>
+                    <accountExtension>Switchon</accountExtension>
+                    <outputDirectory>..</outputDirectory>
+                    <dependencyConfiguration>
+                        <dependencyEx>
+                            <groupId>de.cismet.cids</groupId>
+                            <artifactId>cids-server</artifactId>
+                            <generateJnlp>false</generateJnlp>
+                            <additionalDependencies>
+                                <dependency>
+                                    <groupId>de.cismet.commons</groupId>
+                                    <artifactId>cids-utils</artifactId>
+                                    <version>2.0-SNAPSHOT</version>
+                                </dependency>
+                            </additionalDependencies>
+                            <starterConfiguration>
+                                <mainClass>de.cismet.cids.admin.serverManagement.HeadlessServerConsole</mainClass>
+                            </starterConfiguration>
+                        </dependencyEx>
+                        <dependencyEx>
+                            <groupId>de.cismet.cids.custom.switchon</groupId>
+                            <artifactId>cids-custom-switchon</artifactId>
+                            <generateJar>false</generateJar>
+                            <starterConfiguration>
+                            	<title>SWITCH-ON Demo Application</title>
+                                <java>
+                                    <version>1.7+</version>
+                                    <initialHeapSize>512M</initialHeapSize>
+                                    <maximalHeapSize>1024M</maximalHeapSize>
+                                    <jvmArgs>-XX:MaxPermSize=128m</jvmArgs>
+                                </java>
+                                <mainClass>Sirius.navigator.Navigator</mainClass>
+                                <arguments>
+                                    <argument>client/switchon/config/log4j.debug.properties</argument>
+                                    <argument>client/switchon/config/navigator.cfg</argument>
+                                    <argument>client/switchon</argument>
+                                    <argument>client/switchon/plugins</argument>
+                                    <argument>client/switchon/search</argument>
+                                </arguments>
+                                <properties>
+                                    <property>
+                                        <name>directory.extension</name>
+                                        <value>SWITCHON</value>
+                                    </property>
+                                    <property>
+                                        <name>user.variant</name>
+                                        <value>switchon</value>
+                                    </property>
+                                </properties>
+                                <localConfiguration>
+                                    <jarNames>
+                                        <jarName>res.jar</jarName>
+                                        <jarName>navigatorImages.jar</jarName>
+                                        <!--jarName>tools.jar</jarName-->
+                                    </jarNames>
+                                </localConfiguration>
+                            </starterConfiguration>
+                        </dependencyEx>
+                    </dependencyConfiguration>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+EXEC_PATH="`dirname \"$0\"`"
+EXEC_PATH="`( cd \"$EXEC_PATH\" && pwd )`"
+
+mvn -s $EXEC_PATH/settings.xml $* clean package
