@@ -30,10 +30,10 @@
             <text>Search%20for%20Resources</text>
           </controlProperties>
         </control>
-        <control controlID="15" controlTypeID="com.balsamiq.mockups::TabBar" x="441" y="52" w="746" h="425" measuredW="484" measuredH="100" zOrder="11" locked="false" isInGroup="3">
+        <control controlID="15" controlTypeID="com.balsamiq.mockups::TabBar" x="441" y="52" w="746" h="425" measuredW="556" measuredH="100" zOrder="11" locked="false" isInGroup="3">
           <controlProperties>
             <selectedIndex>0</selectedIndex>
-            <text>Basic%20Meta-Data%20Search%2C%20Advanced%20%20Meta-Data%20Search%2C%20Data%20Search</text>
+            <text>Basic%20Meta-Data%20Search%2C%20Advanced%20%20Meta-Data%20Search%2C%20Aggregated%20Data%20Search</text>
           </controlProperties>
         </control>
         <control controlID="18" controlTypeID="com.balsamiq.mockups::FieldSet" x="457" y="259" w="381" h="113" measuredW="200" measuredH="170" zOrder="16" locked="false" isInGroup="3">
@@ -113,10 +113,10 @@
             <text>Cancel</text>
           </controlProperties>
         </control>
-        <control controlID="41" controlTypeID="com.balsamiq.mockups::TabBar" x="439" y="690" w="746" h="433" measuredW="488" measuredH="100" zOrder="31" locked="false" isInGroup="3">
+        <control controlID="41" controlTypeID="com.balsamiq.mockups::TabBar" x="439" y="690" w="746" h="433" measuredW="560" measuredH="100" zOrder="31" locked="false" isInGroup="3">
           <controlProperties>
             <selectedIndex>1</selectedIndex>
-            <text>Basic%20%20Meta-Data%20Search%2C%20Advanced%20%20Meta-Data%20Search%2C%20Data%20Search</text>
+            <text>Basic%20%20Meta-Data%20Search%2C%20Advanced%20%20Meta-Data%20Search%2C%20Aggregated%20Data%20Search</text>
           </controlProperties>
         </control>
         <control controlID="42" controlTypeID="com.balsamiq.mockups::FieldSet" x="457" y="722" w="309" h="119" measuredW="200" measuredH="170" zOrder="32" locked="false" isInGroup="3">
@@ -256,10 +256,10 @@
             <text>Data%20Type</text>
           </controlProperties>
         </control>
-        <control controlID="79" controlTypeID="com.balsamiq.mockups::TabBar" x="438" y="1325" w="746" h="433" measuredW="484" measuredH="100" zOrder="54" locked="false" isInGroup="3">
+        <control controlID="79" controlTypeID="com.balsamiq.mockups::TabBar" x="438" y="1325" w="746" h="433" measuredW="556" measuredH="100" zOrder="54" locked="false" isInGroup="3">
           <controlProperties>
             <selectedIndex>2</selectedIndex>
-            <text>Basic%20Meta-Data%20Search%2C%20Advanced%20%20Meta-Data%20Search%2C%20Data%20Search</text>
+            <text>Basic%20Meta-Data%20Search%2C%20Advanced%20%20Meta-Data%20Search%2C%20Aggregated%20Data%20Search</text>
           </controlProperties>
         </control>
         <control controlID="81" controlTypeID="com.balsamiq.mockups::ComboBox" x="453" y="1368" w="238" h="-1" measuredW="45" measuredH="62" zOrder="55" locked="false" isInGroup="3">
