@@ -1,5 +1,4 @@
 target/
 src/switchonDist/lib/localSwitchon/*.jar
 *.bak
-*
 /src/switchonDist/lib/localSwitchon/src/plain/.backup/
