@@ -8,6 +8,8 @@
 package de.cismet.cids.custom.switchon.search;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.search.dynamic.SearchControlListener;
+import Sirius.navigator.search.dynamic.SearchControlPanel;
 
 import Sirius.server.middleware.types.LightweightMetaObject;
 import Sirius.server.middleware.types.MetaClass;
@@ -16,6 +18,8 @@ import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,6 +35,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
@@ -53,7 +58,7 @@ import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
  * @version  $Revision$, $Date$
  */
 @org.openide.util.lookup.ServiceProvider(service = CidsWindowSearch.class)
-public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWindowSearch {
+public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWindowSearch, SearchControlListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -90,6 +95,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private javax.swing.JPanel pnlGeospatialExtent;
     private javax.swing.JPanel pnlKeywordsAndTopics;
     private javax.swing.JPanel pnlMain;
+    private javax.swing.JPanel pnlSearchButtons;
     private javax.swing.JPanel pnlStatus;
     private javax.swing.JPanel pnlTemporalExtent;
     private javax.swing.JPanel pnlTitleAndDescription;
@@ -108,6 +114,17 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     public ResourceWindowSearch() {
         initComponents();
         addBorderToPanels();
+
+        btnSearch.setVisible(false);
+        btnCancel.setVisible(false);
+
+        final JPanel pnlSearchCancel = new SearchControlPanel(this);
+        final java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        pnlSearchButtons.add(pnlSearchCancel, gridBagConstraints);
+
         metaClass = ClassCacheMultiple.getMetaClass(DOMAIN, "resource"); // NOI18N
 
         byte[] iconDataFromMetaclass = new byte[] {};
@@ -244,9 +261,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         chbKeywords = new javax.swing.JCheckBox();
         chbTitle = new javax.swing.JCheckBox();
         pnlMain = new javax.swing.JPanel();
-        btnSearch = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
         tpaSearchTabs = new javax.swing.JTabbedPane();
         tabBasic = new javax.swing.JPanel();
         pnlGeospatialExtent = new javax.swing.JPanel();
@@ -275,6 +290,9 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         cmbTopics = new TagsComboBox(Taggroups.TOPIC_CATEGORY);
         tabAdvancedSearch = new javax.swing.JPanel();
         tabAggregatedSearch = new javax.swing.JPanel();
+        pnlSearchButtons = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
         pnlStatus = new javax.swing.JPanel();
 
         org.openide.awt.Mnemonics.setLocalizedText(
@@ -300,31 +318,14 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         pnlMain.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            btnSearch,
-            org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnSearch.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        pnlMain.add(btnSearch, gridBagConstraints);
-
-        org.openide.awt.Mnemonics.setLocalizedText(
             btnClear,
             org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnClear.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        pnlMain.add(btnClear, gridBagConstraints);
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnCancel,
-            org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnCancel.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        pnlMain.add(btnCancel, gridBagConstraints);
+        pnlMain.add(btnClear, gridBagConstraints);
 
         tabBasic.setLayout(new java.awt.GridBagLayout());
 
@@ -559,6 +560,32 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlMain.add(tpaSearchTabs, gridBagConstraints);
 
+        pnlSearchButtons.setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnCancel,
+            org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnCancel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        pnlSearchButtons.add(btnCancel, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnSearch,
+            org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnSearch.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        pnlSearchButtons.add(btnSearch, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnlMain.add(pnlSearchButtons, gridBagConstraints);
+
         add(pnlMain, java.awt.BorderLayout.CENTER);
 
         pnlStatus.setPreferredSize(new java.awt.Dimension(682, 50));
@@ -591,7 +618,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         if (chbGeospatial.isSelected()) {
             final Object selectedItem = cmbGeospatial.getSelectedItem();
             if (selectedItem instanceof LightweightMetaObject) {
-//                searchStatement.setLocation
+                searchStatement.setLocation(((LightweightMetaObject)selectedItem).getName());
             } else {
             }
         }
@@ -642,5 +669,27 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     @Override
     public String getName() {
         return NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.name");
+    }
+
+    @Override
+    public MetaObjectNodeServerSearch assembleSearch() {
+        return getServerSearch();
+    }
+
+    @Override
+    public void searchStarted() {
+    }
+
+    @Override
+    public void searchDone(final int numberOfResults) {
+    }
+
+    @Override
+    public void searchCanceled() {
+    }
+
+    @Override
+    public boolean suppressEmptyResultMessage() {
+        return false;
     }
 }
