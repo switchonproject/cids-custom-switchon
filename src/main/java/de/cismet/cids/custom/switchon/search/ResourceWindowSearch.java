@@ -30,6 +30,7 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.ComponentTitledBorder;
 import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.gui.utils.TagsComboBox;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
@@ -235,7 +236,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         tabBasic = new javax.swing.JPanel();
         pnlGeospatialExtent = new javax.swing.JPanel();
         btnGeospatial = new javax.swing.JButton();
-        cmbGeospatial = new javax.swing.JComboBox();
+        cmbGeospatial = new TagsComboBox(Taggroups.LOCATION)
+        ;
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         pnlTemporalExtent = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -251,7 +253,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         jScrollPane1 = new javax.swing.JScrollPane();
         lstKeywords = new TagsJList(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0, Taggroups.KEYWORDS_OPEN)
         ;
-        cmbTopics = new javax.swing.JComboBox();
+        cmbTopics = new TagsComboBox(Taggroups.TOPIC_CATEGORY)
+        ;
         tabAdvancedSearch = new javax.swing.JPanel();
         tabAggregatedSearch = new javax.swing.JPanel();
         pnlStatus = new javax.swing.JPanel();
@@ -294,7 +297,6 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 5);
         pnlGeospatialExtent.add(btnGeospatial, gridBagConstraints);
 
-        cmbGeospatial.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbGeospatial.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -418,7 +420,6 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlKeywordsAndTopics.add(jScrollPane1, gridBagConstraints);
 
-        cmbTopics.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbTopics.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
