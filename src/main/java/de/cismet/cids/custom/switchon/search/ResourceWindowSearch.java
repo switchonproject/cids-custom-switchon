@@ -550,4 +550,9 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     public ImageIcon getIcon() {
         return icon;
     }
+
+    @Override
+    public String getName() {
+        return NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.name");
+    }
 }
