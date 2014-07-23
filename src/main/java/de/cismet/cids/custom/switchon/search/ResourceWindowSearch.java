@@ -189,7 +189,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         ComponentTitledBorder border = new ComponentTitledBorder(
                 chbTemporal,
                 pnlTemporalExtent,
-                BorderFactory.createLineBorder(Color.black));
+                BorderFactory.createTitledBorder(""));
         pnlTemporalExtent.setBorder(border);
 
         chbGeospatial.setText(NbBundle.getMessage(
@@ -207,7 +207,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         border = new ComponentTitledBorder(
                 chbGeospatial,
                 pnlGeospatialExtent,
-                BorderFactory.createLineBorder(Color.black));
+                BorderFactory.createTitledBorder(""));
         pnlGeospatialExtent.setBorder(border);
 
         chbKeywords.setText(NbBundle.getMessage(
@@ -225,7 +225,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         border = new ComponentTitledBorder(
                 chbKeywords,
                 pnlKeywordsAndTopics,
-                BorderFactory.createLineBorder(Color.black));
+                BorderFactory.createTitledBorder(""));
         pnlKeywordsAndTopics.setBorder(border);
 
         chbTitle.setText(NbBundle.getMessage(
@@ -243,7 +243,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         border = new ComponentTitledBorder(
                 chbTitle,
                 pnlTitleAndDescription,
-                BorderFactory.createLineBorder(Color.black));
+                BorderFactory.createTitledBorder(""));
         pnlTitleAndDescription.setBorder(border);
     }
 
