@@ -11,6 +11,7 @@ import Sirius.navigator.connection.SessionManager;
 
 import Sirius.server.middleware.types.MetaClass;
 
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 
 import java.awt.Color;
@@ -23,8 +24,13 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+
+import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.ComponentTitledBorder;
+import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
@@ -45,6 +51,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             ResourceWindowSearch.class);
+    public static final String DOMAIN = "SWITCHON";
 
     //~ Instance fields --------------------------------------------------------
 
@@ -89,7 +96,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     public ResourceWindowSearch() {
         initComponents();
         addBorderToPanels();
-        metaClass = ClassCacheMultiple.getMetaClass(SessionManager.getSession().getUser().getDomain(), "resource"); // NOI18N
+        metaClass = ClassCacheMultiple.getMetaClass(DOMAIN, "resource"); // NOI18N
 
         byte[] iconDataFromMetaclass = new byte[] {};
 
@@ -113,6 +120,25 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  DOCUMENT ME!
+     */
+    public static void main(final String[] args) {
+        try {
+            DevelopmentTools.initSessionManagerFromRMIConnectionOnLocalhost(
+                "SWITCHON",        // NOI18N
+                "Administratoren", // NOI18N
+                "admin",           // NOI18N
+                "cismet");         // NOI18N
+            final JScrollPane jsp = new JScrollPane(new ResourceWindowSearch());
+            DevelopmentTools.showTestFrame(jsp, 800, 1000);
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
 
     /**
      * DOCUMENT ME!
@@ -210,26 +236,21 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         pnlGeospatialExtent = new javax.swing.JPanel();
         btnGeospatial = new javax.swing.JButton();
         cmbGeospatial = new javax.swing.JComboBox();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 32767));
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         pnlTemporalExtent = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jdpStartDate = new org.jdesktop.swingx.JXDatePicker();
         jdpEndDate = new org.jdesktop.swingx.JXDatePicker();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(32767, 0));
-        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 32767));
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         pnlTitleAndDescription = new javax.swing.JPanel();
         txtTitle = new javax.swing.JTextField();
         cboTitle = new javax.swing.JCheckBox();
         pnlKeywordsAndTopics = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        lstKeywords = new javax.swing.JList();
+        lstKeywords = new TagsJList(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0, Taggroups.KEYWORDS_OPEN)
+        ;
         cmbTopics = new javax.swing.JComboBox();
         tabAdvancedSearch = new javax.swing.JPanel();
         tabAggregatedSearch = new javax.swing.JPanel();
@@ -239,27 +260,21 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
 
         pnlMain.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnSearch,
-            org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnSearch.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(btnSearch, org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnSearch.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlMain.add(btnSearch, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnClear,
-            org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnClear.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(btnClear, org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnClear.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlMain.add(btnClear, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnCancel,
-            org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnCancel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(btnCancel, org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnCancel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -268,17 +283,10 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
 
         tabBasic.setLayout(new java.awt.GridBagLayout());
 
-        pnlGeospatialExtent.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    ResourceWindowSearch.class,
-                    "ResourceWindowSearch.pnlGeospatialExtent.border.title"))); // NOI18N
+        pnlGeospatialExtent.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.pnlGeospatialExtent.border.title"))); // NOI18N
         pnlGeospatialExtent.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnGeospatial,
-            org.openide.util.NbBundle.getMessage(
-                ResourceWindowSearch.class,
-                "ResourceWindowSearch.btnGeospatial.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(btnGeospatial, org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnGeospatial.text")); // NOI18N
         btnGeospatial.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -286,8 +294,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 5);
         pnlGeospatialExtent.add(btnGeospatial, gridBagConstraints);
 
-        cmbGeospatial.setModel(new javax.swing.DefaultComboBoxModel(
-                new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbGeospatial.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbGeospatial.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -314,15 +321,10 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
         tabBasic.add(pnlGeospatialExtent, gridBagConstraints);
 
-        pnlTemporalExtent.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    ResourceWindowSearch.class,
-                    "ResourceWindowSearch.pnlTemporalExtent.border.title"))); // NOI18N
+        pnlTemporalExtent.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.pnlTemporalExtent.border.title"))); // NOI18N
         pnlTemporalExtent.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel1,
-            org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.jLabel1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.jLabel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -330,9 +332,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlTemporalExtent.add(jLabel1, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel2,
-            org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.jLabel2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.jLabel2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -375,15 +375,10 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         tabBasic.add(pnlTemporalExtent, gridBagConstraints);
 
-        pnlTitleAndDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    ResourceWindowSearch.class,
-                    "ResourceWindowSearch.pnlTitleAndDescription.border.title"))); // NOI18N
+        pnlTitleAndDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.pnlTitleAndDescription.border.title"))); // NOI18N
         pnlTitleAndDescription.setLayout(new java.awt.GridBagLayout());
 
-        txtTitle.setText(org.openide.util.NbBundle.getMessage(
-                ResourceWindowSearch.class,
-                "ResourceWindowSearch.txtTitle.text")); // NOI18N
+        txtTitle.setText(org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.txtTitle.text")); // NOI18N
         txtTitle.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -393,9 +388,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlTitleAndDescription.add(txtTitle, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            cboTitle,
-            org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.cboTitle.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(cboTitle, org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.cboTitle.text")); // NOI18N
         cboTitle.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -410,25 +403,9 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         tabBasic.add(pnlTitleAndDescription, gridBagConstraints);
 
-        pnlKeywordsAndTopics.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    ResourceWindowSearch.class,
-                    "ResourceWindowSearch.pnlKeywordsAndTopics.border.title"))); // NOI18N
+        pnlKeywordsAndTopics.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.pnlKeywordsAndTopics.border.title"))); // NOI18N
         pnlKeywordsAndTopics.setLayout(new java.awt.GridBagLayout());
 
-        lstKeywords.setModel(new javax.swing.AbstractListModel() {
-
-                String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-
-                @Override
-                public int getSize() {
-                    return strings.length;
-                }
-                @Override
-                public Object getElementAt(final int i) {
-                    return strings[i];
-                }
-            });
         lstKeywords.setEnabled(false);
         jScrollPane1.setViewportView(lstKeywords);
 
@@ -441,8 +418,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlKeywordsAndTopics.add(jScrollPane1, gridBagConstraints);
 
-        cmbTopics.setModel(new javax.swing.DefaultComboBoxModel(
-                new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbTopics.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbTopics.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -462,46 +438,33 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 10);
         tabBasic.add(pnlKeywordsAndTopics, gridBagConstraints);
 
-        tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(
-                ResourceWindowSearch.class,
-                "ResourceWindowSearch.tabBasic.TabConstraints.tabTitle"),
-            tabBasic); // NOI18N
+        tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.tabBasic.TabConstraints.tabTitle"), tabBasic); // NOI18N
 
-        final javax.swing.GroupLayout tabAdvancedSearchLayout = new javax.swing.GroupLayout(tabAdvancedSearch);
+        javax.swing.GroupLayout tabAdvancedSearchLayout = new javax.swing.GroupLayout(tabAdvancedSearch);
         tabAdvancedSearch.setLayout(tabAdvancedSearchLayout);
         tabAdvancedSearchLayout.setHorizontalGroup(
-            tabAdvancedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                703,
-                Short.MAX_VALUE));
+            tabAdvancedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 703, Short.MAX_VALUE)
+        );
         tabAdvancedSearchLayout.setVerticalGroup(
-            tabAdvancedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                285,
-                Short.MAX_VALUE));
+            tabAdvancedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 285, Short.MAX_VALUE)
+        );
 
-        tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(
-                ResourceWindowSearch.class,
-                "ResourceWindowSearch.tabAdvancedSearch.TabConstraints.tabTitle"),
-            tabAdvancedSearch); // NOI18N
+        tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.tabAdvancedSearch.TabConstraints.tabTitle"), tabAdvancedSearch); // NOI18N
 
-        final javax.swing.GroupLayout tabAggregatedSearchLayout = new javax.swing.GroupLayout(tabAggregatedSearch);
+        javax.swing.GroupLayout tabAggregatedSearchLayout = new javax.swing.GroupLayout(tabAggregatedSearch);
         tabAggregatedSearch.setLayout(tabAggregatedSearchLayout);
         tabAggregatedSearchLayout.setHorizontalGroup(
-            tabAggregatedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                703,
-                Short.MAX_VALUE));
+            tabAggregatedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 703, Short.MAX_VALUE)
+        );
         tabAggregatedSearchLayout.setVerticalGroup(
-            tabAggregatedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                285,
-                Short.MAX_VALUE));
+            tabAggregatedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 285, Short.MAX_VALUE)
+        );
 
-        tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(
-                ResourceWindowSearch.class,
-                "ResourceWindowSearch.tabAggregatedSearch.TabConstraints.tabTitle"),
-            tabAggregatedSearch); // NOI18N
+        tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.tabAggregatedSearch.TabConstraints.tabTitle"), tabAggregatedSearch); // NOI18N
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -518,21 +481,19 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
 
         pnlStatus.setPreferredSize(new java.awt.Dimension(682, 50));
 
-        final javax.swing.GroupLayout pnlStatusLayout = new javax.swing.GroupLayout(pnlStatus);
+        javax.swing.GroupLayout pnlStatusLayout = new javax.swing.GroupLayout(pnlStatus);
         pnlStatus.setLayout(pnlStatusLayout);
         pnlStatusLayout.setHorizontalGroup(
-            pnlStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                718,
-                Short.MAX_VALUE));
+            pnlStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 718, Short.MAX_VALUE)
+        );
         pnlStatusLayout.setVerticalGroup(
-            pnlStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                50,
-                Short.MAX_VALUE));
+            pnlStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
 
         add(pnlStatus, java.awt.BorderLayout.SOUTH);
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     @Override
     public JComponent getSearchWindowComponent() {
