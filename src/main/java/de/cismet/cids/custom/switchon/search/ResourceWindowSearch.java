@@ -81,15 +81,121 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 300, Short.MAX_VALUE));
-    } // </editor-fold>//GEN-END:initComponents
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        pnlMain = new javax.swing.JPanel();
+        btnSearch = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        tpaSearchTabs = new javax.swing.JTabbedPane();
+        tabBasic = new javax.swing.JPanel();
+        tabAdvancedSearch = new javax.swing.JPanel();
+        tabAggregatedSearch = new javax.swing.JPanel();
+        pnlStatus = new javax.swing.JPanel();
+
+        setLayout(new java.awt.BorderLayout());
+
+        pnlMain.setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnSearch, org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnSearch.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnlMain.add(btnSearch, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnClear, org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnClear.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnlMain.add(btnClear, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(btnCancel, org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnCancel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnlMain.add(btnCancel, gridBagConstraints);
+
+        javax.swing.GroupLayout tabBasicLayout = new javax.swing.GroupLayout(tabBasic);
+        tabBasic.setLayout(tabBasicLayout);
+        tabBasicLayout.setHorizontalGroup(
+            tabBasicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 667, Short.MAX_VALUE)
+        );
+        tabBasicLayout.setVerticalGroup(
+            tabBasicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 228, Short.MAX_VALUE)
+        );
+
+        tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.tabBasic.TabConstraints.tabTitle"), tabBasic); // NOI18N
+
+        javax.swing.GroupLayout tabAdvancedSearchLayout = new javax.swing.GroupLayout(tabAdvancedSearch);
+        tabAdvancedSearch.setLayout(tabAdvancedSearchLayout);
+        tabAdvancedSearchLayout.setHorizontalGroup(
+            tabAdvancedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 667, Short.MAX_VALUE)
+        );
+        tabAdvancedSearchLayout.setVerticalGroup(
+            tabAdvancedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 228, Short.MAX_VALUE)
+        );
+
+        tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.tabAdvancedSearch.TabConstraints.tabTitle"), tabAdvancedSearch); // NOI18N
+
+        javax.swing.GroupLayout tabAggregatedSearchLayout = new javax.swing.GroupLayout(tabAggregatedSearch);
+        tabAggregatedSearch.setLayout(tabAggregatedSearchLayout);
+        tabAggregatedSearchLayout.setHorizontalGroup(
+            tabAggregatedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 667, Short.MAX_VALUE)
+        );
+        tabAggregatedSearchLayout.setVerticalGroup(
+            tabAggregatedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 228, Short.MAX_VALUE)
+        );
+
+        tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.tabAggregatedSearch.TabConstraints.tabTitle"), tabAggregatedSearch); // NOI18N
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnlMain.add(tpaSearchTabs, gridBagConstraints);
+
+        add(pnlMain, java.awt.BorderLayout.CENTER);
+
+        pnlStatus.setPreferredSize(new java.awt.Dimension(682, 50));
+
+        javax.swing.GroupLayout pnlStatusLayout = new javax.swing.GroupLayout(pnlStatus);
+        pnlStatus.setLayout(pnlStatusLayout);
+        pnlStatusLayout.setHorizontalGroup(
+            pnlStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 682, Short.MAX_VALUE)
+        );
+        pnlStatusLayout.setVerticalGroup(
+            pnlStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+
+        add(pnlStatus, java.awt.BorderLayout.SOUTH);
+    }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JPanel pnlMain;
+    private javax.swing.JPanel pnlStatus;
+    private javax.swing.JPanel tabAdvancedSearch;
+    private javax.swing.JPanel tabAggregatedSearch;
+    private javax.swing.JPanel tabBasic;
+    private javax.swing.JTabbedPane tpaSearchTabs;
     // End of variables declaration//GEN-END:variables
 
     @Override
