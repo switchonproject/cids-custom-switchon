@@ -1,26 +1,49 @@
-
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 package de.cismet.cids.custom.switchon.gui.utils;
 
 import Sirius.navigator.connection.SessionManager;
+
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import org.apache.commons.lang.StringUtils;
+
 import java.awt.Component;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import org.apache.commons.lang.StringUtils;
+
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
+ * DOCUMENT ME!
  *
- * @author Gilles Baatz
+ * @author   Gilles Baatz
+ * @version  $Revision$, $Date$
  */
-public class QueryComboBox extends JComboBox{
-        private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QueryJList.class);
+public class QueryComboBox extends JComboBox {
 
-        public QueryComboBox(final String query) {
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QueryJList.class);
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new QueryComboBox object.
+     *
+     * @param  query  DOCUMENT ME!
+     */
+    public QueryComboBox(final String query) {
         super();
 
         // if value null then show a message
@@ -54,8 +77,15 @@ public class QueryComboBox extends JComboBox{
             executeQueryAndSetModel(query);
         }
     }
-        
-        public final void executeQueryAndSetModel(final String query) {
+
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  query  DOCUMENT ME!
+     */
+    public final void executeQueryAndSetModel(final String query) {
         final DefaultComboBoxModel<MetaObject> model = new DefaultComboBoxModel<MetaObject>();
         try {
             final MetaClass mc = ClassCacheMultiple.getMetaClass("SWITCHON", "Tag");
@@ -75,5 +105,4 @@ public class QueryComboBox extends JComboBox{
         this.setModel(model);
         this.setSelectedIndex(0);
     }
-    
 }
