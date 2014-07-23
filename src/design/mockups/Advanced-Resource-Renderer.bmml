@@ -1,0 +1,40 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1167" measuredH="662" mockupW="1148" mockupH="644">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="450" y="18" w="717" h="644" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>0</bottomheight>
+        <text>Resource%20Renderer%20-%20Data%20Access%20Information</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="471" y="53" w="681" h="586" measuredW="200" measuredH="272" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <position>right</position>
+        <selectedIndex>6</selectedIndex>
+        <text>Description%0AContact%20Information%0AGeographic%20Information%0ATemporal%20Information%0ALicense%20Information%0AAdditional%20Meta-Data%0AData%20Access%20Information</text>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Accordion" x="480" y="68" w="507" h="549" measuredW="279" measuredH="159" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%5C%5BD%5C%5D%20ESRI%20ArcInfo%20Grid%20HydroSHEDS%20data%0A%5C%5BS%5C%5D%20OGC%20WFS%20Service%20for%20HydroSHEDS%20data%0A%5C%5BS%5C%5D%20OGC%20WMS%20Service%20for%20HydroSHEDS%20data</text>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::FieldSet" x="493" y="114" w="480" h="127" measuredW="200" measuredH="170" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Description</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::TextArea" x="512" y="141" w="443" h="85" measuredW="200" measuredH="140" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>disabled</state>
+        <text>ZIP%20Package%20containing%20the%20data%20in%20ESRI%20ArcInfo%20Grid%20Format.%20The%20ESRI%20Grid%20format%20is%20supported%20by%20the%20ESRI%20GIS%20software%20environment%2C%20but%20it%20can%20also%20be%20imported%20into%20various%20independent%20GIS%20packages.%20Each%20raster%20coverage%20is%20provided%20in%20a%20root%20folder%20%28named%20after%20the%20raster%20layer%29%20which%20contains%20two%20subfolders%3A%20the%20grid%20data%20folder%20%28again%20named%20after%20the%20raster%20layer%29%20and%20a%20corresponding%20%u201Cinfo%u201D%20folder.%20In%20the%20grid%20folder%2C%20basic%20metadata%20information%20is%20provided%20both%20in%20XML%20format%20%28.xml%29%20and%20in%20HTML%20format%20%28.htm%29%20following%20the%20FGDC%20standard.%20Projection%20information%20is%20provided%20in%20an%20ASCII%20text%20file%20%28prj.adf%29.%20All%20raster%20data%20are%20in%20geographic%20%28latitude/longitude%29%20projection%2C%20referenced%20to%20datum%20WGS84.%20</text>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::StickyNote" x="19" y="21" w="406" h="325" measuredW="109" measuredH="123" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*UC08%20%u2013Show%20a%20Preview%20of%20the%20Resources%3A*%20_Preview%20Renderer_%0A%20%0AThe%20*Preview%20Renderer*%20shows%20Representation%20objects%20of%20type%20%22preview%20data%22.%20Aggregated%20data%20is%20currently%20not%20support.%20Furthermore%2C%20the%20functionlaity%20of%20the%20current%20implementation%20of%20the%20Preview%20Renderer%20is%20limited%20to%20displaying%20images%20from%20the%20_contentLocation_%20of%20the%20representation.</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
