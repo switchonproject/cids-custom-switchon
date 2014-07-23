@@ -619,20 +619,20 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
      * @param  evt  DOCUMENT ME!
      */
     private void btnClearActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnClearActionPerformed
-        chbGeospatial.setEnabled(false);
+        chbGeospatial.setSelected(false);
         cmbGeospatial.setSelectedIndex(0);
 
-        chbKeywords.setEnabled(false);
+        chbKeywords.setSelected(false);
         lstKeywords.setSelectedIndex(-1);
         cmbTopics.setSelectedIndex(0);
 
-        chbTemporal.setEnabled(false);
+        chbTemporal.setSelected(false);
         jdpStartDate.setDate(null);
         jdpEndDate.setDate(null);
 
-        chbTitle.setEnabled(false);
+        chbTitle.setSelected(false);
         txtTitle.setText("");
-        chbSearchInTitleAndDescription.setEnabled(false);
+        chbSearchInTitleAndDescription.setSelected(false);
     } //GEN-LAST:event_btnClearActionPerformed
 
     @Override
