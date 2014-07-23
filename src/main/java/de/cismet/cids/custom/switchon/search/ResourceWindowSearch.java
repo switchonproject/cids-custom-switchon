@@ -9,6 +9,7 @@ package de.cismet.cids.custom.switchon.search;
 
 import Sirius.navigator.connection.SessionManager;
 
+import Sirius.server.middleware.types.LightweightMetaObject;
 import Sirius.server.middleware.types.MetaClass;
 
 import org.openide.util.Exceptions;
@@ -19,6 +20,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.net.URL;
+
+import java.sql.Time;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -64,9 +71,9 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnGeospatial;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JCheckBox cboTitle;
     private javax.swing.JCheckBox chbGeospatial;
     private javax.swing.JCheckBox chbKeywords;
+    private javax.swing.JCheckBox chbSearchInTitleAndDescription;
     private javax.swing.JCheckBox chbTemporal;
     private javax.swing.JCheckBox chbTitle;
     private javax.swing.JComboBox cmbGeospatial;
@@ -213,7 +220,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                 public void actionPerformed(final ActionEvent e) {
                     final boolean selected = ((JCheckBox)e.getSource()).isSelected();
                     txtTitle.setEnabled(selected);
-                    cboTitle.setEnabled(selected);
+                    chbSearchInTitleAndDescription.setEnabled(selected);
                 }
             });
         border = new ComponentTitledBorder(
@@ -261,7 +268,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                 new java.awt.Dimension(0, 32767));
         pnlTitleAndDescription = new javax.swing.JPanel();
         txtTitle = new javax.swing.JTextField();
-        cboTitle = new javax.swing.JCheckBox();
+        chbSearchInTitleAndDescription = new javax.swing.JCheckBox();
         pnlKeywordsAndTopics = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstKeywords = new TagsJList(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0, Taggroups.KEYWORDS_OPEN);
@@ -445,13 +452,15 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         pnlTitleAndDescription.add(txtTitle, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            cboTitle,
-            org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.cboTitle.text")); // NOI18N
-        cboTitle.setEnabled(false);
+            chbSearchInTitleAndDescription,
+            org.openide.util.NbBundle.getMessage(
+                ResourceWindowSearch.class,
+                "ResourceWindowSearch.chbSearchInTitleAndDescription.text")); // NOI18N
+        chbSearchInTitleAndDescription.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        pnlTitleAndDescription.add(cboTitle, gridBagConstraints);
+        pnlTitleAndDescription.add(chbSearchInTitleAndDescription, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -580,10 +589,46 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         final MetaObjectNodeResourceSearchStatement searchStatement = new MetaObjectNodeResourceSearchStatement(
                 SessionManager.getSession().getUser());
         if (chbGeospatial.isSelected()) {
+            final Object selectedItem = cmbGeospatial.getSelectedItem();
+            if (selectedItem instanceof LightweightMetaObject) {
+//                searchStatement.setLocation
+            } else {
+            }
         }
 
         if (chbKeywords.isSelected()) {
-//            searchStatement.
+            final List<LightweightMetaObject> keywords = lstKeywords.getSelectedValuesList();
+            final List<String> keywordsNames = new ArrayList<String>(keywords.size());
+            for (final LightweightMetaObject mo : keywords) {
+                keywordsNames.add(mo.getName());
+            }
+            searchStatement.setKeywordList(keywordsNames);
+
+            final LightweightMetaObject moTopic = (LightweightMetaObject)cmbTopics.getSelectedItem();
+            searchStatement.setTopicCategory(moTopic.getName());
+        }
+
+        if (chbTemporal.isSelected()) {
+            final Date start = jdpStartDate.getDate();
+            if (start != null) {
+                searchStatement.setFromDate(new Time(start.getTime()));
+            } else {
+                searchStatement.setFromDate(null);
+            }
+
+            final Date end = jdpEndDate.getDate();
+            if (end != null) {
+                searchStatement.setToDate(new Time(end.getTime()));
+            } else {
+                searchStatement.setFromDate(null);
+            }
+        }
+
+        if (chbTitle.isSelected()) {
+            searchStatement.setTitle(txtTitle.getText());
+            if (chbSearchInTitleAndDescription.isSelected()) {
+                searchStatement.setDescription(txtTitle.getText());
+            }
         }
 
         return searchStatement;
