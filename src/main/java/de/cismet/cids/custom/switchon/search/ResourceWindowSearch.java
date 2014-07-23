@@ -320,6 +320,13 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         org.openide.awt.Mnemonics.setLocalizedText(
             btnClear,
             org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.btnClear.text")); // NOI18N
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnClearActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -605,6 +612,28 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
 
         add(pnlStatus, java.awt.BorderLayout.SOUTH);
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnClearActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnClearActionPerformed
+        chbGeospatial.setEnabled(false);
+        cmbGeospatial.setSelectedIndex(0);
+
+        chbKeywords.setEnabled(false);
+        lstKeywords.setSelectedIndex(-1);
+        cmbTopics.setSelectedIndex(0);
+
+        chbTemporal.setEnabled(false);
+        jdpStartDate.setDate(null);
+        jdpEndDate.setDate(null);
+
+        chbTitle.setEnabled(false);
+        txtTitle.setText("");
+        chbSearchInTitleAndDescription.setEnabled(false);
+    } //GEN-LAST:event_btnClearActionPerformed
 
     @Override
     public JComponent getSearchWindowComponent() {
