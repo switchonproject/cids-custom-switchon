@@ -106,6 +106,6 @@ public class QueryJList extends JXList {
             LOG.warn("Problem while loading the LightWeightMetaObjects.", ex);
         }
         this.setModel(model);
-        this.setSelectedIndex(0);
+//        this.setSelectedIndex(0);
     }
 }
