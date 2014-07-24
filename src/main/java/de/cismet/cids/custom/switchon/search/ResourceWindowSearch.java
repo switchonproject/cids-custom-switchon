@@ -876,7 +876,9 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
             searchStatement.setKeywordList(keywordsNames);
 
             final LightweightMetaObject moTopic = (LightweightMetaObject)cmbTopics.getSelectedItem();
-            searchStatement.setTopicCategory(moTopic.getName());
+            if (moTopic != null) {
+                searchStatement.setTopicCategory(moTopic.getName());
+            }
         }
 
         if (chbTemporal.isSelected()) {
