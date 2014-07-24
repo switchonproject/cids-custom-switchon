@@ -59,8 +59,8 @@
         <crsList>
             <crs shortname="EPSG:4326" name="EPSG:4326" code="EPSG:4326" metric="true" selected="true"/>
         </crsList>
-        <defaultCrs geometrySridAlias="-1"/>
-        <printing/>
+        <defaultCrs geometrySridAlias="4326"/>
+	<printing/>
     </cismapMappingPreferences>
 
     <cismapActiveLayerConfiguration/>
