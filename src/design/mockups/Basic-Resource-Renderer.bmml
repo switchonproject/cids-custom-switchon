@@ -14,13 +14,13 @@
         <text>*farming*%0Abiota%0Aboundaries</text>
       </controlProperties>
     </control>
-    <control controlID="15" controlTypeID="com.balsamiq.mockups::TitleWindow" x="462" y="515" w="717" h="513" measuredW="450" measuredH="400" zOrder="2" locked="false" isInGroup="-1">
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::TitleWindow" x="462" y="515" w="717" h="440" measuredW="450" measuredH="400" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
         <text>Resource%20Renderer%20-%20Contact%20Information</text>
       </controlProperties>
     </control>
-    <control controlID="16" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="477" y="549" w="681" h="458" measuredW="200" measuredH="272" zOrder="3" locked="false" isInGroup="-1">
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="477" y="549" w="681" h="386" measuredW="200" measuredH="272" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
         <position>right</position>
         <selectedIndex>1</selectedIndex>
@@ -33,14 +33,14 @@
         <text>*UC05%20%u2013Assess%20usefulness%20of%20resources%20by%20viewing%20basic%20Meta-Data*%3A%20_Basic%20Resource%20Renderer_%0A%20%0AThe%20name%20of%20the%20resurce%20is%20shown%20in%20the%20title%20of%20the%20Renderer.%20The%20type%20of%20the%20resource%20%28e.g.%20%22repurposed%20data%22%29%20is%20indecated%20by%20the%20icon%20of%20the%20title%20bar.%0A%20%0AThe%20Renderer%20should%20be%20derived%20from%20the%20respective%20Editor%20or%20a%20common%20Panel%20for%20Editors%20and%20Renderers%20should%20be%20created.%20See%20the%20Editor%20Mockuops%20for%20more%20details.%20Some%20input%20fields%20of%20the%20Editor%20should%20be%20disabled%20%28e.g.%20a%20disabled%20como%20box%20that%20shows%20only%20the%20selected%20attribute%29%20or%20*hidden*%20%28e.g.%20_UUID_%20attributes%29.%20While%20the%20Editor%20should%20allow%20to%20change%20*all*%20attributes%20of%20the%20respective%20objects%2C%20the%20Renders%20shows%20only%20a%20subset%20of%20attributes%20that%20are%20interesting%20for%20the%20user.%20%0A%20%0AHowever%2C%20the%20non-editable%20version%20of%20an%20input%20field%20of%20the%20Editor%20cannot%20always%20be%20used%20in%20the%20Renderer.%20There%20are%20exceptions%2C%20where%20an%20attribute%20in%20the%20Renderer%20has%20to%20be%20presented%20differently%20than%20in%20the%20Editor.%20For%20example%2C%20in%20the%20Renderer%20*Keywords*%20contains%20a%20comma%20separated%20list%20of%20tags%20from%20the%20*two*%20keywords%20tag%20groups%20%22keywords%20-%20INSPIRE%20themes%201.0%22%20and%20%22keywords%20-%20open%22.%20In%20contrast%20to%20that%2C%20the%20Editor%20has%20to%20show%20*two*%20list%20boxes%20for%20keyword%20selection.%0A%20%0AAlthough%20the%20_type_%20of%20the%20resource%20is%20also%20interesting%20for%20the%20user%2C%20it%20is%20not%20showen%20in%20the%20Editor.%20Instead%2C%20the%20*Icon*%20of%20the%20Resource%20Object%20is%20used%20to%20indeicate%20the%20Resource%20type.</text>
       </controlProperties>
     </control>
-    <control controlID="29" controlTypeID="com.balsamiq.mockups::Accordion" x="490" y="564" w="498" h="428" measuredW="150" measuredH="159" zOrder="5" locked="false" isInGroup="-1">
+    <control controlID="29" controlTypeID="com.balsamiq.mockups::Accordion" x="490" y="564" w="498" h="357" measuredW="150" measuredH="159" zOrder="5" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Resource%20Provider%0ADistributor%0AOwner</text>
       </controlProperties>
     </control>
     <control controlID="30" controlTypeID="com.balsamiq.mockups::StickyNote" x="34" y="515" w="406" h="325" measuredW="109" measuredH="123" zOrder="6" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Resources%20may%20have%20multiple%20contact%20objects%20assigned%2C%20therefore%20contacts%20are%20shown%20in%20an%20accordion.%20As%20title%20of%20the%20accordion%20the%20_role_%20of%20the%20contact%20is%20used%20%28e.g.%20Distributor%29%21%20%0A%20%0AAccordingly%2C%20the%20Contact%20Editor%20has%20to%20have%20an%20additionl%20combo%20box%20to%20select%20the%20role%20of%20the%20contact.%20URL%20and%20Email%20%28mailto%3A%29%20are%20clickable%20Hyperlink%20Labels.</text>
+        <text>Resources%20may%20have%20multiple%20contact%20objects%20assigned%2C%20therefore%20contacts%20are%20shown%20in%20an%20accordion.%20As%20title%20of%20the%20accordion%20the%20_role_%20of%20the%20contact%20is%20used%20%28e.g.%20Distributor%29%21%20%0A%20%0AAccordingly%2C%20the%20*Contact%20Editor*%20has%20to%20have%20an%20additionl%20combo%20box%20to%20select%20the%20role%20of%20the%20contact.%20URL%20and%20Email%20%28mailto%3A%29%20are%20clickable%20Hyperlink%20Labels.</text>
       </controlProperties>
     </control>
     <control controlID="31" controlTypeID="com.balsamiq.mockups::Label" x="501" y="610" w="89" h="-1" measuredW="74" measuredH="21" zOrder="7" locked="false" isInGroup="-1">
