@@ -745,7 +745,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
             if (end != null) {
                 searchStatement.setToDate(new Time(end.getTime()));
             } else {
-                searchStatement.setFromDate(null);
+                searchStatement.setToDate(null);
             }
         }
 
