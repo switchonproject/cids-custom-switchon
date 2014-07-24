@@ -319,10 +319,12 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         tpaSearchTabs = new javax.swing.JTabbedPane();
         tabBasic = new javax.swing.JPanel();
         pnlGeospatialExtent = new javax.swing.JPanel();
+
         final ResourceCreateSearchGeometryListener resourceCreateSearchGeometryListener =
             new ResourceCreateSearchGeometryListener(
                 mappingComponent,
                 new ResourceSearchTooltip(icon));
+
         resourceCreateSearchGeometryListener.addPropertyChangeListener(this);
         btnGeospatial = new GeoSearchButton(
                 ResourceCreateSearchGeometryListener.RESOURCE_CREATE_SEARCH_GEOMETRY,
@@ -794,7 +796,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
      * @param  evt  DOCUMENT ME!
      */
     private void cmbTopicsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbTopicsActionPerformed
-        final Object o = cmbGeospatial.getSelectedItem();
+        final Object o = cmbTopics.getSelectedItem();
         if (o == null) {
             lblInformation.setText(NbBundle.getMessage(
                     ResourceWindowSearch.class,
