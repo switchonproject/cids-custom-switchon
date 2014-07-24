@@ -14,14 +14,17 @@ import Sirius.navigator.search.dynamic.SearchControlPanel;
 import Sirius.server.middleware.types.LightweightMetaObject;
 import Sirius.server.middleware.types.MetaClass;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import java.net.URL;
 
@@ -32,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -51,6 +55,11 @@ import de.cismet.cids.server.search.MetaObjectNodeServerSearch;
 
 import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
 
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+
+import de.cismet.cismap.navigatorplugin.GeoSearchButton;
+
 /**
  * DOCUMENT ME!
  *
@@ -58,7 +67,9 @@ import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
  * @version  $Revision$, $Date$
  */
 @org.openide.util.lookup.ServiceProvider(service = CidsWindowSearch.class)
-public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWindowSearch, SearchControlListener {
+public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWindowSearch,
+    SearchControlListener,
+    PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -68,8 +79,10 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
 
     //~ Instance fields --------------------------------------------------------
 
-    private final ImageIcon icon;
-    private final MetaClass metaClass;
+    private ImageIcon icon;
+    private MetaClass metaClass;
+    private MappingComponent mappingComponent;
+    private Geometry selectedGeometry;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -84,8 +97,11 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private javax.swing.JComboBox cmbGeospatial;
     private javax.swing.JComboBox cmbTopics;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
+    private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -112,9 +128,19 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
      * Creates new form ResourceWindowSearch.
      */
     public ResourceWindowSearch() {
+        mappingComponent = CismapBroker.getInstance().getMappingComponent();
         initComponents();
         addBorderToPanels();
+        initSearchButtons();
+        initIcon();
+    }
 
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void initSearchButtons() {
         btnSearch.setVisible(false);
         btnCancel.setVisible(false);
 
@@ -124,7 +150,12 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         pnlSearchButtons.add(pnlSearchCancel, gridBagConstraints);
+    }
 
+    /**
+     * DOCUMENT ME!
+     */
+    private void initIcon() {
         metaClass = ClassCacheMultiple.getMetaClass(DOMAIN, "resource"); // NOI18N
 
         byte[] iconDataFromMetaclass = new byte[] {};
@@ -147,8 +178,6 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
             }
         }
     }
-
-    //~ Methods ----------------------------------------------------------------
 
     /**
      * DOCUMENT ME!
@@ -265,11 +294,22 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         tpaSearchTabs = new javax.swing.JTabbedPane();
         tabBasic = new javax.swing.JPanel();
         pnlGeospatialExtent = new javax.swing.JPanel();
-        btnGeospatial = new javax.swing.JButton();
+        final ResourceCreateSearchGeometryListener resourceCreateSearchGeometryListener =
+            new ResourceCreateSearchGeometryListener(
+                mappingComponent,
+                new ResourceSearchTooltip(icon));
+        resourceCreateSearchGeometryListener.addPropertyChangeListener(this);
+        btnGeospatial = new GeoSearchButton(
+                ResourceCreateSearchGeometryListener.RESOURCE_CREATE_SEARCH_GEOMETRY,
+                mappingComponent,
+                null,
+                org.openide.util.NbBundle.getMessage(
+                    ResourceWindowSearch.class,
+                    "ResourceWindowSearch.btnGeospatial.toolTipText"));
         cmbGeospatial = new TagsComboBox(Taggroups.LOCATION);
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 32767));
+                new java.awt.Dimension(32767, 0));
         pnlTemporalExtent = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -288,12 +328,21 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         jScrollPane1 = new javax.swing.JScrollPane();
         lstKeywords = new TagsJList(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0, Taggroups.KEYWORDS_OPEN);
         cmbTopics = new TagsComboBox(Taggroups.TOPIC_CATEGORY);
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(32767, 0));
         tabAdvancedSearch = new javax.swing.JPanel();
         tabAggregatedSearch = new javax.swing.JPanel();
         pnlSearchButtons = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnSearch = new javax.swing.JButton();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
         pnlStatus = new javax.swing.JPanel();
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
 
         org.openide.awt.Mnemonics.setLocalizedText(
             chbGeospatial,
@@ -313,7 +362,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
             chbTitle,
             org.openide.util.NbBundle.getMessage(ResourceWindowSearch.class, "ResourceWindowSearch.chbTitle.text")); // NOI18N
 
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new java.awt.GridBagLayout());
 
         pnlMain.setLayout(new java.awt.GridBagLayout());
 
@@ -342,16 +391,11 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     "ResourceWindowSearch.pnlGeospatialExtent.border.title"))); // NOI18N
         pnlGeospatialExtent.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnGeospatial,
-            org.openide.util.NbBundle.getMessage(
-                ResourceWindowSearch.class,
-                "ResourceWindowSearch.btnGeospatial.text")); // NOI18N
         btnGeospatial.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 5);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 10);
         pnlGeospatialExtent.add(btnGeospatial, gridBagConstraints);
 
         cmbGeospatial.setEnabled(false);
@@ -359,24 +403,23 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 5);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 20, 5);
         pnlGeospatialExtent.add(cmbGeospatial, gridBagConstraints);
+        ((DefaultComboBoxModel)cmbGeospatial.getModel()).insertElementAt("Selected Map Coordinates", 1);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 1.0;
-        pnlGeospatialExtent.add(filler2, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        pnlGeospatialExtent.add(filler6, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.5;
+        gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
         tabBasic.add(pnlGeospatialExtent, gridBagConstraints);
 
@@ -393,7 +436,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
         pnlTemporalExtent.add(jLabel1, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
@@ -403,21 +446,21 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
         pnlTemporalExtent.add(jLabel2, gridBagConstraints);
 
         jdpStartDate.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 10);
         pnlTemporalExtent.add(jdpStartDate, gridBagConstraints);
 
         jdpEndDate.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 10);
         pnlTemporalExtent.add(jdpEndDate, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -437,7 +480,6 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
-        gridBagConstraints.weighty = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         tabBasic.add(pnlTemporalExtent, gridBagConstraints);
 
@@ -456,7 +498,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 5);
         pnlTitleAndDescription.add(txtTitle, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
@@ -468,6 +510,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 10);
         pnlTitleAndDescription.add(chbSearchInTitleAndDescription, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -484,6 +527,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     "ResourceWindowSearch.pnlKeywordsAndTopics.border.title"))); // NOI18N
         pnlKeywordsAndTopics.setLayout(new java.awt.GridBagLayout());
 
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(259, 131));
+
         lstKeywords.setEnabled(false);
         jScrollPane1.setViewportView(lstKeywords);
 
@@ -491,9 +536,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         pnlKeywordsAndTopics.add(jScrollPane1, gridBagConstraints);
 
         cmbTopics.setEnabled(false);
@@ -501,8 +544,14 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         pnlKeywordsAndTopics.add(cmbTopics, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        pnlKeywordsAndTopics.add(filler5, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -510,8 +559,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 10);
         tabBasic.add(pnlKeywordsAndTopics, gridBagConstraints);
 
@@ -530,7 +578,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         tabAdvancedSearchLayout.setVerticalGroup(
             tabAdvancedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                285,
+                318,
                 Short.MAX_VALUE));
 
         tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(
@@ -548,7 +596,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         tabAggregatedSearchLayout.setVerticalGroup(
             tabAggregatedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                285,
+                318,
                 Short.MAX_VALUE));
 
         tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(
@@ -563,7 +611,6 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlMain.add(tpaSearchTabs, gridBagConstraints);
 
@@ -592,8 +639,19 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlMain.add(pnlSearchButtons, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        pnlMain.add(filler4, gridBagConstraints);
 
-        add(pnlMain, java.awt.BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        add(pnlMain, gridBagConstraints);
 
         pnlStatus.setPreferredSize(new java.awt.Dimension(682, 50));
 
@@ -602,15 +660,25 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         pnlStatusLayout.setHorizontalGroup(
             pnlStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                718,
+                0,
                 Short.MAX_VALUE));
         pnlStatusLayout.setVerticalGroup(
             pnlStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                50,
+                0,
                 Short.MAX_VALUE));
 
-        add(pnlStatus, java.awt.BorderLayout.SOUTH);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        add(pnlStatus, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        add(filler7, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -648,7 +716,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
             final Object selectedItem = cmbGeospatial.getSelectedItem();
             if (selectedItem instanceof LightweightMetaObject) {
                 searchStatement.setLocation(((LightweightMetaObject)selectedItem).getName());
-            } else {
+            } else if ((selectedItem != null) && (selectedGeometry != null)) {
+                searchStatement.setGeometryToSearchFor(selectedGeometry);
             }
         }
 
@@ -720,5 +789,15 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     @Override
     public boolean suppressEmptyResultMessage() {
         return false;
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (ResourceCreateSearchGeometryListener.ACTION_SEARCH_STARTED.equals(evt.getPropertyName())) {
+            if ((evt.getNewValue() != null) && (evt.getNewValue() instanceof Geometry)) {
+                cmbGeospatial.setSelectedIndex(1);
+                selectedGeometry = (Geometry)evt.getNewValue();
+            }
+        }
     }
 }
