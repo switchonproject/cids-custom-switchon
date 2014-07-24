@@ -30,7 +30,7 @@ import java.beans.PropertyChangeListener;
 
 import java.net.URL;
 
-import java.sql.Time;
+import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -876,14 +876,14 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         if (chbTemporal.isSelected()) {
             final Date start = jdpStartDate.getDate();
             if (start != null) {
-                searchStatement.setFromDate(new Time(start.getTime()));
+                searchStatement.setFromDate(new Timestamp(start.getTime()));
             } else {
                 searchStatement.setFromDate(null);
             }
 
             final Date end = jdpEndDate.getDate();
             if (end != null) {
-                searchStatement.setToDate(new Time(end.getTime()));
+                searchStatement.setToDate(new Timestamp(end.getTime()));
             } else {
                 searchStatement.setToDate(null);
             }
