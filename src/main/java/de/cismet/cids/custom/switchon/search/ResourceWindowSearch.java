@@ -16,6 +16,8 @@ import Sirius.server.middleware.types.MetaClass;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import org.apache.commons.lang.StringUtils;
+
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 
@@ -49,6 +51,8 @@ import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
 import de.cismet.cids.custom.switchon.gui.utils.TagsComboBox;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 
+import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.server.search.MetaObjectNodeServerSearch;
@@ -81,7 +85,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
 
     private ImageIcon icon;
     private MetaClass metaClass;
-    private MappingComponent mappingComponent;
+    private final MappingComponent mappingComponent;
     private Geometry selectedGeometry;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -107,6 +111,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXDatePicker jdpEndDate;
     private org.jdesktop.swingx.JXDatePicker jdpStartDate;
+    private javax.swing.JLabel lblInformation;
     private javax.swing.JList lstKeywords;
     private javax.swing.JPanel pnlGeospatialExtent;
     private javax.swing.JPanel pnlKeywordsAndTopics;
@@ -212,6 +217,11 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     final boolean selected = ((JCheckBox)e.getSource()).isSelected();
                     jdpStartDate.setEnabled(selected);
                     jdpEndDate.setEnabled(selected);
+                    lblInformation.setVisible(selected);
+                    lblInformation.setText(
+                        NbBundle.getMessage(
+                            ResourceWindowSearch.class,
+                            "ResourceWindowSearch.addBorderToPanels().temporal.infotext"));
                 }
             });
 
@@ -231,6 +241,11 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     final boolean selected = ((JCheckBox)e.getSource()).isSelected();
                     cmbGeospatial.setEnabled(selected);
                     btnGeospatial.setEnabled(selected);
+                    lblInformation.setVisible(selected);
+                    lblInformation.setText(
+                        NbBundle.getMessage(
+                            ResourceWindowSearch.class,
+                            "ResourceWindowSearch.addBorderToPanels().geospatial.infotext"));
                 }
             });
         border = new ComponentTitledBorder(
@@ -249,6 +264,11 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     final boolean selected = ((JCheckBox)e.getSource()).isSelected();
                     lstKeywords.setEnabled(selected);
                     cmbTopics.setEnabled(selected);
+                    lblInformation.setVisible(selected);
+                    lblInformation.setText(
+                        NbBundle.getMessage(
+                            ResourceWindowSearch.class,
+                            "ResourceWindowSearch.addBorderToPanels().keyword.infotext"));
                 }
             });
         border = new ComponentTitledBorder(
@@ -267,6 +287,11 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     final boolean selected = ((JCheckBox)e.getSource()).isSelected();
                     txtTitle.setEnabled(selected);
                     chbSearchInTitleAndDescription.setEnabled(selected);
+                    lblInformation.setVisible(selected);
+                    lblInformation.setText(
+                        NbBundle.getMessage(
+                            ResourceWindowSearch.class,
+                            "ResourceWindowSearch.addBorderToPanels().title.infotext"));
                 }
             });
         border = new ComponentTitledBorder(
@@ -340,6 +365,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
         pnlStatus = new javax.swing.JPanel();
+        lblInformation = new javax.swing.JLabel();
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -380,7 +406,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 10, 5);
         pnlMain.add(btnClear, gridBagConstraints);
 
         tabBasic.setLayout(new java.awt.GridBagLayout());
@@ -399,6 +425,13 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         pnlGeospatialExtent.add(btnGeospatial, gridBagConstraints);
 
         cmbGeospatial.setEnabled(false);
+        cmbGeospatial.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbGeospatialActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -530,6 +563,13 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         jScrollPane1.setMinimumSize(new java.awt.Dimension(259, 131));
 
         lstKeywords.setEnabled(false);
+        lstKeywords.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+
+                @Override
+                public void valueChanged(final javax.swing.event.ListSelectionEvent evt) {
+                    lstKeywordsValueChanged(evt);
+                }
+            });
         jScrollPane1.setViewportView(lstKeywords);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -540,6 +580,13 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         pnlKeywordsAndTopics.add(jScrollPane1, gridBagConstraints);
 
         cmbTopics.setEnabled(false);
+        cmbTopics.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbTopicsActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -573,7 +620,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         tabAdvancedSearchLayout.setHorizontalGroup(
             tabAdvancedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                703,
+                754,
                 Short.MAX_VALUE));
         tabAdvancedSearchLayout.setVerticalGroup(
             tabAdvancedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
@@ -591,7 +638,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         tabAggregatedSearchLayout.setHorizontalGroup(
             tabAggregatedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                703,
+                754,
                 Short.MAX_VALUE));
         tabAggregatedSearchLayout.setVerticalGroup(
             tabAggregatedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
@@ -637,7 +684,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 10, 5);
         pnlMain.add(pnlSearchButtons, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -654,19 +701,26 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         add(pnlMain, gridBagConstraints);
 
         pnlStatus.setPreferredSize(new java.awt.Dimension(682, 50));
+        pnlStatus.setLayout(new java.awt.GridBagLayout());
 
-        final javax.swing.GroupLayout pnlStatusLayout = new javax.swing.GroupLayout(pnlStatus);
-        pnlStatus.setLayout(pnlStatusLayout);
-        pnlStatusLayout.setHorizontalGroup(
-            pnlStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                0,
-                Short.MAX_VALUE));
-        pnlStatusLayout.setVerticalGroup(
-            pnlStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                0,
-                Short.MAX_VALUE));
+        lblInformation.setForeground(new java.awt.Color(16, 76, 116));
+        lblInformation.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/switchon/search/info.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblInformation,
+            org.openide.util.NbBundle.getMessage(
+                ResourceWindowSearch.class,
+                "ResourceWindowSearch.lblInformation.text"));                                // NOI18N
+        lblInformation.setIconTextGap(5);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 5);
+        pnlStatus.add(lblInformation, gridBagConstraints);
+        lblInformation.setVisible(false);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -702,6 +756,81 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         txtTitle.setText("");
         chbSearchInTitleAndDescription.setSelected(false);
     } //GEN-LAST:event_btnClearActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbGeospatialActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbGeospatialActionPerformed
+        final Object o = cmbGeospatial.getSelectedItem();
+        if (o == null) {
+            lblInformation.setText(NbBundle.getMessage(
+                    ResourceWindowSearch.class,
+                    "ResourceWindowSearch.cmbGeospatialActionPerformed().no"));
+        } else if (o instanceof String) {
+            lblInformation.setText(NbBundle.getMessage(
+                    ResourceWindowSearch.class,
+                    "ResourceWindowSearch.cmbGeospatialActionPerformed().mapCoord"));
+        } else {
+            showDescriptionOfSelectedTag(cmbGeospatial.getSelectedItem());
+        }
+    }                                                                                 //GEN-LAST:event_cmbGeospatialActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbTopicsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbTopicsActionPerformed
+        final Object o = cmbGeospatial.getSelectedItem();
+        if (o == null) {
+            lblInformation.setText(NbBundle.getMessage(
+                    ResourceWindowSearch.class,
+                    "ResourceWindowSearch.cmbTopicsActionPerformed().no"));
+        } else {
+            showDescriptionOfSelectedTag(cmbTopics.getSelectedItem());
+        }
+    }                                                                             //GEN-LAST:event_cmbTopicsActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void lstKeywordsValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstKeywordsValueChanged
+        if (!evt.getValueIsAdjusting()) {
+            final Object o = lstKeywords.getSelectedValue();
+            if (o == null) {
+                lblInformation.setText(NbBundle.getMessage(
+                        ResourceWindowSearch.class,
+                        "ResourceWindowSearch.lstKeywordsValueChanged().no"));
+            } else {
+                showDescriptionOfSelectedTag(lstKeywords.getSelectedValue());
+            }
+        }
+    }                                                                                      //GEN-LAST:event_lstKeywordsValueChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  selectedObject  DOCUMENT ME!
+     */
+    private void showDescriptionOfSelectedTag(final Object selectedObject) {
+        if (selectedObject instanceof LightweightMetaObject) {
+            final CidsBean selectedBean = ((LightweightMetaObject)selectedObject).getBean();
+            final String description = selectedBean.getProperty("description").toString();
+            if (StringUtils.isNotBlank(description) && !description.equals("n/a")) {
+                lblInformation.setText("<html><i>" + description + "</i></html>");
+            } else {
+                String text = NbBundle.getMessage(
+                        ResourceWindowSearch.class,
+                        "ResourceWindowSearch.showDescriptionOfSelectedTag().noDescription");
+                text = "<html><i>" + String.format(text, selectedBean.toString()) + "</i></html>";
+                lblInformation.setText(text);
+            }
+        }
+    }
 
     @Override
     public JComponent getSearchWindowComponent() {
