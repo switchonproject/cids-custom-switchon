@@ -46,6 +46,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objectrenderer.ContactRenderer contactRenderer;
     private javax.swing.Box.Filler filler1;
+    private de.cismet.cids.custom.switchon.objecteditors.GeographicInformationPanel geographicInformationPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -58,6 +59,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JPanel panTitleString;
     private javax.swing.JPanel pnlContact;
     private javax.swing.JPanel pnlDescription;
+    private javax.swing.JPanel pnlGeographic;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -98,6 +100,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 new java.awt.Dimension(0, 32767));
         pnlContact = new javax.swing.JPanel();
         contactRenderer = new de.cismet.cids.custom.switchon.objectrenderer.ContactRenderer();
+        pnlGeographic = new javax.swing.JPanel();
+        geographicInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.GeographicInformationPanel();
 
         panTitle.setOpaque(false);
         panTitle.setLayout(new java.awt.BorderLayout());
@@ -228,6 +232,18 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 "ResourceRenderer.pnlContact.TabConstraints.tabTitle"),
             pnlContact); // NOI18N
 
+        pnlGeographic.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        pnlGeographic.add(geographicInformationPanel, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlGeographic.TabConstraints.tabTitle"),
+            pnlGeographic); // NOI18N
+
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
@@ -244,6 +260,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
             contactRenderer.setCidsBean((CidsBean)cidsBean.getProperty("contact"));
+            geographicInformationPanel.setCidsBean(cidsBean);
             bindingGroup.bind();
             generateListWithKeywords();
         }
