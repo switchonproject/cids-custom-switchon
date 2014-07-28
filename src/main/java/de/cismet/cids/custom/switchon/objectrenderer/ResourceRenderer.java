@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.border.TitledBorder;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
@@ -50,6 +51,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objectrenderer.ContactRenderer contactRenderer;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private de.cismet.cids.custom.switchon.objectrenderer.GeographicInformationPanel geographicInformationPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -104,6 +106,9 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 new java.awt.Dimension(0, 32767));
         pnlContact = new javax.swing.JPanel();
         contactRenderer = new de.cismet.cids.custom.switchon.objectrenderer.ContactRenderer();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
         pnlGeographic = new javax.swing.JPanel();
         geographicInformationPanel = new de.cismet.cids.custom.switchon.objectrenderer.GeographicInformationPanel();
 
@@ -224,12 +229,22 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         pnlContact.setOpaque(false);
         pnlContact.setLayout(new java.awt.GridBagLayout());
 
+        contactRenderer.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    ResourceRenderer.class,
+                    "ResourceRenderer.contactRenderer.border.title"))); // NOI18N
         contactRenderer.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlContact.add(contactRenderer, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        pnlContact.add(filler2, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceRenderer.class,
@@ -263,7 +278,14 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
-            contactRenderer.setCidsBean((CidsBean)cidsBean.getProperty("contact"));
+
+            final CidsBean contact = (CidsBean)cidsBean.getProperty("contact");
+            contactRenderer.setCidsBean(contact);
+            if (contact != null) {
+                final TitledBorder contactBorder = (TitledBorder)contactRenderer.getBorder();
+                contactBorder.setTitle((String)contact.getProperty("role.name"));
+            }
+
             geographicInformationPanel.setCidsBean(cidsBean);
             bindingGroup.bind();
             generateListWithKeywords();
