@@ -408,7 +408,11 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
 
     @Override
     public String getTitle() {
-        return title;
+        if (cidsBean != null) {
+            return cidsBean.toString();
+        } else {
+            return "new contact";
+        }
     }
 
     @Override
