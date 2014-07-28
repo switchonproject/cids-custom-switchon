@@ -5,7 +5,7 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.switchon.objecteditors;
+package de.cismet.cids.custom.switchon.objectrenderer;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -26,6 +26,7 @@ import javax.swing.DefaultListModel;
 import de.cismet.cids.custom.switchon.SwitchOnConstants;
 import de.cismet.cids.custom.switchon.gui.utils.CismapUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
+import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.gui.utils.ResourceUtils;
 import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
 
@@ -91,6 +92,10 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         previewMap = new MappingComponent();
         pnlMap.setLayout(new BorderLayout());
         pnlMap.add(previewMap, BorderLayout.CENTER);
+
+        RendererTools.makeReadOnly(txtResolutions);
+        RendererTools.makeReadOnly(txtScales);
+        RendererTools.makeReadOnly(cmbLocation);
     }
 
     //~ Methods ----------------------------------------------------------------

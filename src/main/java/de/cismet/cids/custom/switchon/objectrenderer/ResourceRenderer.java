@@ -50,7 +50,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objectrenderer.ContactRenderer contactRenderer;
     private javax.swing.Box.Filler filler1;
-    private de.cismet.cids.custom.switchon.objecteditors.GeographicInformationPanel geographicInformationPanel;
+    private de.cismet.cids.custom.switchon.objectrenderer.GeographicInformationPanel geographicInformationPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -105,7 +105,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         pnlContact = new javax.swing.JPanel();
         contactRenderer = new de.cismet.cids.custom.switchon.objectrenderer.ContactRenderer();
         pnlGeographic = new javax.swing.JPanel();
-        geographicInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.GeographicInformationPanel();
+        geographicInformationPanel = new de.cismet.cids.custom.switchon.objectrenderer.GeographicInformationPanel();
 
         panTitle.setOpaque(false);
         panTitle.setLayout(new java.awt.BorderLayout());
