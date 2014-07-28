@@ -180,19 +180,19 @@
         <text>Spatial%20Scales</text>
       </controlProperties>
     </control>
-    <control controlID="50" controlTypeID="com.balsamiq.mockups::TextInput" x="641" y="462" w="265" h="-1" measuredW="105" measuredH="27" zOrder="33" locked="false" isInGroup="-1">
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::TextInput" x="641" y="462" w="326" h="-1" measuredW="105" measuredH="27" zOrder="33" locked="false" isInGroup="-1">
       <controlProperties>
         <state>up</state>
         <text>0.20%20arcdegree</text>
       </controlProperties>
     </control>
-    <control controlID="51" controlTypeID="com.balsamiq.mockups::TextInput" x="641" y="504" w="265" h="-1" measuredW="54" measuredH="27" zOrder="34" locked="false" isInGroup="-1">
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::TextInput" x="641" y="504" w="326" h="-1" measuredW="54" measuredH="27" zOrder="34" locked="false" isInGroup="-1">
       <controlProperties>
         <state>up</state>
         <text>10.000</text>
       </controlProperties>
     </control>
-    <control controlID="52" controlTypeID="com.balsamiq.mockups::TextInput" x="641" y="419" w="265" h="-1" measuredW="41" measuredH="27" zOrder="35" locked="false" isInGroup="-1">
+    <control controlID="52" controlTypeID="com.balsamiq.mockups::TextInput" x="641" y="419" w="326" h="-1" measuredW="41" measuredH="27" zOrder="35" locked="false" isInGroup="-1">
       <controlProperties>
         <state>up</state>
         <text>daily</text>
@@ -248,7 +248,6 @@
     </control>
     <control controlID="63" controlTypeID="com.balsamiq.mockups::Button" x="1419" y="252" w="-1" h="-1" measuredW="64" measuredH="27" zOrder="45" locked="false" isInGroup="-1">
       <controlProperties>
-        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%221399%2C232%2C1463%2C259%22%20href%3D%22Contact-Editor.bmml%22%20alt%3D%22Contact-Editor%22%20id%3D%2263%22/%3E</map>
         <state>disabled</state>
         <text>Upload</text>
       </controlProperties>
