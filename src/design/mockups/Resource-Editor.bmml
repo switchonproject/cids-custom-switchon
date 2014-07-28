@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1500" measuredH="1943" mockupW="1485" mockupH="1923">
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1500" measuredH="1604" mockupW="1485" mockupH="1584">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="20" w="717" h="513" measuredW="450" measuredH="400" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
@@ -167,21 +167,21 @@
         <verticalScrollbar>true</verticalScrollbar>
       </controlProperties>
     </control>
-    <control controlID="36" controlTypeID="com.balsamiq.mockups::TitleWindow" x="440" y="1023" w="1060" h="920" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::TitleWindow" x="440" y="1023" w="1060" h="581" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
         <text>Meta-Data%20Editor</text>
       </controlProperties>
     </control>
-    <control controlID="37" controlTypeID="com.balsamiq.mockups::Label" x="999" y="1238" w="89" h="-1" measuredW="50" measuredH="21" zOrder="31" locked="false" isInGroup="-1">
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::Label" x="999" y="1238" w="104" h="-1" measuredW="102" measuredH="21" zOrder="31" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Location</text>
+        <text>Content%20Location</text>
       </controlProperties>
     </control>
-    <control controlID="38" controlTypeID="com.balsamiq.mockups::TextInput" x="1098" y="1235" w="366" h="-1" measuredW="161" measuredH="27" zOrder="32" locked="false" isInGroup="-1">
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::TextInput" x="1116" y="1235" w="348" h="-1" measuredW="232" measuredH="27" zOrder="32" locked="false" isInGroup="-1">
       <controlProperties>
         <state>up</state>
-        <text>University%20of%20East%20Anglia</text>
+        <text>http%3A//www.loc.gov/standards/iso.xml</text>
       </controlProperties>
     </control>
     <control controlID="39" controlTypeID="com.balsamiq.mockups::Label" x="999" y="1275" w="89" h="-1" measuredW="81" measuredH="21" zOrder="33" locked="false" isInGroup="-1">
@@ -211,7 +211,7 @@
         <text>Type</text>
       </controlProperties>
     </control>
-    <control controlID="44" controlTypeID="com.balsamiq.mockups::ComboBox" x="1098" y="1275" w="367" h="-1" measuredW="120" measuredH="62" zOrder="38" locked="false" isInGroup="-1">
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::ComboBox" x="1116" y="1275" w="290" h="-1" measuredW="120" measuredH="62" zOrder="38" locked="false" isInGroup="-1">
       <controlProperties>
         <state>up</state>
         <text>application/shp%0Atext/plain%0A*text/xml*</text>
@@ -228,14 +228,124 @@
         <text>f81d4fae-7dec-11d0-a765-00a0c91e6bf6</text>
       </controlProperties>
     </control>
-    <control controlID="47" controlTypeID="com.balsamiq.mockups::FieldSet" x="461" y="1371" w="502" h="174" measuredW="200" measuredH="170" zOrder="41" locked="false" isInGroup="-1">
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::FieldSet" x="461" y="1371" w="502" h="212" measuredW="200" measuredH="170" zOrder="41" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Other%20Properties</text>
       </controlProperties>
     </control>
-    <control controlID="48" controlTypeID="com.balsamiq.mockups::FieldSet" x="978" y="1372" w="502" h="174" measuredW="200" measuredH="170" zOrder="42" locked="false" isInGroup="-1">
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::FieldSet" x="978" y="1372" w="502" h="211" measuredW="200" measuredH="170" zOrder="42" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Additional%20Tags</text>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::ComboBox" x="581" y="1476" w="310" h="-1" measuredW="89" measuredH="46" zOrder="43" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>*ISO%2019115*%0AISO%2019119%3A2005</text>
+      </controlProperties>
+    </control>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::Label" x="482" y="1401" w="89" h="-1" measuredW="82" measuredH="21" zOrder="44" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Creation%20Date</text>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::DateChooser" x="581" y="1399" w="117" h="-1" measuredW="131" measuredH="25" zOrder="45" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>27/07/2014%20%20%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="52" controlTypeID="com.balsamiq.mockups::Label" x="703" y="1399" w="89" h="-1" measuredW="60" measuredH="21" zOrder="46" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Language</text>
+      </controlProperties>
+    </control>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::ComboBox" x="775" y="1399" w="170" h="-1" measuredW="53" measuredH="62" zOrder="47" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>*eng*%0A*deu*%0A*ita*</text>
+      </controlProperties>
+    </control>
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::Button" x="1416" y="1275" w="-1" h="-1" measuredW="48" measuredH="27" zOrder="48" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>New</text>
+      </controlProperties>
+    </control>
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::StickyNote" x="15" y="1023" w="406" h="416" measuredW="109" measuredH="123" zOrder="49" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>The%20*Meta-Data%20Editor*%20_cannot_%20be%20used%20as%20Basis%20for%20the%20*Meta-Data%20Renderer*%2C%20since%20many%20attributes%20of%20the%20Meta-Data%20Object%20are%20not%20shown%20in%20the%20Renderer.%0A%20%0AThe%20%22New%22%20button%20allows%20the%20user%20to%20define%20a%20new%20tag%20of%20an%20_open_%20Tag%20Group.%20in%20the%20*Tag%20and%20Tag%20Group%20Editor*.%20When%20the%20user%20closes%20the%20*Tag%20and%20Tag%20Group%20Editor*%2C%20the%20newly%20creatred%20tag%20is%20selected%20in%20the%20*Meta-Data%20Editor*.%0A%20%0AThe%20%22Edit%22%20button%20of%20the%20_Contact_%20Attribute%20opens%20the%20*Contact%20Editor*.%0A%20%0AThe%20%22Add%22%20button%20in%20the%20*Additional%20Tags*%20Panel%20lets%20the%20user%20add%20a%20selcted%20tag%20to%20the%20_tags_%20array%20of%20the%20_Meta-Data%20Object_.%20The%20%22New%22%20Button%20opens%20the%20*Tag%20and%20Tag%20Group%20Editor*.%20The%20newly%20created%20tag%20is%20automatically%20addedm%20to%20the%20_tags_%20array.%20The%20%22Remove%22%20button%20deletes%20a%20tag%20is%20selected%20in%20the%20*Assigned%20Tags%20List*%20from%20the%20_tags_%20array.%20For%20reasons%20of%20simplicity%2C%20the%20*Assigned%20Tags%20List*%20does%20not%20distinguish%20between%20different%20tags.</text>
+      </controlProperties>
+    </control>
+    <control controlID="57" controlTypeID="com.balsamiq.mockups::Label" x="482" y="1473" w="89" h="-1" measuredW="55" measuredH="21" zOrder="50" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Standard</text>
+      </controlProperties>
+    </control>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::Button" x="900" y="1476" w="-1" h="-1" measuredW="48" measuredH="27" zOrder="51" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>New</text>
+      </controlProperties>
+    </control>
+    <control controlID="59" controlTypeID="com.balsamiq.mockups::Label" x="482" y="1537" w="89" h="-1" measuredW="48" measuredH="21" zOrder="52" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Contact</text>
+      </controlProperties>
+    </control>
+    <control controlID="60" controlTypeID="com.balsamiq.mockups::TextInput" x="581" y="1537" w="310" h="-1" measuredW="165" measuredH="27" zOrder="53" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>disabled</state>
+        <text>University%20of%20East%20Anglia%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="61" controlTypeID="com.balsamiq.mockups::Button" x="900" y="1537" w="-1" h="-1" measuredW="46" measuredH="27" zOrder="54" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Edit</text>
+      </controlProperties>
+    </control>
+    <control controlID="62" controlTypeID="com.balsamiq.mockups::ComboBox" x="1071" y="1394" w="170" h="-1" measuredW="86" measuredH="62" zOrder="55" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>collection%0Akeywords%20-%20INSPIRE%20themes%201.0%0A*keywords%20-%20open*</text>
+      </controlProperties>
+    </control>
+    <control controlID="63" controlTypeID="com.balsamiq.mockups::Label" x="993" y="1394" w="89" h="-1" measuredW="69" measuredH="21" zOrder="56" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Tag%20Groups</text>
+      </controlProperties>
+    </control>
+    <control controlID="64" controlTypeID="com.balsamiq.mockups::ComboBox" x="1071" y="1476" w="170" h="-1" measuredW="92" measuredH="93" zOrder="57" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>absorption%0Aaerosol%0Aage%0Aaggregation%0Aagriculture</text>
+      </controlProperties>
+    </control>
+    <control controlID="65" controlTypeID="com.balsamiq.mockups::Label" x="993" y="1473" w="89" h="-1" measuredW="29" measuredH="21" zOrder="58" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Tags</text>
+      </controlProperties>
+    </control>
+    <control controlID="66" controlTypeID="com.balsamiq.mockups::List" x="1270" y="1422" w="194" h="106" measuredW="100" measuredH="126" zOrder="59" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>aggregation</text>
+      </controlProperties>
+    </control>
+    <control controlID="67" controlTypeID="com.balsamiq.mockups::Button" x="1332" y="1543" w="53" h="27" measuredW="48" measuredH="27" zOrder="60" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>New</text>
+      </controlProperties>
+    </control>
+    <control controlID="68" controlTypeID="com.balsamiq.mockups::Button" x="1270" y="1543" w="53" h="27" measuredW="45" measuredH="27" zOrder="61" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add</text>
+      </controlProperties>
+    </control>
+    <control controlID="69" controlTypeID="com.balsamiq.mockups::Label" x="1270" y="1394" w="89" h="-1" measuredW="89" measuredH="21" zOrder="62" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Assigned%20Tags</text>
+      </controlProperties>
+    </control>
+    <control controlID="70" controlTypeID="com.balsamiq.mockups::Button" x="1394" y="1543" w="70" h="27" measuredW="70" measuredH="27" zOrder="63" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Remove</text>
       </controlProperties>
     </control>
   </controls>

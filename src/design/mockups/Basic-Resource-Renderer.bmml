@@ -483,7 +483,7 @@
     </control>
     <control controlID="150" controlTypeID="com.balsamiq.mockups::FieldSet" x="487" y="210" w="489" h="160" measuredW="200" measuredH="170" zOrder="83" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>%5C%5BX%5C%5D%20Keywords%20and%20Topic%20Category</text>
+        <text>Keywords%20and%20Topic%20Category</text>
       </controlProperties>
     </control>
     <control controlID="151" controlTypeID="com.balsamiq.mockups::TextArea" x="503" y="231" w="461" h="49" measuredW="200" measuredH="140" zOrder="85" locked="false" isInGroup="-1">
