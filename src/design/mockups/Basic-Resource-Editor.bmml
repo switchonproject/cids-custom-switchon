@@ -1,0 +1,69 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1163" measuredH="533" mockupW="717" mockupH="513">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="20" w="717" h="513" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>0</bottomheight>
+        <text>Resource%20Editor</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="461" y="56" w="681" h="458" measuredW="200" measuredH="272" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <position>right</position>
+        <selectedIndex>0</selectedIndex>
+        <text>Description%0AContact%20Information%0AGeographic%20Information%0ATemporal%20Information%0ALicense%20Information%0AAdditional%20Meta-Data%0AData%20Access%20Information</text>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Label" x="476" y="71" w="-1" h="-1" measuredW="35" measuredH="21" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Name</text>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::TextInput" x="581" y="68" w="382" h="-1" measuredW="259" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Soil%20Profile%20Analytical%20Database%20of%20Europe</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::Label" x="476" y="107" w="-1" h="-1" measuredW="67" measuredH="21" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Description</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::TextArea" x="581" y="107" w="382" h="85" measuredW="200" measuredH="140" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Soil%20Profile%20Analytical%20Database%20of%20Europe%20of%20Measured%20parameters.%20The%20European%20Soil%20Portal%20contains%20currently%20many%20soil%20data%20and%20information%3B%20most%20of%20the%20offered%20data%20are%20at%20European%20scale%2C%20while%2C%20when%20possible%2C%20links%20to%20national%20or%20global%20datasets%20are%20provided.%20With%20the%20term%20%22Soil%20Dataset%22%2C%20we%20refer%20to%20all%20digital%20resources%20grouped%20in%20data%2C%20maps%20and%20application/services.%20The%20European%20Soil%20Data%20Centre%20%28ESDAC%29%20is%20the%20thematic%20centre%20for%20soil%20related%20data%20in%20Europe.%20It%27s%20ambition%20is%20to%20host%20and%20point%20to%20relevant%20soil%20data%20and%20information%20at%20European%20level.%20It%20consists%20of%20two%20main%20elements.%20A%20catalogue%20of%20soil%20resources%20and%20a%20map%20viewer%20into%20some%20of%20the%20soil%20data%20hosted%20at%20the%20ESDAC.%20The%20Soil%20Profile%20Analytical%20Database%20of%20Europe%20of%20Measured%20parameters%20%28SPADE/M%29%20is%20part%20of%20the%20distribution%20package%20of%20the%20Soil%20Geographic%20Database%20of%20Eurasia%20%28SGDBE%29.%20It%20was%20created%20to%20provide%20a%20common%20structure%20for%20storing%20standardized%20information%20on%20typical%20soil%20profile%20properties%20of%20major%20European%20soils.%20The%20criterion%20applied%20to%20include%20a%20profile%20in%20the%20database%20was%20to%20adequately%20cover%20the%20range%20of%20European%20soils%20rather%20than%20to%20sample%20profiles%20for%20a%20statistical%20representation%20of%20soil%20properties%20at%20European%20scale.%20The%20typical%20combinations%20of%20profile%20parameters%20and%20morphological%20characteristics%20of%20the%20sample%20site%20were%20intended%20to%20support%20the%20definition%20of%20generalized%20rules%20for%20estimating%20pedological%20and%20hydrological%20properties%20of%20the%20pedo-transfer%20rule%20%28PTR%29%20database%20of%20the%20SGDBE.%20Compared%20to%20the%20spatial%20database%20the%20information%20on%20measured%20profiles%20has%20received%20relatively%20little%20attention</text>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::ComboBox" x="581" y="207" w="141" h="-1" measuredW="113" measuredH="62" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*external%20data*%0Arepurposed%20data%0Aexperiment%20result%20data</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="476" y="207" w="-1" h="-1" measuredW="30" measuredH="21" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Type</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Label" x="476" y="284" w="-1" h="-1" measuredW="90" measuredH="21" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Topic%20Category</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::ComboBox" x="581" y="284" w="141" h="-1" measuredW="77" measuredH="62" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*farming*%0Abiota%0Aboundaries</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Label" x="476" y="361" w="-1" h="-1" measuredW="58" measuredH="21" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Keywords</text>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::TextInput" x="581" y="358" w="382" h="-1" measuredW="209" measuredH="27" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>database%2C%20ecology%2C%20resources%2C%20soil</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

@@ -1,0 +1,82 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="968" measuredH="409" mockupW="948" mockupH="368">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="445" y="41" w="523" h="368" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>0</bottomheight>
+        <text>Contact%20Editor</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="466" y="81" w="89" h="-1" measuredW="74" measuredH="21" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Organisation</text>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::TextInput" x="569" y="78" w="366" h="-1" measuredW="161" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>University%20of%20East%20Anglia</text>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Label" x="466" y="117" w="81" h="-1" measuredW="67" measuredH="21" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Description</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::TextArea" x="569" y="117" w="368" h="84" measuredW="200" measuredH="140" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>The%20University%20of%20East%20Anglia%20%28abbreviated%20as%20UEA%29%20is%20a%20research-intensive%20public%20university%20located%20in%20the%20city%20of%20Norwich%2C%20England.</text>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="466" y="215" w="-1" h="-1" measuredW="48" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Website</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Label" x="466" y="254" w="96" h="-1" measuredW="92" measuredH="21" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Contact%20Person</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="466" y="290" w="58" h="-1" measuredW="37" measuredH="21" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>E-mail</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::TextInput" x="569" y="251" w="368" h="-1" measuredW="47" measuredH="27" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>C.R.U.</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::TextInput" x="568" y="212" w="368" h="-1" measuredW="137" measuredH="27" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>http%3A//www.uea.ac.uk</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::TextInput" x="568" y="290" w="368" h="-1" measuredW="101" measuredH="27" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>cru@uea.ac.uk</text>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::ComboBox" x="568" y="326" w="367" h="-1" measuredW="91" measuredH="62" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>*custodian*%0Aowner%0Auser</text>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Label" x="466" y="326" w="89" h="-1" measuredW="26" measuredH="21" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Role</text>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::StickyNote" x="20" y="41" w="406" h="325" measuredW="109" measuredH="123" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>The%20*Contact%20Editor*%20can%20be%20used%20as%20Basis%20for%20the%20*Contact%20Renderer*.</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
