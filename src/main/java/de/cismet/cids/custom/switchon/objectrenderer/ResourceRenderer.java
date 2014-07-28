@@ -61,11 +61,13 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JLabel lblKeywords;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTopic;
+    private de.cismet.cids.custom.switchon.objecteditors.LicenseInformationPanel licenseInformationPanel;
     private javax.swing.JPanel panTitle;
     private javax.swing.JPanel panTitleString;
     private javax.swing.JPanel pnlContact;
     private javax.swing.JPanel pnlDescription;
     private javax.swing.JPanel pnlGeographic;
+    private javax.swing.JPanel pnlLicense;
     private javax.swing.JPanel pnlTemporal;
     private de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel temporalInformationPanel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -115,6 +117,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         geographicInformationPanel = new de.cismet.cids.custom.switchon.objectrenderer.GeographicInformationPanel();
         pnlTemporal = new javax.swing.JPanel();
         temporalInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel();
+        pnlLicense = new javax.swing.JPanel();
+        licenseInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.LicenseInformationPanel();
 
         panTitle.setOpaque(false);
         panTitle.setLayout(new java.awt.BorderLayout());
@@ -279,6 +283,18 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 "ResourceRenderer.pnlTemporal.TabConstraints.tabTitle"),
             pnlTemporal); // NOI18N
 
+        pnlLicense.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        pnlLicense.add(licenseInformationPanel, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlLicense.TabConstraints.tabTitle"),
+            pnlLicense); // NOI18N
+
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
@@ -305,6 +321,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             geographicInformationPanel.setCidsBean(cidsBean);
 
             temporalInformationPanel.setCidsBean(cidsBean);
+
+            licenseInformationPanel.setCidsBean(cidsBean);
 
             bindingGroup.bind();
             generateListWithKeywords();

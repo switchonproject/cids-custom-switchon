@@ -49,7 +49,9 @@
             <Component class="javax.swing.JTextArea" name="txtaLicenseStatement">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
+                <Property name="lineWrap" type="boolean" value="true"/>
                 <Property name="rows" type="int" value="5"/>
+                <Property name="wrapStyleWord" type="boolean" value="true"/>
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.licensestatement}" target="txtaLicenseStatement" targetPath="text" updateStrategy="0" immediately="false"/>
@@ -94,7 +96,7 @@
             <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.accessconditions}" target="cmbConditions" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="((FastBindableReferenceCombo)cmbConditions).setNullValueRepresentation(&quot;No conditions apply&quot;);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="((FastBindableReferenceCombo)cmbConditions).setNullable(false);"/>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.ACCESS_CONDITIONS)&#xa;"/>
           </AuxValues>
           <Constraints>
@@ -108,7 +110,7 @@
             <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.accesslimitations}" target="cmbLimitations" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="((FastBindableReferenceCombo)cmbLimitations).setNullValueRepresentation(&quot;no limitation&quot;);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="((FastBindableReferenceCombo)cmbConditions).setNullable(false);"/>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.ACCESS_LIMITATIONS)&#xa;"/>
           </AuxValues>
           <Constraints>

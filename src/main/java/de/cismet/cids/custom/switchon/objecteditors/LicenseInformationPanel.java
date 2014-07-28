@@ -93,7 +93,9 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         txtaLicenseStatement.setColumns(20);
+        txtaLicenseStatement.setLineWrap(true);
         txtaLicenseStatement.setRows(5);
+        txtaLicenseStatement.setWrapStyleWord(true);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -158,7 +160,7 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 5, 10);
         jPanel2.add(cmbConditions, gridBagConstraints);
-        ((FastBindableReferenceCombo)cmbConditions).setNullValueRepresentation("No conditions apply");
+        ((FastBindableReferenceCombo)cmbConditions).setNullable(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -176,7 +178,7 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 10);
         jPanel2.add(cmbLimitations, gridBagConstraints);
-        ((FastBindableReferenceCombo)cmbLimitations).setNullValueRepresentation("no limitation");
+        ((FastBindableReferenceCombo)cmbConditions).setNullable(false);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel2,
