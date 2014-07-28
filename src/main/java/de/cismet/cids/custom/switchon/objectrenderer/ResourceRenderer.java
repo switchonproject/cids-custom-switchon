@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objectrenderer;
 
+import Sirius.navigator.ui.RequestsFullSizeComponent;
+
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Collections;
@@ -33,7 +35,9 @@ import static de.cismet.cids.custom.switchon.gui.utils.ResourceUtils.filterTagsO
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRenderer, TitleComponentProvider {
+public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRenderer,
+    TitleComponentProvider,
+    RequestsFullSizeComponent {
 
     //~ Static fields/initializers ---------------------------------------------
 

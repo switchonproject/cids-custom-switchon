@@ -12,13 +12,21 @@ import com.vividsolutions.jts.geom.Geometry;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultListModel;
+
 import de.cismet.cids.custom.switchon.SwitchOnConstants;
 import de.cismet.cids.custom.switchon.gui.utils.CismapUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
+import de.cismet.cids.custom.switchon.gui.utils.ResourceUtils;
 import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -53,7 +61,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
     final StyledFeature previewGeometry = new DefaultStyledFeature();
 
     private CidsBean cidsBean;
-    private MappingComponent previewMap;
+    private final MappingComponent previewMap;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cmbLocation;
@@ -61,11 +69,11 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList lstCatchements;
     private javax.swing.JPanel pnlMap;
     private javax.swing.JTextField txtResolutions;
     private javax.swing.JTextField txtScales;
@@ -101,7 +109,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         pnlMap = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        lstCatchements = new javax.swing.JList();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -153,20 +161,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                     "GeographicInformationPanel.jPanel2.border.title"))); // NOI18N
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-
-                String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-
-                @Override
-                public int getSize() {
-                    return strings.length;
-                }
-                @Override
-                public Object getElementAt(final int i) {
-                    return strings[i];
-                }
-            });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(lstCatchements);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -299,7 +294,10 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.cidsBean);
+            bindingGroup.bind();
             initMap();
+            initCatchmentsList();
+            initSpatialResolutionsAndScales();
         }
     }
 
@@ -379,5 +377,37 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                 }
             }
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void initCatchmentsList() {
+        final DefaultListModel<CidsBean> listModel = new DefaultListModel<CidsBean>();
+        for (final CidsBean catchement : ResourceUtils.filterTagsOfResource(cidsBean, Taggroups.CATCHMENTS)) {
+            listModel.addElement(catchement);
+        }
+        lstCatchements.setModel(listModel);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void initSpatialResolutionsAndScales() {
+        final List<String> resolutions = new ArrayList<String>();
+        final List<String> scales = new ArrayList<String>();
+        for (final CidsBean representation : cidsBean.getBeanCollectionProperty("representation")) {
+            final String resolution = (String)representation.getProperty("spatialresolution");
+            if (StringUtils.isNotBlank(resolution)) {
+                resolutions.add(resolution);
+            }
+
+            final String spatialscale = (String)representation.getProperty("spatialscale");
+            if (StringUtils.isNotBlank(spatialscale)) {
+                scales.add(spatialscale);
+            }
+        }
+        txtResolutions.setText(StringUtils.join(resolutions, ", "));
+        txtScales.setText(StringUtils.join(scales, ", "));
     }
 }
