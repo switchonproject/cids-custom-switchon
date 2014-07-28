@@ -66,6 +66,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JPanel pnlContact;
     private javax.swing.JPanel pnlDescription;
     private javax.swing.JPanel pnlGeographic;
+    private javax.swing.JPanel pnlTemporal;
+    private de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel temporalInformationPanel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -111,6 +113,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 new java.awt.Dimension(0, 32767));
         pnlGeographic = new javax.swing.JPanel();
         geographicInformationPanel = new de.cismet.cids.custom.switchon.objectrenderer.GeographicInformationPanel();
+        pnlTemporal = new javax.swing.JPanel();
+        temporalInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel();
 
         panTitle.setOpaque(false);
         panTitle.setLayout(new java.awt.BorderLayout());
@@ -263,6 +267,18 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 "ResourceRenderer.pnlGeographic.TabConstraints.tabTitle"),
             pnlGeographic); // NOI18N
 
+        pnlTemporal.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        pnlTemporal.add(temporalInformationPanel, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlTemporal.TabConstraints.tabTitle"),
+            pnlTemporal); // NOI18N
+
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
@@ -287,6 +303,9 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             }
 
             geographicInformationPanel.setCidsBean(cidsBean);
+
+            temporalInformationPanel.setCidsBean(cidsBean);
+
             bindingGroup.bind();
             generateListWithKeywords();
         }
