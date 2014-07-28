@@ -347,6 +347,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
 
     @Override
     public void dispose() {
+        bindingGroup.unbind();
     }
 
     @Override

@@ -404,6 +404,7 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
 
     @Override
     public void dispose() {
+        bindingGroup.unbind();
     }
 
     @Override
