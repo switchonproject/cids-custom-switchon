@@ -9,17 +9,23 @@ package de.cismet.cids.custom.switchon.objectrenderer;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JComponent;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.TitleComponentProvider;
+
+import static de.cismet.cids.custom.switchon.gui.utils.ResourceUtils.filterTagsOfResource;
 
 /**
  * DOCUMENT ME!
@@ -207,7 +213,10 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 "ResourceRenderer.pnlDescription.TabConstraints.tabTitle"),
             pnlDescription); // NOI18N
 
+        pnlContact.setOpaque(false);
         pnlContact.setLayout(new java.awt.GridBagLayout());
+
+        contactRenderer.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
@@ -244,7 +253,15 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
      * DOCUMENT ME!
      */
     private void generateListWithKeywords() {
-        final List<CidsBean> keywords = cidsBean.getBeanCollectionProperty("tags");
+        final List<CidsBean> keywords = filterTagsOfResource(cidsBean, Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
+        keywords.addAll(filterTagsOfResource(cidsBean, Taggroups.KEYWORDS_OPEN));
+        Collections.sort(keywords, new Comparator<CidsBean>() {
+
+                @Override
+                public int compare(final CidsBean o1, final CidsBean o2) {
+                    return o1.toString().compareTo(o2.toString());
+                }
+            });
         lblKeywords.setText(StringUtils.join(keywords, ", "));
     }
 
