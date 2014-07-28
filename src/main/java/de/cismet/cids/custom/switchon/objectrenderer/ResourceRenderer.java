@@ -38,6 +38,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.custom.switchon.objectrenderer.ContactRenderer contactRenderer;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -49,6 +50,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JLabel lblTopic;
     private javax.swing.JPanel panTitle;
     private javax.swing.JPanel panTitleString;
+    private javax.swing.JPanel pnlContact;
     private javax.swing.JPanel pnlDescription;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -88,6 +90,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
+        pnlContact = new javax.swing.JPanel();
+        contactRenderer = new de.cismet.cids.custom.switchon.objectrenderer.ContactRenderer();
 
         panTitle.setOpaque(false);
         panTitle.setLayout(new java.awt.BorderLayout());
@@ -170,10 +174,6 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         jPanel2.add(lblKeywords, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            lblTopic,
-            org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.lblTopic.text")); // NOI18N
-
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
@@ -207,6 +207,18 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 "ResourceRenderer.pnlDescription.TabConstraints.tabTitle"),
             pnlDescription); // NOI18N
 
+        pnlContact.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        pnlContact.add(contactRenderer, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlContact.TabConstraints.tabTitle"),
+            pnlContact); // NOI18N
+
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
@@ -222,6 +234,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
+            contactRenderer.setCidsBean((CidsBean)cidsBean.getProperty("contact"));
             bindingGroup.bind();
             generateListWithKeywords();
         }
