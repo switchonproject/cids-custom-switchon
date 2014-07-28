@@ -330,7 +330,7 @@
     </control>
     <control controlID="116" controlTypeID="com.balsamiq.mockups::FieldSet" x="501" y="2215" w="493" h="174" measuredW="200" measuredH="170" zOrder="47" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Temporal%20Properties</text>
+        <text>Access%20Conditions%20and%20Limitations</text>
       </controlProperties>
     </control>
     <control controlID="117" controlTypeID="com.balsamiq.mockups::FieldSet" x="501" y="2074" w="493" h="128" measuredW="200" measuredH="170" zOrder="51" locked="false" isInGroup="-1">
