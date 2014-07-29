@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objectrenderer;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -233,8 +235,16 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
             this.cidsBean = cidsBean;
             bindingGroup.bind();
 
-            final String contentTypeName = (String)cidsBean.getProperty("contenttype.name");
-            hypDownload.setIcon(new ImageIcon(ContentTypeUtils.getImageForContentType(contentTypeName)));
+            if (StringUtils.isBlank(txtaDocument.getText())) {
+                txtaDocument.setVisible(false);
+                hypDownload.setVisible(true);
+
+                final String contentTypeName = (String)cidsBean.getProperty("contenttype.name");
+                hypDownload.setIcon(new ImageIcon(ContentTypeUtils.getImageForContentType(contentTypeName)));
+            } else {
+                txtaDocument.setVisible(true);
+                hypDownload.setVisible(false);
+            }
         }
     }
 
