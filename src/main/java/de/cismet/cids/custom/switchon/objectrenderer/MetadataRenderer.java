@@ -7,13 +7,14 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objectrenderer;
 
-import org.openide.util.Exceptions;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.swing.ImageIcon;
+
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.switchon.gui.utils.ContentTypeUtils;
 import de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -150,7 +151,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel2.add(hypDownload, gridBagConstraints);
 
         txtaDocument.setColumns(20);
-        txtaDocument.setRows(5);
+        txtaDocument.setRows(10);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -195,7 +196,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hypDownloadActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hypDownloadActionPerformed
+    private void hypDownloadActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hypDownloadActionPerformed
         final String urlString = (String)cidsBean.getProperty("contentlocation");
         URL url = null;
         try {
@@ -218,7 +219,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
                                 filename.substring(filename.lastIndexOf("."))));
             }
         }
-    }//GEN-LAST:event_hypDownloadActionPerformed
+    } //GEN-LAST:event_hypDownloadActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -231,6 +232,9 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
             bindingGroup.bind();
+
+            final String contentTypeName = (String)cidsBean.getProperty("contenttype.name");
+            hypDownload.setIcon(new ImageIcon(ContentTypeUtils.getImageForContentType(contentTypeName)));
         }
     }
 
@@ -266,7 +270,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
             "admin",
             "cismet",
             "metadata",
-            1,
+            14066,
             "Meta-Data",
             1280,
             1024);
