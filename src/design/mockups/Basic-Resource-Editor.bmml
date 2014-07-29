@@ -1,16 +1,16 @@
-<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1163" measuredH="2849" mockupW="1150" mockupH="2829">
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1163" measuredH="3673" mockupW="1150" mockupH="3653">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="20" w="717" h="450" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
-        <text>Basic%20Resource%20Editor</text>
+        <text>Resource%20Editor</text>
       </controlProperties>
     </control>
-    <control controlID="1" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="461" y="56" w="681" h="391" measuredW="200" measuredH="272" zOrder="1" locked="false" isInGroup="-1">
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="461" y="56" w="681" h="391" measuredW="200" measuredH="302" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
         <position>right</position>
         <selectedIndex>0</selectedIndex>
-        <text>Basic%20Properties%0AContact%20Information%0AGeographic%20Information%0ATemporal%20Information%0ALicense%20Information%0AAdditional%20Meta-Data%0AData%20Access%20Information</text>
+        <text>Basic%20Properties%0ATags%20and%20Category%0AContact%0AGeographic%20Properties%0ATemporal%20Properties%0ALicense%20Information%0AData%20and%20Meta-Data%0ARelationships</text>
         <verticalScrollbar>false</verticalScrollbar>
       </controlProperties>
     </control>
@@ -22,14 +22,14 @@
     <control controlID="13" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="507" w="717" h="424" measuredW="450" measuredH="400" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
-        <text>Basic%20Resource%20Editor</text>
+        <text>Resource%20Editor</text>
       </controlProperties>
     </control>
     <control controlID="14" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="461" y="547" w="681" h="366" measuredW="200" measuredH="302" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
         <position>right</position>
         <selectedIndex>1</selectedIndex>
-        <text>Basic%20Properties%0ATags%20and%20Category%0AContact%20Information%0AGeographic%20Information%0ATemporal%20Information%0ALicense%20Information%0AAdditional%20Meta-Data%0AData%20Access%20Information</text>
+        <text>Basic%20Properties%0ATags%20and%20Category%0AContact%0AGeographic%20Properties%0ATemporal%20Properties%0ALicense%20Information%0AData%20and%20Meta-Data%0ARelationships</text>
         <verticalScrollbar>false</verticalScrollbar>
       </controlProperties>
     </control>
@@ -161,14 +161,14 @@
     <control controlID="47" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="956" w="717" h="424" measuredW="450" measuredH="400" zOrder="28" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
-        <text>Basic%20Resource%20Editor</text>
+        <text>Resource%20Editor</text>
       </controlProperties>
     </control>
     <control controlID="48" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="461" y="996" w="681" h="366" measuredW="200" measuredH="302" zOrder="29" locked="false" isInGroup="-1">
       <controlProperties>
         <position>right</position>
         <selectedIndex>2</selectedIndex>
-        <text>Basic%20Properties%0ATags%20and%20Category%0AContact%0AGeographic%20Information%0ATemporal%20Information%0ALicense%20Information%0AAdditional%20Meta-Data%0AData%20Access%20Information</text>
+        <text>Basic%20Properties%0ATags%20and%20Category%0AContact%0AGeographic%20Properties%0ATemporal%20Properties%0ALicense%20Information%0AData%20and%20Meta-Data%0ARelationships</text>
         <verticalScrollbar>false</verticalScrollbar>
       </controlProperties>
     </control>
@@ -185,14 +185,14 @@
     <control controlID="64" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="1428" w="717" h="516" measuredW="450" measuredH="400" zOrder="32" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
-        <text>Basic%20Resource%20Editor</text>
+        <text>Resource%20Editor</text>
       </controlProperties>
     </control>
     <control controlID="65" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="467" y="1463" w="681" h="460" measuredW="200" measuredH="302" zOrder="33" locked="false" isInGroup="-1">
       <controlProperties>
         <position>right</position>
         <selectedIndex>3</selectedIndex>
-        <text>Basic%20Properties%0ATags%20and%20Category%0AContact%0AGeographic%20Properties%0ATemporal%20Information%0ALicense%20Information%0AAdditional%20Meta-Data%0AData%20Access%20Information</text>
+        <text>Basic%20Properties%0ATags%20and%20Category%0AContact%0AGeographic%20Properties%0ATemporal%20Properties%0ALicense%20Information%0AData%20and%20Meta-Data%0ARelationships</text>
         <verticalScrollbar>false</verticalScrollbar>
       </controlProperties>
     </control>
@@ -231,7 +231,7 @@
     </control>
     <control controlID="72" controlTypeID="com.balsamiq.mockups::StickyNote" x="13" y="1428" w="406" h="130" measuredW="109" measuredH="123" zOrder="39" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>currently%2C%20the%20geographic%20_location_%20is%20not%20derived%20automatically%20from%20the%20_geom_etry%20of%20the%20_Resource%20Object_.%20This%20feature%20can%20be%20supported%20later.</text>
+        <text>Currently%2C%20the%20geographic%20_location_%20is%20not%20derived%20automatically%20from%20the%20_geom_%20entry%20of%20the%20_Resource%20Object_.%20This%20feature%20can%20be%20supported%20later.</text>
       </controlProperties>
     </control>
     <control controlID="73" controlTypeID="com.balsamiq.mockups::Icon" x="928" y="1500" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="40" locked="false" isInGroup="-1">
@@ -247,14 +247,14 @@
     <control controlID="75" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="1985" w="717" h="338" measuredW="450" measuredH="400" zOrder="42" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
-        <text>Basic%20Resource%20Editor</text>
+        <text>Resource%20Editor</text>
       </controlProperties>
     </control>
     <control controlID="76" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="467" y="2020" w="681" h="288" measuredW="200" measuredH="302" zOrder="43" locked="false" isInGroup="-1">
       <controlProperties>
         <position>right</position>
         <selectedIndex>4</selectedIndex>
-        <text>Basic%20Properties%0ATags%20and%20Category%0AContact%0AGeographic%20Properties%0ATemporal%20Properties%0ALicense%20Information%0AAdditional%20Meta-Data%0AData%20Access%20Information</text>
+        <text>Basic%20Properties%0ATags%20and%20Category%0AContact%0AGeographic%20Properties%0ATemporal%20Properties%0ALicense%20Information%0AData%20and%20Meta-Data%0ARelationships</text>
         <verticalScrollbar>false</verticalScrollbar>
       </controlProperties>
     </control>
@@ -347,14 +347,14 @@
     <control controlID="93" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="2349" w="717" h="500" measuredW="450" measuredH="400" zOrder="60" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
-        <text>Resource%20Renderer%20-%20License%20Information</text>
+        <text>Resource%20Editor</text>
       </controlProperties>
     </control>
-    <control controlID="94" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="467" y="2384" w="681" h="433" measuredW="200" measuredH="272" zOrder="61" locked="false" isInGroup="-1">
+    <control controlID="94" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="467" y="2384" w="681" h="433" measuredW="200" measuredH="302" zOrder="61" locked="false" isInGroup="-1">
       <controlProperties>
         <position>right</position>
-        <selectedIndex>4</selectedIndex>
-        <text>Description%0AContact%20Information%0AGeographic%20Information%0ATemporal%20Information%0ALicense%20Information%0AAdditional%20Meta-Data%0AData%20Access%20Information</text>
+        <selectedIndex>5</selectedIndex>
+        <text>Basic%20Properties%0ATags%20and%20Category%0AContact%0AGeographic%20Properties%0ATemporal%20Properties%0ALicense%20Information%0AData%20and%20Meta-Data%0ARelationships</text>
         <verticalScrollbar>false</verticalScrollbar>
       </controlProperties>
     </control>
@@ -370,19 +370,19 @@
     </control>
     <control controlID="97" controlTypeID="com.balsamiq.mockups::ComboBox" x="701" y="2561" w="264" h="-1" measuredW="151" measuredH="62" zOrder="64" locked="false" isInGroup="-1">
       <controlProperties>
-        <state>disabled</state>
+        <state>up</state>
         <text>*No%20conditions%20apply*%0AConditions%20unknown%0AProprietary%20License%20</text>
       </controlProperties>
     </control>
     <control controlID="98" controlTypeID="com.balsamiq.mockups::ComboBox" x="701" y="2637" w="264" h="-1" measuredW="105" measuredH="62" zOrder="65" locked="false" isInGroup="-1">
       <controlProperties>
-        <state>disabled</state>
+        <state>up</state>
         <text>*no%20limitation*%0A%28a%29%20confidentiality%20provided%20for%20by%20law%0A%28b%29%20international%20relations</text>
       </controlProperties>
     </control>
     <control controlID="99" controlTypeID="com.balsamiq.mockups::FieldSet" x="485" y="2398" w="493" h="128" measuredW="200" measuredH="170" zOrder="66" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Description</text>
+        <text>License%20Statement</text>
       </controlProperties>
     </control>
     <control controlID="100" controlTypeID="com.balsamiq.mockups::Label" x="502" y="2637" w="-1" h="-1" measuredW="168" measuredH="21" zOrder="67" locked="false" isInGroup="-1">
@@ -392,7 +392,7 @@
     </control>
     <control controlID="101" controlTypeID="com.balsamiq.mockups::TextArea" x="502" y="2421" w="461" h="90" measuredW="200" measuredH="140" zOrder="68" locked="false" isInGroup="-1">
       <controlProperties>
-        <state>disabled</state>
+        <state>up</state>
         <text>The%20datasets%20available%20on%20this%20server%20are%20provided%20freely%20for%20Research%20and%20Education%20purposes.%20Before%20retrieving%20data%20please%20read%20the%20conditions%20below%20and%20acknowledge%20that%20you%20accept%20them.%20Registration%20will%20provide%20you%20with%20access%20to%20the%20TIGGE%20data%20with%20a%20delay%20of%2048%20hours%20after%20initial%20time%20of%20the%20forecasts.%20Conditions%3A%20Data%20available%20from%20this%20server%20may%20be%20used%20freely%20for%20research%20only.%20Commercial%20use%20of%20the%20data%20is%20not%20allowed.%20Research%20is%20understood%20as%20any%20project%20organised%20by%20a%20university%2C%20scientific%20institute%20or%20similar%20%28private%20or%20institutional%29%2C%20for%20non-commercial%20research%20purposes%20only.%20A%20necessary%20condition%20for%20the%20recognition%20of%20non-commercial%20purposes%20is%20that%20all%20the%20results%20obtained%20are%20openly%20available%20at%20delivery%20costs%20only%2C%20without%20any%20delay%20linked%20to%20commercial%20objectives%2C%20and%20that%20the%20research%20itself%20is%20submitted%20for%20open%20publication.%20Although%20every%20care%20has%20been%20taken%20in%20preparing%20and%20testing%20the%20data%2C%20ECMWF%20cannot%20guarantee%20that%20the%20data%20are%20correct%20in%20all%20circumstances%3B%20neither%20does%20ECMWF%20accept%20any%20liability%20whatsoever%20for%20any%20error%20or%20omission%20in%20the%20data%2C%20or%20for%20any%20loss%20or%20damage%20arising%20from%20its%20use.%20Any%20person%20extracting%20data%20from%20this%20server%20will%20accept%20responsibility%20for%20informing%20all%20data%20users%20of%20these%20conditions.%20Data%20must%20not%20be%20supplied%20as%20a%20whole%20or%20in%20part%20to%20any%20third%20party%20outside%20your%20organisation.%20Articles%2C%20papers%2C%20or%20written%20scientific%20works%20of%20any%20form%2C%20based%20in%20whole%20or%20in%20part%20on%20TIGGE%20data%2C%20will%20contain%20an%20acknowledgement%20of%20TIGGE.%20You%20need%20to%20log%20in%20first%20in%20order%20to%20accept%20this%20license.</text>
         <verticalScrollbar>true</verticalScrollbar>
       </controlProperties>
@@ -411,6 +411,154 @@
       <controlProperties>
         <state>up</state>
         <text>*eng*%0A*deu*%0A*ita*</text>
+      </controlProperties>
+    </control>
+    <control controlID="105" controlTypeID="com.balsamiq.mockups::ComboBox" x="701" y="2714" w="264" h="-1" measuredW="116" measuredH="62" zOrder="72" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>*Not%20evaluated*%0ACommission%20Regulation%20No%201205/2008%0ACommission%20Regulation%20No%201089/2010</text>
+      </controlProperties>
+    </control>
+    <control controlID="106" controlTypeID="com.balsamiq.mockups::Label" x="502" y="2714" w="-1" h="-1" measuredW="65" measuredH="21" zOrder="73" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Conformity</text>
+      </controlProperties>
+    </control>
+    <control controlID="112" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="2892" w="717" h="411" measuredW="450" measuredH="400" zOrder="74" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>0</bottomheight>
+        <text>Resource%20Editor</text>
+      </controlProperties>
+    </control>
+    <control controlID="113" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="467" y="2927" w="681" h="357" measuredW="200" measuredH="302" zOrder="75" locked="false" isInGroup="-1">
+      <controlProperties>
+        <position>right</position>
+        <selectedIndex>6</selectedIndex>
+        <text>Basic%20Properties%0ATags%20and%20Category%0AContact%0AGeographic%20Properties%0ATemporal%20Properties%0ALicense%20Information%0AData%20and%20Meta-Data%0ARelationships</text>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="123" controlTypeID="com.balsamiq.mockups::FieldSet" x="480" y="2942" w="502" h="153" measuredW="200" measuredH="170" zOrder="76" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Meta-Data</text>
+      </controlProperties>
+    </control>
+    <control controlID="124" controlTypeID="com.balsamiq.mockups::List" x="495" y="2970" w="354" h="101" measuredW="100" measuredH="126" zOrder="77" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>1</selectedIndex>
+        <text>Resource%20Meta-Data%20%231%0AResource%20Meta-Data%20%232%0AResource%20Meta-Data%20%233</text>
+        <value>0</value>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="125" controlTypeID="com.balsamiq.mockups::Button" x="861" y="3005" w="70" h="27" measuredW="70" measuredH="27" zOrder="78" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>Remove</text>
+      </controlProperties>
+    </control>
+    <control controlID="126" controlTypeID="com.balsamiq.mockups::Button" x="861" y="2970" w="70" h="27" measuredW="45" measuredH="27" zOrder="79" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add</text>
+      </controlProperties>
+    </control>
+    <control controlID="127" controlTypeID="com.balsamiq.mockups::Button" x="861" y="3044" w="70" h="27" measuredW="46" measuredH="27" zOrder="80" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Edit</text>
+      </controlProperties>
+    </control>
+    <control controlID="128" controlTypeID="com.balsamiq.mockups::FieldSet" x="480" y="3112" w="502" h="153" measuredW="200" measuredH="170" zOrder="81" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Representation</text>
+      </controlProperties>
+    </control>
+    <control controlID="129" controlTypeID="com.balsamiq.mockups::List" x="495" y="3140" w="354" h="101" measuredW="100" measuredH="126" zOrder="82" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>1</selectedIndex>
+        <text>Resource%20Data%20%231%0AResource%20Data%20%232%0AResource%20Data%20%233</text>
+        <value>0</value>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="130" controlTypeID="com.balsamiq.mockups::Button" x="861" y="3175" w="70" h="27" measuredW="70" measuredH="27" zOrder="83" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>Remove</text>
+      </controlProperties>
+    </control>
+    <control controlID="131" controlTypeID="com.balsamiq.mockups::Button" x="861" y="3140" w="70" h="27" measuredW="45" measuredH="27" zOrder="84" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add</text>
+      </controlProperties>
+    </control>
+    <control controlID="132" controlTypeID="com.balsamiq.mockups::Button" x="861" y="3214" w="70" h="27" measuredW="46" measuredH="27" zOrder="85" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Edit</text>
+      </controlProperties>
+    </control>
+    <control controlID="133" controlTypeID="com.balsamiq.mockups::StickyNote" x="20" y="2892" w="406" h="130" measuredW="109" measuredH="123" zOrder="86" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>The%20lists%20shows%20the%20name%20of%20the%20_Representation-_%20or%20_Meta-Data%20Object_.%20The%20%22Edit%22%20and%20%22Add%22%20buttons%20open%20the%20*Meta-Data-*%20or%20the%20*Representation%20Editor*.%20Refer%20to%20the%20respective%20mockups%20for%20more%20details.</text>
+      </controlProperties>
+    </control>
+    <control controlID="135" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="3343" w="717" h="330" measuredW="450" measuredH="400" zOrder="87" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>0</bottomheight>
+        <text>Resource%20Editor</text>
+      </controlProperties>
+    </control>
+    <control controlID="136" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="467" y="3378" w="681" h="274" measuredW="200" measuredH="302" zOrder="88" locked="false" isInGroup="-1">
+      <controlProperties>
+        <position>right</position>
+        <selectedIndex>7</selectedIndex>
+        <text>Basic%20Properties%0ATags%20and%20Category%0AContact%0AGeographic%20Properties%0ATemporal%20Properties%0ALicense%20Information%0AData%20and%20Meta-Data%0ARelationships</text>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="137" controlTypeID="com.balsamiq.mockups::FieldSet" x="480" y="3393" w="502" h="80" measuredW="200" measuredH="170" zOrder="89" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Provenance%20Relationship</text>
+      </controlProperties>
+    </control>
+    <control controlID="138" controlTypeID="com.balsamiq.mockups::Button" x="894" y="3421" w="70" h="27" measuredW="46" measuredH="27" zOrder="90" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>Edit</text>
+      </controlProperties>
+    </control>
+    <control controlID="139" controlTypeID="com.balsamiq.mockups::FieldSet" x="480" y="3488" w="502" h="142" measuredW="200" measuredH="170" zOrder="91" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Usage%20Relationships</text>
+      </controlProperties>
+    </control>
+    <control controlID="140" controlTypeID="com.balsamiq.mockups::List" x="495" y="3514" w="385" h="101" measuredW="100" measuredH="126" zOrder="92" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>1</selectedIndex>
+        <text>Relationship%20%231%0ARelationship%20%232%0ARelationship%20%233</text>
+        <value>0</value>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="141" controlTypeID="com.balsamiq.mockups::Button" x="894" y="3514" w="70" h="27" measuredW="46" measuredH="27" zOrder="93" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Edit</text>
+      </controlProperties>
+    </control>
+    <control controlID="142" controlTypeID="com.balsamiq.mockups::TextInput" x="495" y="3421" w="385" h="-1" measuredW="124" measuredH="27" zOrder="94" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>Relationship%20Name</text>
+      </controlProperties>
+    </control>
+    <control controlID="143" controlTypeID="com.balsamiq.mockups::Button" x="894" y="3551" w="70" h="27" measuredW="63" measuredH="27" zOrder="95" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>disabled</state>
+        <text>Create</text>
+      </controlProperties>
+    </control>
+    <control controlID="144" controlTypeID="com.balsamiq.mockups::StickyNote" x="20" y="3343" w="406" h="130" measuredW="109" measuredH="123" zOrder="96" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>The%20Provenance%20Relationship%20is%20the%20Relationship%20%28e.g.%20the%20experiment%29%20that%20created%20the%20resource%2C%20i.e.%20the%20_targetResource_%20attribute%20of%20the%20_Relationship%20Object_%20has%20as%20value%20the%20current%20_Resource%20Object_.%0A%20%0AThe%20Usage%20Relationships%20are%20relationships%20that%20use%20the%20resource%20as%20input%2C%20i.e.%20the%20_sourceResources_%20array%20of%20the%20_Relationship%20Object_%20has%20one%20entry%20the%20current%20_Resource%20Object_.%0A%20%0AThe%20%22Edit%22%20button%20opens%20the%20*Relationship%20Editor*.%20The%20%22Create%22%20button%20%28currently%20disabled%29%20opens%20the%20Relationship%20Wizard.</text>
       </controlProperties>
     </control>
   </controls>
