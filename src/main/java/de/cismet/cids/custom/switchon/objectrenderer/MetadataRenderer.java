@@ -9,10 +9,20 @@ package de.cismet.cids.custom.switchon.objectrenderer;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.io.StringReader;
+import java.io.StringWriter;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
@@ -102,7 +112,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         txtaDescription.setRows(5);
         txtaDescription.setWrapStyleWord(true);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"),
@@ -152,17 +162,9 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         jPanel2.add(hypDownload, gridBagConstraints);
 
+        txtaDocument.setEditable(false);
         txtaDocument.setColumns(20);
         txtaDocument.setRows(10);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.content}"),
-                txtaDocument,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         jScrollPane2.setViewportView(txtaDocument);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -198,7 +200,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hypDownloadActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hypDownloadActionPerformed
+    private void hypDownloadActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hypDownloadActionPerformed
         final String urlString = (String)cidsBean.getProperty("contentlocation");
         URL url = null;
         try {
@@ -221,7 +223,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
                                 filename.substring(filename.lastIndexOf("."))));
             }
         }
-    } //GEN-LAST:event_hypDownloadActionPerformed
+    }//GEN-LAST:event_hypDownloadActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -235,13 +237,17 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
             this.cidsBean = cidsBean;
             bindingGroup.bind();
 
-            if (StringUtils.isBlank(txtaDocument.getText())) {
+            final String content = (String)cidsBean.getProperty("content");
+
+            if (StringUtils.isBlank(content)) {
                 txtaDocument.setVisible(false);
                 hypDownload.setVisible(true);
 
                 final String contentTypeName = (String)cidsBean.getProperty("contenttype.name");
                 hypDownload.setIcon(new ImageIcon(ContentTypeUtils.getImageForContentType(contentTypeName)));
             } else {
+                txtaDocument.setText(prettyFormat(content));
+
                 txtaDocument.setVisible(true);
                 hypDownload.setVisible(false);
             }
@@ -284,5 +290,58 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
             "Meta-Data",
             1280,
             1024);
+    }
+
+    /**
+     * Method found at http://javakafunda.blogspot.de/2012/04/how-to-format-xml-string-in-java.html
+     *
+     * @param   input   DOCUMENT ME!
+     * @param   indent  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static String prettyFormat(final String input, final int indent) {
+        try {
+            final Source xmlInput = new StreamSource(new StringReader(input));
+            final StringWriter stringWriter = new StringWriter();
+            final StreamResult xmlOutput = new StreamResult(stringWriter);
+            final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            // This statement works with JDK 6
+            transformerFactory.setAttribute("indent-number", indent);
+
+            final Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.transform(xmlInput, xmlOutput);
+            return xmlOutput.getWriter().toString();
+        } catch (Throwable e) {
+            // You'll come here if you are using JDK 1.5
+            // you are getting an the following exeption
+            // java.lang.IllegalArgumentException: Not supported: indent-number
+            // Use this code (Set the output property in transformer.
+            try {
+                final Source xmlInput = new StreamSource(new StringReader(input));
+                final StringWriter stringWriter = new StringWriter();
+                final StreamResult xmlOutput = new StreamResult(stringWriter);
+                final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                final Transformer transformer = transformerFactory.newTransformer();
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", String.valueOf(indent));
+                transformer.transform(xmlInput, xmlOutput);
+                return xmlOutput.getWriter().toString();
+            } catch (Throwable t) {
+                return input;
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   input  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static String prettyFormat(final String input) {
+        return prettyFormat(input, 2);
     }
 }
