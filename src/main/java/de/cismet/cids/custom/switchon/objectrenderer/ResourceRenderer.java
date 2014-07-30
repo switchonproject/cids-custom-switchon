@@ -149,6 +149,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         org.openide.awt.Mnemonics.setLocalizedText(
             lblTitle,
             org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.lblTitle.text")); // NOI18N
+        lblTitle.setIconTextGap(5);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -396,6 +397,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
 
             bindingGroup.bind();
             generateListWithKeywords();
+
+            setTitle();
         }
     }
 
@@ -427,6 +430,24 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
 
     @Override
     public void setTitle(final String title) {
+        setTitle();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void setTitle() {
+        String title = "new Resource";
+        ImageIcon icon = null;
+
+        if (cidsBean != null) {
+            title = cidsBean.toString();
+            final String resourceType = (String)cidsBean.getProperty("type.name");
+            icon = new ImageIcon(ImageGetterUtils.getImageForString(resourceType, ImageGetterUtils.CIRCLE_LETTER_PATH));
+        }
+
+        lblTitle.setIcon(icon);
+        lblTitle.setText(title);
     }
 
     @Override
@@ -459,6 +480,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
      */
     private void generateMetadataPanels() {
         final List<CidsBean> metadatas = cidsBean.getBeanCollectionProperty("metadata");
+        boolean firstPane = true;
         for (final CidsBean metadata : metadatas) {
             final String metadataType = (String)metadata.getProperty("type.name");
             if ((metadataType != null) && !"basic meta-data".equalsIgnoreCase(metadataType)) {
@@ -471,7 +493,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 metadataRenderer.setCidsBean(metadata);
                 taskPane.add(metadataRenderer);
 
-                taskPane.setCollapsed(false);
+                taskPane.setCollapsed(!firstPane);
+                firstPane = false;
                 taskPane.addPropertyChangeListener(new CollapseListener(taskPaneContainerMetaData, taskPane));
 
                 taskPaneContainerMetaData.add(taskPane);
@@ -484,6 +507,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
      */
     private void generateDataAccessPanels() {
         final List<CidsBean> representations = cidsBean.getBeanCollectionProperty("representation");
+        boolean firstPane = true;
         for (final CidsBean representation : representations) {
             final String representationType = (String)representation.getProperty("type.name");
             if ("original data".equalsIgnoreCase(representationType)) {
@@ -498,7 +522,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 representationRenderer.setCidsBean(representation);
                 taskPane.add(representationRenderer);
 
-                taskPane.setCollapsed(false);
+                taskPane.setCollapsed(!firstPane);
+                firstPane = false;
                 taskPane.addPropertyChangeListener(new CollapseListener(taskPaneContainerDataAccess, taskPane));
 
                 taskPaneContainerDataAccess.add(taskPane);
