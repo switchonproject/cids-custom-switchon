@@ -58,9 +58,9 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.Box.Filler filler1;
     private org.jdesktop.swingx.JXHyperlink hypDownload;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPanel pnlDocument;
     private javax.swing.JTextArea txtaDescription;
     private javax.swing.JTextArea txtaDocument;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -90,19 +90,16 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaDescription = new javax.swing.JTextArea();
-        jPanel2 = new javax.swing.JPanel();
+        pnlDocument = new javax.swing.JPanel();
         hypDownload = new org.jdesktop.swingx.JXHyperlink();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtaDocument = new javax.swing.JTextArea();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 32767));
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(MetadataRenderer.class, "MetadataRenderer.jPanel1.border.title"))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(MetadataRenderer.class, "MetadataRenderer.jPanel1.border.title"))); // NOI18N
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -112,12 +109,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         txtaDescription.setRows(5);
         txtaDescription.setWrapStyleWord(true);
 
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"),
-                txtaDescription,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"), txtaDescription, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(txtaDescription);
@@ -140,27 +132,22 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weightx = 1.0;
         add(jPanel1, gridBagConstraints);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(MetadataRenderer.class, "MetadataRenderer.jPanel2.border.title"))); // NOI18N
-        jPanel2.setOpaque(false);
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        pnlDocument.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(MetadataRenderer.class, "MetadataRenderer.pnlDocument.border.title"))); // NOI18N
+        pnlDocument.setOpaque(false);
+        pnlDocument.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            hypDownload,
-            org.openide.util.NbBundle.getMessage(MetadataRenderer.class, "MetadataRenderer.hypDownload.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(hypDownload, org.openide.util.NbBundle.getMessage(MetadataRenderer.class, "MetadataRenderer.hypDownload.text")); // NOI18N
         hypDownload.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    hypDownloadActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hypDownloadActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
-        jPanel2.add(hypDownload, gridBagConstraints);
+        pnlDocument.add(hypDownload, gridBagConstraints);
 
         txtaDocument.setEditable(false);
         txtaDocument.setColumns(20);
@@ -176,7 +163,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
-        jPanel2.add(jScrollPane2, gridBagConstraints);
+        pnlDocument.add(jScrollPane2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -184,7 +171,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        add(jPanel2, gridBagConstraints);
+        add(pnlDocument, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -193,7 +180,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         add(filler1, gridBagConstraints);
 
         bindingGroup.bind();
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -238,8 +225,12 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
             bindingGroup.bind();
 
             final String content = (String)cidsBean.getProperty("content");
+            final String urlString = (String)cidsBean.getProperty("contentlocation");
+            
 
-            if (StringUtils.isBlank(content)) {
+            if(StringUtils.isBlank(content) && StringUtils.isBlank(urlString)){
+                pnlDocument.setVisible(false);
+            } else if (StringUtils.isBlank(content)) {
                 txtaDocument.setVisible(false);
                 hypDownload.setVisible(true);
 
