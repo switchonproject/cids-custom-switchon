@@ -14,6 +14,8 @@ import java.awt.image.BufferedImage;
 
 import java.io.IOException;
 
+import java.net.URL;
+
 import javax.imageio.ImageIO;
 
 /**
@@ -63,14 +65,19 @@ public class ImageGetterUtils {
         if (contentTypeName == null) {
             return UNKOWN;
         }
-        Image image = null;
-        try {
-            image = ImageIO.read(ImageGetterUtils.class.getResource(
-                        "/de/cismet/cids/custom/switchon/contentTypeIcons/"
-                                + contentTypeName.replace('/', '-')
-                                + ".png"));
-        } catch (IOException ex) {
-            image = UNKOWN;
+
+        final URL resource = ImageGetterUtils.class.getResource(
+                "/de/cismet/cids/custom/switchon/contentTypeIcons/"
+                        + contentTypeName.replace('/', '-')
+                        + ".png");
+
+        Image image = UNKOWN;
+        if (resource != null) {
+            try {
+                image = ImageIO.read(resource);
+            } catch (IOException ex) {
+                LOG.error("Error while reading an icon", ex);
+            }
         }
         return image;
     }
@@ -86,14 +93,19 @@ public class ImageGetterUtils {
         if (protocolName == null) {
             return UNKOWN;
         }
-        Image image = null;
-        try {
-            image = ImageIO.read(ImageGetterUtils.class.getResource(
-                        "/de/cismet/cids/custom/switchon/contentTypeIcons/"
-                                + protocolName.replace('/', '-')
-                                + ".png"));
-        } catch (IOException ex) {
-            image = UNKOWN;
+
+        final URL resource = ImageGetterUtils.class.getResource(
+                "/de/cismet/cids/custom/switchon/contentTypeIcons/"
+                        + protocolName.replace('/', '-')
+                        + ".png");
+
+        Image image = UNKOWN;
+        if (resource != null) {
+            try {
+                image = ImageIO.read(resource);
+            } catch (IOException ex) {
+                LOG.error("Error while reading an icon", ex);
+            }
         }
         return image;
     }
