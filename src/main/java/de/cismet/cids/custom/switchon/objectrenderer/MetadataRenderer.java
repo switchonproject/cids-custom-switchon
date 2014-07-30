@@ -26,7 +26,7 @@ import javax.xml.transform.stream.StreamSource;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
-import de.cismet.cids.custom.switchon.gui.utils.ContentTypeUtils;
+import de.cismet.cids.custom.switchon.gui.utils.ImageGetterUtils;
 import de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -244,7 +244,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
                 hypDownload.setVisible(true);
 
                 final String contentTypeName = (String)cidsBean.getProperty("contenttype.name");
-                hypDownload.setIcon(new ImageIcon(ContentTypeUtils.getImageForContentType(contentTypeName)));
+                hypDownload.setIcon(new ImageIcon(ImageGetterUtils.getImageForContentType(contentTypeName)));
             } else {
                 txtaDocument.setText(prettyFormat(content));
 
