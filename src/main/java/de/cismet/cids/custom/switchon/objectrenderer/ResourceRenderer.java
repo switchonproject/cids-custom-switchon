@@ -11,16 +11,19 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import org.apache.commons.lang.StringUtils;
 
+import org.jdesktop.swingx.JXTaskPane;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.border.TitledBorder;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
-import de.cismet.cids.custom.switchon.gui.utils.ImageGetterUtils;
 
+import de.cismet.cids.custom.switchon.gui.utils.ImageGetterUtils;
 import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -30,8 +33,6 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 import de.cismet.tools.gui.TitleComponentProvider;
 
 import static de.cismet.cids.custom.switchon.gui.utils.ResourceUtils.filterTagsOfResource;
-import javax.swing.ImageIcon;
-import org.jdesktop.swingx.JXTaskPane;
 
 /**
  * DOCUMENT ME!
@@ -110,10 +111,14 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel2 = new javax.swing.JPanel();
         lblKeywords = new javax.swing.JLabel();
         lblTopic = new javax.swing.JLabel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
         pnlContact = new javax.swing.JPanel();
         contactRenderer = new de.cismet.cids.custom.switchon.objectrenderer.ContactRenderer();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
         pnlGeographic = new javax.swing.JPanel();
         geographicInformationPanel = new de.cismet.cids.custom.switchon.objectrenderer.GeographicInformationPanel();
         pnlTemporal = new javax.swing.JPanel();
@@ -129,9 +134,11 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         panTitleString.setOpaque(false);
         panTitleString.setLayout(new java.awt.GridBagLayout());
 
-        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18));                                                // NOI18N
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
-        org.openide.awt.Mnemonics.setLocalizedText(lblTitle, org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.lblTitle.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblTitle,
+            org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.lblTitle.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -149,7 +156,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         pnlDescription.setOpaque(false);
         pnlDescription.setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.jPanel1.border.title"))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.jPanel1.border.title"))); // NOI18N
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -158,7 +166,12 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jTextArea1.setRows(5);
         jTextArea1.setWrapStyleWord(true);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"), jTextArea1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"),
+                jTextArea1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(jTextArea1);
@@ -179,11 +192,14 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         pnlDescription.add(jPanel1, gridBagConstraints);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.jPanel2.border.title"))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.jPanel2.border.title"))); // NOI18N
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblKeywords, org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.lblKeywords.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblKeywords,
+            org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.lblKeywords.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -193,7 +209,12 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         jPanel2.add(lblKeywords, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.topiccategory.name}"), lblTopic, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.topiccategory.name}"),
+                lblTopic,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -216,12 +237,18 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weighty = 1.0;
         pnlDescription.add(filler1, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.pnlDescription.TabConstraints.tabTitle"), pnlDescription); // NOI18N
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlDescription.TabConstraints.tabTitle"),
+            pnlDescription); // NOI18N
 
         pnlContact.setOpaque(false);
         pnlContact.setLayout(new java.awt.GridBagLayout());
 
-        contactRenderer.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.contactRenderer.border.title"))); // NOI18N
+        contactRenderer.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    ResourceRenderer.class,
+                    "ResourceRenderer.contactRenderer.border.title"))); // NOI18N
         contactRenderer.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -235,7 +262,10 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weighty = 1.0;
         pnlContact.add(filler2, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.pnlContact.TabConstraints.tabTitle"), pnlContact); // NOI18N
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlContact.TabConstraints.tabTitle"),
+            pnlContact); // NOI18N
 
         pnlGeographic.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -244,7 +274,10 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weighty = 1.0;
         pnlGeographic.add(geographicInformationPanel, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.pnlGeographic.TabConstraints.tabTitle"), pnlGeographic); // NOI18N
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlGeographic.TabConstraints.tabTitle"),
+            pnlGeographic); // NOI18N
 
         pnlTemporal.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -253,7 +286,10 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weighty = 1.0;
         pnlTemporal.add(temporalInformationPanel, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.pnlTemporal.TabConstraints.tabTitle"), pnlTemporal); // NOI18N
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlTemporal.TabConstraints.tabTitle"),
+            pnlTemporal); // NOI18N
 
         pnlLicense.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -262,12 +298,15 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weighty = 1.0;
         pnlLicense.add(licenseInformationPanel, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.pnlLicense.TabConstraints.tabTitle"), pnlLicense); // NOI18N
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlLicense.TabConstraints.tabTitle"),
+            pnlLicense); // NOI18N
 
         pnlMetaData.setLayout(new java.awt.GridBagLayout());
 
         taskPaneContainer.setOpaque(false);
-        org.jdesktop.swingx.VerticalLayout verticalLayout1 = new org.jdesktop.swingx.VerticalLayout();
+        final org.jdesktop.swingx.VerticalLayout verticalLayout1 = new org.jdesktop.swingx.VerticalLayout();
         verticalLayout1.setGap(14);
         taskPaneContainer.setLayout(verticalLayout1);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -276,12 +315,15 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weighty = 1.0;
         pnlMetaData.add(taskPaneContainer, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.pnlMetaData.TabConstraints.tabTitle"), pnlMetaData); // NOI18N
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlMetaData.TabConstraints.tabTitle"),
+            pnlMetaData); // NOI18N
 
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
@@ -306,7 +348,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             temporalInformationPanel.setCidsBean(cidsBean);
 
             licenseInformationPanel.setCidsBean(cidsBean);
-            
+
             generateMetadataPanels();
 
             bindingGroup.bind();
@@ -369,16 +411,19 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             1024);
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     private void generateMetadataPanels() {
-        List<CidsBean> metadatas = cidsBean.getBeanCollectionProperty("metadata");
-        for(CidsBean metadata : metadatas){
-            String metadataType = (String) metadata.getProperty("type.name");
-            if(metadataType != null && !"basic meta-data".equalsIgnoreCase(metadataType)){
-                JXTaskPane taskPane = new JXTaskPane();
+        final List<CidsBean> metadatas = cidsBean.getBeanCollectionProperty("metadata");
+        for (final CidsBean metadata : metadatas) {
+            final String metadataType = (String)metadata.getProperty("type.name");
+            if ((metadataType != null) && !"basic meta-data".equalsIgnoreCase(metadataType)) {
+                final JXTaskPane taskPane = new JXTaskPane();
                 taskPane.setTitle(metadataType);
                 taskPane.setIcon(new ImageIcon(ImageGetterUtils.getImageForString(metadataType)));
 
-                MetadataRenderer metadataRenderer = new MetadataRenderer();
+                final MetadataRenderer metadataRenderer = new MetadataRenderer();
                 metadataRenderer.setCidsBean(metadata);
                 taskPane.add(metadataRenderer);
 

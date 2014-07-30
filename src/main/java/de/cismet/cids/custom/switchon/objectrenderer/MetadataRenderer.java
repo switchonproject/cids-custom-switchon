@@ -94,12 +94,15 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         hypDownload = new org.jdesktop.swingx.JXHyperlink();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtaDocument = new javax.swing.JTextArea();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(MetadataRenderer.class, "MetadataRenderer.jPanel1.border.title"))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(MetadataRenderer.class, "MetadataRenderer.jPanel1.border.title"))); // NOI18N
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -109,7 +112,12 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         txtaDescription.setRows(5);
         txtaDescription.setWrapStyleWord(true);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"), txtaDescription, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"),
+                txtaDescription,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(txtaDescription);
@@ -132,16 +140,23 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weightx = 1.0;
         add(jPanel1, gridBagConstraints);
 
-        pnlDocument.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(MetadataRenderer.class, "MetadataRenderer.pnlDocument.border.title"))); // NOI18N
+        pnlDocument.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    MetadataRenderer.class,
+                    "MetadataRenderer.pnlDocument.border.title"))); // NOI18N
         pnlDocument.setOpaque(false);
         pnlDocument.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(hypDownload, org.openide.util.NbBundle.getMessage(MetadataRenderer.class, "MetadataRenderer.hypDownload.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            hypDownload,
+            org.openide.util.NbBundle.getMessage(MetadataRenderer.class, "MetadataRenderer.hypDownload.text")); // NOI18N
         hypDownload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hypDownloadActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hypDownloadActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -180,14 +195,14 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         add(filler1, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hypDownloadActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hypDownloadActionPerformed
+    private void hypDownloadActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hypDownloadActionPerformed
         final String urlString = (String)cidsBean.getProperty("contentlocation");
         URL url = null;
         try {
@@ -210,7 +225,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
                                 filename.substring(filename.lastIndexOf("."))));
             }
         }
-    }//GEN-LAST:event_hypDownloadActionPerformed
+    } //GEN-LAST:event_hypDownloadActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -226,9 +241,8 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
 
             final String content = (String)cidsBean.getProperty("content");
             final String urlString = (String)cidsBean.getProperty("contentlocation");
-            
 
-            if(StringUtils.isBlank(content) && StringUtils.isBlank(urlString)){
+            if (StringUtils.isBlank(content) && StringUtils.isBlank(urlString)) {
                 pnlDocument.setVisible(false);
             } else if (StringUtils.isBlank(content)) {
                 txtaDocument.setVisible(false);
@@ -284,7 +298,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
     }
 
     /**
-     * Method found at http://javakafunda.blogspot.de/2012/04/how-to-format-xml-string-in-java.html
+     * Method found at http://javakafunda.blogspot.de/2012/04/how-to-format-xml-string-in-java.html.
      *
      * @param   input   DOCUMENT ME!
      * @param   indent  DOCUMENT ME!

@@ -7,13 +7,14 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.gui.utils;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * DOCUMENT ME!
@@ -71,21 +72,35 @@ public class ImageGetterUtils {
         }
         return image;
     }
-    
-    public static Image getImageForString(String str){
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   str  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static Image getImageForString(final String str) {
         char letter = '\0';
-        if(StringUtils.isNotBlank(str)){
+        if (StringUtils.isNotBlank(str)) {
             letter = str.charAt(0);
         }
         return getImageForLetter(letter);
     }
-    
-    public static Image getImageForLetter(char letter){
-        if(!Character.isAlphabetic(letter)){
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   letter  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static Image getImageForLetter(char letter) {
+        if (!Character.isAlphabetic(letter)) {
             return DOKUMENT;
         }
         letter = Character.toLowerCase(letter);
-                Image image = null;
+        Image image = null;
         try {
             image = ImageIO.read(ImageGetterUtils.class.getResource(
                         "/de/cismet/cids/custom/switchon/letterIcons/document-attribute-"
@@ -96,6 +111,4 @@ public class ImageGetterUtils {
         }
         return image;
     }
-    
-    
 }
