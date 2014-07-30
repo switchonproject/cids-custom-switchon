@@ -250,7 +250,11 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceRenderer.class,
                 "ResourceRenderer.pnlDescription.TabConstraints.tabTitle"),
-            pnlDescription); // NOI18N
+            null,
+            pnlDescription,
+            org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlDescription.TabConstraints.tabToolTip")); // NOI18N
 
         pnlContact.setOpaque(false);
         pnlContact.setLayout(new java.awt.GridBagLayout());
@@ -263,7 +267,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlContact.add(contactRenderer, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -283,6 +287,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlGeographic.add(geographicInformationPanel, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
@@ -296,6 +301,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlTemporal.add(temporalInformationPanel, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
@@ -309,6 +315,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlLicense.add(licenseInformationPanel, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
@@ -327,6 +334,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlMetaData.add(taskPaneContainerMetaData, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
@@ -345,6 +353,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlDataAccess.add(taskPaneContainerDataAccess, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
@@ -498,7 +507,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     //~ Inner Classes ----------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * A listener for JXTaskPanes which makes sure that only one JXTaskPane in a JXTaskPaneContainer is not collapsed.
      *
      * @version  $Revision$, $Date$
      */
