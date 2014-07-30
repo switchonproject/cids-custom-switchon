@@ -7,10 +7,18 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objectrenderer;
 
+import java.awt.Desktop;
+
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import de.cismet.cids.client.tools.DevelopmentTools;
+
+import de.cismet.cids.custom.switchon.gui.utils.ImageGetterUtils;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -204,21 +212,35 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
             LOG.error(urlString + " is not a valid URL.", ex);
         }
         if (url != null) {
-            if (DownloadManagerDialog.showAskingForUserTitle(RepresentationRenderer.this)) {
-                final String filename = urlString.substring(urlString.lastIndexOf("/") + 1);
+            final String function = (String)cidsBean.getProperty("function.name");
+            if ("download".equalsIgnoreCase(function)) {                            // download the content
+                if (DownloadManagerDialog.showAskingForUserTitle(RepresentationRenderer.this)) {
+                    final String filename = urlString.substring(urlString.lastIndexOf("/") + 1);
 
-                DownloadManager.instance()
-                        .add(
-                            new HttpDownload(
-                                url,
-                                "",
-                                DownloadManagerDialog.getJobname(),
-                                cidsBean.toString(),
-                                filename.substring(0, filename.lastIndexOf(".")),
-                                filename.substring(filename.lastIndexOf("."))));
+                    DownloadManager.instance()
+                            .add(
+                                new HttpDownload(
+                                    url,
+                                    "",
+                                    DownloadManagerDialog.getJobname(),
+                                    cidsBean.toString(),
+                                    filename.substring(0, filename.lastIndexOf(".")),
+                                    filename.substring(filename.lastIndexOf("."))));
+                }
+            } else { // direct download not possible open it in browser
+                final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+                if ((desktop != null) && desktop.isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        desktop.browse(url.toURI());
+                    } catch (Exception e) {
+                        LOG.error("Could not open URI: " + urlString, e);
+                    }
+                } else {
+                    LOG.info("Opening a website is not supported.");
+                }
             }
         }
-    } //GEN-LAST:event_hypDownloadActionPerformed
+    }                //GEN-LAST:event_hypDownloadActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -234,6 +256,8 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
             spatialAndTemporalPropertiesPanel.setCidsBean(cidsBean);
 
             bindingGroup.bind();
+
+            setHyperlinkIconAndText();
         }
     }
 
@@ -249,6 +273,32 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
 
     @Override
     public void setTitle(final String title) {
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setHyperlinkIconAndText() {
+        Icon icon;
+        final String function = (String)cidsBean.getProperty("function.name");
+        String text = "Open browser";
+        if ("download".equalsIgnoreCase(function)) {
+            final String contentType = (String)cidsBean.getProperty("contenttype.name");
+            icon = new ImageIcon(ImageGetterUtils.getImageForContentType(contentType));
+            text = "Download File";
+        } else {
+            final String protocol = (String)cidsBean.getProperty("protocol.name");
+            icon = new ImageIcon(ImageGetterUtils.getImageForProtocol(protocol));
+
+            if ("order".equalsIgnoreCase(function)) {
+                text = "Open order form";
+            } else if ("service".equalsIgnoreCase(function)) {
+                text = "Show Service URL";
+            }
+        }
+
+        hypDownload.setText(text);
+        hypDownload.setIcon(icon);
     }
 
     /**

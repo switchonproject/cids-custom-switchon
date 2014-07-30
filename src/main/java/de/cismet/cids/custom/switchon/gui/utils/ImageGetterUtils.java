@@ -78,6 +78,29 @@ public class ImageGetterUtils {
     /**
      * DOCUMENT ME!
      *
+     * @param   protocolName  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static Image getImageForProtocol(final String protocolName) {
+        if (protocolName == null) {
+            return UNKOWN;
+        }
+        Image image = null;
+        try {
+            image = ImageIO.read(ImageGetterUtils.class.getResource(
+                        "/de/cismet/cids/custom/switchon/contentTypeIcons/"
+                                + protocolName.replace('/', '-')
+                                + ".png"));
+        } catch (IOException ex) {
+            image = UNKOWN;
+        }
+        return image;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param   str   DOCUMENT ME!
      * @param   path  DOCUMENT ME!
      *
