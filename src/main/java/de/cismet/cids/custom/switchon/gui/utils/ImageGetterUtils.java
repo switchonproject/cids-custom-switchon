@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * DOCUMENT ME!
@@ -20,21 +21,29 @@ import javax.imageio.ImageIO;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class ContentTypeUtils {
+public class ImageGetterUtils {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            ContentTypeUtils.class);
+            ImageGetterUtils.class);
     public static BufferedImage UNKOWN;
+    public static BufferedImage DOKUMENT;
 
     static {
         try {
-            UNKOWN = ImageIO.read(ContentTypeUtils.class.getResource(
+            UNKOWN = ImageIO.read(ImageGetterUtils.class.getResource(
                         "/de/cismet/cids/custom/switchon/contentTypeIcons/unknown.png"));
         } catch (IOException ex) {
             LOG.error("Could not fetch ERROR_IMAGE", ex);
             UNKOWN = null;
+        }
+        try {
+            DOKUMENT = ImageIO.read(ImageGetterUtils.class.getResource(
+                        "/de/cismet/cids/custom/switchon/letterIcons/document.png"));
+        } catch (IOException ex) {
+            LOG.error("Could not fetch DOKUMENT", ex);
+            DOKUMENT = null;
         }
     }
 
@@ -53,7 +62,7 @@ public class ContentTypeUtils {
         }
         Image image = null;
         try {
-            image = ImageIO.read(ContentTypeUtils.class.getResource(
+            image = ImageIO.read(ImageGetterUtils.class.getResource(
                         "/de/cismet/cids/custom/switchon/contentTypeIcons/"
                                 + contentTypeName.replace('/', '-')
                                 + ".png"));
@@ -62,4 +71,31 @@ public class ContentTypeUtils {
         }
         return image;
     }
+    
+    public static Image getImageForString(String str){
+        char letter = '\0';
+        if(StringUtils.isNotBlank(str)){
+            letter = str.charAt(0);
+        }
+        return getImageForLetter(letter);
+    }
+    
+    public static Image getImageForLetter(char letter){
+        if(!Character.isAlphabetic(letter)){
+            return DOKUMENT;
+        }
+        letter = Character.toLowerCase(letter);
+                Image image = null;
+        try {
+            image = ImageIO.read(ImageGetterUtils.class.getResource(
+                        "/de/cismet/cids/custom/switchon/letterIcons/document-attribute-"
+                                + letter
+                                + ".png"));
+        } catch (IOException ex) {
+            image = UNKOWN;
+        }
+        return image;
+    }
+    
+    
 }
