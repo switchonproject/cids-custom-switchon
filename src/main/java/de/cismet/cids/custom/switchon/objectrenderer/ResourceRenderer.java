@@ -12,6 +12,12 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 import org.apache.commons.lang.StringUtils;
 
 import org.jdesktop.swingx.JXTaskPane;
+import org.jdesktop.swingx.JXTaskPaneContainer;
+
+import java.awt.Component;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -69,12 +75,14 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JPanel panTitle;
     private javax.swing.JPanel panTitleString;
     private javax.swing.JPanel pnlContact;
+    private javax.swing.JPanel pnlDataAccess;
     private javax.swing.JPanel pnlDescription;
     private javax.swing.JPanel pnlGeographic;
     private javax.swing.JPanel pnlLicense;
     private javax.swing.JPanel pnlMetaData;
     private javax.swing.JPanel pnlTemporal;
-    private org.jdesktop.swingx.JXTaskPaneContainer taskPaneContainer;
+    private org.jdesktop.swingx.JXTaskPaneContainer taskPaneContainerDataAccess;
+    private org.jdesktop.swingx.JXTaskPaneContainer taskPaneContainerMetaData;
     private de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel temporalInformationPanel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -126,7 +134,9 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         pnlLicense = new javax.swing.JPanel();
         licenseInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.LicenseInformationPanel();
         pnlMetaData = new javax.swing.JPanel();
-        taskPaneContainer = new org.jdesktop.swingx.JXTaskPaneContainer();
+        taskPaneContainerMetaData = new org.jdesktop.swingx.JXTaskPaneContainer();
+        pnlDataAccess = new javax.swing.JPanel();
+        taskPaneContainerDataAccess = new org.jdesktop.swingx.JXTaskPaneContainer();
 
         panTitle.setOpaque(false);
         panTitle.setLayout(new java.awt.BorderLayout());
@@ -267,6 +277,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 "ResourceRenderer.pnlContact.TabConstraints.tabTitle"),
             pnlContact); // NOI18N
 
+        pnlGeographic.setOpaque(false);
         pnlGeographic.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -279,6 +290,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 "ResourceRenderer.pnlGeographic.TabConstraints.tabTitle"),
             pnlGeographic); // NOI18N
 
+        pnlTemporal.setOpaque(false);
         pnlTemporal.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -291,6 +303,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 "ResourceRenderer.pnlTemporal.TabConstraints.tabTitle"),
             pnlTemporal); // NOI18N
 
+        pnlLicense.setOpaque(false);
         pnlLicense.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -303,22 +316,41 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 "ResourceRenderer.pnlLicense.TabConstraints.tabTitle"),
             pnlLicense); // NOI18N
 
+        pnlMetaData.setOpaque(false);
         pnlMetaData.setLayout(new java.awt.GridBagLayout());
 
-        taskPaneContainer.setOpaque(false);
+        taskPaneContainerMetaData.setOpaque(false);
         final org.jdesktop.swingx.VerticalLayout verticalLayout1 = new org.jdesktop.swingx.VerticalLayout();
         verticalLayout1.setGap(14);
-        taskPaneContainer.setLayout(verticalLayout1);
+        taskPaneContainerMetaData.setLayout(verticalLayout1);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        pnlMetaData.add(taskPaneContainer, gridBagConstraints);
+        pnlMetaData.add(taskPaneContainerMetaData, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceRenderer.class,
                 "ResourceRenderer.pnlMetaData.TabConstraints.tabTitle"),
             pnlMetaData); // NOI18N
+
+        pnlDataAccess.setOpaque(false);
+        pnlDataAccess.setLayout(new java.awt.GridBagLayout());
+
+        taskPaneContainerDataAccess.setOpaque(false);
+        final org.jdesktop.swingx.VerticalLayout verticalLayout2 = new org.jdesktop.swingx.VerticalLayout();
+        verticalLayout2.setGap(14);
+        taskPaneContainerDataAccess.setLayout(verticalLayout2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        pnlDataAccess.add(taskPaneContainerDataAccess, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlDataAccess.TabConstraints.tabTitle"),
+            pnlDataAccess); // NOI18N
 
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
@@ -350,6 +382,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             licenseInformationPanel.setCidsBean(cidsBean);
 
             generateMetadataPanels();
+
+            generateDataAccessPanels();
 
             bindingGroup.bind();
             generateListWithKeywords();
@@ -427,7 +461,77 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 metadataRenderer.setCidsBean(metadata);
                 taskPane.add(metadataRenderer);
 
-                taskPaneContainer.add(taskPane);
+                taskPane.setCollapsed(false);
+                taskPane.addPropertyChangeListener(new CollapseListener(taskPaneContainerMetaData, taskPane));
+
+                taskPaneContainerMetaData.add(taskPane);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void generateDataAccessPanels() {
+        final List<CidsBean> representations = cidsBean.getBeanCollectionProperty("representation");
+        for (final CidsBean representation : representations) {
+            final String representationType = (String)representation.getProperty("type.name");
+            if ("original data".equalsIgnoreCase(representationType)) {
+                final String function = (String)representation.getProperty("function.name");
+
+                final JXTaskPane taskPane = new JXTaskPane();
+                taskPane.setTitle(representation.toString());
+                taskPane.setIcon(new ImageIcon(ImageGetterUtils.getImageForString(function)));
+
+                final RepresentationRenderer representationRenderer = new RepresentationRenderer();
+                representationRenderer.setCidsBean(representation);
+                taskPane.add(representationRenderer);
+
+                taskPane.setCollapsed(false);
+                taskPane.addPropertyChangeListener(new CollapseListener(taskPaneContainerDataAccess, taskPane));
+
+                taskPaneContainerDataAccess.add(taskPane);
+            }
+        }
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class CollapseListener implements PropertyChangeListener {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private final JXTaskPaneContainer taskPaneContainer;
+        private final JXTaskPane pane;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new CollapseListener object.
+         *
+         * @param  taskPaneContainer  DOCUMENT ME!
+         * @param  pane               DOCUMENT ME!
+         */
+        public CollapseListener(final JXTaskPaneContainer taskPaneContainer, final JXTaskPane pane) {
+            this.taskPaneContainer = taskPaneContainer;
+            this.pane = pane;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void propertyChange(final PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals("collapsed") && evt.getNewValue().toString().equals("false")) {
+                for (final Component c : taskPaneContainer.getComponents()) {
+                    if ((c instanceof JXTaskPane) && !c.equals(pane)) {
+                        ((JXTaskPane)c).setCollapsed(true);
+                    }
+                }
             }
         }
     }
