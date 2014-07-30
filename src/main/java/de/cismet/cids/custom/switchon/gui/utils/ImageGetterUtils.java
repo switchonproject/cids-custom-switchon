@@ -139,11 +139,16 @@ public class ImageGetterUtils {
             return DOKUMENT;
         }
         letter = Character.toLowerCase(letter);
-        Image image = null;
-        try {
-            image = ImageIO.read(ImageGetterUtils.class.getResource(path + letter + ".png"));
-        } catch (IOException ex) {
-            image = UNKOWN;
+
+        final URL resource = ImageGetterUtils.class.getResource(path + letter + ".png");
+
+        Image image = UNKOWN;
+        if (resource != null) {
+            try {
+                image = ImageIO.read(resource);
+            } catch (IOException ex) {
+                LOG.error("Error while reading an icon", ex);
+            }
         }
         return image;
     }
