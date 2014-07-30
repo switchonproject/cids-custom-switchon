@@ -464,7 +464,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             if ((metadataType != null) && !"basic meta-data".equalsIgnoreCase(metadataType)) {
                 final JXTaskPane taskPane = new JXTaskPane();
                 taskPane.setTitle(metadataType);
-                taskPane.setIcon(new ImageIcon(ImageGetterUtils.getImageForString(metadataType)));
+                taskPane.setIcon(new ImageIcon(
+                        ImageGetterUtils.getImageForString(metadataType, ImageGetterUtils.DOCUMENT_LETTER_PATH)));
 
                 final MetadataRenderer metadataRenderer = new MetadataRenderer();
                 metadataRenderer.setCidsBean(metadata);
@@ -490,7 +491,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
 
                 final JXTaskPane taskPane = new JXTaskPane();
                 taskPane.setTitle(representation.toString());
-                taskPane.setIcon(new ImageIcon(ImageGetterUtils.getImageForString(function)));
+                taskPane.setIcon(new ImageIcon(
+                        ImageGetterUtils.getImageForString(function, ImageGetterUtils.DOCUMENT_LETTER_PATH)));
 
                 final RepresentationRenderer representationRenderer = new RepresentationRenderer();
                 representationRenderer.setCidsBean(representation);

@@ -30,6 +30,8 @@ public class ImageGetterUtils {
             ImageGetterUtils.class);
     public static BufferedImage UNKOWN;
     public static BufferedImage DOKUMENT;
+    public static final String DOCUMENT_LETTER_PATH = "/de/cismet/cids/custom/switchon/letterIcons/document-attribute-";
+    public static final String CIRCLE_LETTER_PATH = "/de/cismet/cids/custom/switchon/letterIcons/icon-circle";
 
     static {
         try {
@@ -76,36 +78,35 @@ public class ImageGetterUtils {
     /**
      * DOCUMENT ME!
      *
-     * @param   str  DOCUMENT ME!
+     * @param   str   DOCUMENT ME!
+     * @param   path  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    public static Image getImageForString(final String str) {
+    public static Image getImageForString(final String str, final String path) {
         char letter = '\0';
         if (StringUtils.isNotBlank(str)) {
             letter = str.charAt(0);
         }
-        return getImageForLetter(letter);
+        return getImageForLetter(letter, path);
     }
 
     /**
      * DOCUMENT ME!
      *
      * @param   letter  DOCUMENT ME!
+     * @param   path    DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    public static Image getImageForLetter(char letter) {
+    public static Image getImageForLetter(char letter, final String path) {
         if (!Character.isAlphabetic(letter)) {
             return DOKUMENT;
         }
         letter = Character.toLowerCase(letter);
         Image image = null;
         try {
-            image = ImageIO.read(ImageGetterUtils.class.getResource(
-                        "/de/cismet/cids/custom/switchon/letterIcons/document-attribute-"
-                                + letter
-                                + ".png"));
+            image = ImageIO.read(ImageGetterUtils.class.getResource(path + letter + ".png"));
         } catch (IOException ex) {
             image = UNKOWN;
         }
