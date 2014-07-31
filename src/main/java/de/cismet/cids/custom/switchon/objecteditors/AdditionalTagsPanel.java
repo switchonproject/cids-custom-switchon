@@ -9,14 +9,16 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import Sirius.server.middleware.types.LightweightMetaObject;
 
+import java.util.List;
+
+import javax.swing.DefaultListModel;
+
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
 import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
-
-import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 /**
  * DOCUMENT ME!
@@ -39,7 +41,6 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnRemove;
     private javax.swing.JComboBox cmbTagGroups;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -85,9 +86,6 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstAssignedTags = new javax.swing.JList();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 32767));
         jPanel1 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
@@ -103,6 +101,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
         add(jLabel1, gridBagConstraints);
@@ -117,6 +116,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
@@ -127,7 +127,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
             org.openide.util.NbBundle.getMessage(AdditionalTagsPanel.class, "AdditionalTagsPanel.jLabel2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(jLabel2, gridBagConstraints);
@@ -136,11 +136,12 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
         add(jScrollPane1, gridBagConstraints);
 
@@ -153,6 +154,10 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
         add(jLabel3, gridBagConstraints);
+
+        lstAssignedTags.setToolTipText(org.openide.util.NbBundle.getMessage(
+                AdditionalTagsPanel.class,
+                "AdditionalTagsPanel.lstAssignedTags.toolTipText")); // NOI18N
 
         final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
                 "${cidsBean.tags}");
@@ -170,17 +175,13 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         add(jScrollPane2, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 1.0;
-        add(filler1, gridBagConstraints);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -214,6 +215,13 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         org.openide.awt.Mnemonics.setLocalizedText(
             btnRemove,
             org.openide.util.NbBundle.getMessage(AdditionalTagsPanel.class, "AdditionalTagsPanel.btnRemove.text")); // NOI18N
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemoveActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -223,7 +231,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         add(jPanel1, gridBagConstraints);
 
@@ -236,7 +244,12 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
+        final List<LightweightMetaObject> selectedTags = lstTags.getSelectedValuesList();
+
+        final List<CidsBean> tags = cidsBean.getBeanCollectionProperty("tags");
+        for (final LightweightMetaObject tag : selectedTags) {
+            tags.add(tag.getBean());
+        }
     } //GEN-LAST:event_btnAddActionPerformed
 
     /**
@@ -259,6 +272,20 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
             lstTags.setModel(null);
         }
     }                                                                                //GEN-LAST:event_cmbTagGroupsActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnRemoveActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemoveActionPerformed
+        final List<CidsBean> selectedTags = lstAssignedTags.getSelectedValuesList();
+
+        final List<CidsBean> tags = cidsBean.getBeanCollectionProperty("tags");
+        for (final CidsBean tag : selectedTags) {
+            tags.remove(tag);
+        }
+    } //GEN-LAST:event_btnRemoveActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
