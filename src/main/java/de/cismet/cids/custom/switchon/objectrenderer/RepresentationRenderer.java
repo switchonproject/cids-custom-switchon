@@ -101,6 +101,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
+        txtaDescription.setEditable(false);
         txtaDescription.setColumns(20);
         txtaDescription.setLineWrap(true);
         txtaDescription.setRows(5);

@@ -172,6 +172,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
