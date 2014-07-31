@@ -49,4 +49,20 @@ public class TagsJList extends QueryJList {
                     + " OR g.name ilike '" + taggroup2.getValue() + "'"
                     + " ORDER BY t.name");
     }
+
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  taggroup  DOCUMENT ME!
+     */
+    public void changeModelToTaggroup(final Taggroups taggroup) {
+        executeQueryAndSetModel("SELECT t.ID,"
+                    + "       t.NAME"
+                    + " FROM tag t"
+                    + " JOIN taggroup g ON t.taggroup = g.id "
+                    + " WHERE g.name ilike '" + taggroup.getValue() + "'"
+                    + " ORDER BY t.name");
+    }
 }

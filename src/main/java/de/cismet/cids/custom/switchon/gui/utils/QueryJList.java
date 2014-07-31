@@ -39,16 +39,30 @@ public class QueryJList extends JXList {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QueryJList.class);
 
+    //~ Instance fields --------------------------------------------------------
+
+    private final boolean nullable;
+
     //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new QueryJList object.
+     *
+     * @param  query  DOCUMENT ME!
+     */
+    public QueryJList(final String query) {
+        this(query, false);
+    }
 
     /**
      * Creates a new TagsJList object.
      *
-     * @param  query  taggroup DOCUMENT ME!
+     * @param  query     taggroup DOCUMENT ME!
+     * @param  nullable  DOCUMENT ME!
      */
-    public QueryJList(final String query) {
+    public QueryJList(final String query, final boolean nullable) {
         super();
-
+        this.nullable = nullable;
         // if value null then show a message
         final DefaultListCellRenderer cellRenderer = new DefaultListCellRenderer() {
 
@@ -98,7 +112,9 @@ public class QueryJList extends JXList {
                             query,
                             new String[] { "NAME" },
                             "%1$2s");
-//            model.addElement(null);
+            if (nullable) {
+                model.addElement(null);
+            }
             for (final MetaObject mo : lwmos) {
                 model.addElement(mo);
             }
@@ -106,6 +122,5 @@ public class QueryJList extends JXList {
             LOG.warn("Problem while loading the LightWeightMetaObjects.", ex);
         }
         this.setModel(model);
-//        this.setSelectedIndex(0);
     }
 }

@@ -36,6 +36,10 @@ public class QueryComboBox extends JComboBox {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QueryJList.class);
 
+    //~ Instance fields --------------------------------------------------------
+
+    private final boolean nullable;
+
     //~ Constructors -----------------------------------------------------------
 
     /**
@@ -44,8 +48,18 @@ public class QueryComboBox extends JComboBox {
      * @param  query  DOCUMENT ME!
      */
     public QueryComboBox(final String query) {
-        super();
+        this(query, true);
+    }
 
+    /**
+     * Creates a new QueryComboBox object.
+     *
+     * @param  query     DOCUMENT ME!
+     * @param  nullable  DOCUMENT ME!
+     */
+    public QueryComboBox(final String query, final boolean nullable) {
+        super();
+        this.nullable = nullable;
         // if value null then show a message
         final DefaultListCellRenderer cellRenderer = new DefaultListCellRenderer() {
 
@@ -95,7 +109,9 @@ public class QueryComboBox extends JComboBox {
                             query,
                             new String[] { "NAME" },
                             "%1$2s");
-            model.addElement(null);
+            if (nullable) {
+                model.addElement(null);
+            }
             for (final MetaObject mo : lwmos) {
                 model.addElement(mo);
             }
