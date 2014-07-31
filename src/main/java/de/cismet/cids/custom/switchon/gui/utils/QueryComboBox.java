@@ -119,6 +119,8 @@ public class QueryComboBox extends JComboBox {
             LOG.warn("Problem while loading the LightWeightMetaObjects.", ex);
         }
         this.setModel(model);
-        this.setSelectedIndex(0);
+        if (model.getSize() > 0) {
+            this.setSelectedIndex(0);
+        }
     }
 }
