@@ -15,6 +15,7 @@ import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
 
 /**
@@ -277,6 +278,9 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
             replaceTypeComboboxModel();
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                this.cidsBean);
             bindingGroup.bind();
         }
     }
