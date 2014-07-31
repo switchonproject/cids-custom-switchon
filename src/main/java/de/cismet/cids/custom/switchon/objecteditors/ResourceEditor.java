@@ -11,7 +11,13 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
+import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+
 import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.FastBindableReferenceCombo;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -32,10 +38,16 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
     private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
+    private javax.swing.JComboBox cmbTopic;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel pnlBasicProperties;
+    private javax.swing.JPanel pnlTagsAndCategory;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -57,11 +69,19 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         pnlBasicProperties = new javax.swing.JPanel();
         basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
+        pnlTagsAndCategory = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        cmbTopic = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.TOPIC_CATEGORY);
+        additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
 
@@ -94,6 +114,51 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 "ResourceEditor.pnlBasicProperties.TabConstraints.tabTitle"),
             pnlBasicProperties); // NOI18N
 
+        pnlTagsAndCategory.setLayout(new java.awt.GridBagLayout());
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jPanel1.border.title"))); // NOI18N
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.topic}"),
+                cmbTopic,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(cmbTopic, gridBagConstraints);
+        ((FastBindableReferenceCombo)cmbTopic).setNullable(false);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlTagsAndCategory.add(jPanel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.3;
+        pnlTagsAndCategory.add(additionalTagsPanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        pnlTagsAndCategory.add(filler2, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceEditor.class,
+                "ResourceEditor.pnlTagsAndCategory.TabConstraints.tabTitle"),
+            pnlTagsAndCategory); // NOI18N
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -102,6 +167,8 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         add(jTabbedPane1, gridBagConstraints);
+
+        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
@@ -111,18 +178,21 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-//                bindingGroup.unbind();
+        bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
-
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                this.cidsBean);
             basicPropertiesPanel.setCidsBean(cidsBean);
-//                        bindingGroup.bind();
+            additionalTagsPanel.setCidsBean(cidsBean);
+            bindingGroup.bind();
         }
     }
 
     @Override
     public void dispose() {
-//         bindingGroup.unbind();
+        bindingGroup.unbind();
     }
 
     @Override
