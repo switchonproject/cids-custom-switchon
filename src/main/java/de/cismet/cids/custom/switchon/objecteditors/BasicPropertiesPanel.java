@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import java.util.UUID;
+
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
 
@@ -220,6 +222,13 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
             org.openide.util.NbBundle.getMessage(
                 BasicPropertiesPanel.class,
                 "BasicPropertiesPanel.btnGenerateUUID.text")); // NOI18N
+        btnGenerateUUID.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnGenerateUUIDActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
@@ -246,6 +255,16 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnGenerateUUIDActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnGenerateUUIDActionPerformed
+        final UUID uuid = UUID.randomUUID();
+        txtUUID.setText(uuid.toString());
+    }                                                                                   //GEN-LAST:event_btnGenerateUUIDActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
