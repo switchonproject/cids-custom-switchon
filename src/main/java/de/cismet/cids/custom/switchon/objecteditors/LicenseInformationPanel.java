@@ -9,7 +9,7 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;

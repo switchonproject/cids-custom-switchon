@@ -10,7 +10,7 @@ package de.cismet.cids.custom.switchon.objecteditors;
 import java.util.UUID;
 
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -262,10 +262,10 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnGenerateUUIDActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnGenerateUUIDActionPerformed
+    private void btnGenerateUUIDActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateUUIDActionPerformed
         final UUID uuid = UUID.randomUUID();
         txtUUID.setText(uuid.toString());
-    }                                                                                   //GEN-LAST:event_btnGenerateUUIDActionPerformed
+    }//GEN-LAST:event_btnGenerateUUIDActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

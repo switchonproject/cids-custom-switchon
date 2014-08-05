@@ -5,7 +5,9 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.switchon.gui.utils;
+package de.cismet.cids.custom.switchon.utils;
+
+import java.util.HashSet;
 
 /**
  * DOCUMENT ME!

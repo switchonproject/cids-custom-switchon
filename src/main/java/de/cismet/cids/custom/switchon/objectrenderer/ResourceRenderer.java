@@ -30,7 +30,7 @@ import javax.swing.border.TitledBorder;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.ImageGetterUtils;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 

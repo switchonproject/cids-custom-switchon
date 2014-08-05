@@ -19,6 +19,7 @@ import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
 import de.cismet.cids.custom.switchon.gui.utils.QueryJList;
 import de.cismet.cids.custom.switchon.gui.utils.QueryJList.SortedListModel;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
+import de.cismet.cids.custom.switchon.utils.ActionTagUtils;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -38,6 +39,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TagAndTagGroupEditor.class);
+    private static final String ACTION_TAG = "custom.tag.admin@SWITCHON";
 
     //~ Instance fields --------------------------------------------------------
 
@@ -47,6 +49,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
     private CidsBean selectedTag;
     private final HashSet<CidsBean> modifiedBeans = new HashSet<CidsBean>();
     private final HashSet<CidsBean> deletedBeans = new HashSet<CidsBean>();
+    private boolean hasActionTag = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGroupDelete;
@@ -86,6 +89,11 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
     public TagAndTagGroupEditor() {
         initComponents();
         cmbTagGroups.setSelectedIndex(0);
+        hasActionTag = ActionTagUtils.checkActionTag(ACTION_TAG);
+        
+        btnGroupDelete.setEnabled(hasActionTag);
+        btnGroupEdit.setEnabled(hasActionTag);
+        btnGroupNew.setEnabled(hasActionTag);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -510,7 +518,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstTagGroupsValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstTagGroupsValueChanged
+    private void lstTagGroupsValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstTagGroupsValueChanged
         if (!evt.getValueIsAdjusting()) {
             final MetaObject selectedMO = (MetaObject)lstTagGroups.getSelectedValue();
             CidsBean selectedTagGroup = null;
@@ -523,14 +531,14 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
             txtGroupName.setEnabled(false);
             txtaGroupDescrption.setEnabled(false);
         }
-    }                                                                                       //GEN-LAST:event_lstTagGroupsValueChanged
+    }//GEN-LAST:event_lstTagGroupsValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstTagsValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstTagsValueChanged
+    private void lstTagsValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstTagsValueChanged
         if (!evt.getValueIsAdjusting()) {
             final MetaObject selectedMO = (MetaObject)lstTags.getSelectedValue();
             CidsBean selectedTag = null;
@@ -543,50 +551,50 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
             txtTagName.setEnabled(false);
             txtaTagDescription.setEnabled(false);
         }
-    }                                                                                  //GEN-LAST:event_lstTagsValueChanged
+    }//GEN-LAST:event_lstTagsValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmbTagGroupsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbTagGroupsActionPerformed
+    private void cmbTagGroupsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTagGroupsActionPerformed
         final MetaObject selectedMO = ((MetaObject)cmbTagGroups.getSelectedItem());
         if (selectedMO != null) {
             ((TagsJList)lstTags).changeModelToTaggroup(selectedMO.getID());
         }
-    }                                                                                //GEN-LAST:event_cmbTagGroupsActionPerformed
+    }//GEN-LAST:event_cmbTagGroupsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnGroupEditActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnGroupEditActionPerformed
+    private void btnGroupEditActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGroupEditActionPerformed
         txtGroupName.setEnabled(true);
         txtaGroupDescrption.setEnabled(true);
         modifiedBeans.add(selectedTagGroup);
         cidsBean.setArtificialChangeFlag(true);
-    }                                                                                //GEN-LAST:event_btnGroupEditActionPerformed
+    }//GEN-LAST:event_btnGroupEditActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnTagEditActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnTagEditActionPerformed
+    private void btnTagEditActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTagEditActionPerformed
         txtTagName.setEnabled(true);
         txtaTagDescription.setEnabled(true);
         modifiedBeans.add(selectedTag);
         cidsBean.setArtificialChangeFlag(true);
-    }                                                                              //GEN-LAST:event_btnTagEditActionPerformed
+    }//GEN-LAST:event_btnTagEditActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnGroupDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnGroupDeleteActionPerformed
+    private void btnGroupDeleteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGroupDeleteActionPerformed
         if (selectedTagGroup != null) {
             deletedBeans.add(selectedTagGroup);
             cmbTagGroups.removeItem(selectedTagGroup.getMetaObject());
@@ -594,28 +602,28 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
             lstTagGroups.getSelectionModel().clearSelection();
             cidsBean.setArtificialChangeFlag(true);
         }
-    }                                                                                  //GEN-LAST:event_btnGroupDeleteActionPerformed
+    }//GEN-LAST:event_btnGroupDeleteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnTagDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnTagDeleteActionPerformed
+    private void btnTagDeleteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTagDeleteActionPerformed
         if (selectedTag != null) {
             deletedBeans.add(selectedTag);
             ((SortedListModel)lstTags.getModel()).removeElement(selectedTag.getMetaObject());
             lstTags.getSelectionModel().clearSelection();
             cidsBean.setArtificialChangeFlag(true);
         }
-    }                                                                                //GEN-LAST:event_btnTagDeleteActionPerformed
+    }//GEN-LAST:event_btnTagDeleteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnGroupNewActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnGroupNewActionPerformed
+    private void btnGroupNewActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGroupNewActionPerformed
         try {
             final CidsBean newTaggroupBean = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "taggroup");
             newTaggroupBean.setProperty("name", "New Taggroup");
@@ -633,14 +641,14 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
         } catch (Exception ex) {
             LOG.error("new Taggroup CidsBean could not be created.", ex);
         }
-    } //GEN-LAST:event_btnGroupNewActionPerformed
+    }//GEN-LAST:event_btnGroupNewActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnTagNewActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnTagNewActionPerformed
+    private void btnTagNewActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTagNewActionPerformed
         try {
             final CidsBean newTagBean = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "tag");
             newTagBean.setProperty("name", "New Tag");
@@ -658,7 +666,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
         } catch (Exception ex) {
             LOG.error("new Tag CidsBean could not be created.", ex);
         }
-    } //GEN-LAST:event_btnTagNewActionPerformed
+    }//GEN-LAST:event_btnTagNewActionPerformed
 
     /**
      * DOCUMENT ME!

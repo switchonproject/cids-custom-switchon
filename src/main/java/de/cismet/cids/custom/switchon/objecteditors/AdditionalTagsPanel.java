@@ -12,7 +12,7 @@ import Sirius.server.middleware.types.LightweightMetaObject;
 import java.util.List;
 
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -243,21 +243,21 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddActionPerformed
+    private void btnAddActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         final List<LightweightMetaObject> selectedTags = lstTags.getSelectedValuesList();
 
         final List<CidsBean> tags = cidsBean.getBeanCollectionProperty("tags");
         for (final LightweightMetaObject tag : selectedTags) {
             tags.add(tag.getBean());
         }
-    } //GEN-LAST:event_btnAddActionPerformed
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmbTagGroupsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbTagGroupsActionPerformed
+    private void cmbTagGroupsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTagGroupsActionPerformed
         final LightweightMetaObject taggroupMo = (LightweightMetaObject)cmbTagGroups.getSelectedItem();
         Taggroups chosenTaggroup = null;
         for (final Taggroups taggroup : Taggroups.values()) {
@@ -271,21 +271,21 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         } else {
             lstTags.setModel(null);
         }
-    }                                                                                //GEN-LAST:event_cmbTagGroupsActionPerformed
+    }//GEN-LAST:event_cmbTagGroupsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemoveActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemoveActionPerformed
+    private void btnRemoveActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         final List<CidsBean> selectedTags = lstAssignedTags.getSelectedValuesList();
 
         final List<CidsBean> tags = cidsBean.getBeanCollectionProperty("tags");
         for (final CidsBean tag : selectedTags) {
             tags.remove(tag);
         }
-    } //GEN-LAST:event_btnRemoveActionPerformed
+    }//GEN-LAST:event_btnRemoveActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

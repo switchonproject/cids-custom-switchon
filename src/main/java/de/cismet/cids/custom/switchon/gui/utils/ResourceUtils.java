@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.gui.utils;
 
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 import java.util.ArrayList;
 import java.util.List;
 

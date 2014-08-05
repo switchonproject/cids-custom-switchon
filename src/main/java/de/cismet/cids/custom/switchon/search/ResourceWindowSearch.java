@@ -47,7 +47,7 @@ import javax.swing.JScrollPane;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.ComponentTitledBorder;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 import de.cismet.cids.custom.switchon.gui.utils.TagsComboBox;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 import de.cismet.cids.custom.switchon.search.server.MetaObjectNodeResourceSearchStatement;
@@ -756,7 +756,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnClearActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnClearActionPerformed
+    private void btnClearActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         chbGeospatial.setSelected(false);
         cmbGeospatial.setSelectedIndex(0);
         cmbGeospatial.setEnabled(false);
@@ -782,14 +782,14 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
 
         lblInformation.setVisible(false);
         this.repaint();
-    } //GEN-LAST:event_btnClearActionPerformed
+    }//GEN-LAST:event_btnClearActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmbGeospatialActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbGeospatialActionPerformed
+    private void cmbGeospatialActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbGeospatialActionPerformed
         final Object o = cmbGeospatial.getSelectedItem();
         if (o == null) {
             lblInformation.setText(NbBundle.getMessage(
@@ -802,14 +802,14 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         } else {
             showDescriptionOfSelectedTag(cmbGeospatial.getSelectedItem());
         }
-    }                                                                                 //GEN-LAST:event_cmbGeospatialActionPerformed
+    }//GEN-LAST:event_cmbGeospatialActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmbTopicsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbTopicsActionPerformed
+    private void cmbTopicsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTopicsActionPerformed
         final Object o = cmbTopics.getSelectedItem();
         if (o == null) {
             lblInformation.setText(NbBundle.getMessage(
@@ -818,14 +818,14 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         } else {
             showDescriptionOfSelectedTag(cmbTopics.getSelectedItem());
         }
-    }                                                                             //GEN-LAST:event_cmbTopicsActionPerformed
+    }//GEN-LAST:event_cmbTopicsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstKeywordsValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstKeywordsValueChanged
+    private void lstKeywordsValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstKeywordsValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object o = lstKeywords.getSelectedValue();
             if (o == null) {
@@ -836,7 +836,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                 showDescriptionOfSelectedTag(lstKeywords.getSelectedValue());
             }
         }
-    }                                                                                      //GEN-LAST:event_lstKeywordsValueChanged
+    }//GEN-LAST:event_lstKeywordsValueChanged
 
     /**
      * DOCUMENT ME!

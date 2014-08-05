@@ -15,7 +15,7 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -360,7 +360,7 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hypWebsiteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hypWebsiteActionPerformed
+    private void hypWebsiteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hypWebsiteActionPerformed
         final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
         if ((desktop != null) && desktop.isSupported(Desktop.Action.BROWSE)) {
             try {
@@ -372,18 +372,18 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
         } else {
             LOG.info("Opening a website is not supported.");
         }
-    }                                                                              //GEN-LAST:event_hypWebsiteActionPerformed
+    }//GEN-LAST:event_hypWebsiteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hypMailActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hypMailActionPerformed
+    private void hypMailActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hypMailActionPerformed
         final EMailComposer mail = new EMailComposer();
         mail.addTo(hypMail.getText().split(" "));
         mail.compose();
-    }                                                                           //GEN-LAST:event_hypMailActionPerformed
+    }//GEN-LAST:event_hypMailActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
