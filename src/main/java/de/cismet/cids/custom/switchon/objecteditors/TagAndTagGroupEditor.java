@@ -20,6 +20,7 @@ import de.cismet.cids.custom.switchon.gui.utils.QueryJList;
 import de.cismet.cids.custom.switchon.gui.utils.QueryJList.SortedListModel;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 import de.cismet.cids.custom.switchon.utils.ActionTagUtils;
+import de.cismet.cids.custom.switchon.utils.TaggroupUtils;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -49,6 +50,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
     private CidsBean selectedTag;
     private final HashSet<CidsBean> modifiedBeans = new HashSet<CidsBean>();
     private final HashSet<CidsBean> deletedBeans = new HashSet<CidsBean>();
+    private final HashSet<CidsBean> newlyAddedTags = new HashSet<CidsBean>();
     private boolean hasActionTag = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -59,6 +61,8 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
     private javax.swing.JButton btnTagEdit;
     private javax.swing.JButton btnTagNew;
     private javax.swing.JComboBox cmbTagGroups;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -87,9 +91,9 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
      * Creates new form TagAndTagGroupEditor.
      */
     public TagAndTagGroupEditor() {
+        hasActionTag = ActionTagUtils.checkActionTag(ACTION_TAG);
         initComponents();
         cmbTagGroups.setSelectedIndex(0);
-        hasActionTag = ActionTagUtils.checkActionTag(ACTION_TAG);
 
         btnGroupDelete.setEnabled(hasActionTag);
         btnGroupEdit.setEnabled(hasActionTag);
@@ -141,8 +145,15 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
         btnTagNew = new javax.swing.JButton();
         btnTagEdit = new javax.swing.JButton();
         btnTagDelete = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(32767, 0));
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
 
         setOpaque(false);
+        setLayout(new java.awt.GridBagLayout());
 
         pnlTagGroups.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
@@ -250,7 +261,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
                 txtGroupName,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -283,8 +294,8 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
                 org.jdesktop.beansbinding.ELProperty.create("${selectedTagGroup.description}"),
                 txtaGroupDescrption,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         jScrollPane2.setViewportView(txtaGroupDescrption);
@@ -299,6 +310,14 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         pnlTagGroups.add(jScrollPane2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        add(pnlTagGroups, gridBagConstraints);
 
         pnlTags.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
@@ -325,8 +344,8 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
                 org.jdesktop.beansbinding.ELProperty.create("${selectedTag.name}"),
                 txtTagName,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -359,8 +378,8 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
                 org.jdesktop.beansbinding.ELProperty.create("${selectedTag.description}"),
                 txtaTagDescription,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         jScrollPane3.setViewportView(txtaTagDescription);
@@ -371,7 +390,6 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 10);
         pnlTags.add(jScrollPane3, gridBagConstraints);
@@ -481,34 +499,25 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
         pnlTags.add(jPanel4, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        pnlTags.add(filler1, gridBagConstraints);
 
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                layout.createSequentialGroup().addContainerGap().addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        pnlTagGroups,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        650,
-                        Short.MAX_VALUE).addComponent(
-                        pnlTags,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE)).addContainerGap()));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                layout.createSequentialGroup().addContainerGap().addComponent(
-                    pnlTagGroups,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addGap(18, 18, 18).addComponent(
-                    pnlTags,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE)));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        add(pnlTags, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        add(filler2, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -550,8 +559,12 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
             bindingGroup.bind();
             txtTagName.setEnabled(false);
             txtaTagDescription.setEnabled(false);
+
+            final boolean isNewlyAdded = newlyAddedTags.contains(selectedTag);
+            btnTagDelete.setEnabled(hasActionTag || isNewlyAdded);
+            btnTagEdit.setEnabled(hasActionTag || isNewlyAdded);
         }
-    }                                                                                  //GEN-LAST:event_lstTagsValueChanged
+    } //GEN-LAST:event_lstTagsValueChanged
 
     /**
      * DOCUMENT ME!
@@ -562,8 +575,12 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
         final MetaObject selectedMO = ((MetaObject)cmbTagGroups.getSelectedItem());
         if (selectedMO != null) {
             ((TagsJList)lstTags).changeModelToTaggroup(selectedMO.getID());
+
+            btnTagDelete.setEnabled(hasActionTag);
+            btnTagEdit.setEnabled(hasActionTag);
+            btnTagNew.setEnabled(hasActionTag || TaggroupUtils.isTaggroupOpen(selectedMO.getName()));
         }
-    }                                                                                //GEN-LAST:event_cmbTagGroupsActionPerformed
+    } //GEN-LAST:event_cmbTagGroupsActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -655,6 +672,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
             newTagBean.setProperty("description", "No description provided.");
 
             modifiedBeans.add(newTagBean);
+            newlyAddedTags.add(newTagBean);
             final SortedListModel model = ((SortedListModel)lstTags.getModel());
             final MetaObject mo = newTagBean.getMetaObject();
             model.addElement(mo);
