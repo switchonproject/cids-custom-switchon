@@ -13,9 +13,7 @@ import org.apache.commons.lang.StringUtils;
 
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
-import org.jdesktop.swingx.painter.MattePainter;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import java.beans.PropertyChangeEvent;
@@ -24,11 +22,9 @@ import java.beans.PropertyChangeListener;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
@@ -103,10 +99,6 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
      * Creates new form ResourceRenderer.
      */
     public ResourceRenderer() {
-        // set the background of the JXTaskPaneContainer to the backround color of a panel, otherwise the background
-        // will be blue in Windows
-        final Color panelBackgroundColor = UIManager.getColor("Panel.background");
-        UIManager.put("TaskPaneContainer.backgroundPainter", new MattePainter(panelBackgroundColor));
         initComponents();
     }
 
@@ -133,8 +125,6 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel2 = new javax.swing.JPanel();
         lblKeywords = new javax.swing.JLabel();
         lblTopic = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -189,10 +179,12 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jTextArea1.setEditable(false);
+        jTextArea1.setColumns(20);
         jTextArea1.setLineWrap(true);
+        jTextArea1.setRows(5);
         jTextArea1.setWrapStyleWord(true);
 
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"),
@@ -213,7 +205,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel1.add(jScrollPane1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
@@ -228,12 +220,12 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             lblKeywords,
             org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.lblKeywords.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         jPanel2.add(lblKeywords, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -242,6 +234,13 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 5, 10);
         jPanel2.add(lblTopic, gridBagConstraints);
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.topiccategory.name}"),
+                lblTopic,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel1,
             org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.jLabel1.text")); // NOI18N
@@ -258,8 +257,9 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        jPanel2.add(lblTopic, gridBagConstraints);
         jPanel2.add(jLabel2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -514,7 +514,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             "admin",
             "cismet",
             "resource",
-            243,
+            1,
             "Resource",
             1280,
             1024);
@@ -530,6 +530,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             final String metadataType = (String)metadata.getProperty("type.name");
             if ((metadataType != null) && !"basic meta-data".equalsIgnoreCase(metadataType)) {
                 final JXTaskPane taskPane = new JXTaskPane();
+                taskPane.setTitle(metadataType);
                 taskPane.setIcon(new ImageIcon(
                         ImageGetterUtils.getImageForString(metadataType, ImageGetterUtils.DOCUMENT_LETTER_PATH)));
 
