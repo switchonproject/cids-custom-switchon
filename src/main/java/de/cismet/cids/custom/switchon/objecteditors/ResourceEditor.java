@@ -123,7 +123,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.topic}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.topiccategory}"),
                 cmbTopic,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);

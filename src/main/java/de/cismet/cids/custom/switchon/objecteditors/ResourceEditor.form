@@ -107,7 +107,7 @@
               <SubComponents>
                 <Component class="javax.swing.JComboBox" name="cmbTopic">
                   <BindingProperties>
-                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.topic}" target="cmbTopic" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.topiccategory}" target="cmbTopic" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                   </BindingProperties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="((FastBindableReferenceCombo)cmbTopic).setNullable(false);"/>
