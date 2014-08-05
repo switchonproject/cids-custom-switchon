@@ -28,6 +28,7 @@ public class TagsComboBox extends QueryComboBox {
                     + " FROM tag t"
                     + " JOIN taggroup g ON t.taggroup = g.id "
                     + " WHERE g.name ilike '" + taggroup.getValue() + "'"
-                    + " ORDER BY t.name");
+                    + " ORDER BY t.name",
+            "tag");
     }
 }

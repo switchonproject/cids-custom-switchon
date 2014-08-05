@@ -42,7 +42,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbTagGroupsActionPerformed"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new QueryComboBox(&quot;SELECT t.ID,&quot;&#xa;                    + &quot; t.NAME&quot;&#xa;                    + &quot; FROM taggroup t&quot;&#xa;                    + &quot; ORDER BY t.name&quot;, false);&#xa;"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new QueryComboBox(&quot;SELECT t.ID,&quot;&#xa;    + &quot; t.NAME&quot;&#xa;    + &quot; FROM taggroup t&quot;&#xa;    + &quot; ORDER BY t.name&quot;, false, &quot;Taggroup&quot;);&#xa;"/>
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

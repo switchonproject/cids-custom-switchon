@@ -34,32 +34,36 @@ public class QueryComboBox extends JComboBox {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QueryJList.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QueryComboBox.class);
 
     //~ Instance fields --------------------------------------------------------
 
     private final boolean nullable;
+    private String metaClassName;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new QueryComboBox object.
      *
-     * @param  query  DOCUMENT ME!
+     * @param  query          DOCUMENT ME!
+     * @param  metaClassName  DOCUMENT ME!
      */
-    public QueryComboBox(final String query) {
-        this(query, true);
+    public QueryComboBox(final String query, final String metaClassName) {
+        this(query, true, metaClassName);
     }
 
     /**
      * Creates a new QueryComboBox object.
      *
-     * @param  query     DOCUMENT ME!
-     * @param  nullable  DOCUMENT ME!
+     * @param  query          DOCUMENT ME!
+     * @param  nullable       DOCUMENT ME!
+     * @param  metaClassName  DOCUMENT ME!
      */
-    public QueryComboBox(final String query, final boolean nullable) {
+    public QueryComboBox(final String query, final boolean nullable, final String metaClassName) {
         super();
         this.nullable = nullable;
+        this.metaClassName = metaClassName;
         // if value null then show a message
         final DefaultListCellRenderer cellRenderer = new DefaultListCellRenderer() {
 
@@ -102,7 +106,7 @@ public class QueryComboBox extends JComboBox {
     public final void executeQueryAndSetModel(final String query) {
         final DefaultComboBoxModel<MetaObject> model = new DefaultComboBoxModel<MetaObject>();
         try {
-            final MetaClass mc = ClassCacheMultiple.getMetaClass("SWITCHON", "Tag");
+            final MetaClass mc = ClassCacheMultiple.getMetaClass("SWITCHON", metaClassName);
             final MetaObject[] lwmos = SessionManager.getProxy()
                         .getLightweightMetaObjectsByQuery(mc.getID(),
                             SessionManager.getSession().getUser(),

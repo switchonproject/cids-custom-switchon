@@ -11,8 +11,6 @@ import Sirius.server.middleware.types.LightweightMetaObject;
 
 import java.util.List;
 
-import javax.swing.DefaultListModel;
-
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
 import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
@@ -77,7 +75,9 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         cmbTagGroups = new QueryComboBox("SELECT t.ID,"
                         + " t.NAME"
                         + " FROM taggroup t"
-                        + " ORDER BY t.name", false);
+                        + " ORDER BY t.name",
+                false,
+                "Taggroup");
         ;
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
