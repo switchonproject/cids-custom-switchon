@@ -13,7 +13,9 @@ import org.apache.commons.lang.StringUtils;
 
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
+import org.jdesktop.swingx.painter.MattePainter;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import java.beans.PropertyChangeEvent;
@@ -22,11 +24,11 @@ import java.beans.PropertyChangeListener;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
@@ -101,6 +103,10 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
      * Creates new form ResourceRenderer.
      */
     public ResourceRenderer() {
+        // set the background of the JXTaskPaneContainer to the backround color of a panel, otherwise the background
+        // will be blue in Windows
+        final Color panelBackgroundColor = UIManager.getColor("Panel.background");
+        UIManager.put("TaskPaneContainer.backgroundPainter", new MattePainter(panelBackgroundColor));
         initComponents();
     }
 
