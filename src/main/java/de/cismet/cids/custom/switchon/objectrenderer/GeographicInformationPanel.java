@@ -417,9 +417,9 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                 resolutions.add(resolution);
             }
 
-            final String spatialscale = (String)representation.getProperty("spatialscale");
-            if (StringUtils.isNotBlank(spatialscale)) {
-                scales.add(spatialscale);
+            final Integer spatialscale = (Integer)representation.getProperty("spatialscale");
+            if (spatialscale != null) {
+                scales.add(spatialscale.toString());
             }
         }
         txtResolutions.setText(StringUtils.join(resolutions, ", "));
