@@ -13,11 +13,12 @@ import org.jfree.util.Log;
 
 import java.util.HashSet;
 
+import javax.swing.DefaultListModel;
+
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
 import de.cismet.cids.custom.switchon.gui.utils.QueryJList;
-import de.cismet.cids.custom.switchon.gui.utils.QueryJList.SortedListModel;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 import de.cismet.cids.custom.switchon.utils.ActionTagUtils;
 import de.cismet.cids.custom.switchon.utils.TaggroupUtils;
@@ -614,12 +615,14 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
     private void btnGroupDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnGroupDeleteActionPerformed
         if (selectedTagGroup != null) {
             deletedBeans.add(selectedTagGroup);
+            modifiedBeans.remove(selectedTagGroup);
+
             cmbTagGroups.removeItem(selectedTagGroup.getMetaObject());
-            ((SortedListModel)lstTagGroups.getModel()).removeElement(selectedTagGroup.getMetaObject());
+            ((DefaultListModel)lstTagGroups.getModel()).removeElement(selectedTagGroup.getMetaObject());
             lstTagGroups.getSelectionModel().clearSelection();
             cidsBean.setArtificialChangeFlag(true);
         }
-    }                                                                                  //GEN-LAST:event_btnGroupDeleteActionPerformed
+    } //GEN-LAST:event_btnGroupDeleteActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -629,11 +632,14 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
     private void btnTagDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnTagDeleteActionPerformed
         if (selectedTag != null) {
             deletedBeans.add(selectedTag);
-            ((SortedListModel)lstTags.getModel()).removeElement(selectedTag.getMetaObject());
+            newlyAddedTags.remove(selectedTag);
+            modifiedBeans.remove(selectedTag);
+
+            ((DefaultListModel)lstTags.getModel()).removeElement(selectedTag.getMetaObject());
             lstTags.getSelectionModel().clearSelection();
             cidsBean.setArtificialChangeFlag(true);
         }
-    }                                                                                //GEN-LAST:event_btnTagDeleteActionPerformed
+    } //GEN-LAST:event_btnTagDeleteActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -647,10 +653,10 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
             newTaggroupBean.setProperty("description", "No description provided.");
 
             modifiedBeans.add(newTaggroupBean);
-            final SortedListModel model = ((SortedListModel)lstTagGroups.getModel());
+            final DefaultListModel model = ((DefaultListModel)lstTagGroups.getModel());
             final MetaObject mo = newTaggroupBean.getMetaObject();
             model.addElement(mo);
-            final int index = model.getIndexOf(mo);
+            final int index = model.indexOf(mo);
             lstTagGroups.setSelectedIndex(index);
             lstTagGroups.ensureIndexIsVisible(index);
             btnGroupEdit.doClick();
@@ -670,13 +676,14 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
             final CidsBean newTagBean = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "tag");
             newTagBean.setProperty("name", "New Tag");
             newTagBean.setProperty("description", "No description provided.");
+            newTagBean.setProperty("taggroup", ((MetaObject)cmbTagGroups.getSelectedItem()).getBean());
 
             modifiedBeans.add(newTagBean);
             newlyAddedTags.add(newTagBean);
-            final SortedListModel model = ((SortedListModel)lstTags.getModel());
+            final DefaultListModel model = ((DefaultListModel)lstTags.getModel());
             final MetaObject mo = newTagBean.getMetaObject();
             model.addElement(mo);
-            final int index = model.getIndexOf(mo);
+            final int index = model.indexOf(mo);
             lstTags.setSelectedIndex(index);
             lstTags.ensureIndexIsVisible(index);
             btnTagEdit.doClick();

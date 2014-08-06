@@ -14,24 +14,15 @@ import Sirius.server.middleware.types.MetaObject;
 
 import org.apache.commons.lang.StringUtils;
 
-import org.jdesktop.swingx.JXList;
-
 import java.awt.Component;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import javax.swing.AbstractListModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.SortOrder;
 
-import de.cismet.cids.custom.switchon.ToStringComparator;
+import de.cismet.cids.custom.switchon.gui.JXListBugFixes;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
@@ -41,7 +32,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class QueryJList extends JXList {
+public class QueryJList extends JXListBugFixes {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -116,7 +107,7 @@ public class QueryJList extends JXList {
      * @param  query  DOCUMENT ME!
      */
     public final void executeQueryAndSetModel(final String query) {
-        final SortedListModel<MetaObject> model = new SortedListModel<MetaObject>(new ToStringComparator());
+        final DefaultListModel<MetaObject> model = new DefaultListModel<MetaObject>();
         try {
             final MetaClass mc = ClassCacheMultiple.getMetaClass("SWITCHON", metaClassName);
             final MetaObject[] lwmos = SessionManager.getProxy()
