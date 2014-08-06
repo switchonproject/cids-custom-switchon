@@ -87,6 +87,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private MetaClass metaClass;
     private final MappingComponent mappingComponent;
     private Geometry selectedGeometry;
+    private JPanel pnlSearchCancel;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -149,7 +150,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         btnSearch.setVisible(false);
         btnCancel.setVisible(false);
 
-        final JPanel pnlSearchCancel = new SearchControlPanel(this);
+        pnlSearchCancel = new SearchControlPanel(this);
+        pnlSearchCancel.setEnabled(false);
         final java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -204,9 +206,12 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     }
 
     /**
-     * DOCUMENT ME!
+     * Add the checkboxes to the border of the panels and configure the checkboxes.
      */
     private void addBorderToPanels() {
+        final EnableSearchButtonActionListener enableSearchButtonActionListener =
+            new EnableSearchButtonActionListener();
+
         chbTemporal.setText(NbBundle.getMessage(
                 ResourceWindowSearch.class,
                 "ResourceWindowSearch.addBorderToPanels.temporal"));
@@ -224,6 +229,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                             "ResourceWindowSearch.addBorderToPanels().temporal.infotext"));
                 }
             });
+        chbTemporal.addActionListener(enableSearchButtonActionListener);
 
         ComponentTitledBorder border = new ComponentTitledBorder(
                 chbTemporal,
@@ -248,6 +254,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                             "ResourceWindowSearch.addBorderToPanels().geospatial.infotext"));
                 }
             });
+        chbGeospatial.addActionListener(enableSearchButtonActionListener);
+
         border = new ComponentTitledBorder(
                 chbGeospatial,
                 pnlGeospatialExtent,
@@ -271,6 +279,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                             "ResourceWindowSearch.addBorderToPanels().keyword.infotext"));
                 }
             });
+        chbKeywords.addActionListener(enableSearchButtonActionListener);
+
         border = new ComponentTitledBorder(
                 chbKeywords,
                 pnlKeywordsAndTopics,
@@ -294,6 +304,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                             "ResourceWindowSearch.addBorderToPanels().title.infotext"));
                 }
             });
+        chbTitle.addActionListener(enableSearchButtonActionListener);
+
         border = new ComponentTitledBorder(
                 chbTitle,
                 pnlTitleAndDescription,
@@ -872,7 +884,9 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
             searchStatement.setKeywordList(keywordsNames);
 
             final LightweightMetaObject moTopic = (LightweightMetaObject)cmbTopics.getSelectedItem();
-            searchStatement.setTopicCategory(moTopic.getName());
+            if (moTopic != null) {
+                searchStatement.setTopicCategory(moTopic.getName());
+            }
         }
 
         if (chbTemporal.isSelected()) {
@@ -939,6 +953,35 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
             if ((evt.getNewValue() != null) && (evt.getNewValue() instanceof Geometry)) {
                 cmbGeospatial.setSelectedIndex(1);
                 selectedGeometry = (Geometry)evt.getNewValue();
+            }
+        }
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class EnableSearchButtonActionListener implements ActionListener {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private int enabledCategories = 0;
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            if (e.getSource() instanceof JCheckBox) {
+                final boolean selected = ((JCheckBox)e.getSource()).isSelected();
+                if (selected) {
+                    enabledCategories++;
+                } else {
+                    enabledCategories--;
+                }
+                pnlSearchCancel.setEnabled(enabledCategories > 0);
             }
         }
     }
