@@ -63,6 +63,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private de.cismet.cids.custom.switchon.objectrenderer.GeographicInformationPanel geographicInformationPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -119,6 +121,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel2 = new javax.swing.JPanel();
         lblKeywords = new javax.swing.JLabel();
         lblTopic = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -173,9 +177,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jTextArea1.setEditable(false);
-        jTextArea1.setColumns(50);
         jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
         jTextArea1.setWrapStyleWord(true);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -214,12 +216,12 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             lblKeywords,
             org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.lblKeywords.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 5, 10);
         jPanel2.add(lblKeywords, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -231,11 +233,31 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 5, 10);
         jPanel2.add(lblTopic, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel1,
+            org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        jPanel2.add(jLabel1, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel2,
+            org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.jLabel2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        jPanel2.add(jLabel2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -417,7 +439,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                     return o1.toString().compareTo(o2.toString());
                 }
             });
-        lblKeywords.setText(StringUtils.join(keywords, ", "));
+        lblKeywords.setText("<html>" + StringUtils.join(keywords, ", ") + "</html>");
     }
 
     @Override
