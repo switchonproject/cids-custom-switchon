@@ -173,7 +173,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
+        jTextArea1.setColumns(50);
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
         jTextArea1.setWrapStyleWord(true);
@@ -199,8 +199,9 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel1.add(jScrollPane1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         pnlDescription.add(jPanel1, gridBagConstraints);
 
@@ -470,7 +471,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             "admin",
             "cismet",
             "resource",
-            1,
+            243,
             "Resource",
             1280,
             1024);
