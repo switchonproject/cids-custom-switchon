@@ -156,7 +156,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 0.75;
         gridBagConstraints.weighty = 1.0;
         add(jPanel1, gridBagConstraints);
 
@@ -166,6 +166,8 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                     "GeographicInformationPanel.jPanel2.border.title"))); // NOI18N
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(0, 0));
         jScrollPane1.setViewportView(lstCatchements);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -183,7 +185,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 0.25;
         gridBagConstraints.weighty = 1.0;
         add(jPanel2, gridBagConstraints);
 
