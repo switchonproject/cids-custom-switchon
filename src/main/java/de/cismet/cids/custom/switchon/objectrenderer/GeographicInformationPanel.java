@@ -61,7 +61,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
 
     final StyledFeature previewGeometry = new DefaultStyledFeature();
 
-    private CidsBean cidsBean;
+    private CidsBean resourceCidsBean;
     private final MappingComponent previewMap;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -156,7 +156,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 0.75;
         gridBagConstraints.weighty = 1.0;
         add(jPanel1, gridBagConstraints);
 
@@ -166,6 +166,8 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                     "GeographicInformationPanel.jPanel2.border.title"))); // NOI18N
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(0, 0));
         jScrollPane1.setViewportView(lstCatchements);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -183,7 +185,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 0.25;
         gridBagConstraints.weighty = 1.0;
         add(jPanel2, gridBagConstraints);
 
@@ -288,17 +290,17 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
 
     @Override
     public CidsBean getCidsBean() {
-        return cidsBean;
+        return resourceCidsBean;
     }
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
-            this.cidsBean = cidsBean;
+            this.resourceCidsBean = cidsBean;
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
-                this.cidsBean);
+                this.resourceCidsBean);
             bindingGroup.bind();
             initMap();
             initCatchmentsList();
@@ -310,16 +312,24 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
      * DOCUMENT ME!
      */
     private void initMap() {
-        if (cidsBean != null) {
-            final Object geoObj = cidsBean.getProperty("spatialcoverage.geo_field");
+        if (resourceCidsBean != null) {
+            final Object geoObj = resourceCidsBean.getProperty("spatialcoverage.geo_field");
             if (geoObj instanceof Geometry) {
                 final Geometry pureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
                         SwitchOnConstants.COMMONS.SRS_SERVICE);
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.COMMONS.GEO_BUFFER);
                 }
-                final XBoundingBox box = new XBoundingBox(pureGeom.getEnvelope().buffer(
-                            SwitchOnConstants.COMMONS.GEO_BUFFER));
+                final XBoundingBox box;
+                try {
+                    box = new XBoundingBox(pureGeom.getEnvelope().buffer(
+                                SwitchOnConstants.COMMONS.GEO_BUFFER));
+                } catch (NullPointerException npe) {
+                    LOG.error(
+                        "NPE in the constructor of XBoundingBox. This happens if a renderer/editor is started with DevelopmentTools.",
+                        npe);
+                    return;
+                }
                 final double diagonalLength = Math.sqrt((box.getWidth() * box.getWidth())
                                 + (box.getHeight() * box.getHeight()));
                 if (LOG.isDebugEnabled()) {
@@ -364,7 +374,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                                     @Override
                                     public void mouseClicked(final PInputEvent evt) {
                                         if (evt.getClickCount() > 1) {
-                                            final CidsBean bean = cidsBean;
+                                            final CidsBean bean = resourceCidsBean;
                                             CismapUtils.switchToCismapMap();
                                             CismapUtils.addBeanGeomAsFeatureToCismapMap(bean, false);
                                         }
@@ -389,7 +399,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
      */
     private void initCatchmentsList() {
         final DefaultListModel<CidsBean> listModel = new DefaultListModel<CidsBean>();
-        for (final CidsBean catchement : ResourceUtils.filterTagsOfResource(cidsBean, Taggroups.CATCHMENTS)) {
+        for (final CidsBean catchement : ResourceUtils.filterTagsOfResource(resourceCidsBean, Taggroups.CATCHMENTS)) {
             listModel.addElement(catchement);
         }
         lstCatchements.setModel(listModel);
@@ -401,15 +411,15 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
     private void initSpatialResolutionsAndScales() {
         final List<String> resolutions = new ArrayList<String>();
         final List<String> scales = new ArrayList<String>();
-        for (final CidsBean representation : cidsBean.getBeanCollectionProperty("representation")) {
+        for (final CidsBean representation : resourceCidsBean.getBeanCollectionProperty("representation")) {
             final String resolution = (String)representation.getProperty("spatialresolution");
             if (StringUtils.isNotBlank(resolution)) {
                 resolutions.add(resolution);
             }
 
-            final String spatialscale = (String)representation.getProperty("spatialscale");
-            if (StringUtils.isNotBlank(spatialscale)) {
-                scales.add(spatialscale);
+            final Integer spatialscale = (Integer)representation.getProperty("spatialscale");
+            if (spatialscale != null) {
+                scales.add(spatialscale.toString());
             }
         }
         txtResolutions.setText(StringUtils.join(resolutions, ", "));

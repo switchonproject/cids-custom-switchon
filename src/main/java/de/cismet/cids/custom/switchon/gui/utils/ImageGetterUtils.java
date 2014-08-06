@@ -19,7 +19,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 /**
- * DOCUMENT ME!
+ * A Utility class, which loads images according to the first letter of a string or the content type.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
@@ -111,7 +111,7 @@ public class ImageGetterUtils {
     }
 
     /**
-     * DOCUMENT ME!
+     * Get image according to the first letter of a string.
      *
      * @param   str   DOCUMENT ME!
      * @param   path  DOCUMENT ME!
