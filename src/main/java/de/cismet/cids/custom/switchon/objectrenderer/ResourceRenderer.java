@@ -22,6 +22,8 @@ import java.beans.PropertyChangeListener;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -57,6 +59,10 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private final ResourceBundle topicBundle = ResourceBundle.getBundle(
+            "de/cismet/cids/custom/switchon/tagBundles/topic");
+    private final ResourceBundle roleBundle = ResourceBundle.getBundle(
+            "de/cismet/cids/custom/switchon/tagBundles/role");
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objectrenderer.ContactRenderer contactRenderer;
@@ -180,7 +186,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jTextArea1.setLineWrap(true);
         jTextArea1.setWrapStyleWord(true);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"),
@@ -223,15 +229,6 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 5, 10);
         jPanel2.add(lblKeywords, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.topiccategory.name}"),
-                lblTopic,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -406,7 +403,11 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             contactRenderer.setCidsBean(contact);
             if (contact != null) {
                 final TitledBorder contactBorder = (TitledBorder)contactRenderer.getBorder();
-                contactBorder.setTitle((String)contact.getProperty("role.name"));
+                final String role = (String)contact.getProperty("role.name");
+                if (StringUtils.isNotBlank(role)) {
+                    final String borderTitle = roleBundle.getString(role);
+                    contactBorder.setTitle(borderTitle);
+                }
             }
 
             geographicInformationPanel.setCidsBean(cidsBean);
@@ -421,6 +422,14 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
 
             bindingGroup.bind();
             generateListWithKeywords();
+
+            final String topic = (String)cidsBean.getProperty("topiccategory.name");
+            if (StringUtils.isNotBlank(topic)) {
+                final String labelText = topicBundle.getString(topic.replace(' ', '_'));
+                lblTopic.setText(labelText);
+            } else {
+                lblTopic.setText("");
+            }
 
             setTitle();
         }
