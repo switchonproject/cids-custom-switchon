@@ -318,8 +318,16 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.COMMONS.GEO_BUFFER);
                 }
-                final XBoundingBox box = new XBoundingBox(pureGeom.getEnvelope().buffer(
-                            SwitchOnConstants.COMMONS.GEO_BUFFER));
+                final XBoundingBox box;
+                try {
+                    box = new XBoundingBox(pureGeom.getEnvelope().buffer(
+                                SwitchOnConstants.COMMONS.GEO_BUFFER));
+                } catch (NullPointerException npe) {
+                    LOG.error(
+                        "NPE in the constructor of XBoundingBox. This happens if a renderer/editor is started with DevelopmentTools.",
+                        npe);
+                    return;
+                }
                 final double diagonalLength = Math.sqrt((box.getWidth() * box.getWidth())
                                 + (box.getHeight() * box.getHeight()));
                 if (LOG.isDebugEnabled()) {
