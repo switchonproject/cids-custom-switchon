@@ -51,7 +51,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
     private CidsBean selectedTag;
     private final HashSet<CidsBean> modifiedBeans = new HashSet<CidsBean>();
     private final HashSet<CidsBean> deletedBeans = new HashSet<CidsBean>();
-    private final HashSet<CidsBean> newlyAddedTags = new HashSet<CidsBean>();
+    private HashSet<CidsBean> newlyAddedTags = new HashSet<CidsBean>();
     private boolean hasActionTag = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -92,9 +92,15 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
      * Creates new form TagAndTagGroupEditor.
      */
     public TagAndTagGroupEditor() {
-        hasActionTag = ActionTagUtils.checkActionTag(ACTION_TAG);
+        try {
+            hasActionTag = ActionTagUtils.checkActionTag(ACTION_TAG);
+        } catch (Exception ex) {
+            LOG.error("The value of the action tag can not be checked.", ex);
+        }
         initComponents();
-        cmbTagGroups.setSelectedIndex(0);
+        if (cmbTagGroups.getModel().getSize() > 0) {
+            cmbTagGroups.setSelectedIndex(0);
+        }
 
         btnGroupDelete.setEnabled(hasActionTag);
         btnGroupEdit.setEnabled(hasActionTag);
@@ -751,21 +757,34 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
-            for (final CidsBean modifiedBean : modifiedBeans) {
-                try {
-                    modifiedBean.persist();
-                } catch (Exception ex) {
-                    Log.error(ex.getMessage(), ex);
-                }
-            }
+            saveChanges();
+        }
+    }
 
-            for (final CidsBean beanToDelete : deletedBeans) {
-                try {
-                    beanToDelete.delete();
-                    beanToDelete.persist();
-                } catch (Exception ex) {
-                    Log.error(ex.getMessage(), ex);
+    /**
+     * Saves the modified cidsBeans. The newly added cidsbeans will also be persisted and the persisted cidsbeans will
+     * be saved in an own set. After the persist that set will replace the <code>newlyAddedTags</code>-set.
+     */
+    public void saveChanges() {
+        final HashSet<CidsBean> newlyAddedTagsAfterPersist = new HashSet<CidsBean>(newlyAddedTags.size());
+        for (final CidsBean modifiedBean : modifiedBeans) {
+            try {
+                final CidsBean persistedBean = modifiedBean.persist();
+                if (newlyAddedTags.contains(modifiedBean)) {
+                    newlyAddedTagsAfterPersist.add(persistedBean);
                 }
+            } catch (Exception ex) {
+                Log.error(ex.getMessage(), ex);
+            }
+        }
+        newlyAddedTags = newlyAddedTagsAfterPersist;
+
+        for (final CidsBean beanToDelete : deletedBeans) {
+            try {
+                beanToDelete.delete();
+                beanToDelete.persist();
+            } catch (Exception ex) {
+                Log.error(ex.getMessage(), ex);
             }
         }
     }
@@ -799,5 +818,14 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
 
     @Override
     public void setTitle(final String title) {
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public HashSet<CidsBean> getNewlyAddedTags() {
+        return newlyAddedTags;
     }
 }

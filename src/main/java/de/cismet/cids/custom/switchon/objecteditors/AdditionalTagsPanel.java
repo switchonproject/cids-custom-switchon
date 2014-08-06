@@ -9,8 +9,13 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import Sirius.server.middleware.types.LightweightMetaObject;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
+import javax.swing.SortOrder;
+
+import de.cismet.cids.custom.switchon.gui.JXListBugFixes;
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 import de.cismet.cids.custom.switchon.utils.TaggroupUtils;
@@ -18,6 +23,10 @@ import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+
+import de.cismet.tools.gui.StaticSwingTools;
+
+import static java.util.Collections.list;
 
 /**
  * DOCUMENT ME!
@@ -86,7 +95,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         ;
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        lstAssignedTags = new javax.swing.JList();
+        lstAssignedTags = new JXListBugFixes();
         jPanel1 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
@@ -206,6 +215,13 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         org.openide.awt.Mnemonics.setLocalizedText(
             btnNew,
             org.openide.util.NbBundle.getMessage(AdditionalTagsPanel.class, "AdditionalTagsPanel.btnNew.text")); // NOI18N
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnNewActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -282,6 +298,20 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         }
     } //GEN-LAST:event_btnRemoveActionPerformed
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnNewActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewActionPerformed
+        final Set<CidsBean> newlyAddedTags = new TagAndTagGroupEditorDialog(StaticSwingTools.getParentFrame(this), true)
+                    .showDialog();
+        ((TagsJList)lstTags).reload();
+
+        final Collection<CidsBean> assignedTags = cidsBean.getBeanCollectionProperty("tags");
+        assignedTags.addAll(newlyAddedTags);
+    } //GEN-LAST:event_btnNewActionPerformed
+
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -293,6 +323,9 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
             bindingGroup.bind();
+            ((JXListBugFixes)lstAssignedTags).setAutoCreateRowSorter(true);
+            ((JXListBugFixes)lstAssignedTags).setSortOrder(SortOrder.DESCENDING);
+            ((JXListBugFixes)lstAssignedTags).toggleSortOrder();
         }
     }
 }
