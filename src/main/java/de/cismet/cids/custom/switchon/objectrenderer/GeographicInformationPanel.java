@@ -61,7 +61,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
 
     final StyledFeature previewGeometry = new DefaultStyledFeature();
 
-    private CidsBean cidsBean;
+    private CidsBean resourceCidsBean;
     private final MappingComponent previewMap;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -290,17 +290,17 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
 
     @Override
     public CidsBean getCidsBean() {
-        return cidsBean;
+        return resourceCidsBean;
     }
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
-            this.cidsBean = cidsBean;
+            this.resourceCidsBean = cidsBean;
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
-                this.cidsBean);
+                this.resourceCidsBean);
             bindingGroup.bind();
             initMap();
             initCatchmentsList();
@@ -312,8 +312,8 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
      * DOCUMENT ME!
      */
     private void initMap() {
-        if (cidsBean != null) {
-            final Object geoObj = cidsBean.getProperty("spatialcoverage.geo_field");
+        if (resourceCidsBean != null) {
+            final Object geoObj = resourceCidsBean.getProperty("spatialcoverage.geo_field");
             if (geoObj instanceof Geometry) {
                 final Geometry pureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
                         SwitchOnConstants.COMMONS.SRS_SERVICE);
@@ -374,7 +374,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                                     @Override
                                     public void mouseClicked(final PInputEvent evt) {
                                         if (evt.getClickCount() > 1) {
-                                            final CidsBean bean = cidsBean;
+                                            final CidsBean bean = resourceCidsBean;
                                             CismapUtils.switchToCismapMap();
                                             CismapUtils.addBeanGeomAsFeatureToCismapMap(bean, false);
                                         }
@@ -399,7 +399,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
      */
     private void initCatchmentsList() {
         final DefaultListModel<CidsBean> listModel = new DefaultListModel<CidsBean>();
-        for (final CidsBean catchement : ResourceUtils.filterTagsOfResource(cidsBean, Taggroups.CATCHMENTS)) {
+        for (final CidsBean catchement : ResourceUtils.filterTagsOfResource(resourceCidsBean, Taggroups.CATCHMENTS)) {
             listModel.addElement(catchement);
         }
         lstCatchements.setModel(listModel);
@@ -411,7 +411,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
     private void initSpatialResolutionsAndScales() {
         final List<String> resolutions = new ArrayList<String>();
         final List<String> scales = new ArrayList<String>();
-        for (final CidsBean representation : cidsBean.getBeanCollectionProperty("representation")) {
+        for (final CidsBean representation : resourceCidsBean.getBeanCollectionProperty("representation")) {
             final String resolution = (String)representation.getProperty("spatialresolution");
             if (StringUtils.isNotBlank(resolution)) {
                 resolutions.add(resolution);
