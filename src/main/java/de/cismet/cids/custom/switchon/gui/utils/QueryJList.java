@@ -43,6 +43,7 @@ public class QueryJList extends JXListBugFixes {
     private final boolean nullable;
 
     private String metaClassName;
+    private String lastExecutedQuery = "";
 
     //~ Constructors -----------------------------------------------------------
 
@@ -116,6 +117,7 @@ public class QueryJList extends JXListBugFixes {
                             query,
                             new String[] { "NAME" },
                             "%1$2s");
+            lastExecutedQuery = query;
             if (nullable) {
                 model.addElement(null);
             }
@@ -126,139 +128,17 @@ public class QueryJList extends JXListBugFixes {
             LOG.warn("Problem while loading the LightWeightMetaObjects.", ex);
         }
         this.setModel(model);
+        this.setAutoCreateRowSorter(true);
+        this.setSortOrder(SortOrder.DESCENDING);
+        this.toggleSortOrder();
     }
-
-    //~ Inner Classes ----------------------------------------------------------
 
     /**
      * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
      */
-    public class SortedListModel<T> extends AbstractListModel {
-
-        //~ Instance fields ----------------------------------------------------
-
-        SortedSet<T> model;
-
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new SortedListModel object.
-         *
-         * @param  comparator  DOCUMENT ME!
-         */
-        public SortedListModel(final Comparator<? super T> comparator) {
-            model = new TreeSet<T>(comparator);
-        }
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public int getSize() {
-            return model.size();
-        }
-
-        @Override
-        public Object getElementAt(final int index) {
-            return model.toArray()[index];
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   element  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        public int getIndexOf(final T element) {
-            if (model.contains(element)) {
-                return model.headSet(element).size();
-            } else {
-                return -1;
-            }
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  element  DOCUMENT ME!
-         */
-        public void addElement(final T element) {
-            if (model.add(element)) {
-                fireContentsChanged(this, 0, getSize());
-            }
-        }
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  elements  DOCUMENT ME!
-         */
-        public void addAll(final T[] elements) {
-            final Collection<T> c = Arrays.asList(elements);
-            model.addAll(c);
-            fireContentsChanged(this, 0, getSize());
-        }
-
-        /**
-         * DOCUMENT ME!
-         */
-        public void clear() {
-            model.clear();
-            fireContentsChanged(this, 0, getSize());
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   element  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        public boolean contains(final T element) {
-            return model.contains(element);
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        public Object firstElement() {
-            return model.first();
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        public Iterator iterator() {
-            return model.iterator();
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        public Object lastElement() {
-            return model.last();
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   element  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        public boolean removeElement(final T element) {
-            final boolean removed = model.remove(element);
-            if (removed) {
-                fireContentsChanged(this, 0, getSize());
-            }
-            return removed;
+    public void reload() {
+        if (StringUtils.isNotBlank(lastExecutedQuery)) {
+            executeQueryAndSetModel(lastExecutedQuery);
         }
     }
 }
