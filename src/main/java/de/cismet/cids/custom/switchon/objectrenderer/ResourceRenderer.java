@@ -445,7 +445,13 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         if (cidsBean != null) {
             title = cidsBean.toString();
             final String resourceType = (String)cidsBean.getProperty("type.name");
-            icon = new ImageIcon(ImageGetterUtils.getImageForString(resourceType, ImageGetterUtils.CIRCLE_LETTER_PATH));
+            if ("experiment result data".equalsIgnoreCase(resourceType)) {
+                icon = new ImageIcon(ImageGetterUtils.getImageForLetter('x', ImageGetterUtils.CIRCLE_LETTER_PATH));
+            } else {
+                icon = new ImageIcon(ImageGetterUtils.getImageForString(
+                            resourceType,
+                            ImageGetterUtils.CIRCLE_LETTER_PATH));
+            }
         }
 
         lblTitle.setIcon(icon);
