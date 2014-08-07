@@ -8,10 +8,13 @@
 package de.cismet.cids.custom.switchon.objectrenderer;
 
 import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
+
+import java.util.ResourceBundle;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -44,6 +47,9 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private ActionListener hyperlinkActionListener = null;
+    private final ResourceBundle functionBundle = ResourceBundle.getBundle(
+            "de/cismet/cids/custom/switchon/tagBundles/function");
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
@@ -189,7 +195,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 2, 10);
         jPanel2.add(hypDownload, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
@@ -212,8 +218,8 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 10);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 5, 10, 10);
         jPanel2.add(lblUrl, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -322,28 +328,34 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
     private void setHyperlinkIconAndText() {
         Icon icon;
         final String function = (String)cidsBean.getProperty("function.name");
-        String text = "Open browser";
+
         if ("download".equalsIgnoreCase(function)) {
+            hypDownload.removeActionListener(hyperlinkActionListener);
+            hyperlinkActionListener = new InitiateDownloadActionListener();
+            hypDownload.addActionListener(hyperlinkActionListener);
+
             final String contentType = (String)cidsBean.getProperty("contenttype.name");
             icon = new ImageIcon(ImageGetterUtils.getImageForContentType(
                         contentType,
                         ImageGetterUtils.ImageSize.PIXEL_32));
-            text = "Download File";
         } else {
+            hypDownload.removeActionListener(hyperlinkActionListener);
+            hyperlinkActionListener = new OpenInBrowserActionListener();
+            hypDownload.addActionListener(hyperlinkActionListener);
+
             final String protocol = (String)cidsBean.getProperty("protocol.name");
             icon = new ImageIcon(ImageGetterUtils.getImageForProtocol(protocol));
-
-            if ("order".equalsIgnoreCase(function)) {
-                text = "Open order form";
-            } else if ("service".equalsIgnoreCase(function)) {
-                text = "Show Service URL";
-            }
         }
 
+        final String text = functionBundle.getString(function + ".action");
         hypDownload.setText(text);
+
         lblDownloadIcon.setIcon(icon);
         lblDownloadIcon.setText("");
-        lblUrl.setText(String.valueOf(cidsBean.getProperty("contentlocation")));
+
+        final String url = String.valueOf(cidsBean.getProperty("contentlocation"));
+        lblUrl.setText(url);
+        lblUrl.setToolTipText(url);
     }
 
     /**
@@ -364,5 +376,76 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
             "Representation",
             1280,
             1024);
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class InitiateDownloadActionListener implements ActionListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            final String urlString = (String)cidsBean.getProperty("contentlocation");
+            URL url = null;
+            try {
+                url = new URL(urlString);
+            } catch (MalformedURLException ex) {
+                LOG.error(urlString + " is not a valid URL.", ex);
+            }
+            if (url != null) {
+                if (DownloadManagerDialog.showAskingForUserTitle(RepresentationRenderer.this)) {
+                    final String filename = urlString.substring(urlString.lastIndexOf("/") + 1);
+
+                    DownloadManager.instance()
+                            .add(
+                                new HttpDownload(
+                                    url,
+                                    "",
+                                    DownloadManagerDialog.getJobname(),
+                                    cidsBean.toString(),
+                                    filename.substring(0, filename.lastIndexOf(".")),
+                                    filename.substring(filename.lastIndexOf("."))));
+                }
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class OpenInBrowserActionListener implements ActionListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            final String urlString = (String)cidsBean.getProperty("contentlocation");
+            URL url = null;
+            try {
+                url = new URL(urlString);
+            } catch (MalformedURLException ex) {
+                LOG.error(urlString + " is not a valid URL.", ex);
+            }
+            if (url != null) {
+                final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+                if ((desktop != null) && desktop.isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        desktop.browse(url.toURI());
+                    } catch (Exception ex) {
+                        LOG.error("Could not open URI: " + urlString, ex);
+                    }
+                } else {
+                    LOG.info("Opening a website is not supported.");
+                }
+            }
+        }
     }
 }
