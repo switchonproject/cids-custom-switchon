@@ -9,6 +9,8 @@ package de.cismet.cids.custom.switchon.objectrenderer;
 
 import Sirius.navigator.plugin.PluginRegistry;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,10 +62,10 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
     private javax.swing.Box.Filler filler1;
     private org.jdesktop.swingx.JXHyperlink hypAddToCismap;
     private org.jdesktop.swingx.JXHyperlink hypDownload;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAddToCismapIcon;
     private javax.swing.JLabel lblDownloadIcon;
     private javax.swing.JLabel lblUrl;
     private de.cismet.cids.custom.switchon.objecteditors.SpatialAndTemporalPropertiesPanel
@@ -103,7 +105,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         lblDownloadIcon = new javax.swing.JLabel();
         lblUrl = new javax.swing.JLabel();
         hypAddToCismap = new org.jdesktop.swingx.JXHyperlink();
-        jLabel1 = new javax.swing.JLabel();
+        lblAddToCismapIcon = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -227,18 +229,20 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 10);
         jPanel3.add(hypAddToCismap, gridBagConstraints);
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/switchon/objectrenderer/add.png")));                     // NOI18N
+        lblAddToCismapIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAddToCismapIcon.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/switchon/objectrenderer/add.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel1,
-            org.openide.util.NbBundle.getMessage(RepresentationRenderer.class, "RepresentationRenderer.jLabel1.text")); // NOI18N
+            lblAddToCismapIcon,
+            org.openide.util.NbBundle.getMessage(
+                RepresentationRenderer.class,
+                "RepresentationRenderer.lblAddToCismapIcon.text"));                                 // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 5);
-        jPanel3.add(jLabel1, gridBagConstraints);
+        jPanel3.add(lblAddToCismapIcon, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -335,7 +339,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
     }
 
     /**
-     * DOCUMENT ME!
+     * Configures the download or open in browser hyperlink.
      */
     private void setHyperlinkIconAndText() {
         Icon icon;
@@ -347,9 +351,12 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
             hypDownload.addActionListener(hyperlinkActionListener);
 
             final String contentType = (String)cidsBean.getProperty("contenttype.name");
+            final String urlString = (String)cidsBean.getProperty("contentlocation");
+            final String extension = FilenameUtils.getExtension(urlString);
             icon = new ImageIcon(ImageGetterUtils.getImageForContentType(
                         contentType,
-                        ImageGetterUtils.ImageSize.PIXEL_32));
+                        ImageGetterUtils.ImageSize.PIXEL_32,
+                        extension));
         } else {
             hypDownload.removeActionListener(hyperlinkActionListener);
             hyperlinkActionListener = new OpenInBrowserActionListener();
@@ -371,12 +378,16 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
     }
 
     /**
-     * DOCUMENT ME!
+     * Configures the Add-to-Cismap hyperlink. It is visible if the protocol of the Representation is WMS or WFS. On
+     * click on the hyperlink the contentlocation is added as capability to the capability widget of the cismap.
+     * Afterwards a switch to the Cismap happens.
      */
     private void setHyperlinkAddToCismap() {
         final String protocol = (String)cidsBean.getProperty("protocol.name");
         if ("OGC:WFS".equalsIgnoreCase(protocol) || "OGC:WMS".equalsIgnoreCase(protocol)) {
             hypAddToCismap.setVisible(true);
+            lblAddToCismapIcon.setVisible(true);
+
             hypAddToCismap.addActionListener(new ActionListener() {
 
                     @Override
@@ -390,6 +401,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
                 });
         } else {
             hypAddToCismap.setVisible(false);
+            lblAddToCismapIcon.setVisible(false);
         }
     }
 

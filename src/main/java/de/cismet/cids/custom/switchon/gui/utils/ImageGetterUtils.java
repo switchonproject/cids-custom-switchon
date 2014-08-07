@@ -88,10 +88,13 @@ public class ImageGetterUtils {
      *
      * @param   contentTypeName  DOCUMENT ME!
      * @param   imageSize        DOCUMENT ME!
+     * @param   extension        DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    public static Image getImageForContentType(final String contentTypeName, final ImageSize imageSize) {
+    public static Image getImageForContentType(final String contentTypeName,
+            final ImageSize imageSize,
+            final String extension) {
         if (contentTypeName == null) {
             return getFallBackImage(imageSize);
         }
@@ -99,6 +102,37 @@ public class ImageGetterUtils {
         final URL resource = ImageGetterUtils.class.getResource(
                 "/de/cismet/tools/gui/downloadmanager/documenttypes/"
                         + contentTypeName.split("/")[1]
+                        + imageSize.value);
+
+        Image image = getFallBackImage(imageSize);
+        if (resource != null) {
+            try {
+                image = ImageIO.read(resource);
+            } catch (IOException ex) {
+                LOG.error("Error while reading an icon", ex);
+            }
+        } else if (extension != null) {
+            image = getImageForExtension(extension, imageSize);
+        }
+        return image;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   extension  DOCUMENT ME!
+     * @param   imageSize  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static Image getImageForExtension(final String extension, final ImageSize imageSize) {
+        if (extension == null) {
+            return getFallBackImage(imageSize);
+        }
+
+        final URL resource = ImageGetterUtils.class.getResource(
+                "/de/cismet/tools/gui/downloadmanager/documenttypes/"
+                        + extension.toLowerCase()
                         + imageSize.value);
 
         Image image = getFallBackImage(imageSize);
