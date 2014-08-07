@@ -84,7 +84,8 @@ public class ImageGetterUtils {
     //~ Methods ----------------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * If the parameter extension is not null and no image for the ContentType was found, then a image for that
+     * extension is searched.
      *
      * @param   contentTypeName  DOCUMENT ME!
      * @param   imageSize        DOCUMENT ME!
