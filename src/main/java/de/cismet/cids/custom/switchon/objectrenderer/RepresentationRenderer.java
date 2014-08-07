@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objectrenderer;
 
+import Sirius.navigator.plugin.PluginRegistry;
+
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,11 +23,14 @@ import javax.swing.ImageIcon;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.switchon.gui.utils.CismapUtils;
 import de.cismet.cids.custom.switchon.gui.utils.ImageGetterUtils;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.cismap.navigatorplugin.CismapPlugin;
 
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
@@ -55,8 +60,8 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
     private javax.swing.Box.Filler filler1;
     private org.jdesktop.swingx.JXHyperlink hypAddToCismap;
     private org.jdesktop.swingx.JXHyperlink hypDownload;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDownloadIcon;
@@ -94,11 +99,11 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         spatialAndTemporalPropertiesPanel =
             new de.cismet.cids.custom.switchon.objecteditors.SpatialAndTemporalPropertiesPanel();
         jPanel3 = new javax.swing.JPanel();
-        hypAddToCismap = new org.jdesktop.swingx.JXHyperlink();
-        jPanel2 = new javax.swing.JPanel();
         hypDownload = new org.jdesktop.swingx.JXHyperlink();
         lblDownloadIcon = new javax.swing.JLabel();
         lblUrl = new javax.swing.JLabel();
+        hypAddToCismap = new org.jdesktop.swingx.JXHyperlink();
+        jLabel1 = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -163,21 +168,6 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            hypAddToCismap,
-            org.openide.util.NbBundle.getMessage(
-                RepresentationRenderer.class,
-                "RepresentationRenderer.hypAddToCismap.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
-        jPanel3.add(hypAddToCismap, gridBagConstraints);
-
-        jPanel2.setOpaque(false);
-        jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        org.openide.awt.Mnemonics.setLocalizedText(
             hypDownload,
             org.openide.util.NbBundle.getMessage(
                 RepresentationRenderer.class,
@@ -196,8 +186,9 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 2, 10);
-        jPanel2.add(hypDownload, gridBagConstraints);
+        jPanel3.add(hypDownload, gridBagConstraints);
 
+        lblDownloadIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.openide.awt.Mnemonics.setLocalizedText(
             lblDownloadIcon,
             org.openide.util.NbBundle.getMessage(
@@ -209,7 +200,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 5);
-        jPanel2.add(lblDownloadIcon, gridBagConstraints);
+        jPanel3.add(lblDownloadIcon, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             lblUrl,
@@ -220,14 +211,34 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 5, 10, 10);
-        jPanel2.add(lblUrl, gridBagConstraints);
+        jPanel3.add(lblUrl, gridBagConstraints);
 
+        org.openide.awt.Mnemonics.setLocalizedText(
+            hypAddToCismap,
+            org.openide.util.NbBundle.getMessage(
+                RepresentationRenderer.class,
+                "RepresentationRenderer.hypAddToCismap.text")); // NOI18N
+        hypAddToCismap.setIconTextGap(10);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 10);
+        jPanel3.add(hypAddToCismap, gridBagConstraints);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/switchon/objectrenderer/add.png")));                     // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel1,
+            org.openide.util.NbBundle.getMessage(RepresentationRenderer.class, "RepresentationRenderer.jLabel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        jPanel3.add(jPanel2, gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 5);
+        jPanel3.add(jLabel1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -305,6 +316,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
             bindingGroup.bind();
 
             setHyperlinkIconAndText();
+            setHyperlinkAddToCismap();
         }
     }
 
@@ -356,6 +368,29 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         final String url = String.valueOf(cidsBean.getProperty("contentlocation"));
         lblUrl.setText(url);
         lblUrl.setToolTipText(url);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setHyperlinkAddToCismap() {
+        final String protocol = (String)cidsBean.getProperty("protocol.name");
+        if ("OGC:WFS".equalsIgnoreCase(protocol) || "OGC:WMS".equalsIgnoreCase(protocol)) {
+            hypAddToCismap.setVisible(true);
+            hypAddToCismap.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(final ActionEvent e) {
+                        final CismapPlugin cismapPlugin = (CismapPlugin)PluginRegistry.getRegistry()
+                                    .getPlugin("cismap");
+                        final String url = String.valueOf(cidsBean.getProperty("contentlocation"));
+                        cismapPlugin.getCapabilities().processUrl(url, null);
+                        CismapUtils.switchToCismapMap();
+                    }
+                });
+        } else {
+            hypAddToCismap.setVisible(false);
+        }
     }
 
     /**
