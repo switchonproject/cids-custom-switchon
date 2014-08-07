@@ -52,25 +52,77 @@ public class ImageGetterUtils {
         }
     }
 
+    //~ Enums ------------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    public enum ImageSize {
+
+        //~ Enum constants -----------------------------------------------------
+
+        PIXEL_16("_16.png"), PIXEL_32("_32.png");
+
+        //~ Instance fields ----------------------------------------------------
+
+        private String value;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new ImageSize object.
+         *
+         * @param  value  DOCUMENT ME!
+         */
+        private ImageSize(final String value) {
+            this.value = value;
+        }
+    }
+
     //~ Methods ----------------------------------------------------------------
 
     /**
      * DOCUMENT ME!
      *
      * @param   contentTypeName  DOCUMENT ME!
+     * @param   imageSize        DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    public static Image getImageForContentType(final String contentTypeName) {
+    public static Image getImageForContentType(final String contentTypeName, final ImageSize imageSize) {
         if (contentTypeName == null) {
-            return UNKOWN;
+            return getFallBackImage(imageSize);
         }
 
         final URL resource = ImageGetterUtils.class.getResource(
-                "/de/cismet/cids/custom/switchon/contentTypeIcons/"
-                        + contentTypeName.replace('/', '-')
-                        + ".png");
+                "/de/cismet/tools/gui/downloadmanager/documenttypes/"
+                        + contentTypeName.split("/")[1]
+                        + imageSize.value);
 
+        Image image = getFallBackImage(imageSize);
+        if (resource != null) {
+            try {
+                image = ImageIO.read(resource);
+            } catch (IOException ex) {
+                LOG.error("Error while reading an icon", ex);
+            }
+        }
+        return image;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   imageSize  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private static Image getFallBackImage(final ImageSize imageSize) {
+        final URL resource = ImageGetterUtils.class.getResource(
+                "/de/cismet/tools/gui/downloadmanager/documenttypes/fallback_single"
+                        + imageSize.value);
         Image image = UNKOWN;
         if (resource != null) {
             try {

@@ -325,7 +325,9 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         String text = "Open browser";
         if ("download".equalsIgnoreCase(function)) {
             final String contentType = (String)cidsBean.getProperty("contenttype.name");
-            icon = new ImageIcon(ImageGetterUtils.getImageForContentType(contentType));
+            icon = new ImageIcon(ImageGetterUtils.getImageForContentType(
+                        contentType,
+                        ImageGetterUtils.ImageSize.PIXEL_32));
             text = "Download File";
         } else {
             final String protocol = (String)cidsBean.getProperty("protocol.name");
