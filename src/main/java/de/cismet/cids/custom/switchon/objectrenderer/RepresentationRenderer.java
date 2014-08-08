@@ -174,13 +174,6 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
             org.openide.util.NbBundle.getMessage(
                 RepresentationRenderer.class,
                 "RepresentationRenderer.hypDownload.text")); // NOI18N
-        hypDownload.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    hypDownloadActionPerformed(evt);
-                }
-            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -259,50 +252,6 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void hypDownloadActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hypDownloadActionPerformed
-        final String urlString = (String)cidsBean.getProperty("contentlocation");
-        URL url = null;
-        try {
-            url = new URL(urlString);
-        } catch (MalformedURLException ex) {
-            LOG.error(urlString + " is not a valid URL.", ex);
-        }
-        if (url != null) {
-            final String function = (String)cidsBean.getProperty("function.name");
-            if ("download".equalsIgnoreCase(function)) {                            // download the content
-                if (DownloadManagerDialog.showAskingForUserTitle(RepresentationRenderer.this)) {
-                    final String filename = urlString.substring(urlString.lastIndexOf("/") + 1);
-
-                    DownloadManager.instance()
-                            .add(
-                                new HttpDownload(
-                                    url,
-                                    "",
-                                    DownloadManagerDialog.getJobname(),
-                                    cidsBean.toString(),
-                                    filename.substring(0, filename.lastIndexOf(".")),
-                                    filename.substring(filename.lastIndexOf("."))));
-                }
-            } else { // direct download not possible open it in browser
-                final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-                if ((desktop != null) && desktop.isSupported(Desktop.Action.BROWSE)) {
-                    try {
-                        desktop.browse(url.toURI());
-                    } catch (Exception e) {
-                        LOG.error("Could not open URI: " + urlString, e);
-                    }
-                } else {
-                    LOG.info("Opening a website is not supported.");
-                }
-            }
-        }
-    }                //GEN-LAST:event_hypDownloadActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
