@@ -3,7 +3,7 @@
     <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="20" w="717" h="450" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
-        <text>Resource%20Editor</text>
+        <text>Resource%20Editor%20-%20Basic%20Resource%20Properties</text>
       </controlProperties>
     </control>
     <control controlID="1" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="461" y="56" w="681" h="391" measuredW="200" measuredH="302" zOrder="1" locked="false" isInGroup="-1">
@@ -22,7 +22,7 @@
     <control controlID="13" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="507" w="717" h="424" measuredW="450" measuredH="400" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
-        <text>Resource%20Editor</text>
+        <text>Resource%20Editor%20-%20Topic%20Category%20and%20Tags</text>
       </controlProperties>
     </control>
     <control controlID="14" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="461" y="547" w="681" h="366" measuredW="200" measuredH="302" zOrder="4" locked="false" isInGroup="-1">
@@ -105,7 +105,7 @@
     <control controlID="47" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="956" w="717" h="424" measuredW="450" measuredH="400" zOrder="18" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
-        <text>Resource%20Editor</text>
+        <text>Resource%20Editor%20-%20Resource%20Contact%20Information</text>
       </controlProperties>
     </control>
     <control controlID="48" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="461" y="996" w="681" h="366" measuredW="200" measuredH="302" zOrder="19" locked="false" isInGroup="-1">
@@ -129,7 +129,7 @@
     <control controlID="64" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="1428" w="717" h="516" measuredW="450" measuredH="400" zOrder="22" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
-        <text>Resource%20Editor</text>
+        <text>Resource%20Editor%20-%20Geographic%20Information</text>
       </controlProperties>
     </control>
     <control controlID="65" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="467" y="1463" w="681" h="460" measuredW="200" measuredH="302" zOrder="23" locked="false" isInGroup="-1">
@@ -191,7 +191,7 @@
     <control controlID="75" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="1985" w="717" h="338" measuredW="450" measuredH="400" zOrder="32" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
-        <text>Resource%20Editor</text>
+        <text>Resource%20Editor%20-%20Temporal%20Information</text>
       </controlProperties>
     </control>
     <control controlID="76" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="467" y="2020" w="681" h="288" measuredW="200" measuredH="302" zOrder="33" locked="false" isInGroup="-1">
@@ -291,7 +291,7 @@
     <control controlID="93" controlTypeID="com.balsamiq.mockups::TitleWindow" x="446" y="2349" w="717" h="500" measuredW="450" measuredH="400" zOrder="50" locked="false" isInGroup="-1">
       <controlProperties>
         <bottomheight>0</bottomheight>
-        <text>Resource%20Editor</text>
+        <text>Resource%20Editor%20-%20License%20Information</text>
       </controlProperties>
     </control>
     <control controlID="94" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="467" y="2384" w="681" h="433" measuredW="200" measuredH="302" zOrder="51" locked="false" isInGroup="-1">

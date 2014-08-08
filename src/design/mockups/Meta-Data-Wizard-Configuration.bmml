@@ -1,0 +1,237 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1481" measuredH="1212" mockupW="1455" mockupH="1170">
+  <controls>
+    <control controlID="0" controlTypeID="__group__" x="500" y="47" w="981" h="565" measuredW="981" measuredH="565" zOrder="0" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="0" y="0" w="981" h="565" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="0">
+          <controlProperties>
+            <bottomheight>59</bottomheight>
+            <close>true</close>
+            <dragger>false</dragger>
+            <maximizeRestore>false</maximizeRestore>
+            <minimize>false</minimize>
+            <text>Meta-Data%20Wizard</text>
+            <topheight>26</topheight>
+            <verticalScrollbar>false</verticalScrollbar>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Button" x="517" y="523" w="84" h="27" measuredW="64" measuredH="27" zOrder="1" locked="false" isInGroup="0">
+          <controlProperties>
+            <text>%3C%20Back</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::List" x="15" y="62" w="214" h="307" measuredW="100" measuredH="126" zOrder="2" locked="false" isInGroup="0">
+          <controlProperties>
+            <borderStyle>none</borderStyle>
+            <selectedIndex>0</selectedIndex>
+            <text>1.%20Configuration%0A2.%20...</text>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::Button" x="608" y="523" w="84" h="27" measuredW="63" measuredH="27" zOrder="3" locked="false" isInGroup="0">
+          <controlProperties>
+            <text>Next%20%3E</text>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::Button" x="698" y="523" w="84" h="27" measuredW="56" measuredH="27" zOrder="4" locked="false" isInGroup="0">
+          <controlProperties>
+            <text>Finish</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="790" y="523" w="84" h="27" measuredW="64" measuredH="27" zOrder="5" locked="false" isInGroup="0">
+          <controlProperties>
+            <text>Cancel</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::Button" x="882" y="523" w="84" h="27" measuredW="49" measuredH="27" zOrder="6" locked="false" isInGroup="0">
+          <controlProperties>
+            <text>Help</text>
+          </controlProperties>
+        </control>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::SubTitle" x="23" y="36" w="-1" h="-1" measuredW="207" measuredH="17" zOrder="7" locked="false" isInGroup="0">
+          <controlProperties>
+            <bold>true</bold>
+            <size>14</size>
+            <text>Steps%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20</text>
+            <underline>true</underline>
+          </controlProperties>
+        </control>
+        <control controlID="8" controlTypeID="com.balsamiq.mockups::SubTitle" x="257" y="36" w="690" h="-1" measuredW="740" measuredH="17" zOrder="8" locked="false" isInGroup="0">
+          <controlProperties>
+            <bold>true</bold>
+            <size>14</size>
+            <text>Configuration%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20</text>
+            <underline>true</underline>
+          </controlProperties>
+        </control>
+        <control controlID="9" controlTypeID="com.balsamiq.mockups::Image" x="23" y="378" w="199" h="116" measuredW="473" measuredH="300" zOrder="9" locked="false" isInGroup="0">
+          <controlProperties>
+            <filter>true</filter>
+            <src>./assets/switchonLogo.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::VRule" x="737" y="70" w="-1" h="487" measuredW="10" measuredH="100" zOrder="1" locked="false" isInGroup="-1"/>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Icon" x="757" y="447" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <icon>InfoIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Paragraph" x="802" y="447" w="647" h="95" measuredW="275" measuredH="80" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>12</size>
+        <state>disabled</state>
+        <text>*%7Bcolor%3Ablue%7DPlease%20select%20a%20predefined%20Meta-Data%20Profile%20or%20start%20with%20a%20custom%20profile.%20The%20_Basic_%20Profile%20asks%20only%20for%20a%20bare%20minium%20of%20meta-data%20while%20the%20_Expert_%20Profile%20asks%20also%20for%20meta-data%20on%20data%20quality%2C%20lineage%20meta-data%2C%20resource%20relationships%2C%20multiple%20resource%20representations%2C%20etc.%20%7Bcolor%7D*%0A*%7Bcolor%3Ablue%7DPlease%20chose%20whether%20you%20want%20to%20register%20an%20external%20dataset%20stored%20on%20a%20remote%20server%20or%20register%20a%20local%20dataset%20and%20upload%20it%20to%20the%20SWITCH-OM%20Meta-Data%20Repository.%7Bcolor%7D*%0A*%7Bcolor%3Ablue%7DIf%20you%20have%20an%20existing%20standard%20ISO%2019115%20meta-data%20document%20you%20can%20import%20it.%7Bcolor%7D*%0A%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::FieldSet" x="757" y="109" w="692" h="119" measuredW="200" measuredH="170" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Meta-Data%20Profile</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="__group__" x="770" y="131" w="62" h="82" measuredW="62" measuredH="82" zOrder="5" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::RadioButton" x="0" y="0" w="-1" h="-1" measuredW="49" measuredH="22" zOrder="0" locked="false" isInGroup="5">
+          <controlProperties>
+            <text>Basic</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::RadioButton" x="0" y="60" w="-1" h="-1" measuredW="62" measuredH="22" zOrder="1" locked="false" isInGroup="5">
+          <controlProperties>
+            <state>selected</state>
+            <text>Custom</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::RadioButton" x="0" y="31" w="-1" h="-1" measuredW="56" measuredH="22" zOrder="2" locked="false" isInGroup="5">
+          <controlProperties>
+            <state>up</state>
+            <text>Expert</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::FieldSet" x="757" y="245" w="692" h="85" measuredW="200" measuredH="170" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Data%20Import</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::RadioButton" x="770" y="293" w="-1" h="-1" measuredW="159" measuredH="22" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>selected</state>
+        <text>Register%20a%20local%20dataset</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::RadioButton" x="770" y="265" w="-1" h="-1" measuredW="187" measuredH="22" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>Register%20an%20external%20dataset</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::FieldSet" x="757" y="345" w="692" h="87" measuredW="200" measuredH="170" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Meta-Data%20Import</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Button" x="770" y="369" w="48" h="48" measuredW="54" measuredH="32" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>ImportIcon%7Cmedium</icon>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::TextInput" x="832" y="379" w="598" h="-1" measuredW="79" measuredH="26" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderColor>16777215</borderColor>
+        <state>disabled</state>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::StickyNote" x="41" y="42" w="434" h="327" measuredW="109" measuredH="123" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*Meta-Data%20Configuration%20Panel*%0A%20%0AGeneral%20Remarks%3A%0A%20%0A-%20The%20steps%20of%20the%20wizard%20depend%20on%20the%20selection%20of%20the%20meta-data%20profile%20or%20the%20defintion%20of%20a%20custom%20profile.%20Therfore%20no%20steps%20can%20be%20shown%20in%20the%20left%20pan%20of%20the%20Wizard.%0A-%20Once%20a%20profile%20has%20been%20selected%20or%20a%20custom%20profile%20has%20been%20defined%2C%20it%20is%20not%20possible%20to%20change%20this%20profile%20afterwards%2C%20i.e.%20the%20%22Back%22%20button%20of%20the%20first%20input%20panel%20%28usually%20*Basic%20Resource%20Information*%29%20is%20disabled.%0A-%20Some%20of%20the%20attributes%20are%20mandatory.%20The%20%22Next%22%20button%20is%20disabled%20until%20all%20mandatory%20attributes%20have%20been%20provided.%0A%20%0AText%20to%20be%20shown%20in%20the%20*Info%20Box*%3A%0A-%20In%20general%2C%20if%20the%20input%20field%20is%20a%20list%20of%20combo%20box%2C%20the%20description%20of%20the%20tag%20of%20the%20selected%20item%20is%20shown.</text>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="__group__" x="500" y="647" w="981" h="565" measuredW="981" measuredH="565" zOrder="13" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="0" y="0" w="981" h="565" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="13">
+          <controlProperties>
+            <bottomheight>59</bottomheight>
+            <close>true</close>
+            <dragger>false</dragger>
+            <maximizeRestore>false</maximizeRestore>
+            <minimize>false</minimize>
+            <text>Meta-Data%20Wizard</text>
+            <topheight>26</topheight>
+            <verticalScrollbar>false</verticalScrollbar>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Button" x="517" y="523" w="84" h="27" measuredW="64" measuredH="27" zOrder="1" locked="false" isInGroup="13">
+          <controlProperties>
+            <text>%3C%20Back</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::List" x="15" y="62" w="214" h="307" measuredW="100" measuredH="126" zOrder="2" locked="false" isInGroup="13">
+          <controlProperties>
+            <borderStyle>none</borderStyle>
+            <selectedIndex>1</selectedIndex>
+            <text>1.%20Configuration%0A2.%20Custom%20Profile%0A3.%20...</text>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::Button" x="608" y="523" w="84" h="27" measuredW="63" measuredH="27" zOrder="3" locked="false" isInGroup="13">
+          <controlProperties>
+            <text>Next%20%3E</text>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::Button" x="698" y="523" w="84" h="27" measuredW="56" measuredH="27" zOrder="4" locked="false" isInGroup="13">
+          <controlProperties>
+            <text>Finish</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="790" y="523" w="84" h="27" measuredW="64" measuredH="27" zOrder="5" locked="false" isInGroup="13">
+          <controlProperties>
+            <text>Cancel</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::Button" x="882" y="523" w="84" h="27" measuredW="49" measuredH="27" zOrder="6" locked="false" isInGroup="13">
+          <controlProperties>
+            <text>Help</text>
+          </controlProperties>
+        </control>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::SubTitle" x="23" y="36" w="-1" h="-1" measuredW="207" measuredH="17" zOrder="7" locked="false" isInGroup="13">
+          <controlProperties>
+            <bold>true</bold>
+            <size>14</size>
+            <text>Steps%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20</text>
+            <underline>true</underline>
+          </controlProperties>
+        </control>
+        <control controlID="8" controlTypeID="com.balsamiq.mockups::SubTitle" x="257" y="36" w="690" h="-1" measuredW="751" measuredH="17" zOrder="8" locked="false" isInGroup="13">
+          <controlProperties>
+            <bold>true</bold>
+            <size>14</size>
+            <text>Custom%20Profile%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20</text>
+            <underline>true</underline>
+          </controlProperties>
+        </control>
+        <control controlID="9" controlTypeID="com.balsamiq.mockups::Image" x="23" y="378" w="199" h="116" measuredW="473" measuredH="300" zOrder="9" locked="false" isInGroup="13">
+          <controlProperties>
+            <filter>true</filter>
+            <src>./assets/switchonLogo.png</src>
+            <text/>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::Tree" x="757" y="717" w="-1" h="-1" measuredW="300" measuredH="243" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>none</borderStyle>
+        <text>%5Bx%5D%20Meta-Data%20Import%0A%5B%20%5D%20and%20this%0A%20%5Bx%5D%20_or%20this_%0A%28x%29%0A%3E%20or%20even%20this%0Av%20and%20this%0A-%20Use%20-%20for%20a%20file%20icon%0A_%20or%20_%20to%20leave%20a%20space%20for%20your%20own%20icon%0AF%20use%20spaces%20or%20dots%20for%20hierarchy%0A%20v%20just%20like%0A..-%20this</text>
+      </controlProperties>
+    </control>
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::StickyNote" x="26" y="642" w="434" h="162" measuredW="109" measuredH="123" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*Custom%20Profile%20Configuration%20Panel*%20%28Optional%29%0A%20%0AThis%20panel%20is%20shown%20when%20_Custom%20Profile_%20has%20been%20selected%20in%20the%20previous%20wizard%20panel.%0AOnce%20the%20panels%20have%20been%20selected%20by%20the%20user%2C%20steps%20of%20the%20Wizard%20should%20be%20updated%20accordingly.</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
