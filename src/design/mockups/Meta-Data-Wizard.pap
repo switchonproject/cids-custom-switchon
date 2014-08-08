@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<FRAME GUID="2FB25471-B62C-4EE6-BD43-F819C095ACF8" FORMAT="0000" APP_VERSION="2.2.0.8" CHECKSUM="9FDE28AC838009CA">
-  <PROJECT FORMAT="1.00" NAME="Meta-Data Wizard" AUTHOR="Pascal Dihé" CREATED="2014.08.06 14:01:36" MODIFIED="2014.08.07 18:56:34">
+<FRAME GUID="2FB25471-B62C-4EE6-BD43-F819C095ACF8" FORMAT="0000" APP_VERSION="2.2.0.8" CHECKSUM="11152CBCB6B7183D">
+  <PROJECT FORMAT="1.00" NAME="Meta-Data Wizard" AUTHOR="Pascal Dihé" CREATED="2014.08.06 14:01:36" MODIFIED="2014.08.08 17:57:36">
     <DIAGRAMS>
-      <DIAGRAM FORMAT="1.00" ID="0" NAME="Profile Selection" CREATED="2014.08.06 14:01:47" MODIFIED="2014.08.07 18:56:34">
+      <DIAGRAM FORMAT="1.00" ID="0" NAME="Profile Selection" CREATED="2014.08.06 14:01:47" MODIFIED="2014.08.08 17:57:36">
         <LAYOUT FORMAT="1.00" COLUMNS="2" ROWS="13">
           <ENTRIES>
             <ENTRY COLUMN="0" ROW="0" ANCHOR="True">
@@ -26,38 +26,38 @@
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="4">
-              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="10">
-                <TEXT><![CDATA[Custom Profile Panel]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="0" ROW="5">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="14">
                 <TEXT><![CDATA[Basic Resource Properties]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="0" ROW="6">
+            <ENTRY COLUMN="0" ROW="5">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="16">
                 <TEXT><![CDATA[Topic Category and Tags]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="0" ROW="7">
+            <ENTRY COLUMN="0" ROW="6">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="17">
-                <TEXT><![CDATA[Resource Contact Information]]></TEXT>
+                <TEXT><![CDATA[Contact Information]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="0" ROW="8">
+            <ENTRY COLUMN="0" ROW="7">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="18">
                 <TEXT><![CDATA[Geographic Information]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="0" ROW="9">
+            <ENTRY COLUMN="0" ROW="8">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="32">
                 <TEXT><![CDATA[Temporal Information]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="0" ROW="10">
+            <ENTRY COLUMN="0" ROW="9">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="34">
                 <TEXT><![CDATA[License Information]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="10">
+              <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="38">
+                <TEXT><![CDATA[Custom or Expert Profile?]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="11">
@@ -71,32 +71,38 @@
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="1" ROW="3">
-              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="24">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="10">
+                <TEXT><![CDATA[Custom Profile Panel]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="4">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="43">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="5">
-              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="26">
-                <TEXT><![CDATA[]]></TEXT>
+            <ENTRY COLUMN="1" ROW="10">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="40">
+                <TEXT><![CDATA[A]]></TEXT>
               </FIGURE>
             </ENTRY>
           </ENTRIES>
         </LAYOUT>
         <CONNECTIONS>
           <CONNECTION FORMAT="1.00" ID="3" FROM="1" TO="12" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="5" FROM="4" TO="10" TEXT="yes" />
-          <CONNECTION FORMAT="1.00" ID="25" FROM="4" TO="24" TEXT="no" />
-          <CONNECTION FORMAT="1.00" ID="27" FROM="24" TO="26" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="31" FROM="26" TO="14" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="42" FROM="4" TO="10" TEXT="yes" />
           <CONNECTION FORMAT="1.00" ID="13" FROM="12" TO="4" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="33" FROM="32" TO="34" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="19" FROM="14" TO="16" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="21" FROM="16" TO="17" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="22" FROM="17" TO="18" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="23" FROM="18" TO="32" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="30" FROM="10" TO="14" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="35" FROM="34" TO="36" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="5" FROM="4" TO="14" TEXT="no" />
+          <CONNECTION FORMAT="1.00" ID="35" FROM="34" TO="38" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="37" FROM="36" TO="2" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="39" FROM="38" TO="36" TEXT="no" />
+          <CONNECTION FORMAT="1.00" ID="41" FROM="38" TO="40" TEXT="yes" />
+          <CONNECTION FORMAT="1.00" ID="44" FROM="10" TO="43" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="45" FROM="43" TO="14" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="46" FROM="14" TO="16" TEXT="" />
         </CONNECTIONS>
       </DIAGRAM>
       <DIAGRAM FORMAT="1.00" ID="1" NAME="Basic Profile" CREATED="2014.08.06 15:57:13" MODIFIED="2014.08.06 15:57:13">
