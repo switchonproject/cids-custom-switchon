@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objectrenderer;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.StringReader;
@@ -249,7 +250,12 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
                 hypDownload.setVisible(true);
 
                 final String contentTypeName = (String)cidsBean.getProperty("contenttype.name");
-                hypDownload.setIcon(new ImageIcon(ImageGetterUtils.getImageForContentType(contentTypeName)));
+                final String extension = FilenameUtils.getExtension(urlString);
+                hypDownload.setIcon(new ImageIcon(
+                        ImageGetterUtils.getImageForContentType(
+                            contentTypeName,
+                            ImageGetterUtils.ImageSize.PIXEL_16,
+                            extension)));
             } else {
                 txtaDocument.setText(prettyFormat(content));
 
