@@ -60,6 +60,7 @@ import de.cismet.cids.server.search.MetaObjectNodeServerSearch;
 
 import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
 
+import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
@@ -872,7 +873,10 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
             if (selectedItem instanceof LightweightMetaObject) {
                 searchStatement.setLocation(((LightweightMetaObject)selectedItem).getName());
             } else if ((selectedItem != null) && (selectedGeometry != null)) {
-                searchStatement.setGeometryToSearchFor(selectedGeometry);
+                final Geometry transformedBoundingBox;
+                transformedBoundingBox = CrsTransformer.transformToDefaultCrs(selectedGeometry);
+                transformedBoundingBox.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+                searchStatement.setGeometryToSearchFor(transformedBoundingBox);
             }
         }
 
