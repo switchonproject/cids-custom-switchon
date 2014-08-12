@@ -9,11 +9,14 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import Sirius.server.middleware.types.MetaObject;
 
+import org.apache.commons.lang.StringUtils;
+
 import org.jfree.util.Log;
 
 import java.util.HashSet;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
@@ -791,7 +794,20 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
 
     @Override
     public boolean prepareForSave() {
-        return true;
+        boolean save = true;
+        for (final CidsBean modifiedBean : modifiedBeans) {
+            if (StringUtils.isBlank(modifiedBean.toString())) {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Can not save. The name of one object is blank.",
+                    "Blank name",
+                    JOptionPane.WARNING_MESSAGE);
+                save = false;
+                break;
+            }
+        }
+
+        return save;
     }
 
     @Override
