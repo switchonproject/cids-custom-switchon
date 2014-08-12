@@ -9,6 +9,8 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
+import Sirius.server.middleware.types.MetaObject;
+
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
@@ -17,6 +19,8 @@ import de.cismet.cids.custom.switchon.utils.Taggroups;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
@@ -27,7 +31,9 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRenderer, RequestsFullSizeComponent {
+public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRenderer,
+    RequestsFullSizeComponent,
+    EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -41,11 +47,14 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
     private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
     private javax.swing.JComboBox cmbTopic;
+    private de.cismet.cids.custom.switchon.objecteditors.ContactEditor contactEditor;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel pnlBasicProperties;
+    private javax.swing.JPanel pnlContact;
     private javax.swing.JPanel pnlTagsAndCategory;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -82,6 +91,11 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         cmbTopic = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.TOPIC_CATEGORY);
         additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
+        pnlContact = new javax.swing.JPanel();
+        contactEditor = new de.cismet.cids.custom.switchon.objecteditors.ContactEditor();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
 
@@ -139,6 +153,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
         pnlTagsAndCategory.add(jPanel1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -146,6 +161,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 0.3;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlTagsAndCategory.add(additionalTagsPanel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -158,6 +174,24 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 ResourceEditor.class,
                 "ResourceEditor.pnlTagsAndCategory.TabConstraints.tabTitle"),
             pnlTagsAndCategory); // NOI18N
+
+        pnlContact.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        pnlContact.add(contactEditor, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        pnlContact.add(filler3, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceEditor.class,
+                "ResourceEditor.pnlContact.TabConstraints.tabTitle"),
+            pnlContact); // NOI18N
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -186,6 +220,9 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 this.cidsBean);
             basicPropertiesPanel.setCidsBean(cidsBean);
             additionalTagsPanel.setCidsBean(cidsBean);
+
+            contactEditor.setCidsBean((CidsBean)cidsBean.getProperty("contact"));
+
             bindingGroup.bind();
         }
     }
@@ -221,5 +258,24 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             1,
             1280,
             1024);
+    }
+
+    @Override
+    public void editorClosed(final EditorClosedEvent event) {
+    }
+
+    @Override
+    public boolean prepareForSave() {
+        final CidsBean contact = (CidsBean)cidsBean.getProperty("contact");
+        if (MetaObject.MODIFIED == cidsBean.getMetaObject().getStatus()) {
+            try {
+                final CidsBean persistedContact = contact.persist();
+                cidsBean.setProperty("contact", persistedContact);
+            } catch (Exception ex) {
+                LOG.error("Contact could not be persisted.", ex);
+            }
+        }
+
+        return true;
     }
 }
