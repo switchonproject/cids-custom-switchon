@@ -49,10 +49,17 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel pnlBasicProperties;
     private javax.swing.JPanel pnlContact;
+    private javax.swing.JPanel pnlGeographicProperties;
+    private javax.swing.JPanel pnlMap;
     private javax.swing.JPanel pnlTagsAndCategory;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -96,6 +103,13 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
+        pnlGeographicProperties = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        pnlMap = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
@@ -199,6 +213,44 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 ResourceEditor.class,
                 "ResourceEditor.pnlContact.TabConstraints.tabTitle"),
             pnlContact); // NOI18N
+
+        pnlGeographicProperties.setLayout(null);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jPanel2.border.title"))); // NOI18N
+        jPanel2.setLayout(null);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jButton1,
+            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jButton1.text")); // NOI18N
+        jPanel2.add(jButton1);
+        jButton1.setBounds(410, 30, 94, 25);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jButton2,
+            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jButton2.text")); // NOI18N
+        jPanel2.add(jButton2);
+        jButton2.setBounds(410, 80, 94, 25);
+        jPanel2.add(pnlMap);
+        pnlMap.setBounds(10, 30, 380, 190);
+
+        pnlGeographicProperties.add(jPanel2);
+        jPanel2.setBounds(20, 20, 520, 250);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jPanel3.border.title"))); // NOI18N
+        jPanel3.setLayout(null);
+        pnlGeographicProperties.add(jPanel3);
+        jPanel3.setBounds(30, 280, 510, 210);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceEditor.class,
+                "ResourceEditor.pnlGeographicProperties.TabConstraints.tabTitle"),
+            pnlGeographicProperties); // NOI18N
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceEditor.class,
+                "ResourceEditor.jPanel4.TabConstraints.tabTitle"),
+            jPanel4);                 // NOI18N
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
