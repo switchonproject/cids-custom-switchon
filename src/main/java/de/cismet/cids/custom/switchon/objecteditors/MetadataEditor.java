@@ -9,6 +9,8 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
+import Sirius.server.middleware.types.MetaObject;
+
 import org.openide.util.Exceptions;
 
 import java.awt.Component;
@@ -460,7 +462,9 @@ public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRender
     @Override
     public void saveChanges() throws Exception {
         final CidsBean newCidsBean = cidsBean.persist();
-        newlyAddedCidsBeans.add(newCidsBean);
+        if (cidsBean.getMetaObject().getStatus() == MetaObject.NEW) {
+            newlyAddedCidsBeans.add(newCidsBean);
+        }
     }
 
     @Override

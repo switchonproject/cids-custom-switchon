@@ -11,6 +11,7 @@ import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
 
 import java.util.Collections;
 import java.util.Set;
@@ -35,13 +36,12 @@ public class ShowEditorInDialog extends javax.swing.JDialog {
     //~ Instance fields --------------------------------------------------------
 
     private boolean changesSaved = false;
-    private EditorShowableInDialog editor;
+    private final EditorShowableInDialog editor;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler2;
     private javax.swing.JPanel pnlEditor;
     // End of variables declaration//GEN-END:variables
 
@@ -58,7 +58,12 @@ public class ShowEditorInDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.editor = editor;
-        pnlEditor.add(editor.getComponent(), BorderLayout.CENTER);
+        final GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        pnlEditor.add(editor.getComponent(), gridBagConstraints);
+        this.pack();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -77,9 +82,6 @@ public class ShowEditorInDialog extends javax.swing.JDialog {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 0));
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 32767));
         pnlEditor = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -125,19 +127,16 @@ public class ShowEditorInDialog extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         getContentPane().add(filler1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 1.0;
-        getContentPane().add(filler2, gridBagConstraints);
 
-        pnlEditor.setLayout(new java.awt.BorderLayout());
+        pnlEditor.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(pnlEditor, gridBagConstraints);
 
         pack();
