@@ -26,8 +26,6 @@ import de.cismet.cids.dynamics.CidsBeanStore;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
-import static java.util.Collections.list;
-
 /**
  * DOCUMENT ME!
  *
