@@ -10,6 +10,7 @@ package de.cismet.cids.custom.switchon.objecteditors;
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.SortOrder;
 
@@ -27,6 +28,8 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -400,6 +403,13 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         org.openide.awt.Mnemonics.setLocalizedText(
             btnEditMetaData,
             org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnEditMetaData.text")); // NOI18N
+        btnEditMetaData.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnEditMetaDataActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -544,6 +554,22 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             representations.remove(representation);
         }
     }                                                                                           //GEN-LAST:event_btnRemoveRepresentationActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnEditMetaDataActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnEditMetaDataActionPerformed
+        final CidsBean metaData = (CidsBean)lstMetaData.getSelectedValue();
+        if (metaData != null) {
+            final MetadataEditor metadataEditor = new MetadataEditor();
+            metadataEditor.setCidsBean(metaData);
+            final Set<CidsBean> newlyAddedTags = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                    true,
+                    metadataEditor).showDialog();
+        }
+    }                                                                                   //GEN-LAST:event_btnEditMetaDataActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

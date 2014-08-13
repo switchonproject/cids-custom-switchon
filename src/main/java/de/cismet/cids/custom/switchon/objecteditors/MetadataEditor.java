@@ -9,6 +9,12 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
+import org.openide.util.Exceptions;
+
+import java.awt.Component;
+
+import java.util.HashSet;
+
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
@@ -26,13 +32,17 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRenderer, RequestsFullSizeComponent {
+public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRenderer,
+    RequestsFullSizeComponent,
+    EditorShowableInDialog {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MetadataEditor.class);
 
     //~ Instance fields --------------------------------------------------------
+
+    private HashSet<CidsBean> newlyAddedCidsBeans = new HashSet<CidsBean>();
 
     private CidsBean cidsBean;
 
@@ -440,5 +450,21 @@ public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRender
             1,
             1280,
             1024);
+    }
+
+    @Override
+    public HashSet<CidsBean> getNewlyAddedCidsBeans() {
+        return newlyAddedCidsBeans;
+    }
+
+    @Override
+    public void saveChanges() throws Exception {
+        final CidsBean newCidsBean = cidsBean.persist();
+        newlyAddedCidsBeans.add(newCidsBean);
+    }
+
+    @Override
+    public Component getComponent() {
+        return this;
     }
 }

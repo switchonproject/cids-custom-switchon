@@ -7,10 +7,14 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
-import java.awt.Component;
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
+import java.awt.BorderLayout;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.logging.Level;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -22,18 +26,23 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TagAndTagGroupEditorDialog extends javax.swing.JDialog {
+public class ShowEditorInDialog extends javax.swing.JDialog {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ShowEditorInDialog.class);
 
     //~ Instance fields --------------------------------------------------------
 
     private boolean changesSaved = false;
+    private EditorShowableInDialog editor;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
-    private de.cismet.cids.custom.switchon.objecteditors.TagAndTagGroupEditor tagAndTagGroupEditor;
+    private javax.swing.JPanel pnlEditor;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -43,10 +52,13 @@ public class TagAndTagGroupEditorDialog extends javax.swing.JDialog {
      *
      * @param  parent  DOCUMENT ME!
      * @param  modal   DOCUMENT ME!
+     * @param  editor  DOCUMENT ME!
      */
-    public TagAndTagGroupEditorDialog(final java.awt.Frame parent, final boolean modal) {
+    public ShowEditorInDialog(final java.awt.Frame parent, final boolean modal, final EditorShowableInDialog editor) {
         super(parent, modal);
         initComponents();
+        this.editor = editor;
+        pnlEditor.add(editor.getComponent(), BorderLayout.CENTER);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -60,7 +72,6 @@ public class TagAndTagGroupEditorDialog extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        tagAndTagGroupEditor = new de.cismet.cids.custom.switchon.objecteditors.TagAndTagGroupEditor();
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
@@ -69,24 +80,15 @@ public class TagAndTagGroupEditorDialog extends javax.swing.JDialog {
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
+        pnlEditor = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setModal(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
-        getContentPane().add(tagAndTagGroupEditor, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             btnSave,
-            org.openide.util.NbBundle.getMessage(
-                TagAndTagGroupEditorDialog.class,
-                "TagAndTagGroupEditorDialog.btnSave.text")); // NOI18N
+            org.openide.util.NbBundle.getMessage(ShowEditorInDialog.class, "ShowEditorInDialog.btnSave.text")); // NOI18N
         btnSave.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -103,9 +105,7 @@ public class TagAndTagGroupEditorDialog extends javax.swing.JDialog {
 
         org.openide.awt.Mnemonics.setLocalizedText(
             btnCancel,
-            org.openide.util.NbBundle.getMessage(
-                TagAndTagGroupEditorDialog.class,
-                "TagAndTagGroupEditorDialog.btnCancel.text")); // NOI18N
+            org.openide.util.NbBundle.getMessage(ShowEditorInDialog.class, "ShowEditorInDialog.btnCancel.text")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -132,6 +132,14 @@ public class TagAndTagGroupEditorDialog extends javax.swing.JDialog {
         gridBagConstraints.weighty = 1.0;
         getContentPane().add(filler2, gridBagConstraints);
 
+        pnlEditor.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        getContentPane().add(pnlEditor, gridBagConstraints);
+
         pack();
     } // </editor-fold>//GEN-END:initComponents
 
@@ -141,9 +149,24 @@ public class TagAndTagGroupEditorDialog extends javax.swing.JDialog {
      * @param  evt  DOCUMENT ME!
      */
     private void btnSaveActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnSaveActionPerformed
-        tagAndTagGroupEditor.saveChanges();
-        changesSaved = true;
-        this.dispose();
+        try {
+            editor.saveChanges();
+            changesSaved = true;
+            this.dispose();
+        } catch (Exception ex) {
+            LOG.error("CidsBean could not be saved", ex);
+            final JXErrorPane errorPane = new JXErrorPane();
+            final ErrorInfo errorInfo = new ErrorInfo(
+                    "Error",
+                    "Saving Cidsbean failed",
+                    ex.getMessage(),
+                    "ERROR",
+                    ex,
+                    Level.ALL,
+                    null);
+            errorPane.setErrorInfo(errorInfo);
+            errorPane.setVisible(true);
+        }
     }                                                                           //GEN-LAST:event_btnSaveActionPerformed
 
     /**
@@ -156,7 +179,7 @@ public class TagAndTagGroupEditorDialog extends javax.swing.JDialog {
     }                                                                             //GEN-LAST:event_btnCancelActionPerformed
 
     /**
-     * Shows the dialog and returns the newly created tags while the dialog was open.
+     * Shows the dialog and returns the newly created cidsBeans while the dialog was open.
      *
      * @return  DOCUMENT ME!
      */
@@ -164,7 +187,7 @@ public class TagAndTagGroupEditorDialog extends javax.swing.JDialog {
         changesSaved = false;
         StaticSwingTools.showDialog(this);
         if (changesSaved) {
-            return tagAndTagGroupEditor.getNewlyAddedTags();
+            return editor.getNewlyAddedCidsBeans();
         } else {
             return Collections.EMPTY_SET;
         }

@@ -13,6 +13,8 @@ import org.apache.commons.lang.StringUtils;
 
 import org.jfree.util.Log;
 
+import java.awt.Component;
+
 import java.util.HashSet;
 
 import javax.swing.DefaultListModel;
@@ -39,7 +41,9 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSaveListener, CidsBeanRenderer {
+public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSaveListener,
+    CidsBeanRenderer,
+    EditorShowableInDialog {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -768,6 +772,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
      * Saves the modified cidsBeans. The newly added cidsbeans will also be persisted and the persisted cidsbeans will
      * be saved in an own set. After the persist that set will replace the <code>newlyAddedTags</code>-set.
      */
+    @Override
     public void saveChanges() {
         final HashSet<CidsBean> newlyAddedTagsAfterPersist = new HashSet<CidsBean>(newlyAddedTags.size());
         for (final CidsBean modifiedBean : modifiedBeans) {
@@ -841,7 +846,13 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
      *
      * @return  DOCUMENT ME!
      */
-    public HashSet<CidsBean> getNewlyAddedTags() {
+    @Override
+    public HashSet<CidsBean> getNewlyAddedCidsBeans() {
         return newlyAddedTags;
+    }
+
+    @Override
+    public Component getComponent() {
+        return this;
     }
 }

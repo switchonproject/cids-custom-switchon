@@ -303,8 +303,10 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
      * @param  evt  DOCUMENT ME!
      */
     private void btnNewActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewActionPerformed
-        final Set<CidsBean> newlyAddedTags = new TagAndTagGroupEditorDialog(StaticSwingTools.getParentFrame(this), true)
-                    .showDialog();
+        final TagAndTagGroupEditor tagAndTagGroupEditor = new TagAndTagGroupEditor();
+        final Set<CidsBean> newlyAddedTags = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                true,
+                tagAndTagGroupEditor).showDialog();
         ((TagsJList)lstTags).reload();
 
         final Collection<CidsBean> assignedTags = cidsBean.getBeanCollectionProperty("tags");
