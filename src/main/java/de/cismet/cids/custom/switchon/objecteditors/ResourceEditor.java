@@ -49,18 +49,20 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel pnlBasicProperties;
     private javax.swing.JPanel pnlContact;
     private javax.swing.JPanel pnlGeographicProperties;
     private javax.swing.JPanel pnlMap;
     private javax.swing.JPanel pnlTagsAndCategory;
+    private javax.swing.JPanel pnlTemporalInformation;
+    private de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel temporalInformationPanel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -109,7 +111,12 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         jButton2 = new javax.swing.JButton();
         pnlMap = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        pnlTemporalInformation = new javax.swing.JPanel();
+        temporalInformationPanel = new TemporalInformationPanel(true);
+        ;
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
@@ -247,10 +254,24 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 ResourceEditor.class,
                 "ResourceEditor.pnlGeographicProperties.TabConstraints.tabTitle"),
             pnlGeographicProperties); // NOI18N
+
+        pnlTemporalInformation.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        pnlTemporalInformation.add(temporalInformationPanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        pnlTemporalInformation.add(filler4, gridBagConstraints);
+
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceEditor.class,
-                "ResourceEditor.jPanel4.TabConstraints.tabTitle"),
-            jPanel4);                 // NOI18N
+                "ResourceEditor.pnlTemporalInformation.TabConstraints.tabTitle"),
+            pnlTemporalInformation); // NOI18N
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -279,6 +300,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 this.cidsBean);
             basicPropertiesPanel.setCidsBean(cidsBean);
             additionalTagsPanel.setCidsBean(cidsBean);
+            temporalInformationPanel.setCidsBean(cidsBean);
 
             bindingGroup.bind();
         }

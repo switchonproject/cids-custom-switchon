@@ -28,7 +28,7 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
 
     //~ Instance fields --------------------------------------------------------
 
-    private CidsBean cidsBean;
+    private CidsBean resource;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXDatePicker dpCreationDate;
@@ -55,12 +55,23 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
      * Creates new form TemporalInformationPanel.
      */
     public TemporalInformationPanel() {
+        this(false);
+    }
+
+    /**
+     * Creates a new TemporalInformationPanel object.
+     *
+     * @param  editable  DOCUMENT ME!
+     */
+    public TemporalInformationPanel(final boolean editable) {
         initComponents();
-        RendererTools.makeReadOnly(dpCreationDate);
-        RendererTools.makeReadOnly(dpEndDate);
-        RendererTools.makeReadOnly(dpLastModificationDate);
-        RendererTools.makeReadOnly(dpPublicationDate);
-        RendererTools.makeReadOnly(dpStartDate);
+        if (!editable) {
+            RendererTools.makeReadOnly(dpCreationDate);
+            RendererTools.makeReadOnly(dpEndDate);
+            RendererTools.makeReadOnly(dpLastModificationDate);
+            RendererTools.makeReadOnly(dpPublicationDate);
+            RendererTools.makeReadOnly(dpStartDate);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -173,6 +184,7 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jPanel1, gridBagConstraints);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -276,6 +288,7 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jPanel2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -289,14 +302,14 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
 
     @Override
     public CidsBean getCidsBean() {
-        return cidsBean;
+        return resource;
     }
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
-            this.cidsBean = cidsBean;
+            this.resource = cidsBean;
             bindingGroup.bind();
         }
     }
