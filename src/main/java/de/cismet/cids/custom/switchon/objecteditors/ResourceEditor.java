@@ -588,7 +588,11 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
 
     @Override
     public String getTitle() {
-        return "";
+        if (cidsBean != null) {
+            return cidsBean.toString();
+        } else {
+            return "new Resource";
+        }
     }
 
     @Override
