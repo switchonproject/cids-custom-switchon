@@ -13,8 +13,8 @@ import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
-import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
 
 /**
@@ -90,18 +90,23 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         txtaLicenseStatement = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        cmbConditions = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.ACCESS_CONDITIONS)
-        ;
-        cmbLimitations = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.ACCESS_LIMITATIONS)
-        ;
+        cmbConditions = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
+                Taggroups.ACCESS_CONDITIONS);
+        cmbLimitations = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
+                Taggroups.ACCESS_LIMITATIONS);
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        cmbConformity = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.CONFORMITY) ;
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        cmbConformity = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.CONFORMITY);
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
 
         setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(LicenseInformationPanel.class, "LicenseInformationPanel.jPanel1.border.title"))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    LicenseInformationPanel.class,
+                    "LicenseInformationPanel.jPanel1.border.title"))); // NOI18N
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         txtaLicenseStatement.setColumns(20);
@@ -109,7 +114,12 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         txtaLicenseStatement.setRows(5);
         txtaLicenseStatement.setWrapStyleWord(true);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.licensestatement}"), txtaLicenseStatement, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.licensestatement}"),
+                txtaLicenseStatement,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(txtaLicenseStatement);
@@ -133,10 +143,17 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jPanel1, gridBagConstraints);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(LicenseInformationPanel.class, "LicenseInformationPanel.jPanel2.border.title"))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    LicenseInformationPanel.class,
+                    "LicenseInformationPanel.jPanel2.border.title"))); // NOI18N
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(LicenseInformationPanel.class, "LicenseInformationPanel.jLabel1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel1,
+            org.openide.util.NbBundle.getMessage(
+                LicenseInformationPanel.class,
+                "LicenseInformationPanel.jLabel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -144,7 +161,12 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         jPanel2.add(jLabel1, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.accessconditions}"), cmbConditions, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.accessconditions}"),
+                cmbConditions,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -157,7 +179,12 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         jPanel2.add(cmbConditions, gridBagConstraints);
         ((FastBindableReferenceCombo)cmbConditions).setNullable(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.accesslimitations}"), cmbLimitations, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.accesslimitations}"),
+                cmbLimitations,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -170,7 +197,11 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         jPanel2.add(cmbLimitations, gridBagConstraints);
         ((FastBindableReferenceCombo)cmbLimitations).setNullable(false);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(LicenseInformationPanel.class, "LicenseInformationPanel.jLabel2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel2,
+            org.openide.util.NbBundle.getMessage(
+                LicenseInformationPanel.class,
+                "LicenseInformationPanel.jLabel2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -178,7 +209,11 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         jPanel2.add(jLabel2, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(LicenseInformationPanel.class, "LicenseInformationPanel.jLabel3.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel3,
+            org.openide.util.NbBundle.getMessage(
+                LicenseInformationPanel.class,
+                "LicenseInformationPanel.jLabel3.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -186,7 +221,12 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         jPanel2.add(jLabel3, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.conformity}"), cmbConformity, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.conformity}"),
+                cmbConformity,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -214,7 +254,7 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         add(filler1, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
@@ -226,7 +266,7 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.resource = cidsBean;
-                        DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.resource);
             bindingGroup.bind();
