@@ -36,7 +36,7 @@ import de.cismet.cismap.navigatorplugin.CismapPlugin;
 
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
-import de.cismet.tools.gui.downloadmanager.HttpDownload;
+import de.cismet.tools.gui.downloadmanager.HttpOrFtpDownload;
 
 /**
  * DOCUMENT ME!
@@ -400,7 +400,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
 
                     DownloadManager.instance()
                             .add(
-                                new HttpDownload(
+                                new HttpOrFtpDownload(
                                     url,
                                     "",
                                     DownloadManagerDialog.getJobname(),

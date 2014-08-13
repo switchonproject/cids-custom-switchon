@@ -36,7 +36,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
-import de.cismet.tools.gui.downloadmanager.HttpDownload;
+import de.cismet.tools.gui.downloadmanager.HttpOrFtpDownload;
 
 /**
  * DOCUMENT ME!
@@ -217,7 +217,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
 
                 DownloadManager.instance()
                         .add(
-                            new HttpDownload(
+                            new HttpOrFtpDownload(
                                 url,
                                 "",
                                 DownloadManagerDialog.getJobname(),
