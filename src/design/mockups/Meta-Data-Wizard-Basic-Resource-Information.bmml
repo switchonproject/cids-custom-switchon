@@ -200,7 +200,7 @@
         <text>Topic%20Category</text>
       </controlProperties>
     </control>
-    <control controlID="34" controlTypeID="com.balsamiq.mockups::ComboBox" x="779" y="739" w="475" h="-1" measuredW="77" measuredH="62" zOrder="34" locked="false" isInGroup="-1">
+    <control controlID="34" controlTypeID="com.balsamiq.mockups::ComboBox" x="779" y="739" w="501" h="-1" measuredW="77" measuredH="62" zOrder="34" locked="false" isInGroup="-1">
       <controlProperties>
         <text>*farming*%0Abiota%0Aboundaries</text>
       </controlProperties>
@@ -215,7 +215,7 @@
       <controlProperties>
         <size>12</size>
         <state>disabled</state>
-        <text>*%7Bcolor%3Ablue%7DPlease%20provide%20some%20basic%20information%20about%20the%20resource%20that%20should%20be%20registered%20in%20the%20SIP.%7Bcolor%7D*</text>
+        <text>*%7Bcolor%3Ablue%7DPlease%20provide%20some%20general%20information%20about%20the%20resource%20that%20should%20be%20registered%20in%20the%20SIP.%7Bcolor%7D*</text>
       </controlProperties>
     </control>
     <control controlID="37" controlTypeID="com.balsamiq.mockups::StickyNote" x="1" y="619" w="464" h="555" measuredW="109" measuredH="123" zOrder="37" locked="false" isInGroup="-1">
@@ -374,7 +374,7 @@
     </control>
     <control controlID="55" controlTypeID="com.balsamiq.mockups::StickyNote" x="8" y="1216" w="464" h="555" measuredW="109" measuredH="123" zOrder="55" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>*Resource%20Contact%20Information%20Panel*%20%28mandatory%29%0A%20%0AText%20to%20be%20shown%20in%20the%20*Info%20Box*%20when%20the%20respective%20input%20field%20recieves%20focus%3A%0A-%20Please%20enter%20the%20name%20of%20the%20organisation%20%0A-%20Please%20provide%20a%20description%20of%20the%20organisation%0A-%20Please%20provide%20a%20link%20to%20the%20website%20of%20the%20organisation%0A-%20Please%20provide%20the%20name%20of%20a%20contact%20person%0A-%20Please%20provide%20an%20emxail%20adress%20of%20the%20contact%20person%20or%20organisation%0A-%20Please%20specifiy%20the%20role%20of%20the%20responsible%20party%0A%20%0A%20%0AInput%20fields%20which%20prevent%20the%20wizard%20from%20switching%20to%20the%20next%20panel%20when%20left%20blank%3A%0A-%20Organisation%0A-%20Description%0A%20%0AInput%20fields%20that%20are%20substituted%20with%20default%20values%20when%20left%20blank%3A%0A-%20role%3A%20%22esourceProvider%22%0A%20%0ADifference%20to%20the%20respective%20Panel%20in%20the%20*Contact%20Editor%3A*%0A-%20n/a</text>
+        <text>*Resource%20Contact%20Information%20Panel*%20%28mandatory%29%0A%20%0AText%20to%20be%20shown%20in%20the%20*Info%20Box*%20when%20the%20respective%20input%20field%20recieves%20focus%3A%0A-%20Please%20enter%20the%20name%20of%20the%20organisation%20%0A-%20Please%20provide%20a%20description%20of%20the%20organisation%0A-%20Please%20provide%20a%20link%20to%20the%20website%20of%20the%20organisation%0A-%20Please%20provide%20the%20name%20of%20a%20contact%20person%0A-%20Please%20provide%20an%20emxail%20adress%20of%20the%20contact%20person%20or%20organisation%0A-%20Please%20specifiy%20the%20role%20of%20the%20responsible%20party%0A%20%0A%20%0AInput%20fields%20which%20prevent%20the%20wizard%20from%20switching%20to%20the%20next%20panel%20when%20left%20blank%3A%0A-%20Organisation%0A-%20Description%0A%20%0AInput%20fields%20that%20are%20substituted%20with%20default%20values%20when%20left%20blank%3A%0A-%20role%3A%20%22resourceProvider%22%0A%20%0ADifference%20to%20the%20respective%20Panel%20in%20the%20*Contact%20Editor%3A*%0A-%20n/a</text>
       </controlProperties>
     </control>
     <control controlID="56" controlTypeID="com.balsamiq.mockups::TitleWindow" x="489" y="1826" w="981" h="565" measuredW="450" measuredH="400" zOrder="56" locked="false" isInGroup="-1">
