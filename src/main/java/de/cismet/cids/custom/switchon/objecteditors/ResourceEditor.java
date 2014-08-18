@@ -51,14 +51,11 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
     private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
-    private javax.swing.JButton btnAddMetaData;
     private javax.swing.JButton btnAddRepresentation;
     private javax.swing.JButton btnCreateRealtionship;
-    private javax.swing.JButton btnEditMetaData;
     private javax.swing.JButton btnEditProvenanceRelationship;
     private javax.swing.JButton btnEditRelationship;
     private javax.swing.JButton btnEditRepresentation;
-    private javax.swing.JButton btnRemoveMetaData;
     private javax.swing.JButton btnRemoveRepresentation;
     private javax.swing.JComboBox cmbTopic;
     private de.cismet.cids.custom.switchon.objecteditors.ContactEditor contactEditor;
@@ -77,17 +74,15 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private de.cismet.cids.custom.switchon.objecteditors.LicenseInformationPanel licenseInformationPanel;
-    private javax.swing.JList lstMetaData;
     private javax.swing.JList lstRelationships;
     private javax.swing.JList lstRepresentation;
+    private de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel metaDataPanel;
     private javax.swing.JPanel pnlBasicProperties;
     private javax.swing.JPanel pnlContact;
     private javax.swing.JPanel pnlDataAndMetaData;
@@ -160,12 +155,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
         pnlDataAndMetaData = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstMetaData = new JXListBugFixes();
-        btnAddMetaData = new javax.swing.JButton();
-        btnRemoveMetaData = new javax.swing.JButton();
-        btnEditMetaData = new javax.swing.JButton();
+        metaDataPanel = new de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel();
         jPanel6 = new javax.swing.JPanel();
         btnAddRepresentation = new javax.swing.JButton();
         btnRemoveRepresentation = new javax.swing.JButton();
@@ -367,96 +357,10 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             pnlLicenseInformation); // NOI18N
 
         pnlDataAndMetaData.setLayout(new java.awt.GridBagLayout());
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jPanel5.border.title"))); // NOI18N
-        jPanel5.setLayout(new java.awt.GridBagLayout());
-
-        lstMetaData.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
-                "${cidsBean.metadata}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJListBinding(
-                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                        this,
-                        eLProperty,
-                        lstMetaData);
-        bindingGroup.addBinding(jListBinding);
-
-        jScrollPane1.setViewportView(lstMetaData);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.gridheight = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel5.add(jScrollPane1, gridBagConstraints);
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnAddMetaData,
-            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnAddMetaData.text")); // NOI18N
-        btnAddMetaData.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnAddMetaDataActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
-        jPanel5.add(btnAddMetaData, gridBagConstraints);
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnRemoveMetaData,
-            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnRemoveMetaData.text")); // NOI18N
-        btnRemoveMetaData.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnRemoveMetaDataActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
-        jPanel5.add(btnRemoveMetaData, gridBagConstraints);
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnEditMetaData,
-            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnEditMetaData.text")); // NOI18N
-        btnEditMetaData.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnEditMetaDataActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel5.add(btnEditMetaData, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
-        pnlDataAndMetaData.add(jPanel5, gridBagConstraints);
+        pnlDataAndMetaData.add(metaDataPanel, gridBagConstraints);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jPanel6.border.title"))); // NOI18N
@@ -515,12 +419,14 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
 
         lstRepresentation.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.representation}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                eLProperty,
-                lstRepresentation);
+        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.representation}");
+        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        lstRepresentation);
         bindingGroup.addBinding(jListBinding);
 
         jScrollPane2.setViewportView(lstRepresentation);
@@ -674,19 +580,6 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemoveMetaDataActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemoveMetaDataActionPerformed
-        final CidsBean metaData = (CidsBean)lstMetaData.getSelectedValue();
-        if (metaData != null) {
-            final List<CidsBean> metaDatas = cidsBean.getBeanCollectionProperty("metadata");
-            metaDatas.remove(metaData);
-        }
-    }                                                                                     //GEN-LAST:event_btnRemoveMetaDataActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
     private void btnRemoveRepresentationActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemoveRepresentationActionPerformed
         final CidsBean representation = (CidsBean)lstRepresentation.getSelectedValue();
         if (representation != null) {
@@ -694,53 +587,6 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             representations.remove(representation);
         }
     }                                                                                           //GEN-LAST:event_btnRemoveRepresentationActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void btnEditMetaDataActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnEditMetaDataActionPerformed
-        final CidsBean metaData = (CidsBean)lstMetaData.getSelectedValue();
-        if (metaData != null) {
-            final MetadataEditor metadataEditor = new MetadataEditor();
-            metadataEditor.setCidsBean(metaData);
-            new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                true,
-                metadataEditor).showDialog();
-
-            // replace the old cidsBean with the persisted cidsBean
-            final List<CidsBean> metaDatas = cidsBean.getBeanCollectionProperty("metadata");
-            metaDatas.remove(metaData);
-            for (final CidsBean persistedMetaData : metadataEditor.getPersistedCidsBeans()) {
-                metaDatas.add(persistedMetaData);
-            }
-        }
-    } //GEN-LAST:event_btnEditMetaDataActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void btnAddMetaDataActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddMetaDataActionPerformed
-        final CidsBean metaData;
-        try {
-            metaData = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata");
-        } catch (Exception ex) {
-            LOG.error("Metadata-CidsBean could not be created.");
-            return;
-        }
-
-        final MetadataEditor metadataEditor = new MetadataEditor();
-        metadataEditor.setCidsBean(metaData);
-        new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-            true,
-            metadataEditor).showDialog();
-
-        // add the newly created metaData-CidsBean
-        cidsBean.getBeanCollectionProperty("metadata").addAll(metadataEditor.getNewlyAddedCidsBeans());
-    } //GEN-LAST:event_btnAddMetaDataActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -806,6 +652,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             additionalTagsPanel.setCidsBean(cidsBean);
             temporalInformationPanel.setCidsBean(cidsBean);
             licenseInformationPanel.setCidsBean(cidsBean);
+            metaDataPanel.setCidsBean(cidsBean);
 
             bindingGroup.bind();
 
@@ -822,9 +669,6 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
      * DOCUMENT ME!
      */
     private void orderLists() {
-        ((JXListBugFixes)lstMetaData).setAutoCreateRowSorter(true);
-        ((JXListBugFixes)lstMetaData).setSortOrder(SortOrder.DESCENDING);
-        ((JXListBugFixes)lstMetaData).toggleSortOrder();
         ((JXListBugFixes)lstRepresentation).setAutoCreateRowSorter(true);
         ((JXListBugFixes)lstRepresentation).setSortOrder(SortOrder.DESCENDING);
         ((JXListBugFixes)lstRepresentation).toggleSortOrder();
