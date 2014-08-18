@@ -9,10 +9,7 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
-import org.openide.util.Exceptions;
-
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.SortOrder;
 
@@ -56,31 +53,40 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
     private javax.swing.JButton btnAddMetaData;
     private javax.swing.JButton btnAddRepresentation;
+    private javax.swing.JButton btnCreateRealtionship;
     private javax.swing.JButton btnEditMetaData;
+    private javax.swing.JButton btnEditProvenanceRelationship;
+    private javax.swing.JButton btnEditRelationship;
     private javax.swing.JButton btnEditRepresentation;
     private javax.swing.JButton btnRemoveMetaData;
     private javax.swing.JButton btnRemoveRepresentation;
     private javax.swing.JComboBox cmbTopic;
     private de.cismet.cids.custom.switchon.objecteditors.ContactEditor contactEditor;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private de.cismet.cids.custom.switchon.objecteditors.LicenseInformationPanel licenseInformationPanel;
     private javax.swing.JList lstMetaData;
+    private javax.swing.JList lstRelationships;
     private javax.swing.JList lstRepresentation;
     private javax.swing.JPanel pnlBasicProperties;
     private javax.swing.JPanel pnlContact;
@@ -88,9 +94,11 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private javax.swing.JPanel pnlGeographicProperties;
     private javax.swing.JPanel pnlLicenseInformation;
     private javax.swing.JPanel pnlMap;
+    private javax.swing.JPanel pnlRelationships;
     private javax.swing.JPanel pnlTagsAndCategory;
     private javax.swing.JPanel pnlTemporalInformation;
     private de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel temporalInformationPanel;
+    private javax.swing.JTextField txtProvenanceRelationship;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -168,6 +176,21 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
+        pnlRelationships = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        txtProvenanceRelationship = new javax.swing.JTextField();
+        btnEditProvenanceRelationship = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lstRelationships = new javax.swing.JList();
+        btnEditRelationship = new javax.swing.JButton();
+        btnCreateRealtionship = new javax.swing.JButton();
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
 
@@ -539,6 +562,100 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 ResourceEditor.class,
                 "ResourceEditor.pnlDataAndMetaData.TabConstraints.tabTitle_1"),
             pnlDataAndMetaData); // NOI18N
+
+        pnlRelationships.setLayout(new java.awt.GridBagLayout());
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jPanel4.border.title"))); // NOI18N
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        txtProvenanceRelationship.setText(org.openide.util.NbBundle.getMessage(
+                ResourceEditor.class,
+                "ResourceEditor.txtProvenanceRelationship.text")); // NOI18N
+        txtProvenanceRelationship.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel4.add(txtProvenanceRelationship, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnEditProvenanceRelationship,
+            org.openide.util.NbBundle.getMessage(
+                ResourceEditor.class,
+                "ResourceEditor.btnEditProvenanceRelationship.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
+        jPanel4.add(btnEditProvenanceRelationship, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        pnlRelationships.add(jPanel4, gridBagConstraints);
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jPanel7.border.title"))); // NOI18N
+        jPanel7.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane3.setViewportView(lstRelationships);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel7.add(jScrollPane3, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnEditRelationship,
+            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnEditRelationship.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        jPanel7.add(btnEditRelationship, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnCreateRealtionship,
+            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnCreateRealtionship.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel7.add(btnCreateRealtionship, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        jPanel7.add(filler10, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        pnlRelationships.add(jPanel7, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        pnlRelationships.add(filler7, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceEditor.class,
+                "ResourceEditor.pnlRelationships.TabConstraints.tabTitle_1"),
+            pnlRelationships); // NOI18N
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
