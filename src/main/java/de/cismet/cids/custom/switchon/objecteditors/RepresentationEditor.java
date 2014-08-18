@@ -51,6 +51,7 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
     private javax.swing.JButton btnNewApplication;
     private javax.swing.JButton btnNewContentType;
     private javax.swing.JButton btnNewProtocol;
+    private javax.swing.JButton btnUpload;
     private javax.swing.JComboBox cmbApplication;
     private javax.swing.JComboBox cmbContentType;
     private javax.swing.JComboBox cmbFunction;
@@ -103,6 +104,7 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
         cmbContentType = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
                 Taggroups.CONTENT_TYPE);
         btnNewContentType = new javax.swing.JButton();
+        btnUpload = new javax.swing.JButton();
         pnlOtherProperties = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         cmbFunction = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.FUNCTION);
@@ -186,10 +188,9 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlDocument.add(txtContentLocation, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -217,9 +218,20 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 11, 10);
         pnlDocument.add(btnNewContentType, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnUpload,
+            org.openide.util.NbBundle.getMessage(RepresentationEditor.class, "RepresentationEditor.btnUpload.text")); // NOI18N
+        btnUpload.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        pnlDocument.add(btnUpload, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
