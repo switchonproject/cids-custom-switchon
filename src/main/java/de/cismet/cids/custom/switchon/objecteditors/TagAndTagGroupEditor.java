@@ -65,6 +65,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
     private final HashSet<CidsBean> modifiedBeans = new HashSet<CidsBean>();
     private final HashSet<CidsBean> deletedBeans = new HashSet<CidsBean>();
     private HashSet<CidsBean> newlyAddedTags = new HashSet<CidsBean>();
+    private HashSet<CidsBean> persistedCidsBeans = new HashSet<CidsBean>();
     private boolean hasActionTag = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -786,6 +787,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
         for (final CidsBean modifiedBean : modifiedBeans) {
             try {
                 final CidsBean persistedBean = modifiedBean.persist();
+                persistedCidsBeans.add(persistedBean);
                 if (newlyAddedTags.contains(modifiedBean)) {
                     newlyAddedTagsAfterPersist.add(persistedBean);
                 }
@@ -867,6 +869,11 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
     @Override
     public HashSet<CidsBean> getNewlyAddedCidsBeans() {
         return newlyAddedTags;
+    }
+
+    @Override
+    public HashSet<CidsBean> getPersistedCidsBeans() {
+        return persistedCidsBeans;
     }
 
     @Override

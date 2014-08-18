@@ -7,9 +7,14 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import Sirius.server.middleware.types.MetaObject;
+
+import java.awt.Component;
 import java.awt.Desktop;
 
 import java.net.URI;
+
+import java.util.HashSet;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
@@ -32,7 +37,7 @@ import de.cismet.tools.EMailComposer;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class ContactEditor extends javax.swing.JPanel implements CidsBeanRenderer {
+public class ContactEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorShowableInDialog {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -43,6 +48,8 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
     private CidsBean cidsBean;
     private String title;
     private boolean editor;
+    private HashSet<CidsBean> newlyAddedCidsBeans = new HashSet<CidsBean>();
+    private HashSet<CidsBean> persistedCidsBeans = new HashSet<CidsBean>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cmbRole;
@@ -442,5 +449,29 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
             11,
             1280,
             1024);
+    }
+
+    @Override
+    public HashSet<CidsBean> getNewlyAddedCidsBeans() {
+        return newlyAddedCidsBeans;
+    }
+
+    @Override
+    public void saveChanges() throws Exception {
+        final CidsBean newCidsBean = cidsBean.persist();
+        persistedCidsBeans.add(newCidsBean);
+        if (cidsBean.getMetaObject().getStatus() == MetaObject.NEW) {
+            newlyAddedCidsBeans.add(newCidsBean);
+        }
+    }
+
+    @Override
+    public Component getComponent() {
+        return this;
+    }
+
+    @Override
+    public HashSet<CidsBean> getPersistedCidsBeans() {
+        return persistedCidsBeans;
     }
 }

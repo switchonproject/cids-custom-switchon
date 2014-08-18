@@ -41,6 +41,7 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
     //~ Instance fields --------------------------------------------------------
 
     private HashSet<CidsBean> newlyAddedCidsBeans = new HashSet<CidsBean>();
+    private HashSet<CidsBean> persistedCidsBeans = new HashSet<CidsBean>();
 
     private CidsBean cidsBean;
 
@@ -444,6 +445,7 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
     @Override
     public void saveChanges() throws Exception {
         final CidsBean newCidsBean = cidsBean.persist();
+        persistedCidsBeans.add(newCidsBean);
         if (cidsBean.getMetaObject().getStatus() == MetaObject.NEW) {
             newlyAddedCidsBeans.add(newCidsBean);
         }
@@ -452,5 +454,10 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
     @Override
     public Component getComponent() {
         return this;
+    }
+
+    @Override
+    public HashSet<CidsBean> getPersistedCidsBeans() {
+        return persistedCidsBeans;
     }
 }

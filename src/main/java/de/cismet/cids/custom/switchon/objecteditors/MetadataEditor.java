@@ -28,6 +28,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.tools.gui.StaticSwingTools;
+
 /**
  * DOCUMENT ME!
  *
@@ -45,6 +47,7 @@ public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRender
     //~ Instance fields --------------------------------------------------------
 
     private HashSet<CidsBean> newlyAddedCidsBeans = new HashSet<CidsBean>();
+    private HashSet<CidsBean> persistedCidsBeans = new HashSet<CidsBean>();
 
     private CidsBean cidsBean;
 
@@ -357,6 +360,13 @@ public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRender
         org.openide.awt.Mnemonics.setLocalizedText(
             btnNewContentType,
             org.openide.util.NbBundle.getMessage(MetadataEditor.class, "MetadataEditor.btnNewContentType.text")); // NOI18N
+        btnNewContentType.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnNewContentTypeActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -393,8 +403,39 @@ public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRender
      * @param  evt  DOCUMENT ME!
      */
     private void btnEditContactActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnEditContactActionPerformed
-        // TODO add your handling code here:
+        CidsBean contact = (CidsBean)cidsBean.getProperty("contact");
+        if (contact == null) {
+            try {
+                contact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact");
+            } catch (Exception ex) {
+                LOG.error("Contact cidsBean could not be created.", ex);
+                return;
+            }
+        }
+        final ContactEditor contactEditor = new ContactEditor(true);
+        contactEditor.setCidsBean(contact);
+        new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+            true,
+            contactEditor).showDialog();
+
+        // contactEditor.getPersistedCidsBeans().size() should be 0 or 1
+        for (final CidsBean persistedContact : contactEditor.getPersistedCidsBeans()) {
+            try {
+                cidsBean.setProperty("contact", persistedContact);
+            } catch (Exception ex) {
+                LOG.error("Property contact can not be set.", ex);
+            }
+        }
     } //GEN-LAST:event_btnEditContactActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnNewContentTypeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewContentTypeActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_btnNewContentTypeActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -460,8 +501,14 @@ public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRender
     }
 
     @Override
+    public HashSet<CidsBean> getPersistedCidsBeans() {
+        return persistedCidsBeans;
+    }
+
+    @Override
     public void saveChanges() throws Exception {
         final CidsBean newCidsBean = cidsBean.persist();
+        persistedCidsBeans.add(newCidsBean);
         if (cidsBean.getMetaObject().getStatus() == MetaObject.NEW) {
             newlyAddedCidsBeans.add(newCidsBean);
         }

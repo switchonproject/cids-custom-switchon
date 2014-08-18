@@ -304,13 +304,13 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
      */
     private void btnNewActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewActionPerformed
         final TagAndTagGroupEditor tagAndTagGroupEditor = new TagAndTagGroupEditor();
-        final Set<CidsBean> newlyAddedTags = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                true,
-                tagAndTagGroupEditor).showDialog();
+        new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+            true,
+            tagAndTagGroupEditor).showDialog();
         ((TagsJList)lstTags).reload();
 
         final Collection<CidsBean> assignedTags = cidsBean.getBeanCollectionProperty("tags");
-        assignedTags.addAll(newlyAddedTags);
+        assignedTags.addAll(tagAndTagGroupEditor.getNewlyAddedCidsBeans());
     } //GEN-LAST:event_btnNewActionPerformed
 
     @Override

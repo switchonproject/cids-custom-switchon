@@ -178,17 +178,14 @@ public class ShowEditorInDialog extends javax.swing.JDialog {
     }                                                                             //GEN-LAST:event_btnCancelActionPerformed
 
     /**
-     * Shows the dialog and returns the newly created cidsBeans while the dialog was open.
+     * Shows the dialog and returns true, if the changed cidsBeans were saved. On false, the dialog was canceled, no
+     * cidsBeans were changed or an error occurred.
      *
      * @return  DOCUMENT ME!
      */
-    public Set<CidsBean> showDialog() {
+    public boolean showDialog() {
         changesSaved = false;
         StaticSwingTools.showDialog(this);
-        if (changesSaved) {
-            return editor.getNewlyAddedCidsBeans();
-        } else {
-            return Collections.EMPTY_SET;
-        }
+        return changesSaved;
     }
 }

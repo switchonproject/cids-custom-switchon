@@ -14,21 +14,29 @@ import java.util.HashSet;
 import de.cismet.cids.dynamics.CidsBean;
 
 /**
- * DOCUMENT ME!
+ * These methods must be implemented if a CidsBean-Editor should be shown in the dialog ShowEditorInDialog.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
+ * @see      ShowEditorInDialog
  */
 public interface EditorShowableInDialog {
 
     //~ Methods ----------------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * Get a set of the CidsBeans which were newly created in the editor-dialog.
      *
      * @return  DOCUMENT ME!
      */
     HashSet<CidsBean> getNewlyAddedCidsBeans();
+
+    /**
+     * Get a set of the CidsBeans which were persisted in the editor-dialog.
+     *
+     * @return  DOCUMENT ME!
+     */
+    HashSet<CidsBean> getPersistedCidsBeans();
 
     /**
      * Saves the modified cidsBeans. The newly added/modified cidsbeans will be persisted and the new cidsbeans will be
@@ -39,7 +47,7 @@ public interface EditorShowableInDialog {
     void saveChanges() throws Exception;
 
     /**
-     * DOCUMENT ME!
+     * Get the component which should be shown in the dialog. Normally in the editor itself.
      *
      * @return  DOCUMENT ME!
      */

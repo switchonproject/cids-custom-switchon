@@ -591,8 +591,15 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
                 true,
                 metadataEditor).showDialog();
+
+            // replace the old cidsBean with the persisted cidsBean
+            final List<CidsBean> metaDatas = cidsBean.getBeanCollectionProperty("metadata");
+            metaDatas.remove(metaData);
+            for (final CidsBean persistedMetaData : metadataEditor.getPersistedCidsBeans()) {
+                metaDatas.add(persistedMetaData);
+            }
         }
-    }                                                                                   //GEN-LAST:event_btnEditMetaDataActionPerformed
+    } //GEN-LAST:event_btnEditMetaDataActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -610,11 +617,12 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
 
         final MetadataEditor metadataEditor = new MetadataEditor();
         metadataEditor.setCidsBean(metaData);
-        final Set<CidsBean> addedMetaData = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                true,
-                metadataEditor).showDialog();
+        new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+            true,
+            metadataEditor).showDialog();
 
-        cidsBean.getBeanCollectionProperty("metadata").addAll(addedMetaData);
+        // add the newly created metaData-CidsBean
+        cidsBean.getBeanCollectionProperty("metadata").addAll(metadataEditor.getNewlyAddedCidsBeans());
     } //GEN-LAST:event_btnAddMetaDataActionPerformed
 
     /**
@@ -633,11 +641,12 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
 
         final RepresentationEditor representationEditor = new RepresentationEditor();
         representationEditor.setCidsBean(representation);
-        final Set<CidsBean> addedRepresentations = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                true,
-                representationEditor).showDialog();
+        new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+            true,
+            representationEditor).showDialog();
 
-        cidsBean.getBeanCollectionProperty("representation").addAll(addedRepresentations);
+        // add the newly created representation-CidsBean
+        cidsBean.getBeanCollectionProperty("representation").addAll(representationEditor.getNewlyAddedCidsBeans());
     } //GEN-LAST:event_btnAddRepresentationActionPerformed
 
     /**
@@ -653,8 +662,15 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
                 true,
                 representationEditor).showDialog();
+
+            // replace the old cidsBean with the persisted cidsBean
+            final List<CidsBean> representations = cidsBean.getBeanCollectionProperty("representation");
+            representations.remove(representation);
+            for (final CidsBean persistedRepresentation : representationEditor.getPersistedCidsBeans()) {
+                representations.add(persistedRepresentation);
+            }
         }
-    }                                                                                         //GEN-LAST:event_btnEditRepresentationActionPerformed
+    } //GEN-LAST:event_btnEditRepresentationActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
