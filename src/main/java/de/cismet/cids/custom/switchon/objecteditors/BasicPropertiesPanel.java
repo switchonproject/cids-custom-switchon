@@ -223,6 +223,7 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
             org.openide.util.NbBundle.getMessage(
                 BasicPropertiesPanel.class,
                 "BasicPropertiesPanel.btnGenerateUUID.text")); // NOI18N
+        btnGenerateUUID.setEnabled(false);
         btnGenerateUUID.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
