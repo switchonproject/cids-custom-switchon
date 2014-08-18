@@ -11,12 +11,17 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import Sirius.server.middleware.types.MetaObject;
 
+import org.openide.util.Exceptions;
+
 import java.awt.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import de.cismet.cids.custom.switchon.gui.JXListBugFixes;
+import javax.swing.JList;
+import javax.swing.JTextField;
+
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
@@ -24,9 +29,10 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
-import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 
-import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 /**
  * DOCUMENT ME!
@@ -78,6 +84,8 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
      */
     public RelationshipEditor() {
         initComponents();
+        new CidsBeanDropTarget(txtTargetResource);
+        new CidsBeanDropTarget(lstSourceResources);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -96,9 +104,9 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtTargetResource = new javax.swing.JTextField();
+        txtTargetResource = new ResourceDropListenerTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        lstSourceResources = new javax.swing.JList();
+        lstSourceResources = new ResourceDropListenerList();
         btnAddSourceResource = new javax.swing.JButton();
         btnRemoveSourceResource = new javax.swing.JButton();
         basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
@@ -147,9 +155,16 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        txtTargetResource.setText(org.openide.util.NbBundle.getMessage(
-                RelationshipEditor.class,
-                "RelationshipEditor.txtTargetResource.text")); // NOI18N
+        txtTargetResource.setEditable(false);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.toresource}"),
+                txtTargetResource,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -158,6 +173,16 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 10);
         jPanel1.add(txtTargetResource, gridBagConstraints);
+
+        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.fromresources}");
+        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        lstSourceResources);
+        bindingGroup.addBinding(jListBinding);
 
         jScrollPane2.setViewportView(lstSourceResources);
 
@@ -189,6 +214,13 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
             org.openide.util.NbBundle.getMessage(
                 RelationshipEditor.class,
                 "RelationshipEditor.btnRemoveSourceResource.text")); // NOI18N
+        btnRemoveSourceResource.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemoveSourceResourceActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -251,7 +283,7 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
         pnlOtherProperties.add(jLabel5, gridBagConstraints);
 
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.applicationprofile}"),
@@ -317,6 +349,16 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnRemoveSourceResourceActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemoveSourceResourceActionPerformed
+        final List<CidsBean> selectedResources = lstSourceResources.getSelectedValuesList();
+        cidsBean.getBeanCollectionProperty("fromresources").removeAll(selectedResources);
+    }                                                                                           //GEN-LAST:event_btnRemoveSourceResourceActionPerformed
+
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -379,5 +421,56 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
     @Override
     public HashSet<CidsBean> getPersistedCidsBeans() {
         return persistedCidsBeans;
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class ResourceDropListenerList extends JList implements CidsBeanDropListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> beans) {
+            final List<CidsBean> sourceResources = cidsBean.getBeanCollectionProperty("fromresources");
+            if (beans != null) {
+                for (final CidsBean bean : beans) {
+                    if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
+                        sourceResources.add(bean);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class ResourceDropListenerTextField extends JTextField implements CidsBeanDropListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> beans) {
+            if (beans != null) {
+                for (final CidsBean bean : beans) {
+                    // use the first match
+                    if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
+                        try {
+                            cidsBean.setProperty("toresource", bean);
+                            break;
+                        } catch (Exception ex) {
+                            LOG.error("Could not set toresource of cidsBean", ex);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
