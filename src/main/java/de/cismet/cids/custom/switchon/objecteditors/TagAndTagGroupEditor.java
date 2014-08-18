@@ -36,7 +36,9 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 /**
- * DOCUMENT ME!
+ * The TagAndTagGroupEditor is a unusual CidsBean-Editor as it allows to create and modify more than one CidsBean.
+ * Furthermore the CidsBeans can be of the type Tag or TagGroup. To achieve this the editor can not act as a usual
+ * editor and has to persist the changed CidsBeans himself.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
@@ -52,7 +54,11 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
 
     //~ Instance fields --------------------------------------------------------
 
-    private CidsBean cidsBean;
+    /**
+     * The CidsBean which is set and get by NavigatorAttributeEditorGui, although it will be persist by this class and
+     * not by NavigatorAttributeEditorGui.
+     */
+    private CidsBean dummyCidsBean;
 
     private CidsBean selectedTagGroup;
     private CidsBean selectedTag;
@@ -99,6 +105,11 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
      * Creates new form TagAndTagGroupEditor.
      */
     public TagAndTagGroupEditor() {
+        try {
+            this.dummyCidsBean = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "tag");
+        } catch (Exception ex) {
+            LOG.error("Could not create new Tag-CidsBean.", ex);
+        }
         try {
             hasActionTag = ActionTagUtils.checkActionTag(ACTION_TAG);
         } catch (Exception ex) {
@@ -605,7 +616,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
         txtGroupName.setEnabled(true);
         txtaGroupDescrption.setEnabled(true);
         modifiedBeans.add(selectedTagGroup);
-        cidsBean.setArtificialChangeFlag(true);
+        dummyCidsBean.setArtificialChangeFlag(true);
     }                                                                                //GEN-LAST:event_btnGroupEditActionPerformed
 
     /**
@@ -617,7 +628,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
         txtTagName.setEnabled(true);
         txtaTagDescription.setEnabled(true);
         modifiedBeans.add(selectedTag);
-        cidsBean.setArtificialChangeFlag(true);
+        dummyCidsBean.setArtificialChangeFlag(true);
     }                                                                              //GEN-LAST:event_btnTagEditActionPerformed
 
     /**
@@ -633,7 +644,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
             cmbTagGroups.removeItem(selectedTagGroup.getMetaObject());
             ((DefaultListModel)lstTagGroups.getModel()).removeElement(selectedTagGroup.getMetaObject());
             lstTagGroups.getSelectionModel().clearSelection();
-            cidsBean.setArtificialChangeFlag(true);
+            dummyCidsBean.setArtificialChangeFlag(true);
         }
     } //GEN-LAST:event_btnGroupDeleteActionPerformed
 
@@ -650,7 +661,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
 
             ((DefaultListModel)lstTags.getModel()).removeElement(selectedTag.getMetaObject());
             lstTags.getSelectionModel().clearSelection();
-            cidsBean.setArtificialChangeFlag(true);
+            dummyCidsBean.setArtificialChangeFlag(true);
         }
     } //GEN-LAST:event_btnTagDeleteActionPerformed
 
@@ -673,7 +684,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
             lstTagGroups.setSelectedIndex(index);
             lstTagGroups.ensureIndexIsVisible(index);
             btnGroupEdit.doClick();
-            cidsBean.setArtificialChangeFlag(true);
+            dummyCidsBean.setArtificialChangeFlag(true);
         } catch (Exception ex) {
             LOG.error("new Taggroup CidsBean could not be created.", ex);
         }
@@ -700,7 +711,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
             lstTags.setSelectedIndex(index);
             lstTags.ensureIndexIsVisible(index);
             btnTagEdit.doClick();
-            cidsBean.setArtificialChangeFlag(true);
+            dummyCidsBean.setArtificialChangeFlag(true);
         } catch (Exception ex) {
             LOG.error("new Tag CidsBean could not be created.", ex);
         }
@@ -763,9 +774,6 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
-            saveChanges();
-        }
     }
 
     /**
@@ -795,6 +803,12 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
                 Log.error(ex.getMessage(), ex);
             }
         }
+
+        JOptionPane.showMessageDialog(
+            this,
+            "The changed tags and taggroups were saved.",
+            "Changes saved",
+            JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
@@ -812,18 +826,22 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
             }
         }
 
-        return save;
+        if (save) {
+            saveChanges();
+        }
+
+        return false;
     }
 
     @Override
     public CidsBean getCidsBean() {
-        return cidsBean;
+        return dummyCidsBean;
     }
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         if (cidsBean != null) {
-            this.cidsBean = cidsBean;
+            dummyCidsBean = cidsBean;
         }
     }
 
