@@ -106,7 +106,7 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
         jLabel3 = new javax.swing.JLabel();
         cmbFunction = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.FUNCTION);
         jLabel4 = new javax.swing.JLabel();
-        cmbProtocol = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.FUNCTION);
+        cmbProtocol = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.PROTOCOL);
         btnNewProtocol = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         cmbApplication = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
