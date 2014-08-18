@@ -9,6 +9,8 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
+import org.openide.util.Exceptions;
+
 import java.util.List;
 import java.util.Set;
 
@@ -376,6 +378,13 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         org.openide.awt.Mnemonics.setLocalizedText(
             btnAddMetaData,
             org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnAddMetaData.text")); // NOI18N
+        btnAddMetaData.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddMetaDataActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -565,11 +574,34 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         if (metaData != null) {
             final MetadataEditor metadataEditor = new MetadataEditor();
             metadataEditor.setCidsBean(metaData);
-            final Set<CidsBean> newlyAddedTags = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                    true,
-                    metadataEditor).showDialog();
+            new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                true,
+                metadataEditor).showDialog();
         }
     }                                                                                   //GEN-LAST:event_btnEditMetaDataActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnAddMetaDataActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddMetaDataActionPerformed
+        final CidsBean metaData;
+        try {
+            metaData = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata");
+        } catch (Exception ex) {
+            LOG.error("Metadata-CidsBean could not be created.");
+            return;
+        }
+
+        final MetadataEditor metadataEditor = new MetadataEditor();
+        metadataEditor.setCidsBean(metaData);
+        final Set<CidsBean> addedMetaData = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                true,
+                metadataEditor).showDialog();
+
+        cidsBean.getBeanCollectionProperty("metadata").addAll(addedMetaData);
+    } //GEN-LAST:event_btnAddMetaDataActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
