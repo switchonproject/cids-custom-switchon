@@ -42,8 +42,8 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblLanguage;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtUUID;
     private javax.swing.JTextArea txtaDescription;
@@ -75,7 +75,7 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblLanguage = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaDescription = new javax.swing.JTextArea();
@@ -129,14 +129,14 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
         add(jLabel4, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel5,
-            org.openide.util.NbBundle.getMessage(BasicPropertiesPanel.class, "BasicPropertiesPanel.jLabel5.text")); // NOI18N
+            lblLanguage,
+            org.openide.util.NbBundle.getMessage(BasicPropertiesPanel.class, "BasicPropertiesPanel.lblLanguage.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
-        add(jLabel5, gridBagConstraints);
+        add(lblLanguage, gridBagConstraints);
 
         txtName.setPreferredSize(new java.awt.Dimension(32, 24));
 
@@ -281,6 +281,18 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.cidsBean);
+
+            // hide controls for the language, if it the cidsBean has no such property
+            boolean hasPropertyLanguage = false;
+            for (final String property : cidsBean.getPropertyNames()) {
+                if (property.equals("language")) {
+                    hasPropertyLanguage = true;
+                    break;
+                }
+            }
+            lblLanguage.setVisible(hasPropertyLanguage);
+            cmbLanguage.setVisible(hasPropertyLanguage);
+
             bindingGroup.bind();
         }
     }
