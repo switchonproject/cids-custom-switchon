@@ -442,6 +442,13 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         org.openide.awt.Mnemonics.setLocalizedText(
             btnAddRepresentation,
             org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnAddRepresentation.text")); // NOI18N
+        btnAddRepresentation.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddRepresentationActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -469,6 +476,13 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         org.openide.awt.Mnemonics.setLocalizedText(
             btnEditRepresentation,
             org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnEditRepresentation.text")); // NOI18N
+        btnEditRepresentation.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnEditRepresentationActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -602,6 +616,45 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
 
         cidsBean.getBeanCollectionProperty("metadata").addAll(addedMetaData);
     } //GEN-LAST:event_btnAddMetaDataActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnAddRepresentationActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddRepresentationActionPerformed
+        final CidsBean representation;
+        try {
+            representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation");
+        } catch (Exception ex) {
+            LOG.error("Metadata-CidsBean could not be created.");
+            return;
+        }
+
+        final RepresentationEditor representationEditor = new RepresentationEditor();
+        representationEditor.setCidsBean(representation);
+        final Set<CidsBean> addedRepresentations = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                true,
+                representationEditor).showDialog();
+
+        cidsBean.getBeanCollectionProperty("representation").addAll(addedRepresentations);
+    } //GEN-LAST:event_btnAddRepresentationActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnEditRepresentationActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnEditRepresentationActionPerformed
+        final CidsBean representation = (CidsBean)lstRepresentation.getSelectedValue();
+        if (representation != null) {
+            final RepresentationEditor representationEditor = new RepresentationEditor();
+            representationEditor.setCidsBean(representation);
+            new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                true,
+                representationEditor).showDialog();
+        }
+    }                                                                                         //GEN-LAST:event_btnEditRepresentationActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
