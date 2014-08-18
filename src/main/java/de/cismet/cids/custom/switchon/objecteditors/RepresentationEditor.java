@@ -118,8 +118,10 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
         spatialAndTemporalPropertiesPanel = new SpatialAndTemporalPropertiesPanel(true);
         basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
 
+        setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
 
+        jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         pnlDocument.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -233,6 +235,7 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
                 org.openide.util.NbBundle.getMessage(
                     RepresentationEditor.class,
                     "RepresentationEditor.pnlOtherProperties.border.title"))); // NOI18N
+        pnlOtherProperties.setOpaque(false);
         pnlOtherProperties.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
@@ -357,7 +360,10 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.weighty = 1.0;
         add(jPanel1, gridBagConstraints);
 
+        jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        additionalTagsPanel.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -367,6 +373,8 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         jPanel2.add(additionalTagsPanel, gridBagConstraints);
+
+        spatialAndTemporalPropertiesPanel.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -375,6 +383,8 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         jPanel2.add(spatialAndTemporalPropertiesPanel, gridBagConstraints);
+
+        basicPropertiesPanel.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
