@@ -216,7 +216,6 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
 
     @Override
     public CidsBean getCidsBean() {
-        LOG.fatal("MetaDataPanel.getCidsBean: Not supported yet.", new Exception()); // NOI18N
         return cidsBean;
     }
 

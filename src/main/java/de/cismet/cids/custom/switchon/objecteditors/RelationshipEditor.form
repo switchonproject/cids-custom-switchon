@@ -79,7 +79,7 @@
                 <Property name="editable" type="boolean" value="false"/>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.toresource}" target="txtTargetResource" targetPath="text" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.toresource.name}" target="txtTargetResource" targetPath="text" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ResourceDropListenerTextField()"/>
