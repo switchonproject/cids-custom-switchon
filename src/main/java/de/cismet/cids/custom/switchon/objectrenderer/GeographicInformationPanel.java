@@ -335,7 +335,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Buffer for map: " + diagonalLength);
                 }
-                final XBoundingBox bufferedBox = new XBoundingBox(box.getGeometry().buffer(diagonalLength));
+                final XBoundingBox bufferedBox = box;
                 final Runnable mapRunnable = new Runnable() {
 
                         @Override
