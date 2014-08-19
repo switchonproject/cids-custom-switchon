@@ -7,16 +7,28 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
-import java.util.List;
+import Sirius.server.middleware.types.MetaObject;
 
+import org.openide.util.Exceptions;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import javax.swing.DefaultListModel;
 import javax.swing.SortOrder;
+import javax.swing.SwingWorker;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.JXListBugFixes;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
+import de.cismet.cids.custom.switchon.search.server.MetaObjectProvenanceRelationshipSearchStatement;
+import de.cismet.cids.custom.switchon.search.server.MetaObjectUsageRelationshipsSearchStatement;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -47,6 +59,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private CidsBean provenanceRelationship = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
@@ -490,6 +503,13 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             org.openide.util.NbBundle.getMessage(
                 ResourceEditor.class,
                 "ResourceEditor.btnEditProvenanceRelationship.text")); // NOI18N
+        btnEditProvenanceRelationship.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnEditProvenanceRelationshipActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
         jPanel4.add(btnEditProvenanceRelationship, gridBagConstraints);
@@ -507,6 +527,8 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jPanel7.border.title"))); // NOI18N
         jPanel7.setLayout(new java.awt.GridBagLayout());
 
+        lstRelationships.setModel(new DefaultListModel());
+        lstRelationships.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane3.setViewportView(lstRelationships);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -522,6 +544,13 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         org.openide.awt.Mnemonics.setLocalizedText(
             btnEditRelationship,
             org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnEditRelationship.text")); // NOI18N
+        btnEditRelationship.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnEditRelationshipActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
@@ -530,6 +559,13 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         org.openide.awt.Mnemonics.setLocalizedText(
             btnCreateRealtionship,
             org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnCreateRealtionship.text")); // NOI18N
+        btnCreateRealtionship.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnCreateRealtionshipActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -635,6 +671,76 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         }
     } //GEN-LAST:event_btnEditRepresentationActionPerformed
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnEditProvenanceRelationshipActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnEditProvenanceRelationshipActionPerformed
+        CidsBean relationship = provenanceRelationship;
+        if (relationship == null) {
+            try {
+                relationship = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "relationship");
+                relationship.setProperty("toresource", cidsBean);
+            } catch (Exception ex) {
+                LOG.error("Could not create new Relationship-CidsBean.", ex);
+            }
+        }
+
+        if (relationship != null) {
+            final RelationshipEditor relationshipEditor = new RelationshipEditor();
+            relationshipEditor.setCidsBean(relationship);
+            final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                    true,
+                    relationshipEditor);
+            dialog.setModal(false);
+            dialog.showDialog();
+            new ProvenanceRelationshipFetcherWorker().execute();
+        }
+    } //GEN-LAST:event_btnEditProvenanceRelationshipActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnEditRelationshipActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnEditRelationshipActionPerformed
+        final CidsBean selectedRelationship = (CidsBean)lstRelationships.getSelectedValue();
+        if (selectedRelationship != null) {
+            final RelationshipEditor relationshipEditor = new RelationshipEditor();
+            relationshipEditor.setCidsBean(selectedRelationship);
+            final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                    true,
+                    relationshipEditor);
+            dialog.setModal(false);
+            dialog.showDialog();
+            new UsageRelationshipsFetcherWorker().execute();
+        }
+    }                                                                                       //GEN-LAST:event_btnEditRelationshipActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnCreateRealtionshipActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnCreateRealtionshipActionPerformed
+        try {
+            final CidsBean newCidsBean = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "relationship");
+            newCidsBean.getBeanCollectionProperty("fromresources").add(cidsBean);
+
+            final RelationshipEditor relationshipEditor = new RelationshipEditor();
+            relationshipEditor.setCidsBean(newCidsBean);
+            final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                    true,
+                    relationshipEditor);
+            dialog.setModal(false);
+            dialog.showDialog();
+            new UsageRelationshipsFetcherWorker().execute();
+        } catch (Exception ex) {
+            LOG.error("new Relationship-CidsBean could not be created.", ex);
+        }
+    } //GEN-LAST:event_btnCreateRealtionshipActionPerformed
+
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -645,6 +751,10 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
+
+            new ProvenanceRelationshipFetcherWorker().execute();
+            new UsageRelationshipsFetcherWorker().execute();
+
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.cidsBean);
@@ -713,5 +823,93 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     @Override
     public boolean prepareForSave() {
         return true;
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    class ProvenanceRelationshipFetcherWorker extends SwingWorker<CidsBean, Void> {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        protected CidsBean doInBackground() throws Exception {
+            final MetaObjectProvenanceRelationshipSearchStatement relationshipSearchStatement =
+                new MetaObjectProvenanceRelationshipSearchStatement(SessionManager.getSession().getUser(),
+                    cidsBean.getPrimaryKeyValue());
+            final Collection searchResults = SessionManager.getConnection()
+                        .customServerSearch(SessionManager.getSession().getUser(), relationshipSearchStatement);
+            if ((searchResults != null) && !searchResults.isEmpty()) {
+                final ArrayList firstColumnObject = (ArrayList)searchResults.toArray(new Object[1])[0];
+                final Object firstRowObject = firstColumnObject.get(0);
+                return ((MetaObject)firstRowObject).getBean();
+            }
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            CidsBean provenanceRelationship = null;
+            try {
+                provenanceRelationship = get();
+            } catch (InterruptedException ex) {
+                LOG.warn(ex, ex);
+            } catch (ExecutionException ex) {
+                LOG.warn(ex, ex);
+            }
+
+            ResourceEditor.this.provenanceRelationship = provenanceRelationship;
+
+            if (provenanceRelationship != null) {
+                txtProvenanceRelationship.setText(provenanceRelationship.toString());
+            } else {
+                txtProvenanceRelationship.setText("");
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    class UsageRelationshipsFetcherWorker extends SwingWorker<Collection, Void> {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        protected Collection doInBackground() throws Exception {
+            final MetaObjectUsageRelationshipsSearchStatement relationshipSearchStatement =
+                new MetaObjectUsageRelationshipsSearchStatement(SessionManager.getSession().getUser(),
+                    cidsBean.getPrimaryKeyValue());
+            final Collection searchResults = SessionManager.getConnection()
+                        .customServerSearch(SessionManager.getSession().getUser(), relationshipSearchStatement);
+            return searchResults;
+        }
+
+        @Override
+        protected void done() {
+            Collection usageRelationships = null;
+            try {
+                usageRelationships = get();
+            } catch (InterruptedException ex) {
+                LOG.warn(ex, ex);
+            } catch (ExecutionException ex) {
+                LOG.warn(ex, ex);
+            }
+
+            final DefaultListModel model = ((DefaultListModel)lstRelationships.getModel());
+            model.clear();
+
+            if (usageRelationships != null) {
+                for (final Object mo : usageRelationships) {
+                    model.addElement(((MetaObject)mo).getBean());
+                }
+            }
+        }
     }
 }
