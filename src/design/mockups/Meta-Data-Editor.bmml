@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1505" measuredH="601" mockupW="1485" mockupH="581">
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1505" measuredH="1053" mockupW="1485" mockupH="1033">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="445" y="20" w="1060" h="581" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
@@ -118,7 +118,7 @@
     </control>
     <control controlID="23" controlTypeID="com.balsamiq.mockups::StickyNote" x="20" y="20" w="406" h="416" measuredW="109" measuredH="123" zOrder="21" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>The%20*Meta-Data%20Editor*%20_cannot_%20be%20used%20as%20Basis%20for%20the%20*Meta-Data%20Renderer*%2C%20since%20many%20attributes%20of%20the%20Meta-Data%20Object%20are%20not%20shown%20in%20the%20Renderer.%0A%20%0AThe%20%22New%22%20button%20allows%20the%20user%20to%20define%20a%20new%20tag%20of%20an%20_open_%20Tag%20Group.%20in%20the%20*Tag%20and%20Tag%20Group%20Editor*.%20When%20the%20user%20closes%20the%20*Tag%20and%20Tag%20Group%20Editor*%2C%20the%20newly%20creatred%20tag%20is%20selected%20in%20the%20*Meta-Data%20Editor*.%0A%20%0AThe%20%22Edit%22%20button%20of%20the%20_Contact_%20Attribute%20opens%20the%20*Contact%20Editor*.%0A%20%0AThe%20%22Add%22%20button%20in%20the%20*Additional%20Tags*%20Panel%20lets%20the%20user%20add%20a%20selcted%20tag%20to%20the%20_tags_%20array%20of%20the%20_Meta-Data%20Object_.%20The%20%22New%22%20Button%20opens%20the%20*Tag%20and%20Tag%20Group%20Editor*.%20The%20newly%20created%20tag%20is%20automatically%20addedm%20to%20the%20_tags_%20array.%20The%20%22Remove%22%20button%20deletes%20a%20tag%20is%20selected%20in%20the%20*Assigned%20Tags%20List*%20from%20the%20_tags_%20array.%20For%20reasons%20of%20simplicity%2C%20the%20*Assigned%20Tags%20List*%20does%20not%20distinguish%20between%20different%20tags.%0A%20%0AFor%20a%20description%20of%20the%20%22Generate%22%20button%2C%20plese%20refer%20to%20the%20mockup%20of%20the%20*Repesentation%20Editor*.</text>
+        <text>The%20*Meta-Data%20Editor*%20_cannot_%20be%20used%20as%20Basis%20for%20the%20*Meta-Data%20Renderer*%2C%20since%20many%20attributes%20of%20the%20Meta-Data%20Object%20are%20not%20shown%20in%20the%20Renderer.%0A%20%0AThe%20%22New%22%20button%20allows%20*an%20administrator*%20to%20define%20a%20new%20tag%20of%20an%20_open_%20Tag%20Group%20in%20the%20*Tag%20and%20Tag%20Group%20Editor*%20%28for%20a%20list%20of%20open%20tag%20groups%20please%20refer%20to%20the%20mockup%20of%20the%20*Tag%20and%20Tag%20Group%20Editor*%29.%20The%20casual%20user%20shall%20only%20use%20a%20simplified%20dialog%20to%20add%20a%20new%20tag%20to%20a%20selected%20tag%20group.%20When%20the%20user%20closes%20the%20*Tag%20and%20Tag%20Group%20Editor*%20or%20the%20%22Introduce%20new%20Tag%20Dialog%22%2C%20the%20newly%20created%20tag%20is%20selected%20in%20the%20*Meta-Data%20Editor*.%0A%20%0ASupported%20Tag%20Groups%20that%20can%20be%20used%20to%20fill%20the%20_tags_%20array%20of%20the%20Meta-Data%20Object%20are%3A%0A-%20n/a%3A%20currently%20there%20are%20no%20addtional%20tags%20that%20are%20revelent%20for%20Meta-Data%20Objects%0A%20%20%0AThe%20%22Edit%22%20button%20of%20the%20_Contact_%20Attribute%20opens%20the%20*Contact%20Editor*.%0A%20%0AThe%20%22Add%22%20button%20in%20the%20*Additional%20Tags*%20Panel%20lets%20the%20user%20add%20a%20selcted%20tag%20to%20the%20_tags_%20array%20of%20the%20_Meta-Data%20Object_.%20The%20%22New%22%20Button%20opens%20the%20*Tag%20and%20Tag%20Group%20Editor*.%20The%20newly%20created%20tag%20is%20automatically%20addedm%20to%20the%20_tags_%20array.%20The%20%22Remove%22%20button%20deletes%20a%20tag%20is%20selected%20in%20the%20*Assigned%20Tags%20List*%20from%20the%20_tags_%20array.%20For%20reasons%20of%20simplicity%2C%20the%20*Assigned%20Tags%20List*%20does%20not%20distinguish%20between%20different%20tags.%0A%20%0AFor%20a%20description%20of%20the%20%22Generate%22%20button%2C%20plese%20refer%20to%20the%20mockup%20of%20the%20*Repesentation%20Editor*.</text>
       </controlProperties>
     </control>
     <control controlID="24" controlTypeID="com.balsamiq.mockups::Label" x="481" y="470" w="89" h="-1" measuredW="55" measuredH="21" zOrder="22" locked="false" isInGroup="-1">
@@ -216,6 +216,61 @@
       <controlProperties>
         <state>up</state>
         <text>*eng*%0Adeu</text>
+      </controlProperties>
+    </control>
+    <control controlID="42" controlTypeID="__group__" x="445" y="637" w="402" h="325" measuredW="402" measuredH="325" zOrder="40" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="0" y="0" w="402" h="325" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="42">
+          <controlProperties>
+            <bottomheight>0</bottomheight>
+            <close>true</close>
+            <dragger>false</dragger>
+            <text>Keywords</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::FieldSet" x="14" y="33" w="375" h="275" measuredW="200" measuredH="170" zOrder="1" locked="false" isInGroup="42">
+          <controlProperties>
+            <text>Introduce%20a%20new%20Keyword</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::TextArea" x="29" y="132" w="337" h="119" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="42">
+          <controlProperties>
+            <state>up</state>
+            <text>Location%20of%20properties%20based%20on%20address%20identifiers%2C%20usually%20by%20road%20name%2C%20house%20number%2C%20postal%20code.</text>
+            <verticalScrollbar>true</verticalScrollbar>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::TextInput" x="29" y="74" w="337" h="-1" measuredW="77" measuredH="27" zOrder="3" locked="false" isInGroup="42">
+          <controlProperties>
+            <state>up</state>
+            <text>Addresses</text>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::Label" x="29" y="54" w="89" h="-1" measuredW="35" measuredH="21" zOrder="4" locked="false" isInGroup="42">
+          <controlProperties>
+            <text>Name</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="29" y="114" w="89" h="-1" measuredW="67" measuredH="21" zOrder="5" locked="false" isInGroup="42">
+          <controlProperties>
+            <text>Description</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::Button" x="29" y="264" w="67" h="27" measuredW="41" measuredH="27" zOrder="6" locked="false" isInGroup="42">
+          <controlProperties>
+            <text>OK</text>
+          </controlProperties>
+        </control>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::Button" x="111" y="264" w="67" h="27" measuredW="64" measuredH="27" zOrder="7" locked="false" isInGroup="42">
+          <controlProperties>
+            <text>Cancel</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::StickyNote" x="20" y="637" w="406" h="416" measuredW="109" measuredH="123" zOrder="41" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>The%20*Introduce%20new%20Tag%20Dialog*%20is%20a%20simple%20dialog%20that%20allows%20the%20user%20to%20add%20a%20tag%20to%20a%20preselected%20tag%20group.%20The%20editor%20is%20generic%20an%20can%20be%20used%20to%20add%20tags%20to%20arbitrary%20tag%20groups.%20The%20title%20of%20the%20editor%20should%20be%20adapted%20according%20to%20the%20name%20of%20the%20tag%20group%2C%20e.g.%20%22Keywords%22.%20Delting%20and%20editing%20of%20tags%20is%20not%20supported.</text>
       </controlProperties>
     </control>
   </controls>

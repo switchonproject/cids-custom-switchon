@@ -143,7 +143,7 @@
     <control controlID="22" controlTypeID="com.balsamiq.mockups::Canvas" x="747" y="690" w="690" h="363" measuredW="100" measuredH="70" zOrder="22" locked="false" isInGroup="-1"/>
     <control controlID="23" controlTypeID="com.balsamiq.mockups::FieldSet" x="764" y="824" w="652" h="211" measuredW="200" measuredH="170" zOrder="23" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Keywords%20and%20additional%20Tags</text>
+        <text>Keywords</text>
       </controlProperties>
     </control>
     <control controlID="24" controlTypeID="com.balsamiq.mockups::ComboBox" x="887" y="847" w="184" h="-1" measuredW="86" measuredH="62" zOrder="24" locked="false" isInGroup="-1">
