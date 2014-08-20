@@ -9,12 +9,6 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
-import Sirius.server.middleware.types.MetaObject;
-
-import java.awt.Component;
-
-import java.util.HashSet;
-
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
@@ -25,8 +19,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
 
-import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-
 import de.cismet.tools.gui.StaticSwingTools;
 
 /**
@@ -35,20 +27,11 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRenderer,
-    RequestsFullSizeComponent,
-    EditorShowableInDialog {
+public class MetadataEditor extends AbstractEditorShowableInDialog implements RequestsFullSizeComponent {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MetadataEditor.class);
-
-    //~ Instance fields --------------------------------------------------------
-
-    private HashSet<CidsBean> newlyAddedCidsBeans = new HashSet<CidsBean>();
-    private HashSet<CidsBean> persistedCidsBeans = new HashSet<CidsBean>();
-
-    private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
@@ -445,11 +428,6 @@ public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRender
     } //GEN-LAST:event_btnNewContentTypeActionPerformed
 
     @Override
-    public CidsBean getCidsBean() {
-        return cidsBean;
-    }
-
-    @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
@@ -470,19 +448,6 @@ public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRender
         bindingGroup.unbind();
     }
 
-    @Override
-    public String getTitle() {
-        if (cidsBean != null) {
-            return cidsBean.toString();
-        } else {
-            return "new Resource";
-        }
-    }
-
-    @Override
-    public void setTitle(final String title) {
-    }
-
     /**
      * DOCUMENT ME!
      *
@@ -500,29 +465,5 @@ public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRender
             1,
             1280,
             1024);
-    }
-
-    @Override
-    public HashSet<CidsBean> getNewlyAddedCidsBeans() {
-        return newlyAddedCidsBeans;
-    }
-
-    @Override
-    public HashSet<CidsBean> getPersistedCidsBeans() {
-        return persistedCidsBeans;
-    }
-
-    @Override
-    public void saveChanges() throws Exception {
-        final CidsBean newCidsBean = cidsBean.persist();
-        persistedCidsBeans.add(newCidsBean);
-        if (cidsBean.getMetaObject().getStatus() == MetaObject.NEW) {
-            newlyAddedCidsBeans.add(newCidsBean);
-        }
-    }
-
-    @Override
-    public Component getComponent() {
-        return this;
     }
 }

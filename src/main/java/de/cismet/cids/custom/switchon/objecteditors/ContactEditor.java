@@ -7,14 +7,9 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
-import Sirius.server.middleware.types.MetaObject;
-
-import java.awt.Component;
 import java.awt.Desktop;
 
 import java.net.URI;
-
-import java.util.HashSet;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
@@ -27,8 +22,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
 
-import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-
 import de.cismet.tools.EMailComposer;
 
 /**
@@ -37,7 +30,7 @@ import de.cismet.tools.EMailComposer;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class ContactEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorShowableInDialog {
+public class ContactEditor extends AbstractEditorShowableInDialog {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -45,11 +38,7 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
 
     //~ Instance fields --------------------------------------------------------
 
-    private CidsBean cidsBean;
-    private String title;
     private boolean editor;
-    private HashSet<CidsBean> newlyAddedCidsBeans = new HashSet<CidsBean>();
-    private HashSet<CidsBean> persistedCidsBeans = new HashSet<CidsBean>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cmbRole;
@@ -393,11 +382,6 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
     }                                                                           //GEN-LAST:event_hypMailActionPerformed
 
     @Override
-    public CidsBean getCidsBean() {
-        return cidsBean;
-    }
-
-    @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
@@ -412,24 +396,6 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
     @Override
     public void dispose() {
         bindingGroup.unbind();
-    }
-
-    @Override
-    public String getTitle() {
-        if (cidsBean != null) {
-            return cidsBean.toString();
-        } else {
-            return "new contact";
-        }
-    }
-
-    @Override
-    public void setTitle(String title) {
-        if (title == null) {
-            title = "<Error>";
-        }
-        this.title = "Contact Editor "
-                    + title;
     }
 
     /**
@@ -449,29 +415,5 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
             11,
             1280,
             1024);
-    }
-
-    @Override
-    public HashSet<CidsBean> getNewlyAddedCidsBeans() {
-        return newlyAddedCidsBeans;
-    }
-
-    @Override
-    public void saveChanges() throws Exception {
-        final CidsBean newCidsBean = cidsBean.persist();
-        persistedCidsBeans.add(newCidsBean);
-        if (cidsBean.getMetaObject().getStatus() == MetaObject.NEW) {
-            newlyAddedCidsBeans.add(newCidsBean);
-        }
-    }
-
-    @Override
-    public Component getComponent() {
-        return this;
-    }
-
-    @Override
-    public HashSet<CidsBean> getPersistedCidsBeans() {
-        return persistedCidsBeans;
     }
 }

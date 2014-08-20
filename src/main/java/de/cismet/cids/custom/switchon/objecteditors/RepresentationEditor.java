@@ -9,12 +9,7 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
-import Sirius.server.middleware.types.MetaObject;
-
-import java.awt.Component;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
@@ -24,28 +19,17 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
 
-import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-
 /**
  * DOCUMENT ME!
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RepresentationEditor extends javax.swing.JPanel implements CidsBeanRenderer,
-    RequestsFullSizeComponent,
-    EditorShowableInDialog {
+public class RepresentationEditor extends AbstractEditorShowableInDialog implements RequestsFullSizeComponent {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MetadataEditor.class);
-
-    //~ Instance fields --------------------------------------------------------
-
-    private HashSet<CidsBean> newlyAddedCidsBeans = new HashSet<CidsBean>();
-    private HashSet<CidsBean> persistedCidsBeans = new HashSet<CidsBean>();
-
-    private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
@@ -440,11 +424,6 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
-    public CidsBean getCidsBean() {
-        return cidsBean;
-    }
-
-    @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
@@ -464,42 +443,5 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
     @Override
     public void dispose() {
         bindingGroup.unbind();
-    }
-
-    @Override
-    public String getTitle() {
-        if (cidsBean != null) {
-            return cidsBean.toString();
-        } else {
-            return "new Representation";
-        }
-    }
-
-    @Override
-    public void setTitle(final String title) {
-    }
-
-    @Override
-    public HashSet<CidsBean> getNewlyAddedCidsBeans() {
-        return newlyAddedCidsBeans;
-    }
-
-    @Override
-    public void saveChanges() throws Exception {
-        final CidsBean newCidsBean = cidsBean.persist();
-        persistedCidsBeans.add(newCidsBean);
-        if (cidsBean.getMetaObject().getStatus() == MetaObject.NEW) {
-            newlyAddedCidsBeans.add(newCidsBean);
-        }
-    }
-
-    @Override
-    public Component getComponent() {
-        return this;
-    }
-
-    @Override
-    public HashSet<CidsBean> getPersistedCidsBeans() {
-        return persistedCidsBeans;
     }
 }

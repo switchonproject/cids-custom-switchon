@@ -7,17 +7,9 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
-import Sirius.server.middleware.types.MetaObject;
-
-import java.awt.Component;
-
-import java.util.HashSet;
-
 import javax.swing.border.TitledBorder;
 
 import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 /**
  * DOCUMENT ME!
@@ -25,7 +17,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class SimpleTagEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorShowableInDialog {
+public class SimpleTagEditor extends AbstractEditorShowableInDialog {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -33,9 +25,6 @@ public class SimpleTagEditor extends javax.swing.JPanel implements CidsBeanRende
 
     //~ Instance fields --------------------------------------------------------
 
-    private HashSet<CidsBean> newlyAddedCidsBeans = new HashSet<CidsBean>();
-    private HashSet<CidsBean> persistedCidsBeans = new HashSet<CidsBean>();
-    private CidsBean cidsBean;
     private CidsBean taggroup;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -146,11 +135,6 @@ public class SimpleTagEditor extends javax.swing.JPanel implements CidsBeanRende
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
-    public CidsBean getCidsBean() {
-        return cidsBean;
-    }
-
-    @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
@@ -170,42 +154,5 @@ public class SimpleTagEditor extends javax.swing.JPanel implements CidsBeanRende
     @Override
     public void dispose() {
         bindingGroup.unbind();
-    }
-
-    @Override
-    public String getTitle() {
-        if (cidsBean != null) {
-            return cidsBean.toString();
-        } else {
-            return "new tag";
-        }
-    }
-
-    @Override
-    public void setTitle(final String title) {
-    }
-
-    @Override
-    public HashSet<CidsBean> getNewlyAddedCidsBeans() {
-        return newlyAddedCidsBeans;
-    }
-
-    @Override
-    public HashSet<CidsBean> getPersistedCidsBeans() {
-        return persistedCidsBeans;
-    }
-
-    @Override
-    public void saveChanges() throws Exception {
-        final CidsBean newCidsBean = cidsBean.persist();
-        persistedCidsBeans.add(newCidsBean);
-        if (cidsBean.getMetaObject().getStatus() == MetaObject.NEW) {
-            newlyAddedCidsBeans.add(newCidsBean);
-        }
-    }
-
-    @Override
-    public Component getComponent() {
-        return this;
     }
 }

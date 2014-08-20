@@ -9,14 +9,7 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
-import Sirius.server.middleware.types.MetaObject;
-
-import org.openide.util.Exceptions;
-
-import java.awt.Component;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.JList;
@@ -34,28 +27,17 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 
-import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-
 /**
  * DOCUMENT ME!
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRenderer,
-    RequestsFullSizeComponent,
-    EditorShowableInDialog {
+public class RelationshipEditor extends AbstractEditorShowableInDialog implements RequestsFullSizeComponent {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MetadataEditor.class);
-
-    //~ Instance fields --------------------------------------------------------
-
-    private HashSet<CidsBean> newlyAddedCidsBeans = new HashSet<CidsBean>();
-    private HashSet<CidsBean> persistedCidsBeans = new HashSet<CidsBean>();
-
-    private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
@@ -362,11 +344,6 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
     }                                                                                           //GEN-LAST:event_btnRemoveSourceResourceActionPerformed
 
     @Override
-    public CidsBean getCidsBean() {
-        return cidsBean;
-    }
-
-    @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
@@ -386,43 +363,6 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
     @Override
     public void dispose() {
         bindingGroup.unbind();
-    }
-
-    @Override
-    public String getTitle() {
-        if (cidsBean != null) {
-            return cidsBean.toString();
-        } else {
-            return "new Relationship";
-        }
-    }
-
-    @Override
-    public void setTitle(final String title) {
-    }
-
-    @Override
-    public HashSet<CidsBean> getNewlyAddedCidsBeans() {
-        return newlyAddedCidsBeans;
-    }
-
-    @Override
-    public void saveChanges() throws Exception {
-        final CidsBean newCidsBean = cidsBean.persist();
-        persistedCidsBeans.add(newCidsBean);
-        if (cidsBean.getMetaObject().getStatus() == MetaObject.NEW) {
-            newlyAddedCidsBeans.add(newCidsBean);
-        }
-    }
-
-    @Override
-    public Component getComponent() {
-        return this;
-    }
-
-    @Override
-    public HashSet<CidsBean> getPersistedCidsBeans() {
-        return persistedCidsBeans;
     }
 
     /**
