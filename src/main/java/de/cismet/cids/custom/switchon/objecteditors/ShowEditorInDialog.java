@@ -10,14 +10,9 @@ package de.cismet.cids.custom.switchon.objecteditors;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 
-import java.util.Collections;
-import java.util.Set;
 import java.util.logging.Level;
-
-import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -85,6 +80,7 @@ public class ShowEditorInDialog extends javax.swing.JDialog {
         pnlEditor = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1000, 1000));
         setModal(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 

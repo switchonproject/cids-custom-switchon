@@ -70,7 +70,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
         columnBinding.setColumnName("Contact");
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${content}"));
-        columnBinding.setColumnName("Content");
+        columnBinding.setColumnName("Document");
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
@@ -146,6 +146,8 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
         add(btnEditMetaData, gridBagConstraints);
 
+        tblMetaDatas.setAutoCreateRowSorter(true);
+        tblMetaDatas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(tblMetaDatas);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

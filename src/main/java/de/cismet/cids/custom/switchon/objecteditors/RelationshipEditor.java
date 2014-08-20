@@ -12,12 +12,11 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JList;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
-import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -39,24 +38,26 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MetadataEditor.class);
 
+    //~ Instance fields --------------------------------------------------------
+
+    List<CidsBean> toResource;
+    List<CidsBean> fromResources;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
     private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
-    private javax.swing.JButton btnAddSourceResource;
-    private javax.swing.JButton btnNewApplication;
     private javax.swing.JButton btnRemoveSourceResource;
-    private javax.swing.JComboBox cmbApplication;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList lstSourceResources;
     private de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel metaDataPanel;
-    private javax.swing.JPanel pnlOtherProperties;
-    private javax.swing.JTextField txtTargetResource;
+    private de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel metaDataPanel1;
+    private javax.swing.JTable tblFromResource;
+    private javax.swing.JTable tblToResource;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -67,8 +68,8 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
      */
     public RelationshipEditor() {
         initComponents();
-        new CidsBeanDropTarget(txtTargetResource);
-        new CidsBeanDropTarget(lstSourceResources);
+        new CidsBeanDropTarget(tblFromResource);
+        new CidsBeanDropTarget(tblToResource);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -83,23 +84,9 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        metaDataPanel1 = new de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtTargetResource = new ResourceDropListenerTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        lstSourceResources = new ResourceDropListenerList();
-        btnAddSourceResource = new javax.swing.JButton();
-        btnRemoveSourceResource = new javax.swing.JButton();
         basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
-        jPanel3 = new javax.swing.JPanel();
-        metaDataPanel = new de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel();
-        pnlOtherProperties = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        cmbApplication = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
-                Taggroups.APPLICATION_PROFILE);
-        btnNewApplication = new javax.swing.JButton();
         final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
         taggroups.add(Taggroups.COLLECTION);
         taggroups.add(Taggroups.GEOGRAPHY);
@@ -107,95 +94,113 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
         taggroups.add(Taggroups.KEYWORDS_OPEN);
         additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups);
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblToResource = new ToResourceDropListenerTable();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        btnRemoveSourceResource = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblFromResource = new FromResourceDropListenerTable();
+        metaDataPanel = new de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel();
 
         setOpaque(false);
-        setLayout(new java.awt.GridBagLayout());
+        setPreferredSize(new java.awt.Dimension(900, 700));
+        setLayout(new java.awt.GridLayout());
 
-        jPanel2.setMinimumSize(new java.awt.Dimension(0, 0));
         jPanel2.setOpaque(false);
-        jPanel2.setPreferredSize(new java.awt.Dimension(0, 0));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    RelationshipEditor.class,
-                    "RelationshipEditor.jPanel1.border.title"))); // NOI18N
-        jPanel1.setOpaque(false);
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel1,
-            org.openide.util.NbBundle.getMessage(RelationshipEditor.class, "RelationshipEditor.jLabel1.text")); // NOI18N
+        basicPropertiesPanel.setOpaque(false);
+        basicPropertiesPanel.setPreferredSize(new java.awt.Dimension(344, 332));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
-        jPanel1.add(jLabel1, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel2.add(basicPropertiesPanel, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel2,
-            org.openide.util.NbBundle.getMessage(RelationshipEditor.class, "RelationshipEditor.jLabel2.text")); // NOI18N
+        additionalTagsPanel.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jPanel1.add(jLabel2, gridBagConstraints);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanel2.add(additionalTagsPanel, gridBagConstraints);
 
-        txtTargetResource.setEditable(false);
+        add(jPanel2);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.toresource.name}"),
-                txtTargetResource,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
+        jPanel3.setOpaque(false);
+        jPanel3.setPreferredSize(new java.awt.Dimension(344, 332));
+        jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 10);
-        jPanel1.add(txtTargetResource, gridBagConstraints);
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    RelationshipEditor.class,
+                    "RelationshipEditor.jPanel4.border.title"))); // NOI18N
+        jPanel4.setOpaque(false);
+        jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
-                "${cidsBean.fromresources}");
-        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJListBinding(
+        tblToResource.setAutoCreateRowSorter(true);
+        tblToResource.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${toResource}");
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJTableBinding(
                         org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                         this,
                         eLProperty,
-                        lstSourceResources);
-        bindingGroup.addBinding(jListBinding);
-
-        jScrollPane2.setViewportView(lstSourceResources);
+                        tblToResource);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(
+                org.jdesktop.beansbinding.ELProperty.create("${name}"));
+        columnBinding.setColumnName("Name");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${type.name}"));
+        columnBinding.setColumnName("Type.name");
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        jScrollPane2.setViewportView(tblToResource);
+        if (tblToResource.getColumnModel().getColumnCount() > 0) {
+            tblToResource.getColumnModel()
+                    .getColumn(0)
+                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
+                            RelationshipEditor.class,
+                            "RelationshipEditor.tblToResource.columnModel.title0_1")); // NOI18N
+            tblToResource.getColumnModel()
+                    .getColumn(1)
+                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
+                            RelationshipEditor.class,
+                            "RelationshipEditor.tblToResource.columnModel.title1_1")); // NOI18N
+        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        jPanel1.add(jScrollPane2, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel4.add(jScrollPane2, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnAddSourceResource,
-            org.openide.util.NbBundle.getMessage(
-                RelationshipEditor.class,
-                "RelationshipEditor.btnAddSourceResource.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
-        jPanel1.add(btnAddSourceResource, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        jPanel3.add(jPanel4, gridBagConstraints);
+
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(new java.awt.GridLayout(0, 1));
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    RelationshipEditor.class,
+                    "RelationshipEditor.jPanel5.border.title"))); // NOI18N
+        jPanel5.setOpaque(false);
+        jPanel5.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
             btnRemoveSourceResource,
@@ -210,125 +215,69 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 10);
-        jPanel1.add(btnRemoveSourceResource, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 5);
-        jPanel2.add(jPanel1, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
+        jPanel5.add(btnRemoveSourceResource, gridBagConstraints);
 
-        basicPropertiesPanel.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 5);
-        jPanel2.add(basicPropertiesPanel, gridBagConstraints);
+        tblFromResource.setAutoCreateRowSorter(true);
+        tblFromResource.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.5;
-        gridBagConstraints.weighty = 0.5;
-        add(jPanel2, gridBagConstraints);
-
-        jPanel3.setMinimumSize(new java.awt.Dimension(0, 0));
-        jPanel3.setOpaque(false);
-        jPanel3.setPreferredSize(new java.awt.Dimension(0, 0));
-        jPanel3.setLayout(new java.awt.GridBagLayout());
-
-        metaDataPanel.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 5, 0, 10);
-        jPanel3.add(metaDataPanel, gridBagConstraints);
-
-        pnlOtherProperties.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    RelationshipEditor.class,
-                    "RelationshipEditor.pnlOtherProperties.border.title"))); // NOI18N
-        pnlOtherProperties.setOpaque(false);
-        pnlOtherProperties.setLayout(new java.awt.GridBagLayout());
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel5,
-            org.openide.util.NbBundle.getMessage(RelationshipEditor.class, "RelationshipEditor.jLabel5.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
-        pnlOtherProperties.add(jLabel5, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${fromResources}");
+        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.applicationprofile}"),
-                cmbApplication,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
+                eLProperty,
+                tblFromResource);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
+        columnBinding.setColumnName("Name");
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${type.name}"));
+        columnBinding.setColumnName("Type.name");
+        columnBinding.setEditable(false);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        jScrollPane1.setViewportView(tblFromResource);
+        if (tblFromResource.getColumnModel().getColumnCount() > 0) {
+            tblFromResource.getColumnModel()
+                    .getColumn(0)
+                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
+                            RelationshipEditor.class,
+                            "RelationshipEditor.tblFromResource.columnModel.title0_1")); // NOI18N
+            tblFromResource.getColumnModel()
+                    .getColumn(1)
+                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
+                            RelationshipEditor.class,
+                            "RelationshipEditor.tblFromResource.columnModel.title1_1")); // NOI18N
+        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
-        pnlOtherProperties.add(cmbApplication, gridBagConstraints);
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        jPanel5.add(jScrollPane1, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnNewApplication,
-            org.openide.util.NbBundle.getMessage(
-                RelationshipEditor.class,
-                "RelationshipEditor.btnNewApplication.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 10);
-        pnlOtherProperties.add(btnNewApplication, gridBagConstraints);
+        jPanel1.add(jPanel5);
+
+        metaDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    RelationshipEditor.class,
+                    "RelationshipEditor.metaDataPanel.border.title"))); // NOI18N
+        metaDataPanel.setOpaque(false);
+        jPanel1.add(metaDataPanel);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 5, 0, 10);
-        jPanel3.add(pnlOtherProperties, gridBagConstraints);
-
-        additionalTagsPanel.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 10);
-        jPanel3.add(additionalTagsPanel, gridBagConstraints);
+        gridBagConstraints.weighty = 0.8;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
+        jPanel3.add(jPanel1, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.5;
-        gridBagConstraints.weighty = 0.5;
-        add(jPanel3, gridBagConstraints);
+        add(jPanel3);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -339,8 +288,12 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
      * @param  evt  DOCUMENT ME!
      */
     private void btnRemoveSourceResourceActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemoveSourceResourceActionPerformed
-        final List<CidsBean> selectedResources = lstSourceResources.getSelectedValuesList();
-        cidsBean.getBeanCollectionProperty("fromresources").removeAll(selectedResources);
+        final int selectedRow = tblFromResource.getSelectedRow();
+        if (selectedRow != -1) {
+            final CidsBean selectedResource = fromResources.get(tblFromResource.convertRowIndexToModel(
+                        selectedRow));
+            fromResources.remove(selectedResource);
+        }
     }                                                                                           //GEN-LAST:event_btnRemoveSourceResourceActionPerformed
 
     @Override
@@ -355,6 +308,37 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
             basicPropertiesPanel.setCidsBean(cidsBean);
             additionalTagsPanel.setCidsBean(cidsBean);
             metaDataPanel.setCidsBean(cidsBean);
+
+            toResource = new ArrayList<CidsBean>(1);
+            toResource.add((CidsBean)cidsBean.getProperty("toresource"));
+
+            fromResources = cidsBean.getBeanCollectionProperty("fromresources");
+
+            if (tblToResource.getColumnModel().getColumnCount() > 0) {
+                tblToResource.getColumnModel()
+                        .getColumn(0)
+                        .setHeaderValue(org.openide.util.NbBundle.getMessage(
+                                RelationshipEditor.class,
+                                "RelationshipEditor.jTable1.columnModel.title0_1")); // NOI18N
+                tblToResource.getColumnModel()
+                        .getColumn(1)
+                        .setHeaderValue(org.openide.util.NbBundle.getMessage(
+                                RelationshipEditor.class,
+                                "RelationshipEditor.jTable1.columnModel.title1_1")); // NOI18N
+            }
+
+            if (tblFromResource.getColumnModel().getColumnCount() > 0) {
+                tblFromResource.getColumnModel()
+                        .getColumn(0)
+                        .setHeaderValue(org.openide.util.NbBundle.getMessage(
+                                RelationshipEditor.class,
+                                "RelationshipEditor.tblFromResource.columnModel.title0_1")); // NOI18N
+                tblFromResource.getColumnModel()
+                        .getColumn(1)
+                        .setHeaderValue(org.openide.util.NbBundle.getMessage(
+                                RelationshipEditor.class,
+                                "RelationshipEditor.tblFromResource.columnModel.title1_1")); // NOI18N
+            }
 
             bindingGroup.bind();
         }
@@ -384,6 +368,42 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
             1024);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public List<CidsBean> getToResource() {
+        return toResource;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  toResource  DOCUMENT ME!
+     */
+    public void setToResource(final List<CidsBean> toResource) {
+        this.toResource = toResource;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public List<CidsBean> getFromResources() {
+        return fromResources;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fromResources  DOCUMENT ME!
+     */
+    public void setFromResources(final List<CidsBean> fromResources) {
+        this.fromResources = fromResources;
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -391,17 +411,16 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
      *
      * @version  $Revision$, $Date$
      */
-    private class ResourceDropListenerList extends JList implements CidsBeanDropListener {
+    private class FromResourceDropListenerTable extends JTable implements CidsBeanDropListener {
 
         //~ Methods ------------------------------------------------------------
 
         @Override
         public void beansDropped(final ArrayList<CidsBean> beans) {
-            final List<CidsBean> sourceResources = cidsBean.getBeanCollectionProperty("fromresources");
             if (beans != null) {
                 for (final CidsBean bean : beans) {
                     if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
-                        sourceResources.add(bean);
+                        fromResources.add(bean);
                     }
                 }
             }
@@ -413,7 +432,7 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
      *
      * @version  $Revision$, $Date$
      */
-    private class ResourceDropListenerTextField extends JTextField implements CidsBeanDropListener {
+    private class ToResourceDropListenerTable extends JTable implements CidsBeanDropListener {
 
         //~ Methods ------------------------------------------------------------
 
@@ -425,6 +444,8 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
                     if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
                         try {
                             cidsBean.setProperty("toresource", bean);
+                            toResource.clear();
+                            toResource.add(bean);
                             break;
                         } catch (Exception ex) {
                             LOG.error("Could not set toresource of cidsBean", ex);

@@ -161,6 +161,7 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.weighty = 0.5;
         add(filler8, gridBagConstraints);
 
+        tblRepresentations.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblRepresentations);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -250,5 +251,23 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
 
             bindingGroup.bind();
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public List<CidsBean> getRepresentations() {
+        return representations;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  representations  DOCUMENT ME!
+     */
+    public void setRepresentations(final List<CidsBean> representations) {
+        this.representations = representations;
     }
 }
