@@ -247,8 +247,16 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
             if (geoObj instanceof Geometry) {
                 final Geometry pureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
                         SwitchOnConstants.COMMONS.SRS_SERVICE);
-                final XBoundingBox box = new XBoundingBox(pureGeom.getEnvelope().buffer(
-                            SwitchOnConstants.COMMONS.GEO_BUFFER));
+                final XBoundingBox box;
+                try {
+                    box = new XBoundingBox(pureGeom.getEnvelope().buffer(
+                                SwitchOnConstants.COMMONS.GEO_BUFFER));
+                } catch (NullPointerException npe) {
+                    LOG.error(
+                        "NPE in the constructor of XBoundingBox. This happens if a renderer/editor is started with DevelopmentTools.",
+                        npe);
+                    return;
+                }
                 final double diagonalLength = Math.sqrt((box.getWidth() * box.getWidth())
                                 + (box.getHeight() * box.getHeight()));
                 if (LOG.isDebugEnabled()) {
@@ -358,8 +366,17 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
             dsf.setLinePaint(new Color(1, 0, 0, 1f));
             dsf.setEditable(true);
 
-            final XBoundingBox box = new XBoundingBox(geometry.getEnvelope().buffer(
-                        SwitchOnConstants.COMMONS.GEO_BUFFER));
+            final XBoundingBox box;
+            try {
+                box = new XBoundingBox(geometry.getEnvelope().buffer(
+                            SwitchOnConstants.COMMONS.GEO_BUFFER));
+            } catch (NullPointerException npe) {
+                LOG.error(
+                    "NPE in the constructor of XBoundingBox. This happens if a renderer/editor is started with DevelopmentTools.",
+                    npe);
+                return;
+            }
+
             if (previewMap.getMappingModel() != null) {
                 ((ActiveLayerModel)previewMap.getMappingModel()).addHome(box);
                 previewMap.gotoInitialBoundingBox();

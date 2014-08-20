@@ -37,7 +37,6 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
     private javax.swing.JButton btnEditRepresentation;
     private javax.swing.JButton btnRemoveRepresentation;
     private javax.swing.Box.Filler filler8;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblRepresentations;
     // End of variables declaration//GEN-END:variables
@@ -88,7 +87,6 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel6 = new javax.swing.JPanel();
         btnAddRepresentation = new javax.swing.JButton();
         btnRemoveRepresentation = new javax.swing.JButton();
         btnEditRepresentation = new javax.swing.JButton();
@@ -98,11 +96,7 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
         jScrollPane1 = new javax.swing.JScrollPane();
         tblRepresentations = new javax.swing.JTable();
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    RepresentationsPanel.class,
-                    "RepresentationsPanel.jPanel6.border.title"))); // NOI18N
-        jPanel6.setLayout(new java.awt.GridBagLayout());
+        setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
             btnAddRepresentation,
@@ -121,7 +115,7 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
-        jPanel6.add(btnAddRepresentation, gridBagConstraints);
+        add(btnAddRepresentation, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             btnRemoveRepresentation,
@@ -140,7 +134,7 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
-        jPanel6.add(btnRemoveRepresentation, gridBagConstraints);
+        add(btnRemoveRepresentation, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             btnEditRepresentation,
@@ -159,13 +153,13 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
-        jPanel6.add(btnEditRepresentation, gridBagConstraints);
+        add(btnEditRepresentation, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weighty = 0.5;
-        jPanel6.add(filler8, gridBagConstraints);
+        add(filler8, gridBagConstraints);
 
         jScrollPane1.setViewportView(tblRepresentations);
 
@@ -177,28 +171,7 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
-        jPanel6.add(jScrollPane1, gridBagConstraints);
-
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 724, Short.MAX_VALUE)
-                        .addGroup(
-                            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                                layout.createSequentialGroup().addGap(0, 0, Short.MAX_VALUE).addComponent(
-                                    jPanel6,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                    724,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 0, Short.MAX_VALUE))));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 480, Short.MAX_VALUE)
-                        .addGroup(
-                            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                                layout.createSequentialGroup().addGap(0, 0, Short.MAX_VALUE).addComponent(
-                                    jPanel6,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 0, Short.MAX_VALUE))));
+        add(jScrollPane1, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -222,7 +195,7 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
             representationEditor).showDialog();
 
         // add the newly created representation-CidsBean
-        cidsBean.getBeanCollectionProperty("representation").addAll(representationEditor.getNewlyAddedCidsBeans());
+        representations.addAll(representationEditor.getNewlyAddedCidsBeans());
     } //GEN-LAST:event_btnAddRepresentationActionPerformed
 
     /**

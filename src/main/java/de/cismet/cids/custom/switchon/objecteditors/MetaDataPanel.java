@@ -9,9 +9,7 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import java.util.List;
 
-import javax.swing.SortOrder;
-
-import de.cismet.cids.custom.switchon.gui.JXListBugFixes;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -33,14 +31,15 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private List<CidsBean> metadatas;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddMetaData;
     private javax.swing.JButton btnEditMetaData;
     private javax.swing.JButton btnRemoveMetaData;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList lstMetaData;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tblMetaDatas;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -49,7 +48,32 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
      * Creates new form MetaDataPanel.
      */
     public MetaDataPanel() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
         initComponents();
+
+        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${metadatas}");
+        final org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJTableBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        tblMetaDatas);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(
+                org.jdesktop.beansbinding.ELProperty.create("${name}"));
+        columnBinding.setColumnName("Name");
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${type.name}"));
+        columnBinding.setColumnName("Type");
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${contact}"));
+        columnBinding.setColumnName("Contact");
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${content}"));
+        columnBinding.setColumnName("Content");
+        columnBinding.setEditable(false);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -62,45 +86,14 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstMetaData = new JXListBugFixes();
         btnAddMetaData = new javax.swing.JButton();
         btnRemoveMetaData = new javax.swing.JButton();
         btnEditMetaData = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblMetaDatas = new javax.swing.JTable();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(MetaDataPanel.class, "MetaDataPanel.border.title"))); // NOI18N
         setLayout(new java.awt.GridBagLayout());
-
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(0, 0));
-
-        lstMetaData.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
-                "${cidsBean.metadata}");
-        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJListBinding(
-                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                        this,
-                        eLProperty,
-                        lstMetaData);
-        bindingGroup.addBinding(jListBinding);
-
-        jScrollPane1.setViewportView(lstMetaData);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        add(jScrollPane1, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             btnAddMetaData,
@@ -113,10 +106,10 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
         add(btnAddMetaData, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
@@ -133,7 +126,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
         add(btnRemoveMetaData, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
@@ -147,13 +140,23 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
         add(btnEditMetaData, gridBagConstraints);
 
-        bindingGroup.bind();
+        jScrollPane2.setViewportView(tblMetaDatas);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        add(jScrollPane2, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -177,7 +180,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
             metadataEditor).showDialog();
 
         // add the newly created metaData-CidsBean
-        cidsBean.getBeanCollectionProperty("metadata").addAll(metadataEditor.getNewlyAddedCidsBeans());
+        metadatas.addAll(metadataEditor.getNewlyAddedCidsBeans());
     } //GEN-LAST:event_btnAddMetaDataActionPerformed
 
     /**
@@ -186,10 +189,11 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
      * @param  evt  DOCUMENT ME!
      */
     private void btnRemoveMetaDataActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemoveMetaDataActionPerformed
-        final CidsBean metaData = (CidsBean)lstMetaData.getSelectedValue();
-        if (metaData != null) {
-            final List<CidsBean> metaDatas = cidsBean.getBeanCollectionProperty("metadata");
-            metaDatas.remove(metaData);
+        final int selectedRow = tblMetaDatas.getSelectedRow();
+        if (selectedRow != -1) {
+            final CidsBean selectedMetaData = metadatas.get(tblMetaDatas.convertRowIndexToModel(
+                        selectedRow));
+            metadatas.remove(selectedMetaData);
         }
     }                                                                                     //GEN-LAST:event_btnRemoveMetaDataActionPerformed
 
@@ -199,19 +203,20 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
      * @param  evt  DOCUMENT ME!
      */
     private void btnEditMetaDataActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnEditMetaDataActionPerformed
-        final CidsBean metaData = (CidsBean)lstMetaData.getSelectedValue();
-        if (metaData != null) {
+        final int selectedRow = tblMetaDatas.getSelectedRow();
+        if (selectedRow != -1) {
+            final CidsBean selectedMetaData = metadatas.get(tblMetaDatas.convertRowIndexToModel(
+                        selectedRow));
             final MetadataEditor metadataEditor = new MetadataEditor();
-            metadataEditor.setCidsBean(metaData);
+            metadataEditor.setCidsBean(selectedMetaData);
             new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
                 true,
                 metadataEditor).showDialog();
 
             // replace the old cidsBean with the persisted cidsBean
-            final List<CidsBean> metaDatas = cidsBean.getBeanCollectionProperty("metadata");
-            metaDatas.remove(metaData);
+            metadatas.remove(selectedMetaData);
             for (final CidsBean persistedMetaData : metadataEditor.getPersistedCidsBeans()) {
-                metaDatas.add(persistedMetaData);
+                metadatas.add(persistedMetaData);
             }
         }
     } //GEN-LAST:event_btnEditMetaDataActionPerformed
@@ -226,10 +231,52 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
+            this.metadatas = cidsBean.getBeanCollectionProperty("metadata");
+
             bindingGroup.bind();
-            ((JXListBugFixes)lstMetaData).setAutoCreateRowSorter(true);
-            ((JXListBugFixes)lstMetaData).setSortOrder(SortOrder.DESCENDING);
-            ((JXListBugFixes)lstMetaData).toggleSortOrder();
+            if (tblMetaDatas.getColumnModel().getColumnCount() > 0) {
+                tblMetaDatas.getColumnModel().getColumn(2).setCellRenderer(new NullCellRenderer());
+                tblMetaDatas.getColumnModel().getColumn(3).setCellRenderer(new NullCellRenderer());
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public List<CidsBean> getMetadatas() {
+        return metadatas;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  metadatas  DOCUMENT ME!
+     */
+    public void setMetadatas(final List<CidsBean> metadatas) {
+        this.metadatas = metadatas;
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * Print no if the value is null, otherwise yes.
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class NullCellRenderer extends DefaultTableCellRenderer {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        protected void setValue(final Object value) {
+            if (value == null) {
+                this.setText("No");
+            } else {
+                this.setText("Yes");
+            }
         }
     }
 }

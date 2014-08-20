@@ -79,9 +79,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
-    private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
-    private javax.swing.Box.Filler filler9;
     private de.cismet.cids.custom.switchon.gui.GeometryChooserPanel geometryChooserPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -181,14 +179,8 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 new java.awt.Dimension(0, 32767));
         pnlMetaData = new javax.swing.JPanel();
         metaDataPanel = new de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel();
-        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 32767));
         pnlRepresentations = new javax.swing.JPanel();
         representationsPanel = new de.cismet.cids.custom.switchon.objecteditors.RepresentationsPanel();
-        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 32767));
         pnlRelationships = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         txtProvenanceRelationship = new javax.swing.JTextField();
@@ -478,15 +470,11 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
 
         pnlMetaData.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
-        pnlMetaData.add(metaDataPanel, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        pnlMetaData.add(filler6, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        pnlMetaData.add(metaDataPanel, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceEditor.class,
@@ -498,15 +486,11 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlRepresentations.add(representationsPanel, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 1.0;
-        pnlRepresentations.add(filler9, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceEditor.class,
