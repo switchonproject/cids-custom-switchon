@@ -7,8 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.utils;
 
-import java.util.HashSet;
-
 /**
  * DOCUMENT ME!
  *
