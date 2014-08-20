@@ -8,6 +8,9 @@
 package de.cismet.cids.custom.switchon.objecteditors;
 
 import Sirius.server.middleware.types.LightweightMetaObject;
+import Sirius.server.middleware.types.MetaObject;
+
+import org.openide.util.Exceptions;
 
 import java.util.Collection;
 import java.util.List;
@@ -352,14 +355,22 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
      * @param  evt  DOCUMENT ME!
      */
     private void btnNewActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewActionPerformed
-        final TagAndTagGroupEditor tagAndTagGroupEditor = new TagAndTagGroupEditor();
-        new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-            true,
-            tagAndTagGroupEditor).showDialog();
-        ((TagsJList)lstTags).reload();
+        try {
+            final CidsBean selectedTaggroup = ((MetaObject)cmbTagGroups.getSelectedItem()).getBean();
+            final SimpleTagEditor simpleTagEditor = new SimpleTagEditor(selectedTaggroup);
+            simpleTagEditor.setCidsBean(CidsBean.createNewCidsBeanFromTableName("SWITCHON", "tag"));
+            final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                    true,
+                    simpleTagEditor);
+            dialog.setTitle(selectedTaggroup.toString());
+            dialog.showDialog();
 
-        final Collection<CidsBean> assignedTags = cidsBean.getBeanCollectionProperty("tags");
-        assignedTags.addAll(tagAndTagGroupEditor.getNewlyAddedCidsBeans());
+            ((TagsJList)lstTags).reload();
+            final Collection<CidsBean> assignedTags = cidsBean.getBeanCollectionProperty("tags");
+            assignedTags.addAll(simpleTagEditor.getNewlyAddedCidsBeans());
+        } catch (Exception ex) {
+            LOG.error("Could not create new tag-CidsBean", ex);
+        }
     } //GEN-LAST:event_btnNewActionPerformed
 
     @Override
