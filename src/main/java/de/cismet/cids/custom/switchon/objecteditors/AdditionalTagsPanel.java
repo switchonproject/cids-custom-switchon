@@ -63,6 +63,13 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
     //~ Constructors -----------------------------------------------------------
 
     /**
+     * Creates a new AdditionalTagsPanel object.
+     */
+    public AdditionalTagsPanel() {
+        this(null);
+    }
+
+    /**
      * Creates new form AdditionalTagsPanel.
      *
      * @param  allowedTaggroups  DOCUMENT ME!
