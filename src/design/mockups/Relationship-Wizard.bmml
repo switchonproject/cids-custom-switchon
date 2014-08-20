@@ -1,0 +1,388 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1662" measuredH="2416" mockupW="1650" mockupH="2394">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="681" y="39" w="981" h="565" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>59</bottomheight>
+        <close>true</close>
+        <dragger>false</dragger>
+        <maximizeRestore>false</maximizeRestore>
+        <minimize>false</minimize>
+        <text>Releationship%20Wizard</text>
+        <topheight>26</topheight>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Button" x="1198" y="562" w="84" h="27" measuredW="64" measuredH="27" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%3C%20Back</text>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::List" x="696" y="100" w="214" h="307" measuredW="100" measuredH="153" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>none</borderStyle>
+        <selectedIndex>1</selectedIndex>
+        <text>8%0A9.%20Realtionships%0A9.1.%20Basic%20Information%0A9.2.%20Additional%20Information%0A9.3.%20Data%20Import%0A9.4.%20Data%20Access%20Information%0A10.%20...</text>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Button" x="1289" y="562" w="84" h="27" measuredW="63" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Next%20%3E</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::Button" x="1379" y="562" w="84" h="27" measuredW="56" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>disabled</state>
+        <text>Finish</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="1471" y="562" w="84" h="27" measuredW="64" measuredH="27" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Cancel</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Button" x="1563" y="562" w="84" h="27" measuredW="49" measuredH="27" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Help</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::SubTitle" x="704" y="75" w="207" h="-1" measuredW="207" measuredH="17" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>14</size>
+        <text>Steps%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20</text>
+        <underline>true</underline>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::SubTitle" x="938" y="75" w="690" h="-1" measuredW="703" measuredH="17" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>14</size>
+        <text>Resource%20Relationship%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20</text>
+        <underline>true</underline>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::Image" x="704" y="417" w="199" h="116" measuredW="473" measuredH="300" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <filter>true</filter>
+        <src>./assets/switchonLogo.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Canvas" x="938" y="238" w="690" h="229" measuredW="100" measuredH="70" zOrder="11" locked="false" isInGroup="-1"/>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::Icon" x="938" y="476" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <icon>InfoIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Paragraph" x="981" y="476" w="647" h="57" measuredW="275" measuredH="80" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>12</size>
+        <state>disabled</state>
+        <text>*%7Bcolor%3Ablue%7DThe%20Relationship%20Wizard%20allows%20you%20establish%20a%20relationship%20between%20a%20target%20resource%20and%20several%20source%20resources.%20Please%20drag%20and%20drop%20resource%20objects%20from%20the%20catalogue%20to%20assing%20the%20relationship.%7Bcolor%7D*</text>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::StickyNote" x="14" y="22" w="634" h="582" measuredW="109" measuredH="123" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*Relationship%20Wizard*%20%28optional%29%0A%20%0AThe%20*Relationship%20Wizard*%20can%20either%20be%20used%20as%20stand-alone%20Wizard%20to%20establish%20a%20new%20relationship%20between%20*exiting*%20resources%20-%20or%20-%20it%20is%20used%20*from%20within%20the%20Meta-Data%20Wizard*%20to%20establish%20a%20relationship%20between%20a%20*new*%20resource%20and%20some%20existing%20resources.%20The%20*Relationship%20Wizard*%20provides%20roughly%20the%20same%20functionlaity%20as%20the%20*Relationship%20Editor*.%20The%20wizard%20should%20be%20used%20by%20end%20users%20while%20the%20editor%20should%20be%20used%20by%20administrators.%20%0A%20%0AThe%20*Relationship%20Wizard*%20can%20only%20be%20used%20to%20establish%20a%20relationship%20between%20a%20given%20_Target%20Resource_%20and%20one%20or%20more%20_Source%20Resources_.%20If%20the%20wizard%20is%20executed%20as%20stand-alone%20wizard%2C%20the%20*Target%20Resource%20Panel*%20is%20active%20and%20accepts%20dropping%20of%20Resource%20Objects%20from%20the%20Catalogue.%20Please%20refer%20to%20the%20description%20of%20the%20*Relationship%20Editor*%20for%20more%20details.%20If%20the%20wizard%20ist%20used%20as%20part%20of%20the%20*Meta-Data%20Wizard*%2C%20the%20*Target%20Resource%20Panel*%20is%20inactive%2C%20since%20the%20Target%20Resource%20is%20*the*%20new%20resource%20that%20is%20created%20by%20the%20*Meta-Data%20Wizard*.%0A%20%0AText%20to%20be%20shown%20in%20the%20*Info%20Box*%20when%20the%20respective%20input%20field%20recieves%20focus%3A%0A-%20Target%20Resource%3A%20Please%20define%20the%20target%20resource%20of%20this%20relationship%20%28e.g.%20result%20of%20an%20experiment%29%20by%20dropping%20a%20Resource%20Object%20from%20the%20catalogue.%20%28_message%20not%20shown%20when%20Target%20Resource%20Panel%20is%20inactive_%29%0A-%20Source%20Resources%3A%20Please%20define%20the%20source%20resources%20of%20this%20relationship%20%28e.g.%20inputs%20of%20an%20experiment%29%20by%20dropping%20one%20or%20more%20Resource%20Objects%20from%20the%20catalogue.%0A%20%20%0AInput%20fields%20which%20prevent%20the%20wizard%20from%20switching%20to%20the%20next%20panel%20when%20left%20blank%3A%0A-%20Target%20Resource%0A-%20Source%20Resources%3A%20at%20least%20one%20source%20resource%20is%20needed%0A%20%0AInput%20fields%20that%20are%20substituted%20with%20default%20values%20when%20left%20blank%3A%0A-%20When%20the%20wizard%20is%20embedded%20into%20the%20%20*Meta-Data%20Wizard*%2C%20the%20Target%20Resource%20Panel%20is%20predefined%20by%20the%20*Meta-Data%20Wizard*%0A%20%0ADifference%20to%20the%20respective%20Panel%20in%20the%20*Representation%20Editor%3A*%0A-%20When%20the%20wizard%20is%20embedded%20into%20the%20%20*Meta-Data%20Wizard*%2C%20the%20*Target%20Resource%20Panel*%20is%20disabled</text>
+      </controlProperties>
+    </control>
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::TitleWindow" x="681" y="645" w="981" h="565" measuredW="450" measuredH="400" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>59</bottomheight>
+        <close>true</close>
+        <dragger>false</dragger>
+        <maximizeRestore>false</maximizeRestore>
+        <minimize>false</minimize>
+        <text>Releationship%20Wizard</text>
+        <topheight>26</topheight>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="33" controlTypeID="com.balsamiq.mockups::List" x="696" y="706" w="214" h="307" measuredW="100" measuredH="153" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>none</borderStyle>
+        <selectedIndex>2</selectedIndex>
+        <text>8%0A9.%20Representations%0A9.1.%20Basic%20Information%0A9.2.%20Additional%20Information%0A9.3.%20Data%20Import%0A9.4.%20Data%20Access%20Information%0A9.%20...</text>
+      </controlProperties>
+    </control>
+    <control controlID="35" controlTypeID="com.balsamiq.mockups::Button" x="1379" y="1168" w="84" h="27" measuredW="56" measuredH="27" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>disabled</state>
+        <text>Finish</text>
+      </controlProperties>
+    </control>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::Button" x="1471" y="1168" w="84" h="27" measuredW="64" measuredH="27" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Cancel</text>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::SubTitle" x="704" y="681" w="207" h="-1" measuredW="207" measuredH="17" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>14</size>
+        <text>Steps%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20</text>
+        <underline>true</underline>
+      </controlProperties>
+    </control>
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::SubTitle" x="938" y="681" w="690" h="-1" measuredW="833" measuredH="17" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>14</size>
+        <text>Resource%20Realtionship%3A%20Basic%20Information%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20_</text>
+        <underline>true</underline>
+      </controlProperties>
+    </control>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::Image" x="704" y="1023" w="199" h="116" measuredW="473" measuredH="300" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <filter>true</filter>
+        <src>./assets/switchonLogo.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::Canvas" x="938" y="713" w="690" h="326" measuredW="100" measuredH="70" zOrder="21" locked="false" isInGroup="-1"/>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::Icon" x="938" y="1050" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <icon>InfoIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::Paragraph" x="981" y="1050" w="647" h="89" measuredW="275" measuredH="80" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>12</size>
+        <state>disabled</state>
+        <text>*%7Bcolor%3Ablue%7DPlease%20enter%20some%20general%20information%20about%20the%20relationship%20of%20the%20resource.%7Bcolor%7D*</text>
+      </controlProperties>
+    </control>
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::StickyNote" x="14" y="648" w="634" h="457" measuredW="109" measuredH="123" zOrder="24" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*Relationship%20Wizard%3A%20Basic%20Information*%20%28mandatory%29%0A%20%0AText%20to%20be%20shown%20in%20the%20*Info%20Box*%20when%20the%20respective%20input%20field%20recieves%20focus%3A%0A-%20Name%3A%20Please%20enter%20the%20title%20of%20the%20relationship%2C%20e.g.%20the%20name%20of%20the%20experiment%0A-%20Description%3A%20Please%20provide%20a%20brief%20description%20of%20the%20relationship.%20The%20possibility%20to%20enter%20a%20detailed%20description%20and%20to%20upload%20protocols%20documents%20wil%20be%20provided%20in%20in%20a%20further%20step.%0A-%20Type%3A%20_description%20of%20the%20selected%20tag_%0A-%20UUID%3A%20Please%20enter%20a%20unique%20id%20of%20the%20relationship%20item.%20If%20the%20field%20is%20left%20blank%2C%20a%20uuid%20will%20be%20automatically%20genenrated.%0A%20%0AInput%20fields%20which%20prevent%20the%20wizard%20from%20switching%20to%20the%20next%20panel%20when%20left%20blank%3A%0A-%20Name%0A-%20Description%0A-%20Type%0A%20%0AInput%20fields%20that%20are%20substituted%20with%20default%20values%20when%20left%20blank%3A%0A-%20UUID%3A%20*automatically%20generated*%20when%20left%20blank%2C%20%22Generate%22%20button%20not%20shown%0A%20%0ADifference%20to%20the%20respective%20Panel%20in%20the%20*Realtionship%20Editor%3A*%0A-%20%22Generate%22%20button%20of%20the%20UUID%20property%20is%20not%20shown%20Instead%2C%20the%20UUID%20will%20be%20genenrated%20automatically%20when%20the%20field%20is%20left%20empty%20and%20the%20user%20switches%20to%20the%20next%20panel%20of%20the%20wizard.</text>
+      </controlProperties>
+    </control>
+    <control controlID="78" controlTypeID="com.balsamiq.mockups::Button" x="1198" y="1168" w="84" h="27" measuredW="64" measuredH="27" zOrder="25" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%3C%20Back</text>
+      </controlProperties>
+    </control>
+    <control controlID="79" controlTypeID="com.balsamiq.mockups::Button" x="1289" y="1168" w="84" h="27" measuredW="63" measuredH="27" zOrder="26" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Next%20%3E</text>
+      </controlProperties>
+    </control>
+    <control controlID="80" controlTypeID="com.balsamiq.mockups::Button" x="1563" y="1168" w="84" h="27" measuredW="49" measuredH="27" zOrder="27" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Help</text>
+      </controlProperties>
+    </control>
+    <control controlID="201" controlTypeID="com.balsamiq.mockups::Paragraph" x="1020" y="306" w="510" h="100" measuredW="275" measuredH="80" zOrder="28" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <size>40</size>
+        <text>*Source%20Resources%20Panel%20of%20the%20Relationship%20Editor*</text>
+      </controlProperties>
+    </control>
+    <control controlID="207" controlTypeID="com.balsamiq.mockups::Paragraph" x="1020" y="826" w="510" h="100" measuredW="275" measuredH="80" zOrder="29" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <size>40</size>
+        <text>*Basic%20Properties%20Panel%20of%20the%20Relationship%20Editor*</text>
+      </controlProperties>
+    </control>
+    <control controlID="208" controlTypeID="com.balsamiq.mockups::Canvas" x="938" y="100" w="690" h="129" measuredW="100" measuredH="70" zOrder="30" locked="false" isInGroup="-1"/>
+    <control controlID="209" controlTypeID="com.balsamiq.mockups::Paragraph" x="1028" y="114" w="510" h="100" measuredW="275" measuredH="80" zOrder="31" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <size>40</size>
+        <text>*Target%20Resource%20Panel%20of%20the%20Relationship%20Editor*</text>
+      </controlProperties>
+    </control>
+    <control controlID="210" controlTypeID="com.balsamiq.mockups::TitleWindow" x="681" y="1240" w="981" h="565" measuredW="450" measuredH="400" zOrder="32" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>59</bottomheight>
+        <close>true</close>
+        <dragger>false</dragger>
+        <maximizeRestore>false</maximizeRestore>
+        <minimize>false</minimize>
+        <text>Releationship%20Wizard</text>
+        <topheight>26</topheight>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="211" controlTypeID="com.balsamiq.mockups::List" x="696" y="1301" w="214" h="307" measuredW="100" measuredH="153" zOrder="33" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>none</borderStyle>
+        <selectedIndex>4</selectedIndex>
+        <text>7%0A8.%20Additional%20Meta-Data%0A8.1.%20Basic%20Information%0A8.2.%20Contact%20Information%0A8.3%20Import%20Meta-Data%20Document%0A8.4%20Edit%20Meta-Data%20Document%0A9.%20...</text>
+      </controlProperties>
+    </control>
+    <control controlID="212" controlTypeID="com.balsamiq.mockups::Button" x="1379" y="1763" w="84" h="27" measuredW="56" measuredH="27" zOrder="34" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>disabled</state>
+        <text>Finish</text>
+      </controlProperties>
+    </control>
+    <control controlID="213" controlTypeID="com.balsamiq.mockups::Button" x="1471" y="1763" w="84" h="27" measuredW="64" measuredH="27" zOrder="35" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Cancel</text>
+      </controlProperties>
+    </control>
+    <control controlID="214" controlTypeID="com.balsamiq.mockups::SubTitle" x="704" y="1276" w="207" h="-1" measuredW="207" measuredH="17" zOrder="36" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>14</size>
+        <text>Steps%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20</text>
+        <underline>true</underline>
+      </controlProperties>
+    </control>
+    <control controlID="215" controlTypeID="com.balsamiq.mockups::SubTitle" x="938" y="1276" w="690" h="-1" measuredW="1662" measuredH="17" zOrder="37" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>14</size>
+        <text>Resource%20Realtionship%3A%20Import%20Meta-Data%20Document%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20_%3A%20Import%20Meta-Data%20Document%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20_</text>
+        <underline>true</underline>
+      </controlProperties>
+    </control>
+    <control controlID="216" controlTypeID="com.balsamiq.mockups::Image" x="704" y="1618" w="199" h="116" measuredW="473" measuredH="300" zOrder="38" locked="false" isInGroup="-1">
+      <controlProperties>
+        <filter>true</filter>
+        <src>./assets/switchonLogo.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="217" controlTypeID="com.balsamiq.mockups::Icon" x="938" y="1644" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="39" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <icon>InfoIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="218" controlTypeID="com.balsamiq.mockups::Paragraph" x="981" y="1644" w="647" h="90" measuredW="275" measuredH="80" zOrder="40" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>12</size>
+        <state>disabled</state>
+        <text>*%7Bcolor%3Ablue%7DPlease%20drag%20and%20drop%20a%20local%20meta-data%20file%20%28e.g.%20a%20protocol%20document%29%20that%20describes%20the%20relationship%20to%20the%20upload%20icon%20and%20press%20the%20%22Import%22%20button.%20Depeding%20on%20format%20and%20size%20of%20the%20document%20it%20will%20be%20either%20imported%20into%20the%20SIP%20Meta-Data%20Repository%20or%20uploaded%20to%20a%20SIP%20Data%20Repository%20for%20storing%20files.%20In%20general%2C%20ASCII%20files%20like%20XML%20documents%20are%20stored%20in%20the%20Meta-Data%20Repository%20%28database%29%20while%20binary%20files%20like%20PDF%20documents%20are%20stored%20in%20a%20Data%20Repository%20%28FTP%20or%20WebDAV%20Server%29.%20Presse%20the%20%22Next%22%20button%20without%20providing%20a%20local%20file%20to%20manually%20enter%20the%20content%20of%20a%20meta-data%20dcoument%20or%20to%20provide%20a%20link%20to%20a%20meta-data%20document%20that%20is%20stored%20in%20an%20external%20location.%7Bcolor%7D*</text>
+      </controlProperties>
+    </control>
+    <control controlID="219" controlTypeID="com.balsamiq.mockups::StickyNote" x="14" y="1240" w="634" h="546" measuredW="109" measuredH="123" zOrder="41" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*Resource%20Realtionship%3A%20Import%20Meta-Data%20Document*%20%28optional%29%0A%20%0AThis%20part%20of%20the%20wizard%20is%20used%20to%20add%20a%20new%20Meta-Data%20Object%20to%20the%20Relationship%20Object%20that%20is%20created%20by%20the%20Wizard.%20The%20Meta-Data%20Object%20stores%20e.g.%20the%20protocol%20of%20an%20expriment.%20In%20contrast%20to%20the%20*Addtional%20Meta-Data%20Wizard*%2C%20the%20*Relationship%20Wizard*%20does%20not%20collect%20basic%20information%20about%20the%20Meta-Data%20Object.%20Instead%2C%20meaningful%20default%20values%20are%20provided.%20%0A%20%0AText%20to%20be%20shown%20in%20the%20*Info%20Box*%20when%20the%20respective%20input%20field%20recieves%20focus%3A%0A-%20n/a%0A%20%0AInput%20fields%20which%20prevent%20the%20wizard%20from%20switching%20to%20the%20next%20panel%20when%20left%20blank%3A%0A-%20n/a%3A%20panel%20can%20be%20skipped%20entirely%20when%20no%20document%20for%20import%20is%20provided%0A%20%0AProperties%20of%20the%20Meta-Data%20Object%20that%20are%20substituted%20with%20default%20values%3A%0A-%20name%3A%20_%24name_%20of%20the%20relationship%20+%20%22%20Meta-Data%22%0A-%20description%3A%20%22%20Meta-Data%20of%20the%20%22%20+%20_%24name_%20of%20the%20relationship%0A-%20type%3A%20%22relationship%20meta-data%22%0A-%20standard%3A%20%22none%22%0A%20-%20contentType%3A%20the%20Wizard%20should%20try%20to%20guess%20the%20content%20type%20from%20the%20file%20extension%0A-%20content%20and%20contentLocation%3A%20depeding%20on%20the%20_contentType_%20and%20the%20size%20of%20the%20file%2C%20the%20wizard%20should%20decide%20wheter%20to%20store%20the%20file%20content%20in%20the%20_content_%20attribute%20of%20meta-data%20object%20of%20to%20uploaed%20the%20file%20to%20a%20WebDAV%20server%20and%20store%20the%20url%20of%20the%20remote%20file%20in%20the%20_contentLocation_%20attribute.%0A%20%0ADifference%20to%20the%20respective%20Panel%20in%20the%20*Additional%20Meta-Data%20Wizard%3A*%0A-%20n/a</text>
+      </controlProperties>
+    </control>
+    <control controlID="220" controlTypeID="com.balsamiq.mockups::Button" x="1198" y="1763" w="84" h="27" measuredW="64" measuredH="27" zOrder="42" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%3C%20Back</text>
+      </controlProperties>
+    </control>
+    <control controlID="221" controlTypeID="com.balsamiq.mockups::Button" x="1289" y="1763" w="84" h="27" measuredW="63" measuredH="27" zOrder="43" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Next%20%3E</text>
+      </controlProperties>
+    </control>
+    <control controlID="222" controlTypeID="com.balsamiq.mockups::Button" x="1563" y="1763" w="84" h="27" measuredW="49" measuredH="27" zOrder="44" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Help</text>
+      </controlProperties>
+    </control>
+    <control controlID="227" controlTypeID="com.balsamiq.mockups::TitleWindow" x="679" y="1851" w="981" h="565" measuredW="450" measuredH="400" zOrder="45" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>59</bottomheight>
+        <close>true</close>
+        <dragger>false</dragger>
+        <maximizeRestore>false</maximizeRestore>
+        <minimize>false</minimize>
+        <text>Releationship%20Wizard</text>
+        <topheight>26</topheight>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="228" controlTypeID="com.balsamiq.mockups::List" x="694" y="1912" w="214" h="307" measuredW="100" measuredH="153" zOrder="46" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>none</borderStyle>
+        <selectedIndex>5</selectedIndex>
+        <text>7%0A8.%20Additional%20Meta-Data%0A8.1.%20Basic%20Information%0A8.2.%20Contact%20Information%0A8.3%20Import%20Meta-Data%20Document%0A8.4%20Edit%20Meta-Data%20Document%0A9.%20...</text>
+      </controlProperties>
+    </control>
+    <control controlID="229" controlTypeID="com.balsamiq.mockups::Button" x="1377" y="2374" w="84" h="27" measuredW="56" measuredH="27" zOrder="47" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>Finish</text>
+      </controlProperties>
+    </control>
+    <control controlID="230" controlTypeID="com.balsamiq.mockups::Button" x="1469" y="2374" w="84" h="27" measuredW="64" measuredH="27" zOrder="48" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Cancel</text>
+      </controlProperties>
+    </control>
+    <control controlID="231" controlTypeID="com.balsamiq.mockups::SubTitle" x="702" y="1887" w="207" h="-1" measuredW="207" measuredH="17" zOrder="49" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>14</size>
+        <text>Steps%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20</text>
+        <underline>true</underline>
+      </controlProperties>
+    </control>
+    <control controlID="232" controlTypeID="com.balsamiq.mockups::SubTitle" x="936" y="1887" w="690" h="-1" measuredW="922" measuredH="17" zOrder="50" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>14</size>
+        <text>Resource%20Relationship%3A%20Edit%20Meta-Data%20Document%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20_</text>
+        <underline>true</underline>
+      </controlProperties>
+    </control>
+    <control controlID="233" controlTypeID="com.balsamiq.mockups::Image" x="702" y="2229" w="199" h="116" measuredW="473" measuredH="300" zOrder="51" locked="false" isInGroup="-1">
+      <controlProperties>
+        <filter>true</filter>
+        <src>./assets/switchonLogo.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="234" controlTypeID="com.balsamiq.mockups::Icon" x="938" y="2262" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="52" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <icon>InfoIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="235" controlTypeID="com.balsamiq.mockups::Paragraph" x="981" y="2266" w="647" h="42" measuredW="275" measuredH="80" zOrder="53" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>12</size>
+        <state>disabled</state>
+        <text>*%7Bcolor%3Ablue%7DPlease%20manually%20enter%20the%20content%20of%20a%20meta-data%20document%20or%20provide%20a%20link%20to%20an%20externally%20stored%20meta-datadocument.%7Bcolor%7D*</text>
+      </controlProperties>
+    </control>
+    <control controlID="236" controlTypeID="com.balsamiq.mockups::StickyNote" x="12" y="1851" w="634" h="549" measuredW="109" measuredH="123" zOrder="54" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*Releationship%20Wizard%3A%20Edit%20Meta-Data%20Document*%20%28optional%29%0A%20%0AIf%20the%20previous%20panel%20was%20the%20*Upload%20Meta-Data%20Document%20Panel*%2C%20this%20wizard%20panel%20is%20*mandatory*.%20However%2C%20in%20this%20case%2C%20the%20_content_%20and%20_contentLocation_%20input%20fields%20are%20*disabled*%20since%20either%20the%20content%20link%20or%20the%20actual%20content%20have%20already%20been%20provided%20by%20the%20previous%20panel%20%28import%29.%0A%20%0AText%20to%20be%20shown%20in%20the%20*Info%20Box*%20when%20the%20previous%20panel%20*Upload%20Meta-Data%20Document%20Panel*%3A%0A-%20The%20Content%20Location%20and%20the%20Content%20files%20have%20popupated%20automatically%20by%20the%20Meta-Data%20Import.%20%20Go%20back%20to%20the%20previous%20step%20to%20select%20a%20different%20file%20for%20import.%0A%20%0AText%20to%20be%20shown%20in%20the%20*Info%20Box*%20when%20the%20respective%20input%20field%20recieves%20focus%3A%0A-%20Content%3A%20Please%20enter%20a%20textual%20meta-data%20document%20that%20should%20stored%20in%20the%20Meta-Data%20Repository.%20%28_%20not%20shown%20when%20the%20input%20field%20is%20disabled_%29%0A-%20Content%3A%20Please%20provide%20a%20link%20to%20an%20externally%20stored%20meta-data%20document%2C%20e.g.%20a%20PDF%20file.%20%28_%20not%20shown%20when%20the%20input%20field%20is%20disabled_%29%0A-%20Content%20Type%20/%20Standard%3A%20description%20of%20the%20selected%20tag%0A%20%0A%20%0AInput%20fields%20which%20prevent%20the%20wizard%20from%20switching%20to%20the%20next%20panel%20when%20left%20blank%3A%0A-%20Content%20_or_%20ContentLocation%0A%20%0AInput%20fields%20that%20are%20substituted%20with%20default%20values%20when%20left%20blank%3A%0A-%20Content%20Type%3A%20%22application/octet-stream%22%20%28this%20is%20the%20default%20for%20unspecified%20or%20unknown%20content%20type%29%20%0A%20%0ADifference%20to%20the%20respective%20Panel%20in%20the%20*Additional%20Meta-Data%20Editor%3A*%0A-%20%22Standard%22%20is%20not%20showen</text>
+      </controlProperties>
+    </control>
+    <control controlID="237" controlTypeID="com.balsamiq.mockups::Button" x="1196" y="2374" w="84" h="27" measuredW="64" measuredH="27" zOrder="55" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%3C%20Back</text>
+      </controlProperties>
+    </control>
+    <control controlID="238" controlTypeID="com.balsamiq.mockups::Button" x="1287" y="2374" w="84" h="27" measuredW="63" measuredH="27" zOrder="56" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Next%20%3E</text>
+      </controlProperties>
+    </control>
+    <control controlID="239" controlTypeID="com.balsamiq.mockups::Button" x="1561" y="2374" w="84" h="27" measuredW="49" measuredH="27" zOrder="57" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Help</text>
+      </controlProperties>
+    </control>
+    <control controlID="251" controlTypeID="com.balsamiq.mockups::Canvas" x="938" y="1301" w="690" h="326" measuredW="100" measuredH="70" zOrder="58" locked="false" isInGroup="-1"/>
+    <control controlID="252" controlTypeID="com.balsamiq.mockups::Paragraph" x="1028" y="1378" w="539" h="172" measuredW="275" measuredH="80" zOrder="59" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <size>40</size>
+        <text>*Upload%20Meta-Data%20Document%20Panel%20of%20the%20Additional%20Meta-Data%20Editor*</text>
+      </controlProperties>
+    </control>
+    <control controlID="253" controlTypeID="com.balsamiq.mockups::Canvas" x="938" y="1921" w="690" h="326" measuredW="100" measuredH="70" zOrder="60" locked="false" isInGroup="-1"/>
+    <control controlID="254" controlTypeID="com.balsamiq.mockups::Paragraph" x="1028" y="1998" w="539" h="172" measuredW="275" measuredH="80" zOrder="61" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <size>40</size>
+        <text>*Edit%20Meta-Data%20Document%20Panel%20of%20the%20Additional%20Meta-Data%20Editor*</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

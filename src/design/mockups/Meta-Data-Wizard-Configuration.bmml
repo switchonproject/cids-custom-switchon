@@ -222,10 +222,10 @@
         </control>
       </groupChildrenDescriptors>
     </control>
-    <control controlID="14" controlTypeID="com.balsamiq.mockups::Tree" x="757" y="717" w="-1" h="-1" measuredW="300" measuredH="243" zOrder="14" locked="false" isInGroup="-1">
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::Tree" x="757" y="717" w="611" h="437" measuredW="300" measuredH="453" zOrder="14" locked="false" isInGroup="-1">
       <controlProperties>
         <borderStyle>none</borderStyle>
-        <text>%5Bx%5D%20Meta-Data%20Import%0A%5B%20%5D%20and%20this%0A%20%5Bx%5D%20_or%20this_%0A%28x%29%0A%3E%20or%20even%20this%0Av%20and%20this%0A-%20Use%20-%20for%20a%20file%20icon%0A_%20or%20_%20to%20leave%20a%20space%20for%20your%20own%20icon%0AF%20use%20spaces%20or%20dots%20for%20hierarchy%0A%20v%20just%20like%0A..-%20this</text>
+        <text>%5Bx%5D%20Meta-Data%20Import%0A%5B%20%5D%20and%20this%0A%20%5Bx%5D%20_or%20this_%0A%28x%29%0A%3E%20or%20even%20this%0Av%20and%20this%0A-%20Use%20-%20for%20a%20file%20icon%0A_%20or%20_%20to%20leave%20a%20space%20for%20your%20own%20icon%0AF%20use%20spaces%20or%20dots%20for%20hierarchy%0A%20v%20just%20like%0A%5Bx%5D%20Additional%20Meta-Data%0A%20%5Bx%5D%20Basic%20Information%09%09%09_%7Bcolor%3Ablue%7Dalways%20enabled%20when%20parent%20check%20box%20is%20selected%7Bcolor%7D_%0A%20%5B%5D%20Contact%20Information%0A%20%5B%5D%20Import%20Meta-Data%20Document%0A%20%5B%5D%20Edit%20Meta-Data%20Document%09%09_%7Bcolor%3Ablue%7Dalways%20enabled%20when%20parent%20check%20box%20is%20selected%7Bcolor%7D_%0A%5Bx%5D%20Representation%20%09%09%09_%7Bcolor%3Ablue%7Dmandatory%2C%20always%20selected%2C%20not%20deselectable%7Bcolor%7D_%0A%20%5Bx%5D%20Basic%20Information%09%09%09_%7Bcolor%3Ablue%7Dmandatory%2C%20always%20enabled%7Bcolor%7D_%0A%20%5B%5D%20Additional%20Information%09%09%09_%7Bcolor%3Ablue%7Doptional%7Bcolor%7D_%0A%20%5B%5D%20Import%20Data%09%09%09%09_%7Bcolor%3Ablue%7Doptional%7Bcolor%7D_%0A%20%5Bx%5D%20Data%20Access%20Information%09%09_%7Bcolor%3Ablue%7Dmandatory%2C%20always%20enabled%7Bcolor%7D_%0A.</text>
       </controlProperties>
     </control>
     <control controlID="15" controlTypeID="com.balsamiq.mockups::StickyNote" x="26" y="642" w="434" h="162" measuredW="109" measuredH="123" zOrder="15" locked="false" isInGroup="-1">
