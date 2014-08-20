@@ -22,6 +22,8 @@ import java.util.List;
 import javax.swing.JList;
 import javax.swing.JTextField;
 
+import de.cismet.cids.client.tools.DevelopmentTools;
+
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
@@ -62,7 +64,6 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
     private javax.swing.JButton btnNewApplication;
     private javax.swing.JButton btnRemoveSourceResource;
     private javax.swing.JComboBox cmbApplication;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
@@ -119,18 +120,18 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
         btnNewApplication = new javax.swing.JButton();
         final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
         taggroups.add(Taggroups.COLLECTION);
+        taggroups.add(Taggroups.GEOGRAPHY);
         taggroups.add(Taggroups.HYDROLOGICAL_CONCEPT);
         taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
         taggroups.add(Taggroups.KEYWORDS_OPEN);
         additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups);
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 32767));
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
 
+        jPanel2.setMinimumSize(new java.awt.Dimension(0, 0));
         jPanel2.setOpaque(false);
+        jPanel2.setPreferredSize(new java.awt.Dimension(0, 0));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -258,11 +259,13 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 0.5;
         gridBagConstraints.weighty = 0.5;
         add(jPanel2, gridBagConstraints);
 
+        jPanel3.setMinimumSize(new java.awt.Dimension(0, 0));
         jPanel3.setOpaque(false);
+        jPanel3.setPreferredSize(new java.awt.Dimension(0, 0));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         metaDataPanel.setOpaque(false);
@@ -341,15 +344,9 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 0.5;
         gridBagConstraints.weighty = 0.5;
         add(jPanel3, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 1.0;
-        add(filler1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -426,6 +423,25 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
     @Override
     public HashSet<CidsBean> getPersistedCidsBeans() {
         return persistedCidsBeans;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   args  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static void main(final String[] args) throws Exception {
+        DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
+            "SWITCHON",
+            "Administratoren",
+            "admin",
+            "cismet",
+            "relationship",
+            1,
+            1280,
+            1024);
     }
 
     //~ Inner Classes ----------------------------------------------------------

@@ -74,6 +74,9 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
                 org.openide.util.NbBundle.getMessage(MetaDataPanel.class, "MetaDataPanel.border.title"))); // NOI18N
         setLayout(new java.awt.GridBagLayout());
 
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(0, 0));
+
         lstMetaData.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
@@ -91,7 +94,6 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.gridheight = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
