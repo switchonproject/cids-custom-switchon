@@ -14,6 +14,7 @@
     </control>
     <control controlID="1" controlTypeID="com.balsamiq.mockups::Button" x="1007" y="540" w="84" h="27" measuredW="64" measuredH="27" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
+        <state>disabled</state>
         <text>%3C%20Back</text>
       </controlProperties>
     </control>
@@ -31,6 +32,7 @@
     </control>
     <control controlID="4" controlTypeID="com.balsamiq.mockups::Button" x="1188" y="540" w="84" h="27" measuredW="56" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
+        <state>disabled</state>
         <text>Finish</text>
       </controlProperties>
     </control>
@@ -104,6 +106,7 @@
     </control>
     <control controlID="16" controlTypeID="com.balsamiq.mockups::Button" x="1188" y="1145" w="84" h="27" measuredW="56" measuredH="27" zOrder="16" locked="false" isInGroup="-1">
       <controlProperties>
+        <state>disabled</state>
         <text>Finish</text>
       </controlProperties>
     </control>
@@ -317,6 +320,7 @@
     </control>
     <control controlID="45" controlTypeID="com.balsamiq.mockups::Button" x="1188" y="1739" w="84" h="27" measuredW="56" measuredH="27" zOrder="45" locked="false" isInGroup="-1">
       <controlProperties>
+        <state>disabled</state>
         <text>Finish</text>
       </controlProperties>
     </control>
@@ -408,6 +412,7 @@
     </control>
     <control controlID="60" controlTypeID="com.balsamiq.mockups::Button" x="1187" y="2349" w="84" h="27" measuredW="56" measuredH="27" zOrder="60" locked="false" isInGroup="-1">
       <controlProperties>
+        <state>disabled</state>
         <text>Finish</text>
       </controlProperties>
     </control>
@@ -608,6 +613,7 @@
     </control>
     <control controlID="86" controlTypeID="com.balsamiq.mockups::Button" x="1187" y="2941" w="84" h="27" measuredW="56" measuredH="27" zOrder="86" locked="false" isInGroup="-1">
       <controlProperties>
+        <state>disabled</state>
         <text>Finish</text>
       </controlProperties>
     </control>
@@ -699,6 +705,7 @@
     </control>
     <control controlID="113" controlTypeID="com.balsamiq.mockups::Button" x="1187" y="3549" w="84" h="27" measuredW="56" measuredH="27" zOrder="101" locked="false" isInGroup="-1">
       <controlProperties>
+        <state>disabled</state>
         <text>Finish</text>
       </controlProperties>
     </control>
