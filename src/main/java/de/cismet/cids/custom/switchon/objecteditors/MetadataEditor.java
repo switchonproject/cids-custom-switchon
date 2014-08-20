@@ -108,7 +108,7 @@ public class MetadataEditor extends javax.swing.JPanel implements CidsBeanRender
         txtContact = new javax.swing.JTextField();
         btnEditContact = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel();
+        additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(null);
         pnlDocument = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaDocumentDescription = new javax.swing.JTextArea();

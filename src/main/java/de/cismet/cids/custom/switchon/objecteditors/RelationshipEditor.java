@@ -117,7 +117,12 @@ public class RelationshipEditor extends javax.swing.JPanel implements CidsBeanRe
         cmbApplication = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
                 Taggroups.APPLICATION_PROFILE);
         btnNewApplication = new javax.swing.JButton();
-        additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel();
+        final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
+        taggroups.add(Taggroups.COLLECTION);
+        taggroups.add(Taggroups.HYDROLOGICAL_CONCEPT);
+        taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
+        taggroups.add(Taggroups.KEYWORDS_OPEN);
+        additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups);
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));

@@ -13,6 +13,7 @@ import Sirius.server.middleware.types.MetaObject;
 
 import java.awt.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
@@ -116,7 +117,12 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
                 Taggroups.APPLICATION_PROFILE);
         btnNewApplication = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel();
+        final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
+        taggroups.add(Taggroups.COLLECTION);
+        taggroups.add(Taggroups.HYDROLOGICAL_CONCEPT);
+        taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
+        taggroups.add(Taggroups.KEYWORDS_OPEN);
+        additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups);
         spatialAndTemporalPropertiesPanel = new SpatialAndTemporalPropertiesPanel(true);
         basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
 

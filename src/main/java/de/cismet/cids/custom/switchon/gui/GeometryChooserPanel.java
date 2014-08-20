@@ -39,7 +39,8 @@ import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 
 /**
- * DOCUMENT ME!
+ * GeometryChooserPanel is sub-panel for an editor, with which the user can choose exactly one geometry, which will then
+ * be added to the cidsBean set in GeometryChooserPanel.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$

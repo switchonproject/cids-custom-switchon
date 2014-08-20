@@ -41,6 +41,8 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    /** The query for the combobox containing the Taggroups. */
+    private final String tagGroupQuery;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -62,8 +64,25 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
 
     /**
      * Creates new form AdditionalTagsPanel.
+     *
+     * @param  allowedTaggroups  DOCUMENT ME!
      */
-    public AdditionalTagsPanel() {
+    public AdditionalTagsPanel(final List<Taggroups> allowedTaggroups) {
+        String tagGroupQuery = "SELECT t.ID,"
+                    + " t.NAME"
+                    + " FROM taggroup t";
+
+        if ((allowedTaggroups == null) || allowedTaggroups.isEmpty()) {
+            tagGroupQuery += " WHERE FALSE ";
+        } else {
+            tagGroupQuery += " WHERE t.name ilike '" + allowedTaggroups.get(0).getValue() + "' ";
+            for (int i = 1; i < allowedTaggroups.size(); i++) {
+                tagGroupQuery += " OR t.name ilike '" + allowedTaggroups.get(i).getValue() + "' ";
+            }
+        }
+
+        tagGroupQuery += " ORDER BY t.name";
+        this.tagGroupQuery = tagGroupQuery;
         initComponents();
     }
 
@@ -80,12 +99,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jLabel1 = new javax.swing.JLabel();
-        cmbTagGroups = new QueryComboBox("SELECT t.ID,"
-                        + " t.NAME"
-                        + " FROM taggroup t"
-                        + " ORDER BY t.name",
-                false,
-                "Taggroup");
+        cmbTagGroups = new QueryComboBox(tagGroupQuery, false, "Taggroup");
         ;
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();

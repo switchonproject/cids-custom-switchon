@@ -12,8 +12,6 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import Sirius.server.middleware.types.MetaObject;
 
-import org.openide.util.Exceptions;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -64,12 +62,16 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
     private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
+    private javax.swing.JButton btnAddLocation;
     private javax.swing.JButton btnAddRepresentation;
+    private javax.swing.JButton btnAddSrid;
     private javax.swing.JButton btnCreateRealtionship;
     private javax.swing.JButton btnEditProvenanceRelationship;
     private javax.swing.JButton btnEditRelationship;
     private javax.swing.JButton btnEditRepresentation;
     private javax.swing.JButton btnRemoveRepresentation;
+    private javax.swing.JComboBox cmbStandard;
+    private javax.swing.JComboBox cmbStandard1;
     private javax.swing.JComboBox cmbTopic;
     private de.cismet.cids.custom.switchon.objecteditors.ContactEditor contactEditor;
     private javax.swing.Box.Filler filler1;
@@ -81,11 +83,10 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private de.cismet.cids.custom.switchon.gui.GeometryChooserPanel geometryChooserPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -100,8 +101,9 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private javax.swing.JPanel pnlContact;
     private javax.swing.JPanel pnlDataAndMetaData;
     private javax.swing.JPanel pnlGeographicProperties;
+    private javax.swing.JPanel pnlGeography;
     private javax.swing.JPanel pnlLicenseInformation;
-    private javax.swing.JPanel pnlMap;
+    private javax.swing.JPanel pnlOtherProperties;
     private javax.swing.JPanel pnlRelationships;
     private javax.swing.JPanel pnlTagsAndCategory;
     private javax.swing.JPanel pnlTemporalInformation;
@@ -140,7 +142,12 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         pnlTagsAndCategory = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         cmbTopic = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.TOPIC_CATEGORY);
-        additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel();
+        final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
+        taggroups.add(Taggroups.COLLECTION);
+        taggroups.add(Taggroups.HYDROLOGICAL_CONCEPT);
+        taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
+        taggroups.add(Taggroups.KEYWORDS_OPEN);
+        additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups);
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -150,11 +157,15 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
         pnlGeographicProperties = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        pnlMap = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        pnlGeography = new javax.swing.JPanel();
+        geometryChooserPanel = new de.cismet.cids.custom.switchon.gui.GeometryChooserPanel();
+        pnlOtherProperties = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        cmbStandard = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.SRID);
+        btnAddSrid = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        cmbStandard1 = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.LOCATION);
+        btnAddLocation = new javax.swing.JButton();
         pnlTemporalInformation = new javax.swing.JPanel();
         temporalInformationPanel = new TemporalInformationPanel(true);
         ;
@@ -300,34 +311,122 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 "ResourceEditor.pnlContact.TabConstraints.tabTitle"),
             pnlContact); // NOI18N
 
-        pnlGeographicProperties.setLayout(null);
+        pnlGeographicProperties.setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jPanel2.border.title"))); // NOI18N
-        jPanel2.setLayout(null);
+        pnlGeography.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    ResourceEditor.class,
+                    "ResourceEditor.pnlGeography.border.title"))); // NOI18N
+        pnlGeography.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        pnlGeography.add(geometryChooserPanel, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        pnlGeographicProperties.add(pnlGeography, gridBagConstraints);
+
+        pnlOtherProperties.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    ResourceEditor.class,
+                    "ResourceEditor.pnlOtherProperties.border.title"))); // NOI18N
+        pnlOtherProperties.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jButton1,
-            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jButton1.text")); // NOI18N
-        jPanel2.add(jButton1);
-        jButton1.setBounds(410, 30, 94, 25);
+            jLabel1,
+            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
+        pnlOtherProperties.add(jLabel1, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.srid}"),
+                cmbStandard,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
+        pnlOtherProperties.add(cmbStandard, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jButton2,
-            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jButton2.text")); // NOI18N
-        jPanel2.add(jButton2);
-        jButton2.setBounds(410, 80, 94, 25);
-        jPanel2.add(pnlMap);
-        pnlMap.setBounds(10, 30, 380, 190);
+            btnAddSrid,
+            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnAddSrid.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 10);
+        pnlOtherProperties.add(btnAddSrid, gridBagConstraints);
 
-        pnlGeographicProperties.add(jPanel2);
-        jPanel2.setBounds(20, 20, 520, 250);
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel2,
+            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jLabel2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
+        pnlOtherProperties.add(jLabel2, gridBagConstraints);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jPanel3.border.title"))); // NOI18N
-        jPanel3.setLayout(null);
-        pnlGeographicProperties.add(jPanel3);
-        jPanel3.setBounds(30, 280, 510, 210);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.location}"),
+                cmbStandard1,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
+        pnlOtherProperties.add(cmbStandard1, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnAddLocation,
+            org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnAddLocation.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 10);
+        pnlOtherProperties.add(btnAddLocation, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        pnlGeographicProperties.add(pnlOtherProperties, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceEditor.class,
@@ -763,6 +862,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             temporalInformationPanel.setCidsBean(cidsBean);
             licenseInformationPanel.setCidsBean(cidsBean);
             metaDataPanel.setCidsBean(cidsBean);
+            geometryChooserPanel.setCidsBean(cidsBean);
 
             bindingGroup.bind();
 
