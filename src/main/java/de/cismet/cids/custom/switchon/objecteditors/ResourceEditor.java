@@ -70,10 +70,12 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private javax.swing.JButton btnEditRelationship;
     private javax.swing.JButton btnEditRepresentation;
     private javax.swing.JButton btnRemoveRepresentation;
-    private javax.swing.JComboBox cmbStandard;
-    private javax.swing.JComboBox cmbStandard1;
+    private javax.swing.JComboBox cmbLocation;
+    private javax.swing.JComboBox cmbSrid;
     private javax.swing.JComboBox cmbTopic;
     private de.cismet.cids.custom.switchon.objecteditors.ContactEditor contactEditor;
+    private de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction createNewLocation;
+    private de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction createNewSrid;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler2;
@@ -133,6 +135,8 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        createNewSrid = new de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction();
+        createNewLocation = new de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         pnlBasicProperties = new javax.swing.JPanel();
         basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
@@ -162,10 +166,10 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         geometryChooserPanel = new de.cismet.cids.custom.switchon.gui.GeometryChooserPanel();
         pnlOtherProperties = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        cmbStandard = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.SRID);
+        cmbSrid = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.SRID);
         btnAddSrid = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        cmbStandard1 = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.LOCATION);
+        cmbLocation = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.LOCATION);
         btnAddLocation = new javax.swing.JButton();
         pnlTemporalInformation = new javax.swing.JPanel();
         temporalInformationPanel = new TemporalInformationPanel(true);
@@ -359,7 +363,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.srid}"),
-                cmbStandard,
+                cmbSrid,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
@@ -370,11 +374,20 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
-        pnlOtherProperties.add(cmbStandard, gridBagConstraints);
+        pnlOtherProperties.add(cmbSrid, gridBagConstraints);
 
+        createNewSrid.setCombo((FastBindableReferenceCombo)cmbSrid);
+        btnAddSrid.setAction(createNewSrid);
         org.openide.awt.Mnemonics.setLocalizedText(
             btnAddSrid,
             org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnAddSrid.text")); // NOI18N
+        btnAddSrid.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddSridActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -397,7 +410,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.location}"),
-                cmbStandard1,
+                cmbLocation,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
@@ -408,8 +421,10 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
-        pnlOtherProperties.add(cmbStandard1, gridBagConstraints);
+        pnlOtherProperties.add(cmbLocation, gridBagConstraints);
 
+        createNewLocation.setCombo((FastBindableReferenceCombo)cmbLocation);
+        btnAddLocation.setAction(createNewLocation);
         org.openide.awt.Mnemonics.setLocalizedText(
             btnAddLocation,
             org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.btnAddLocation.text")); // NOI18N
@@ -840,6 +855,14 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             LOG.error("new Relationship-CidsBean could not be created.", ex);
         }
     } //GEN-LAST:event_btnCreateRealtionshipActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnAddSridActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddSridActionPerformed
+    }                                                                              //GEN-LAST:event_btnAddSridActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

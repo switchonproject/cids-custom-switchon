@@ -22,6 +22,7 @@ import de.cismet.cids.custom.switchon.utils.Taggroups;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.FastBindableReferenceCombo;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -57,6 +58,9 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
     private javax.swing.JComboBox cmbContentType;
     private javax.swing.JComboBox cmbFunction;
     private javax.swing.JComboBox cmbProtocol;
+    private de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction createNewApplication;
+    private de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction createNewContentType;
+    private de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction createNewProtocol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -95,6 +99,9 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        createNewContentType = new de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction();
+        createNewProtocol = new de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction();
+        createNewApplication = new de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction();
         jPanel1 = new javax.swing.JPanel();
         pnlDocument = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -217,6 +224,8 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 11, 5);
         pnlDocument.add(cmbContentType, gridBagConstraints);
 
+        createNewContentType.setCombo((FastBindableReferenceCombo)cmbContentType);
+        btnNewContentType.setAction(createNewContentType);
         org.openide.awt.Mnemonics.setLocalizedText(
             btnNewContentType,
             org.openide.util.NbBundle.getMessage(
@@ -311,6 +320,8 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlOtherProperties.add(cmbProtocol, gridBagConstraints);
 
+        createNewProtocol.setCombo((FastBindableReferenceCombo)cmbProtocol);
+        btnNewProtocol.setAction(createNewProtocol);
         org.openide.awt.Mnemonics.setLocalizedText(
             btnNewProtocol,
             org.openide.util.NbBundle.getMessage(
@@ -350,6 +361,8 @@ public class RepresentationEditor extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
         pnlOtherProperties.add(cmbApplication, gridBagConstraints);
 
+        createNewApplication.setCombo((FastBindableReferenceCombo)cmbApplication);
+        btnNewApplication.setAction(createNewApplication);
         org.openide.awt.Mnemonics.setLocalizedText(
             btnNewApplication,
             org.openide.util.NbBundle.getMessage(
