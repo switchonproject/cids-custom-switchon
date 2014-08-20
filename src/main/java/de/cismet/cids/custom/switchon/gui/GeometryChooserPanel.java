@@ -360,8 +360,14 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
 
             final XBoundingBox box = new XBoundingBox(geometry.getEnvelope().buffer(
                         SwitchOnConstants.COMMONS.GEO_BUFFER));
-            ((ActiveLayerModel)previewMap.getMappingModel()).addHome(box);
-            previewMap.gotoInitialBoundingBox();
+            if (previewMap.getMappingModel() != null) {
+                ((ActiveLayerModel)previewMap.getMappingModel()).addHome(box);
+                previewMap.gotoInitialBoundingBox();
+            } else {
+                LOG.error(
+                    "previewMap.getMappingModel() is null, can not set initial bounding box",
+                    new NullPointerException());
+            }
 
             previewMap.getFeatureCollection().addFeature(dsf);
         }
