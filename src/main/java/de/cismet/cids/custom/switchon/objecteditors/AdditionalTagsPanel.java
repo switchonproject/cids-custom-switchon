@@ -95,6 +95,15 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         tagGroupQuery += " ORDER BY t.name";
         this.tagGroupQuery = tagGroupQuery;
         initComponents();
+        if ((allowedTaggroups == null) || allowedTaggroups.isEmpty()) {
+            cmbTagGroups.setEnabled(false);
+            lstTags.setEnabled(false);
+            btnAdd.setEnabled(false);
+            btnNew.setEnabled(false);
+            btnRemove.setEnabled(false);
+        } else {
+            changeListModelToSelectedTaggroup();
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -121,7 +130,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         lstAssignedTags = new JXListBugFixes();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        lstTags = new TagsJList(Taggroups.ACCESS_CONDITIONS);
+        lstTags = new TagsJList();
         ;
         cmbTagGroups = new QueryComboBox(tagGroupQuery, false, "Taggroup");
         ;
@@ -326,6 +335,13 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
      * @param  evt  DOCUMENT ME!
      */
     private void cmbTagGroupsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbTagGroupsActionPerformed
+        changeListModelToSelectedTaggroup();
+    }                                                                                //GEN-LAST:event_cmbTagGroupsActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void changeListModelToSelectedTaggroup() {
         final LightweightMetaObject taggroupMo = (LightweightMetaObject)cmbTagGroups.getSelectedItem();
         final Taggroups chosenTaggroup = TaggroupUtils.getTaggroupFromString(taggroupMo.toString());
         if (chosenTaggroup != null) {
@@ -333,7 +349,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         } else {
             lstTags.setModel(null);
         }
-    }                                                                                //GEN-LAST:event_cmbTagGroupsActionPerformed
+    }
 
     /**
      * DOCUMENT ME!

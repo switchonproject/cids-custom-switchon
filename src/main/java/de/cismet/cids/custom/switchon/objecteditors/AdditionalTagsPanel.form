@@ -187,7 +187,7 @@
           <SubComponents>
             <Component class="javax.swing.JList" name="lstTags">
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new TagsJList(Taggroups.ACCESS_CONDITIONS);&#xa;"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new TagsJList();&#xa;"/>
               </AuxValues>
             </Component>
           </SubComponents>
