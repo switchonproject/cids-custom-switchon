@@ -11,7 +11,6 @@ import Sirius.server.middleware.types.LightweightMetaObject;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.SortOrder;
 
@@ -54,6 +53,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList lstAssignedTags;
@@ -107,12 +107,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jLabel1 = new javax.swing.JLabel();
-        cmbTagGroups = new QueryComboBox(tagGroupQuery, false, "Taggroup");
-        ;
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstTags = new TagsJList(Taggroups.ACCESS_CONDITIONS);
-        ;
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -121,6 +116,12 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         btnRemove = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstAssignedTags = new JXListBugFixes();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lstTags = new TagsJList(Taggroups.ACCESS_CONDITIONS);
+        ;
+        cmbTagGroups = new QueryComboBox(tagGroupQuery, false, "Taggroup");
+        ;
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(AdditionalTagsPanel.class, "AdditionalTagsPanel.border.title"))); // NOI18N
@@ -137,22 +138,6 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
         add(jLabel1, gridBagConstraints);
 
-        cmbTagGroups.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cmbTagGroupsActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
-        add(cmbTagGroups, gridBagConstraints);
-
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel2,
             org.openide.util.NbBundle.getMessage(AdditionalTagsPanel.class, "AdditionalTagsPanel.jLabel2.text")); // NOI18N
@@ -162,19 +147,6 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(jLabel2, gridBagConstraints);
-
-        jScrollPane1.setViewportView(lstTags);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
-        add(jScrollPane1, gridBagConstraints);
 
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
@@ -286,6 +258,47 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.weighty = 1.0;
         add(jPanel2, gridBagConstraints);
+
+        jPanel3.setOpaque(false);
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane1.setViewportView(lstTags);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
+        jPanel3.add(jScrollPane1, gridBagConstraints);
+
+        cmbTagGroups.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbTagGroupsActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
+        jPanel3.add(cmbTagGroups, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weighty = 1.0;
+        add(jPanel3, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
