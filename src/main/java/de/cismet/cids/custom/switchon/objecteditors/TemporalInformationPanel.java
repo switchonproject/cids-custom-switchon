@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import de.cismet.cids.custom.switchon.gui.ISO8601JXDatePicker;
 import de.cismet.cids.custom.switchon.gui.TimestampToDateConverter;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 
@@ -89,8 +90,10 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        dpStartDate = new org.jdesktop.swingx.JXDatePicker();
-        dpEndDate = new org.jdesktop.swingx.JXDatePicker();
+        dpStartDate = new ISO8601JXDatePicker();
+        ;
+        dpEndDate = new ISO8601JXDatePicker();
+        ;
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 0));
@@ -98,9 +101,12 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        dpCreationDate = new org.jdesktop.swingx.JXDatePicker();
-        dpPublicationDate = new org.jdesktop.swingx.JXDatePicker();
-        dpLastModificationDate = new org.jdesktop.swingx.JXDatePicker();
+        dpCreationDate = new ISO8601JXDatePicker();
+        ;
+        dpPublicationDate = new ISO8601JXDatePicker();
+        ;
+        dpLastModificationDate = new ISO8601JXDatePicker();
+        ;
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 0));

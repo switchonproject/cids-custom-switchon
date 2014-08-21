@@ -109,9 +109,8 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
                     "LicenseInformationPanel.jPanel1.border.title"))); // NOI18N
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        txtaLicenseStatement.setColumns(20);
         txtaLicenseStatement.setLineWrap(true);
-        txtaLicenseStatement.setRows(5);
+        txtaLicenseStatement.setRows(20);
         txtaLicenseStatement.setWrapStyleWord(true);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(

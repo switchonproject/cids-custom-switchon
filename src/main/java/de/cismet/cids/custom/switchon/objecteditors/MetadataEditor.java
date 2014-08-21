@@ -11,6 +11,8 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.switchon.gui.ISO8601JXDatePicker;
+import de.cismet.cids.custom.switchon.gui.TimestampToDateConverter;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
@@ -87,7 +89,7 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        dpCreationDate = new org.jdesktop.swingx.JXDatePicker();
+        dpCreationDate = new ISO8601JXDatePicker();
         cmbStandard = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
                 Taggroups.META_DATA_STANDARD);
         btnNewStandard = new javax.swing.JButton();
@@ -162,6 +164,7 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.creationdate}"),
                 dpCreationDate,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

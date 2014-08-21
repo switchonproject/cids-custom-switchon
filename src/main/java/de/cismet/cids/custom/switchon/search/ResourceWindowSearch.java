@@ -46,6 +46,7 @@ import javax.swing.JScrollPane;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.switchon.gui.ISO8601JXDatePicker;
 import de.cismet.cids.custom.switchon.gui.utils.ComponentTitledBorder;
 import de.cismet.cids.custom.switchon.gui.utils.TagsComboBox;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
@@ -333,12 +334,10 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         tpaSearchTabs = new javax.swing.JTabbedPane();
         tabBasic = new javax.swing.JPanel();
         pnlGeospatialExtent = new javax.swing.JPanel();
-
         final ResourceCreateSearchGeometryListener resourceCreateSearchGeometryListener =
             new ResourceCreateSearchGeometryListener(
                 mappingComponent,
                 new ResourceSearchTooltip(icon));
-
         resourceCreateSearchGeometryListener.addPropertyChangeListener(this);
         btnGeospatial = new GeoSearchButton(
                 ResourceCreateSearchGeometryListener.RESOURCE_CREATE_SEARCH_GEOMETRY,
@@ -354,8 +353,10 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         pnlTemporalExtent = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jdpStartDate = new org.jdesktop.swingx.JXDatePicker();
-        jdpEndDate = new org.jdesktop.swingx.JXDatePicker();
+        jdpStartDate = new ISO8601JXDatePicker();
+        ;
+        jdpEndDate = new ISO8601JXDatePicker();
+        ;
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 0));
