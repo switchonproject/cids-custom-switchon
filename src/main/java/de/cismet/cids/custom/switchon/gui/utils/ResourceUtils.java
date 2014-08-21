@@ -25,7 +25,8 @@ public class ResourceUtils {
     //~ Methods ----------------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * Returns a list of tags, filtered by a certain taggroup. The original list is taken from the property 'tags' of a
+     * cidsbean.
      *
      * @param   resourceBean  DOCUMENT ME!
      * @param   taggroup      DOCUMENT ME!

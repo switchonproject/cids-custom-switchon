@@ -58,8 +58,6 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
-    private final ResourceBundle topicBundle = ResourceBundle.getBundle(
-            "de/cismet/cids/custom/switchon/tagBundles/topic");
     private final ResourceBundle roleBundle = ResourceBundle.getBundle(
             "de/cismet/cids/custom/switchon/tagBundles/role");
 
@@ -185,7 +183,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jTextArea1.setLineWrap(true);
         jTextArea1.setWrapStyleWord(true);
 
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"),
@@ -216,10 +214,6 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.jPanel2.border.title"))); // NOI18N
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            lblKeywords,
-            org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.lblKeywords.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -228,6 +222,15 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 5, 10);
         jPanel2.add(lblKeywords, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.topiccategory.name}"),
+                lblTopic,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -421,14 +424,6 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
 
             bindingGroup.bind();
             generateListWithKeywords();
-
-            final String topic = (String)cidsBean.getProperty("topiccategory.name");
-            if (StringUtils.isNotBlank(topic)) {
-                final String labelText = topicBundle.getString(topic.replace(' ', '_'));
-                lblTopic.setText(labelText);
-            } else {
-                lblTopic.setText("");
-            }
 
             setTitle();
         }
