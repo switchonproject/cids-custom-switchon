@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
-import javax.swing.JTextField;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
@@ -321,12 +320,12 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
                         .getColumn(0)
                         .setHeaderValue(org.openide.util.NbBundle.getMessage(
                                 RelationshipEditor.class,
-                                "RelationshipEditor.jTable1.columnModel.title0_1")); // NOI18N
+                                "RelationshipEditor.tblToResource.columnModel.title0_1")); // NOI18N
                 tblToResource.getColumnModel()
                         .getColumn(1)
                         .setHeaderValue(org.openide.util.NbBundle.getMessage(
                                 RelationshipEditor.class,
-                                "RelationshipEditor.jTable1.columnModel.title1_1")); // NOI18N
+                                "RelationshipEditor.tblToResource.columnModel.title1_1")); // NOI18N
             }
 
             if (tblFromResource.getColumnModel().getColumnCount() > 0) {
