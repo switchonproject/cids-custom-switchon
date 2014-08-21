@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.table.DefaultTableCellRenderer;
@@ -216,9 +217,11 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
                 metadataEditor).showDialog();
 
             // replace the old cidsBean with the persisted cidsBean
-            metadatas.remove(selectedMetaData);
-            for (final CidsBean persistedMetaData : metadataEditor.getPersistedCidsBeans()) {
-                metadatas.add(persistedMetaData);
+            final HashSet<CidsBean> persistedCidsBeans = metadataEditor.getPersistedCidsBeans();
+            if (!persistedCidsBeans.isEmpty()) {
+                // only one cidsBean can be returned
+                metadatas.remove(selectedMetaData);
+                metadatas.add(persistedCidsBeans.iterator().next());
             }
         }
     } //GEN-LAST:event_btnEditMetaDataActionPerformed

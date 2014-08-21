@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import java.util.HashSet;
 import java.util.List;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -230,9 +231,11 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
                 representationEditor).showDialog();
 
             // replace the old cidsBean with the persisted cidsBean
-            representations.remove(selectedRepresentation);
-            for (final CidsBean persistedRepresentation : representationEditor.getPersistedCidsBeans()) {
-                representations.add(persistedRepresentation);
+            final HashSet<CidsBean> persistedCidsBeans = representationEditor.getPersistedCidsBeans();
+            if (!persistedCidsBeans.isEmpty()) {
+                // only one cidsBean can be returned
+                representations.remove(selectedRepresentation);
+                representations.add(persistedCidsBeans.iterator().next());
             }
         }
     } //GEN-LAST:event_btnEditRepresentationActionPerformed

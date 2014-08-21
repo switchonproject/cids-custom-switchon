@@ -29,7 +29,7 @@ public class RepresentationEditor extends AbstractEditorShowableInDialog impleme
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MetadataEditor.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RepresentationEditor.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
@@ -119,6 +119,7 @@ public class RepresentationEditor extends AbstractEditorShowableInDialog impleme
         basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
 
         setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(950, 700));
         setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setOpaque(false);
