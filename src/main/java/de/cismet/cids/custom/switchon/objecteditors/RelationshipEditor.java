@@ -40,7 +40,8 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
 
     //~ Instance fields --------------------------------------------------------
 
-    List<CidsBean> toResource;
+    /** The single resource 'toResource' has to be put in a list, such that the binding to the table works. */
+    List<CidsBean> toResourceList;
     List<CidsBean> fromResources;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -106,14 +107,13 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         metaDataPanel = new de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel();
 
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(900, 700));
-        setLayout(new java.awt.GridLayout());
+        setPreferredSize(new java.awt.Dimension(950, 700));
+        setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         basicPropertiesPanel.setOpaque(false);
-        basicPropertiesPanel.setPreferredSize(new java.awt.Dimension(344, 332));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -309,10 +309,12 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
             additionalTagsPanel.setCidsBean(cidsBean);
             metaDataPanel.setCidsBean(cidsBean);
 
-            toResource = new ArrayList<CidsBean>(1);
-            toResource.add((CidsBean)cidsBean.getProperty("toresource"));
+            toResourceList = new ArrayList<CidsBean>(1);
+            toResourceList.add((CidsBean)cidsBean.getProperty("toresource"));
 
             fromResources = cidsBean.getBeanCollectionProperty("fromresources");
+
+            bindingGroup.bind();
 
             if (tblToResource.getColumnModel().getColumnCount() > 0) {
                 tblToResource.getColumnModel()
@@ -339,8 +341,6 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
                                 RelationshipEditor.class,
                                 "RelationshipEditor.tblFromResource.columnModel.title1_1")); // NOI18N
             }
-
-            bindingGroup.bind();
         }
     }
 
@@ -374,7 +374,7 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
      * @return  DOCUMENT ME!
      */
     public List<CidsBean> getToResource() {
-        return toResource;
+        return toResourceList;
     }
 
     /**
@@ -383,7 +383,7 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
      * @param  toResource  DOCUMENT ME!
      */
     public void setToResource(final List<CidsBean> toResource) {
-        this.toResource = toResource;
+        this.toResourceList = toResource;
     }
 
     /**
@@ -444,8 +444,8 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
                     if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
                         try {
                             cidsBean.setProperty("toresource", bean);
-                            toResource.clear();
-                            toResource.add(bean);
+                            toResourceList.clear();
+                            toResourceList.add(bean);
                             break;
                         } catch (Exception ex) {
                             LOG.error("Could not set toresource of cidsBean", ex);
