@@ -28,7 +28,7 @@ import de.cismet.cids.custom.switchon.gui.utils.CismapUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.gui.utils.ResourceUtils;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -335,7 +335,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Buffer for map: " + diagonalLength);
                 }
-                final XBoundingBox bufferedBox = new XBoundingBox(box.getGeometry().buffer(diagonalLength));
+                final XBoundingBox bufferedBox = box;
                 final Runnable mapRunnable = new Runnable() {
 
                         @Override

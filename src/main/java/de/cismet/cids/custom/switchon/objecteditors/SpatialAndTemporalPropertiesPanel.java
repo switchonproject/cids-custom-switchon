@@ -187,11 +187,21 @@ public class SpatialAndTemporalPropertiesPanel extends javax.swing.JPanel implem
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Returns a Representation-CidsBean.
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public CidsBean getCidsBean() {
         return representationBean;
     }
 
+    /**
+     * Expects a Representation-CidsBean.
+     *
+     * @param  cidsBean  DOCUMENT ME!
+     */
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();

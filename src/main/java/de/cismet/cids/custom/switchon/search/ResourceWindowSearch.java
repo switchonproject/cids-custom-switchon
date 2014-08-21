@@ -47,10 +47,10 @@ import javax.swing.JScrollPane;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.ComponentTitledBorder;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
 import de.cismet.cids.custom.switchon.gui.utils.TagsComboBox;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 import de.cismet.cids.custom.switchon.search.server.MetaObjectNodeResourceSearchStatement;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 

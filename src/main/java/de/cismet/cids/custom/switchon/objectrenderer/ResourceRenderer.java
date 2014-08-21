@@ -13,9 +13,7 @@ import org.apache.commons.lang.StringUtils;
 
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
-import org.jdesktop.swingx.painter.MattePainter;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import java.beans.PropertyChangeEvent;
@@ -28,13 +26,12 @@ import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.ImageGetterUtils;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -103,10 +100,6 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
      * Creates new form ResourceRenderer.
      */
     public ResourceRenderer() {
-        // set the background of the JXTaskPaneContainer to the backround color of a panel, otherwise the background
-        // will be blue in Windows
-        final Color panelBackgroundColor = UIManager.getColor("Panel.background");
-        UIManager.put("TaskPaneContainer.backgroundPainter", new MattePainter(panelBackgroundColor));
         initComponents();
     }
 
@@ -514,7 +507,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             "admin",
             "cismet",
             "resource",
-            243,
+            1,
             "Resource",
             1280,
             1024);
@@ -530,6 +523,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             final String metadataType = (String)metadata.getProperty("type.name");
             if ((metadataType != null) && !"basic meta-data".equalsIgnoreCase(metadataType)) {
                 final JXTaskPane taskPane = new JXTaskPane();
+                taskPane.setTitle(metadataType);
                 taskPane.setIcon(new ImageIcon(
                         ImageGetterUtils.getImageForString(metadataType, ImageGetterUtils.DOCUMENT_LETTER_PATH)));
 

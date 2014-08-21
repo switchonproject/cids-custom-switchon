@@ -15,14 +15,12 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
-
-import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.EMailComposer;
 
@@ -32,7 +30,7 @@ import de.cismet.tools.EMailComposer;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class ContactEditor extends javax.swing.JPanel implements CidsBeanRenderer {
+public class ContactEditor extends AbstractEditorShowableInDialog {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -40,8 +38,6 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
 
     //~ Instance fields --------------------------------------------------------
 
-    private CidsBean cidsBean;
-    private String title;
     private boolean editor;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -386,11 +382,6 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
     }                                                                           //GEN-LAST:event_hypMailActionPerformed
 
     @Override
-    public CidsBean getCidsBean() {
-        return cidsBean;
-    }
-
-    @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
@@ -405,24 +396,6 @@ public class ContactEditor extends javax.swing.JPanel implements CidsBeanRendere
     @Override
     public void dispose() {
         bindingGroup.unbind();
-    }
-
-    @Override
-    public String getTitle() {
-        if (cidsBean != null) {
-            return cidsBean.toString();
-        } else {
-            return "new contact";
-        }
-    }
-
-    @Override
-    public void setTitle(String title) {
-        if (title == null) {
-            title = "<Error>";
-        }
-        this.title = "Contact Editor "
-                    + title;
     }
 
     /**

@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.gui.utils;
 
+import de.cismet.cids.custom.switchon.utils.Taggroups;
+
 /**
  * DOCUMENT ME!
  *
@@ -28,6 +30,7 @@ public class TagsComboBox extends QueryComboBox {
                     + " FROM tag t"
                     + " JOIN taggroup g ON t.taggroup = g.id "
                     + " WHERE g.name ilike '" + taggroup.getValue() + "'"
-                    + " ORDER BY t.name");
+                    + " ORDER BY t.name",
+            "tag");
     }
 }

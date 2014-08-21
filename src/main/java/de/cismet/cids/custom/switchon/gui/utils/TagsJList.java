@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.gui.utils;
 
+import de.cismet.cids.custom.switchon.utils.Taggroups;
+
 /**
  * DOCUMENT ME!
  *
@@ -23,6 +25,13 @@ public class TagsJList extends QueryJList {
 
     /**
      * Creates a new TagsJList object.
+     */
+    public TagsJList() {
+        super("", "Tag");
+    }
+
+    /**
+     * Creates a new TagsJList object.
      *
      * @param  taggroup  DOCUMENT ME!
      */
@@ -32,7 +41,8 @@ public class TagsJList extends QueryJList {
                     + " FROM tag t"
                     + " JOIN taggroup g ON t.taggroup = g.id "
                     + " WHERE g.name ilike '" + taggroup.getValue() + "'"
-                    + " ORDER BY t.name");
+                    + " ORDER BY t.name",
+            "Tag");
     }
     /**
      * Creates a new TagsJList object.
@@ -47,6 +57,36 @@ public class TagsJList extends QueryJList {
                     + " JOIN taggroup g ON t.taggroup = g.id "
                     + " WHERE g.name ilike '" + taggroup1.getValue() + "'"
                     + " OR g.name ilike '" + taggroup2.getValue() + "'"
+                    + " ORDER BY t.name",
+            "Tag");
+    }
+
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  taggroup  DOCUMENT ME!
+     */
+    public void changeModelToTaggroup(final Taggroups taggroup) {
+        executeQueryAndSetModel("SELECT t.ID,"
+                    + "       t.NAME"
+                    + " FROM tag t"
+                    + " JOIN taggroup g ON t.taggroup = g.id "
+                    + " WHERE g.name ilike '" + taggroup.getValue() + "'"
+                    + " ORDER BY t.name");
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  taggroupID  DOCUMENT ME!
+     */
+    public void changeModelToTaggroup(final int taggroupID) {
+        executeQueryAndSetModel("SELECT t.ID,"
+                    + "       t.NAME"
+                    + " FROM tag t"
+                    + " WHERE t.taggroup = " + taggroupID
                     + " ORDER BY t.name");
     }
 }
