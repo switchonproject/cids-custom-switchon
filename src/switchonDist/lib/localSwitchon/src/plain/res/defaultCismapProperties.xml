@@ -71,7 +71,10 @@
 
     <cismapActiveLayerConfiguration/>
     <cismapPluginSelectedSearchClasses/>
-    <cismapPluginUIPreferences/>
+    <cismapPluginUIPreferences>
+        <help_url><![CDATA[http://water-switch-on.eu/]]></help_url>
+        <news_url><![CDATA[http://sites.liu.se:19008/?q=news]]></news_url>
+    </cismapPluginUIPreferences>
     <cismapFeatureControl/>
     <serverProfiles/>
 </cismetConfigurationManager>
