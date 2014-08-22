@@ -10,8 +10,6 @@ package de.cismet.cids.custom.switchon.objecteditors;
 import Sirius.server.middleware.types.LightweightMetaObject;
 import Sirius.server.middleware.types.MetaObject;
 
-import org.openide.util.Exceptions;
-
 import java.util.Collection;
 import java.util.List;
 

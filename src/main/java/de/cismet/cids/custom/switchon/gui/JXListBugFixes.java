@@ -9,11 +9,14 @@ package de.cismet.cids.custom.switchon.gui;
 
 import org.jdesktop.swingx.JXList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The JXList from SwingX 1.6 contains bugs in the methods JXList.getSelectedValue(), JXList.getSelectedValues() and
  * JXList.setSelectedValue(). See also:
- * https://java.net/jira/browse/SWINGX-1263?page=com.atlassian.jira.plugin.system.issuetabpanels%3Aall-tabpanel Therefor
- * the method were copied from SwingX 1.6.5-1.
+ * https://java.net/jira/browse/SWINGX-1263?page=com.atlassian.jira.plugin.system.issuetabpanels%3Aall-tabpanel
+ * Therefore the method were copied from SwingX 1.6.5-1.
  *
  * @version  $Revision$, $Date$
  */
@@ -83,7 +86,7 @@ public class JXListBugFixes extends JXList {
 
     /**
      * Returns an array of all the selected values, in increasing order based on their indices in the list and taking
-     * into account sourting and filtering.
+     * into account sorting and filtering.
      *
      * @return  the selected values, or an empty array if nothing is selected
      *
@@ -97,6 +100,16 @@ public class JXListBugFixes extends JXList {
         final Object[] selectedValues = new Object[selectedIndexes.length];
         for (int i = 0; i < selectedIndexes.length; i++) {
             selectedValues[i] = getElementAt(selectedIndexes[i]);
+        }
+        return selectedValues;
+    }
+
+    @Override
+    public List getSelectedValuesList() {
+        final int[] selectedIndexes = getSelectedIndices();
+        final ArrayList selectedValues = new ArrayList(selectedIndexes.length);
+        for (int i = 0; i < selectedIndexes.length; i++) {
+            selectedValues.add(i, getElementAt(selectedIndexes[i]));
         }
         return selectedValues;
     }
