@@ -48,8 +48,8 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.ISO8601JXDatePicker;
 import de.cismet.cids.custom.switchon.gui.utils.ComponentTitledBorder;
+import de.cismet.cids.custom.switchon.gui.utils.QueryJList;
 import de.cismet.cids.custom.switchon.gui.utils.TagsComboBox;
-import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 import de.cismet.cids.custom.switchon.search.server.MetaObjectNodeResourceSearchStatement;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
@@ -368,7 +368,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         chbSearchInTitleAndDescription = new javax.swing.JCheckBox();
         pnlKeywordsAndTopics = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        lstKeywords = new TagsJList(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0, Taggroups.KEYWORDS_OPEN);
+        lstKeywords = new QueryJList(getTagListQuery(), "Tag");
         cmbTopics = new TagsComboBox(Taggroups.TOPIC_CATEGORY);
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
@@ -961,6 +961,23 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                 selectedGeometry = (Geometry)evt.getNewValue();
             }
         }
+    }
+
+    /**
+     * Returns a String representing a SQL-query which retrieves all tags of the groups "keywords - INSPIRE themes 1.0"
+     * and "keywords - open" that are present in the tags arrays of the Resource objects. The query is used for the
+     * JList lstKeywords.
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String getTagListQuery() {
+        return "SELECT distinct t.ID,\n"
+                    + "t.NAME\n"
+                    + "FROM tag t\n"
+                    + "JOIN jt_resource_tag tags ON tags.tagid = t.id \n"
+                    + "WHERE taggroup = (select id from taggroup where name = 'keywords - INSPIRE themes 1.0' limit 1)\n"
+                    + "OR taggroup = (select id from taggroup where name = 'keywords - open' limit 1)\n"
+                    + "ORDER BY t.name";
     }
 
     //~ Inner Classes ----------------------------------------------------------

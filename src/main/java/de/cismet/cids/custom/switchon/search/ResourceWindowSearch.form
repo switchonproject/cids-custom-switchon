@@ -347,7 +347,7 @@
                             <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="lstKeywordsValueChanged"/>
                           </Events>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new TagsJList(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0, Taggroups.KEYWORDS_OPEN)&#xa;"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new QueryJList(getTagListQuery(), &quot;Tag&quot;)&#xa;"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
