@@ -69,7 +69,7 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
             RendererTools.makeReadOnly(txtaLicenseStatement);
             RendererTools.makeReadOnly(cmbConditions);
             RendererTools.makeReadOnly(cmbLimitations);
-            cmbConformity.setVisible(false);
+            RendererTools.makeReadOnly(cmbConformity);
         }
     }
 
