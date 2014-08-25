@@ -194,9 +194,6 @@
       </Constraints>
     </Component>
     <Component class="org.jdesktop.swingx.JXHyperlink" name="hypMail">
-      <BindingProperties>
-        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.email}" target="hypMail" targetPath="text" updateStrategy="0" immediately="false"/>
-      </BindingProperties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hypMailActionPerformed"/>
       </Events>

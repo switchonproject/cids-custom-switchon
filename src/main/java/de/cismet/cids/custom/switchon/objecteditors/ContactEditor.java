@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.awt.Desktop;
 
 import java.net.URI;
@@ -325,14 +327,6 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         add(hypWebsite, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.email}"),
-                hypMail,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         hypMail.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -377,7 +371,7 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
      */
     private void hypMailActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hypMailActionPerformed
         final EMailComposer mail = new EMailComposer();
-        mail.addTo(hypMail.getText().split(" "));
+        mail.addTo(((String)cidsBean.getProperty("email")).split(" "));
         mail.compose();
     }                                                                           //GEN-LAST:event_hypMailActionPerformed
 
@@ -390,6 +384,14 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
+
+            String emails = (String)cidsBean.getProperty("email");
+            if (StringUtils.isNotBlank(emails)) {
+                emails = emails.replaceAll(" +", ", ");
+                hypMail.setText(emails);
+            } else {
+                hypMail.setText("");
+            }
         }
     }
 
