@@ -408,7 +408,6 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
         final ContactEditor contactEditor = new ContactEditor(true);
         contactEditor.setCidsBean(contact);
         final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                true,
                 contactEditor);
         dialog.setTitle(contactEditor.getTitle());
         dialog.showDialog();

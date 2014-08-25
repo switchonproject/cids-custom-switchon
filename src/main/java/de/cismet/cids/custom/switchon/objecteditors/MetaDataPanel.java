@@ -179,7 +179,6 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
         final MetadataEditor metadataEditor = new MetadataEditor();
         metadataEditor.setCidsBean(metaData);
         new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-            true,
             metadataEditor).showDialog();
 
         // add the newly created metaData-CidsBean
@@ -213,7 +212,6 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
             final MetadataEditor metadataEditor = new MetadataEditor();
             metadataEditor.setCidsBean(selectedMetaData);
             new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                true,
                 metadataEditor).showDialog();
 
             // replace the old cidsBean with the persisted cidsBean

@@ -372,7 +372,6 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
             final SimpleTagEditor simpleTagEditor = new SimpleTagEditor(selectedTaggroup);
             simpleTagEditor.setCidsBean(CidsBean.createNewCidsBeanFromTableName("SWITCHON", "tag"));
             final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                    true,
                     simpleTagEditor);
             dialog.setTitle(selectedTaggroup.toString());
             dialog.showDialog();

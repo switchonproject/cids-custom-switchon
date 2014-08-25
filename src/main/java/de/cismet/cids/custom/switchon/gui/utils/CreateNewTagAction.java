@@ -72,7 +72,6 @@ public class CreateNewTagAction extends AbstractAction {
             final SimpleTagEditor simpleTagEditor = new SimpleTagEditor(taggroup);
             simpleTagEditor.setCidsBean(CidsBean.createNewCidsBeanFromTableName("SWITCHON", "tag"));
             final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this.combo),
-                    true,
                     simpleTagEditor);
             dialog.setTitle(taggroup.toString());
             dialog.showDialog();
