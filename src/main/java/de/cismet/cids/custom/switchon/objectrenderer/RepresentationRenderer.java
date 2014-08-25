@@ -396,7 +396,8 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
             }
             if (url != null) {
                 if (DownloadManagerDialog.showAskingForUserTitle(RepresentationRenderer.this)) {
-                    final String filename = urlString.substring(urlString.lastIndexOf("/") + 1);
+                    final String filename = FilenameUtils.getBaseName(urlString);
+                    final String extension = FilenameUtils.getExtension(urlString);
 
                     DownloadManager.instance()
                             .add(
@@ -405,8 +406,8 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
                                     "",
                                     DownloadManagerDialog.getJobname(),
                                     cidsBean.toString(),
-                                    filename.substring(0, filename.lastIndexOf(".")),
-                                    filename.substring(filename.lastIndexOf("."))));
+                                    filename,
+                                    extension));
                 }
             }
         }
