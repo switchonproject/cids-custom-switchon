@@ -407,9 +407,11 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
         }
         final ContactEditor contactEditor = new ContactEditor(true);
         contactEditor.setCidsBean(contact);
-        new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-            true,
-            contactEditor).showDialog();
+        final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                true,
+                contactEditor);
+        dialog.setTitle(contactEditor.getTitle());
+        dialog.showDialog();
 
         // contactEditor.getPersistedCidsBeans().size() should be 0 or 1
         for (final CidsBean persistedContact : contactEditor.getPersistedCidsBeans()) {
