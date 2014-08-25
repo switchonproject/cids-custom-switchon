@@ -133,7 +133,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         createNewLocation = new de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         pnlBasicProperties = new javax.swing.JPanel();
-        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
+        basicPropertiesPanel = new BasicPropertiesPanel(Taggroups.RESOURCE_TYPE);
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));

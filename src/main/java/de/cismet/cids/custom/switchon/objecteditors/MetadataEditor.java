@@ -84,7 +84,7 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
 
         createNewStandard = new de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction();
         createNewContentType = new de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction();
-        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
+        basicPropertiesPanel = new BasicPropertiesPanel(Taggroups.META_DATA_TYPE);
         pnlProperties = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();

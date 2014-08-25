@@ -86,7 +86,7 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
 
         metaDataPanel1 = new de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel();
         jPanel2 = new javax.swing.JPanel();
-        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
+        basicPropertiesPanel = new BasicPropertiesPanel(Taggroups.RELATIONSHIP_TYPE);
         final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
         taggroups.add(Taggroups.COLLECTION);
         taggroups.add(Taggroups.GEOGRAPHY);

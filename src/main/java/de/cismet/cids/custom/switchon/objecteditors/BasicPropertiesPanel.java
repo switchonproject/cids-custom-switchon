@@ -33,6 +33,7 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private Taggroups typeTaggroup;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerateUUID;
@@ -54,8 +55,20 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
 
     /**
      * Creates new form BasicPropertiesPanel.
+     *
+     * @deprecated  Constructor for Netbeans
      */
     public BasicPropertiesPanel() {
+        this(Taggroups.META_DATA_TYPE);
+    }
+
+    /**
+     * Creates a new BasicPropertiesPanel object.
+     *
+     * @param  typeTaggroup  DOCUMENT ME!
+     */
+    public BasicPropertiesPanel(final Taggroups typeTaggroup) {
+        this.typeTaggroup = typeTaggroup;
         initComponents();
     }
 
@@ -79,7 +92,7 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
         txtName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaDescription = new javax.swing.JTextArea();
-        cmbType = new FastBindableReferenceCombo();
+        cmbType = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(typeTaggroup);
         txtUUID = new javax.swing.JTextField();
         btnGenerateUUID = new javax.swing.JButton();
         cmbLanguage = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.LANGUAGE);
@@ -278,7 +291,6 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
-            replaceTypeComboboxModel();
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.cidsBean);
@@ -296,24 +308,5 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
 
             bindingGroup.bind();
         }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void replaceTypeComboboxModel() {
-        final String cidsBeanClassName = cidsBean.getClass().getSimpleName();
-        Taggroups typeToUse = Taggroups.META_DATA_TYPE;
-        if (cidsBeanClassName.equalsIgnoreCase("relationship")) {
-            typeToUse = Taggroups.RELATIONSHIP_TYPE;
-        } else if (cidsBeanClassName.equalsIgnoreCase("representation")) {
-            typeToUse = Taggroups.REPRESENTATION_TYPE;
-        } else if (cidsBeanClassName.equalsIgnoreCase("resource")) {
-            typeToUse = Taggroups.RESOURCE_TYPE;
-        }
-
-        final FastBindableReferenceCombo tmp = FastBindableReferenceComboFactory
-                    .createTagsFastBindableReferenceComboBox(typeToUse);
-        cmbType.setModel(tmp.getModel());
     }
 }
