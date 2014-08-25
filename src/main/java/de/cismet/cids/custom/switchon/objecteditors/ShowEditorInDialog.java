@@ -58,6 +58,7 @@ public class ShowEditorInDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         pnlEditor.add(editor.getComponent(), gridBagConstraints);
+        this.setTitle(editor.getTitle());
         this.pack();
     }
 
