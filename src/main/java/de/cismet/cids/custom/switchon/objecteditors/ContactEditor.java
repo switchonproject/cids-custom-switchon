@@ -212,6 +212,8 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         add(jLabel6, gridBagConstraints);
 
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(223, 78));
+
         txtaDescription.setColumns(20);
         txtaDescription.setRows(5);
 
@@ -231,6 +233,7 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.4;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         add(jScrollPane1, gridBagConstraints);
 
@@ -285,7 +288,7 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weighty = 0.6;
         add(filler1, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
