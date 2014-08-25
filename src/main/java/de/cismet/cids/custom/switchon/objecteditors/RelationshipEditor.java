@@ -419,9 +419,12 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
             if (beans != null) {
                 for (final CidsBean bean : beans) {
                     if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
-                        fromResources.add(bean);
+                        if (!fromResources.contains(bean)) {
+                            fromResources.add(bean);
+                        }
                     }
                 }
+                tblFromResource.requestFocus();
             }
         }
     }
@@ -445,6 +448,7 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
                             cidsBean.setProperty("toresource", bean);
                             toResourceList.clear();
                             toResourceList.add(bean);
+                            tblToResource.selectAll();
                             break;
                         } catch (Exception ex) {
                             LOG.error("Could not set toresource of cidsBean", ex);
