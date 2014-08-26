@@ -10,6 +10,7 @@ package de.cismet.cids.custom.switchon.objecteditors;
 import Sirius.server.middleware.types.LightweightMetaObject;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
     private CidsBean cidsBean;
     /** The query for the combobox containing the Taggroups. */
     private final String tagGroupQuery;
+    private List<CidsBean> assignedTags = new ArrayList<CidsBean>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -57,9 +59,9 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList lstAssignedTags;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JList lstTags;
+    private javax.swing.JTable tblAssignedTags;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -132,8 +134,8 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         btnAdd = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        lstAssignedTags = new JXListBugFixes();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblAssignedTags = new javax.swing.JTable();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(AdditionalTagsPanel.class, "AdditionalTagsPanel.border.title"))); // NOI18N
@@ -160,7 +162,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(jLabel2, gridBagConstraints);
 
-        jPanel4.setLayout(new java.awt.GridLayout());
+        jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridBagLayout());
@@ -266,36 +268,52 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jPanel1, gridBagConstraints);
 
-        lstAssignedTags.setToolTipText(org.openide.util.NbBundle.getMessage(
-                AdditionalTagsPanel.class,
-                "AdditionalTagsPanel.lstAssignedTags.toolTipText")); // NOI18N
+        jScrollPane3.setMinimumSize(new java.awt.Dimension(200, 22));
 
         final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
-                "${cidsBean.tags}");
-        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJListBinding(
+                "${assignedTags}");
+        final org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJTableBinding(
                         org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                         this,
                         eLProperty,
-                        lstAssignedTags);
-        bindingGroup.addBinding(jListBinding);
-
-        jScrollPane2.setViewportView(lstAssignedTags);
+                        tblAssignedTags);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(
+                org.jdesktop.beansbinding.ELProperty.create("${taggroup}"));
+        columnBinding.setColumnName("Taggroup");
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
+        columnBinding.setColumnName("Name");
+        columnBinding.setEditable(false);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        jScrollPane3.setViewportView(tblAssignedTags);
+        if (tblAssignedTags.getColumnModel().getColumnCount() > 0) {
+            tblAssignedTags.getColumnModel()
+                    .getColumn(0)
+                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
+                            AdditionalTagsPanel.class,
+                            "AdditionalTagsPanel.tblAssignedTags.columnModel.title0_2")); // NOI18N
+            tblAssignedTags.getColumnModel()
+                    .getColumn(1)
+                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
+                            AdditionalTagsPanel.class,
+                            "AdditionalTagsPanel.tblAssignedTags.columnModel.title1_2")); // NOI18N
+        }
+        tblAssignedTags.setAutoCreateRowSorter(true);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        jPanel2.add(jScrollPane2, gridBagConstraints);
+        jPanel2.add(jScrollPane3, gridBagConstraints);
 
         jPanel4.add(jPanel2);
 
@@ -353,12 +371,14 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
      * @param  evt  DOCUMENT ME!
      */
     private void btnRemoveActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemoveActionPerformed
-        final List<CidsBean> selectedTags = lstAssignedTags.getSelectedValuesList();
+        final List<CidsBean> selectedTags = new ArrayList<CidsBean>(tblAssignedTags.getSelectedRowCount());
 
-        final List<CidsBean> tags = cidsBean.getBeanCollectionProperty("tags");
-        for (final CidsBean tag : selectedTags) {
-            tags.remove(tag);
+        for (final int viewIndex : tblAssignedTags.getSelectedRows()) {
+            final int modelIndex = tblAssignedTags.convertRowIndexToModel(viewIndex);
+            selectedTags.add(assignedTags.get(modelIndex));
         }
+
+        assignedTags.removeAll(selectedTags);
     } //GEN-LAST:event_btnRemoveActionPerformed
 
     /**
@@ -377,7 +397,6 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
             dialog.showDialog();
 
             ((TagsJList)lstTags).reload();
-            final Collection<CidsBean> assignedTags = cidsBean.getBeanCollectionProperty("tags");
             assignedTags.addAll(simpleTagEditor.getNewlyAddedCidsBeans());
         } catch (Exception ex) {
             LOG.error("Could not create new tag-CidsBean", ex);
@@ -394,10 +413,39 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
+            assignedTags = cidsBean.getBeanCollectionProperty("tags");
             bindingGroup.bind();
-            ((JXListBugFixes)lstAssignedTags).setAutoCreateRowSorter(true);
-            ((JXListBugFixes)lstAssignedTags).setSortOrder(SortOrder.DESCENDING);
-            ((JXListBugFixes)lstAssignedTags).toggleSortOrder();
+
+            if (tblAssignedTags.getColumnModel().getColumnCount() > 0) {
+                tblAssignedTags.getColumnModel()
+                        .getColumn(0)
+                        .setHeaderValue(org.openide.util.NbBundle.getMessage(
+                                AdditionalTagsPanel.class,
+                                "AdditionalTagsPanel.tblAssignedTags.columnModel.title0_2")); // NOI18N
+                tblAssignedTags.getColumnModel()
+                        .getColumn(1)
+                        .setHeaderValue(org.openide.util.NbBundle.getMessage(
+                                AdditionalTagsPanel.class,
+                                "AdditionalTagsPanel.tblAssignedTags.columnModel.title1_2")); // NOI18N
+            }
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public List<CidsBean> getAssignedTags() {
+        return assignedTags;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  assignedTags  DOCUMENT ME!
+     */
+    public void setAssignedTags(final List<CidsBean> assignedTags) {
+        this.assignedTags = assignedTags;
     }
 }
