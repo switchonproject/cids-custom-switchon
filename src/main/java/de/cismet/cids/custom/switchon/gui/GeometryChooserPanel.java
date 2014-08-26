@@ -29,6 +29,7 @@ import de.cismet.cids.custom.switchon.gui.utils.CismapUtils;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
@@ -48,7 +49,7 @@ import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -289,5 +290,11 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
 
             previewMap.getFeatureCollection().addFeature(dsf);
         }
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
+        ((DefaultCismapGeometryComboBoxEditor)cmbGeometry).dispose();
     }
 }
