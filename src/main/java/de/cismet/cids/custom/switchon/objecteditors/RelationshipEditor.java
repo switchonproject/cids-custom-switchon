@@ -159,8 +159,10 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(
                 org.jdesktop.beansbinding.ELProperty.create("${name}"));
         columnBinding.setColumnName("Name");
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${type.name}"));
         columnBinding.setColumnName("Type.name");
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane2.setViewportView(tblToResource);

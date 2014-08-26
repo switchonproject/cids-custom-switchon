@@ -134,8 +134,10 @@
                   <BindingProperties>
                     <BindingProperty name="elements" source="Form" sourcePath="${toResource}" target="tblToResource" targetPath="elements" updateStrategy="0" immediately="true">
                       <Subbinding sourcePath="${name}">
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                       <Subbinding sourcePath="${type.name}">
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                     </BindingProperty>
                   </BindingProperties>
