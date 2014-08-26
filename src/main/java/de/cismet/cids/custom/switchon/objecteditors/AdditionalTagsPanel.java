@@ -11,12 +11,8 @@ import Sirius.server.middleware.types.LightweightMetaObject;
 import Sirius.server.middleware.types.MetaObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import javax.swing.SortOrder;
-
-import de.cismet.cids.custom.switchon.gui.JXListBugFixes;
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 import de.cismet.cids.custom.switchon.utils.TaggroupUtils;
@@ -139,6 +135,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(AdditionalTagsPanel.class, "AdditionalTagsPanel.border.title"))); // NOI18N
+        setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
@@ -162,6 +159,7 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(jLabel2, gridBagConstraints);
 
+        jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel3.setOpaque(false);
