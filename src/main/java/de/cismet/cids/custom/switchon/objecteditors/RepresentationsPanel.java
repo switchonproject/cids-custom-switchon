@@ -193,7 +193,6 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
         final RepresentationEditor representationEditor = new RepresentationEditor();
         representationEditor.setCidsBean(representation);
         new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-            true,
             representationEditor).showDialog();
 
         // add the newly created representation-CidsBean
@@ -227,7 +226,6 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
             final RepresentationEditor representationEditor = new RepresentationEditor();
             representationEditor.setCidsBean(selectedRepresentation);
             new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                true,
                 representationEditor).showDialog();
 
             // replace the old cidsBean with the persisted cidsBean

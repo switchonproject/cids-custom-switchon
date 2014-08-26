@@ -86,7 +86,7 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
 
         metaDataPanel1 = new de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel();
         jPanel2 = new javax.swing.JPanel();
-        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
+        basicPropertiesPanel = new BasicPropertiesPanel(Taggroups.RELATIONSHIP_TYPE);
         final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
         taggroups.add(Taggroups.COLLECTION);
         taggroups.add(Taggroups.GEOGRAPHY);
@@ -419,9 +419,12 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
             if (beans != null) {
                 for (final CidsBean bean : beans) {
                     if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
-                        fromResources.add(bean);
+                        if (!fromResources.contains(bean)) {
+                            fromResources.add(bean);
+                        }
                     }
                 }
+                tblFromResource.requestFocus();
             }
         }
     }
@@ -445,6 +448,7 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
                             cidsBean.setProperty("toresource", bean);
                             toResourceList.clear();
                             toResourceList.add(bean);
+                            tblToResource.selectAll();
                             break;
                         } catch (Exception ex) {
                             LOG.error("Could not set toresource of cidsBean", ex);

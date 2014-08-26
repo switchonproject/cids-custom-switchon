@@ -116,7 +116,7 @@ public class RepresentationEditor extends AbstractEditorShowableInDialog impleme
         taggroups.add(Taggroups.KEYWORDS_OPEN);
         additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups);
         spatialAndTemporalPropertiesPanel = new SpatialAndTemporalPropertiesPanel(true);
-        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
+        basicPropertiesPanel = new BasicPropertiesPanel(Taggroups.REPRESENTATION_TYPE);
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(950, 700));

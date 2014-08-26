@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.awt.Desktop;
 
 import java.net.URI;
@@ -210,6 +212,8 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         add(jLabel6, gridBagConstraints);
 
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(223, 78));
+
         txtaDescription.setColumns(20);
         txtaDescription.setRows(5);
 
@@ -229,6 +233,7 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.4;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         add(jScrollPane1, gridBagConstraints);
 
@@ -283,7 +288,7 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weighty = 0.6;
         add(filler1, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -324,14 +329,6 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         add(hypWebsite, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.email}"),
-                hypMail,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
 
         hypMail.addActionListener(new java.awt.event.ActionListener() {
 
@@ -377,7 +374,7 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
      */
     private void hypMailActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hypMailActionPerformed
         final EMailComposer mail = new EMailComposer();
-        mail.addTo(hypMail.getText().split(" "));
+        mail.addTo(((String)cidsBean.getProperty("email")).split(" "));
         mail.compose();
     }                                                                           //GEN-LAST:event_hypMailActionPerformed
 
@@ -390,6 +387,14 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
+
+            String emails = (String)cidsBean.getProperty("email");
+            if (StringUtils.isNotBlank(emails)) {
+                emails = emails.replaceAll(" +", ", ");
+                hypMail.setText(emails);
+            } else {
+                hypMail.setText("");
+            }
         }
     }
 

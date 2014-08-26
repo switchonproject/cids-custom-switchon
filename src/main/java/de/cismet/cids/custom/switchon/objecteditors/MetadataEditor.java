@@ -84,7 +84,7 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
 
         createNewStandard = new de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction();
         createNewContentType = new de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction();
-        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
+        basicPropertiesPanel = new BasicPropertiesPanel(Taggroups.META_DATA_TYPE);
         pnlProperties = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -407,9 +407,10 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
         }
         final ContactEditor contactEditor = new ContactEditor(true);
         contactEditor.setCidsBean(contact);
-        new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-            true,
-            contactEditor).showDialog();
+        final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                contactEditor);
+        dialog.setTitle(contactEditor.getTitle());
+        dialog.showDialog();
 
         // contactEditor.getPersistedCidsBeans().size() should be 0 or 1
         for (final CidsBean persistedContact : contactEditor.getPersistedCidsBeans()) {

@@ -72,7 +72,6 @@ public class CreateNewTagAction extends AbstractAction {
             final SimpleTagEditor simpleTagEditor = new SimpleTagEditor(taggroup);
             simpleTagEditor.setCidsBean(CidsBean.createNewCidsBeanFromTableName("SWITCHON", "tag"));
             final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this.combo),
-                    true,
                     simpleTagEditor);
             dialog.setTitle(taggroup.toString());
             dialog.showDialog();
@@ -154,7 +153,9 @@ public class CreateNewTagAction extends AbstractAction {
                 get();
                 combo.setEnabled(true);
                 if (beanToSelect != null) {
-                    combo.setSelectedItem(beanToSelect);
+                    // for some reason the binding does not work with combo.setSelectedItem(beanToSelect);
+                    final int index = combo.getIndexOf(beanToSelect);
+                    combo.setSelectedIndex(index);
                 }
             } catch (InterruptedException ex) {
                 LOG.error(ex);

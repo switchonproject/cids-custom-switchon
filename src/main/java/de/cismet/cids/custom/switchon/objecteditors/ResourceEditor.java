@@ -14,16 +14,13 @@ import Sirius.server.middleware.types.MetaObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultListModel;
-import javax.swing.SortOrder;
 import javax.swing.SwingWorker;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
-import de.cismet.cids.custom.switchon.gui.JXListBugFixes;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.search.server.MetaObjectProvenanceRelationshipSearchStatement;
 import de.cismet.cids.custom.switchon.search.server.MetaObjectUsageRelationshipsSearchStatement;
@@ -133,7 +130,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         createNewLocation = new de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         pnlBasicProperties = new javax.swing.JPanel();
-        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
+        basicPropertiesPanel = new BasicPropertiesPanel(Taggroups.RESOURCE_TYPE);
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -645,12 +642,17 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         if (relationship != null) {
             final RelationshipEditor relationshipEditor = new RelationshipEditor();
             relationshipEditor.setCidsBean(relationship);
-            final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                    true,
+            final NonModalShowEditorInDialog dialog = new NonModalShowEditorInDialog(StaticSwingTools.getParentFrame(
+                        this),
                     relationshipEditor);
-            dialog.setModal(false);
+            dialog.addListener(new NonModalShowEditorInDialog.ChangesSavedListener() {
+
+                    @Override
+                    public void changesWereSaved() {
+                        new ProvenanceRelationshipFetcherWorker().execute();
+                    }
+                });
             dialog.showDialog();
-            new ProvenanceRelationshipFetcherWorker().execute();
         }
     } //GEN-LAST:event_btnEditProvenanceRelationshipActionPerformed
 
@@ -664,14 +666,19 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         if (selectedRelationship != null) {
             final RelationshipEditor relationshipEditor = new RelationshipEditor();
             relationshipEditor.setCidsBean(selectedRelationship);
-            final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                    true,
+            final NonModalShowEditorInDialog dialog = new NonModalShowEditorInDialog(StaticSwingTools.getParentFrame(
+                        this),
                     relationshipEditor);
-            dialog.setModal(false);
+            dialog.addListener(new NonModalShowEditorInDialog.ChangesSavedListener() {
+
+                    @Override
+                    public void changesWereSaved() {
+                        new UsageRelationshipsFetcherWorker().execute();
+                    }
+                });
             dialog.showDialog();
-            new UsageRelationshipsFetcherWorker().execute();
         }
-    }                                                                                       //GEN-LAST:event_btnEditRelationshipActionPerformed
+    } //GEN-LAST:event_btnEditRelationshipActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -685,12 +692,17 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
 
             final RelationshipEditor relationshipEditor = new RelationshipEditor();
             relationshipEditor.setCidsBean(newCidsBean);
-            final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                    true,
+            final NonModalShowEditorInDialog dialog = new NonModalShowEditorInDialog(StaticSwingTools.getParentFrame(
+                        this),
                     relationshipEditor);
-            dialog.setModal(false);
+            dialog.addListener(new NonModalShowEditorInDialog.ChangesSavedListener() {
+
+                    @Override
+                    public void changesWereSaved() {
+                        new UsageRelationshipsFetcherWorker().execute();
+                    }
+                });
             dialog.showDialog();
-            new UsageRelationshipsFetcherWorker().execute();
         } catch (Exception ex) {
             LOG.error("new Relationship-CidsBean could not be created.", ex);
         }

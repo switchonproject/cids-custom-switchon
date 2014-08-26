@@ -10,8 +10,6 @@ package de.cismet.cids.custom.switchon.objecteditors;
 import Sirius.server.middleware.types.LightweightMetaObject;
 import Sirius.server.middleware.types.MetaObject;
 
-import org.openide.util.Exceptions;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -374,7 +372,6 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
             final SimpleTagEditor simpleTagEditor = new SimpleTagEditor(selectedTaggroup);
             simpleTagEditor.setCidsBean(CidsBean.createNewCidsBeanFromTableName("SWITCHON", "tag"));
             final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
-                    true,
                     simpleTagEditor);
             dialog.setTitle(selectedTaggroup.toString());
             dialog.showDialog();

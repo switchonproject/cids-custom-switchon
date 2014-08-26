@@ -52,4 +52,11 @@ public interface EditorShowableInDialog {
      * @return  DOCUMENT ME!
      */
     Component getComponent();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    String getTitle();
 }
