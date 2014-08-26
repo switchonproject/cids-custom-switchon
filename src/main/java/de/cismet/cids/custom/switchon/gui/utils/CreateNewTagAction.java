@@ -153,7 +153,9 @@ public class CreateNewTagAction extends AbstractAction {
                 get();
                 combo.setEnabled(true);
                 if (beanToSelect != null) {
-                    combo.setSelectedItem(beanToSelect);
+                    // for some reason the binding does not work with combo.setSelectedItem(beanToSelect);
+                    final int index = combo.getIndexOf(beanToSelect);
+                    combo.setSelectedIndex(index);
                 }
             } catch (InterruptedException ex) {
                 LOG.error(ex);
