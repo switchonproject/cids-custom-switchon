@@ -38,9 +38,10 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
     private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
-    private javax.swing.JButton btnEditContact;
+    private javax.swing.JButton btnNewContact;
     private javax.swing.JButton btnNewContentType;
     private javax.swing.JButton btnNewStandard;
+    private javax.swing.JComboBox cmbContact;
     private javax.swing.JComboBox cmbContentType;
     private javax.swing.JComboBox cmbStandard;
     private de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction createNewContentType;
@@ -55,7 +56,6 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlDocument;
     private javax.swing.JPanel pnlProperties;
-    private javax.swing.JTextField txtContact;
     private javax.swing.JTextField txtContentLocation;
     private javax.swing.JTextArea txtaDocumentDescription;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -93,8 +93,8 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
         cmbStandard = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
                 Taggroups.META_DATA_STANDARD);
         btnNewStandard = new javax.swing.JButton();
-        txtContact = new javax.swing.JTextField();
-        btnEditContact = new javax.swing.JButton();
+        btnNewContact = new javax.swing.JButton();
+        cmbContact = new FastBindableReferenceCombo("%1$2s", new String[] { "organisation" });
         jPanel1 = new javax.swing.JPanel();
         additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(null);
         pnlDocument = new javax.swing.JPanel();
@@ -108,6 +108,7 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
         btnNewContentType = new javax.swing.JButton();
 
         setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(1050, 666));
         setLayout(new java.awt.GridBagLayout());
 
         basicPropertiesPanel.setOpaque(false);
@@ -204,14 +205,30 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         pnlProperties.add(btnNewStandard, gridBagConstraints);
 
-        txtContact.setEnabled(false);
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnNewContact,
+            org.openide.util.NbBundle.getMessage(MetadataEditor.class, "MetadataEditor.btnNewContact.text")); // NOI18N
+        btnNewContact.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnNewContactActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 10);
+        pnlProperties.add(btnNewContact, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.contact.organisation}"),
-                txtContact,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.contact}"),
+                cmbContact,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -221,25 +238,7 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
-        pnlProperties.add(txtContact, gridBagConstraints);
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnEditContact,
-            org.openide.util.NbBundle.getMessage(MetadataEditor.class, "MetadataEditor.btnEditContact.text")); // NOI18N
-        btnEditContact.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnEditContactActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 10);
-        pnlProperties.add(btnEditContact, gridBagConstraints);
+        pnlProperties.add(cmbContact, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -252,8 +251,6 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
 
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        additionalTagsPanel.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -395,16 +392,15 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnEditContactActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnEditContactActionPerformed
-        CidsBean contact = (CidsBean)cidsBean.getProperty("contact");
-        if (contact == null) {
-            try {
-                contact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact");
-            } catch (Exception ex) {
-                LOG.error("Contact cidsBean could not be created.", ex);
-                return;
-            }
+    private void btnNewContactActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewContactActionPerformed
+        final CidsBean contact;
+        try {
+            contact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact");
+        } catch (Exception ex) {
+            LOG.error("Contact cidsBean could not be created.", ex);
+            return;
         }
+
         final ContactEditor contactEditor = new ContactEditor(true);
         contactEditor.setCidsBean(contact);
         final ShowEditorInDialog dialog = new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
@@ -420,7 +416,8 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
                 LOG.error("Property contact can not be set.", ex);
             }
         }
-    } //GEN-LAST:event_btnEditContactActionPerformed
+        ((FastBindableReferenceCombo)cmbContact).refreshModel();
+    } //GEN-LAST:event_btnNewContactActionPerformed
 
     /**
      * DOCUMENT ME!
