@@ -9,43 +9,47 @@ package de.cismet.cids.custom.switchon.gui;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+
 import org.apache.log4j.Logger;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import de.cismet.cids.custom.switchon.SwitchOnConstants;
+import de.cismet.cids.custom.switchon.gui.utils.CismapUtils;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
+
+import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
 import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.features.DefaultStyledFeature;
 import de.cismet.cismap.commons.features.Feature;
-import de.cismet.cismap.commons.features.FeatureCollection;
-import de.cismet.cismap.commons.features.FeatureCollectionEvent;
-import de.cismet.cismap.commons.features.FeatureCollectionListener;
 import de.cismet.cismap.commons.features.StyledFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.layerwidget.ActiveLayerModel;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateGeometryListenerInterface;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateNewGeometryListener;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 
 /**
- * GeometryChooserPanel is sub-panel for an editor, with which the user can choose exactly one geometry, which will then
- * be added to the cidsBean set in GeometryChooserPanel.
+ * DOCUMENT ME!
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBeanStore, FeatureCollectionListener {
+public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -57,14 +61,12 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
 
     private final MappingComponent previewMap;
     private CidsBean cidsBean;
+    private Geometry lastRefreshedGeometry = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup btngMapModes;
-    private javax.swing.JToggleButton cmdNewPolygon;
-    private javax.swing.JToggleButton cmdPan;
-    private javax.swing.JToggleButton cmdRemoveGeometry;
-    private javax.swing.Box.Filler filler1;
+    private de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor cmbGeometry;
     private javax.swing.JPanel pnlMap;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -75,7 +77,6 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
     public GeometryChooserPanel() {
         initComponents();
         previewMap = new MappingComponent();
-        previewMap.getFeatureCollection().addFeatureCollectionListener(this);
         pnlMap.setLayout(new BorderLayout());
         pnlMap.add(previewMap, BorderLayout.CENTER);
     }
@@ -90,138 +91,41 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        btngMapModes = new javax.swing.ButtonGroup();
         pnlMap = new javax.swing.JPanel();
-        cmdPan = new javax.swing.JToggleButton();
-        cmdNewPolygon = new javax.swing.JToggleButton();
-        cmdRemoveGeometry = new javax.swing.JToggleButton();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(32767, 0));
+        cmbGeometry = new de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor();
 
         setLayout(new java.awt.GridBagLayout());
 
         pnlMap.setLayout(new java.awt.BorderLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         add(pnlMap, gridBagConstraints);
 
-        btngMapModes.add(cmdPan);
-        cmdPan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pan.gif"))); // NOI18N
-        cmdPan.setSelected(true);
-        cmdPan.setToolTipText(org.openide.util.NbBundle.getMessage(
-                GeometryChooserPanel.class,
-                "GeometryChooserPanel.cmdPan.toolTipText"));                                  // NOI18N
-        cmdPan.setBorderPainted(false);
-        cmdPan.setDoubleBuffered(true);
-        cmdPan.setFocusPainted(false);
-        cmdPan.addActionListener(new java.awt.event.ActionListener() {
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.spatialcoverage}"),
+                cmbGeometry,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setConverter(((DefaultCismapGeometryComboBoxEditor)cmbGeometry).getConverter());
+        bindingGroup.addBinding(binding);
 
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cmdPanActionPerformed(evt);
-                }
-            });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        add(cmdPan, gridBagConstraints);
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
+        add(cmbGeometry, gridBagConstraints);
 
-        btngMapModes.add(cmdNewPolygon);
-        cmdNewPolygon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/newPolygon.png"))); // NOI18N
-        cmdNewPolygon.setToolTipText(org.openide.util.NbBundle.getMessage(
-                GeometryChooserPanel.class,
-                "GeometryChooserPanel.cmdNewPolygon.toolTipText"));                                         // NOI18N
-        cmdNewPolygon.setBorderPainted(false);
-        cmdNewPolygon.setDoubleBuffered(true);
-        cmdNewPolygon.setFocusPainted(false);
-        cmdNewPolygon.setMaximumSize(new java.awt.Dimension(58, 34));
-        cmdNewPolygon.setMinimumSize(new java.awt.Dimension(58, 34));
-        cmdNewPolygon.setPreferredSize(new java.awt.Dimension(58, 34));
-        cmdNewPolygon.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cmdNewPolygonActionPerformed(evt);
-                }
-            });
-        add(cmdNewPolygon, new java.awt.GridBagConstraints());
-
-        btngMapModes.add(cmdRemoveGeometry);
-        cmdRemoveGeometry.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/remove.png"))); // NOI18N
-        cmdRemoveGeometry.setToolTipText(org.openide.util.NbBundle.getMessage(
-                GeometryChooserPanel.class,
-                "GeometryChooserPanel.cmdRemoveGeometry.toolTipText"));                                     // NOI18N
-        cmdRemoveGeometry.setBorderPainted(false);
-        cmdRemoveGeometry.setDoubleBuffered(true);
-        cmdRemoveGeometry.setFocusPainted(false);
-        cmdRemoveGeometry.setMaximumSize(new java.awt.Dimension(58, 34));
-        cmdRemoveGeometry.setMinimumSize(new java.awt.Dimension(58, 34));
-        cmdRemoveGeometry.setPreferredSize(new java.awt.Dimension(58, 34));
-        cmdRemoveGeometry.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cmdRemoveGeometryActionPerformed(evt);
-                }
-            });
-        add(cmdRemoveGeometry, new java.awt.GridBagConstraints());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        add(filler1, gridBagConstraints);
+        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cmdPanActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdPanActionPerformed
-        if (previewMap != null) {
-            previewMap.setInteractionMode(MappingComponent.PAN);
-        }
-    }                                                                          //GEN-LAST:event_cmdPanActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cmdNewPolygonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdNewPolygonActionPerformed
-        EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                    ((CreateNewGeometryListener)previewMap.getInputListener(MappingComponent.NEW_POLYGON)).setMode(
-                        CreateGeometryListenerInterface.POLYGON);
-                    previewMap.setInteractionMode(MappingComponent.NEW_POLYGON);
-                }
-            });
-    } //GEN-LAST:event_cmdNewPolygonActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cmdRemoveGeometryActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdRemoveGeometryActionPerformed
-        EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                    previewMap.setInteractionMode(MappingComponent.REMOVE_POLYGON);
-                }
-            });
-    } //GEN-LAST:event_cmdRemoveGeometryActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -230,39 +134,45 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
+            bindingGroup.bind();
             initMap();
-            final Geometry geoObj = (Geometry)cidsBean.getProperty("spatialcoverage.geo_field");
-            setGeometry(geoObj);
+
+            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+
+                    @Override
+                    public void propertyChange(final PropertyChangeEvent evt) {
+                        if (evt.getPropertyName().equals("spatialcoverage")) {
+                            if (evt.getOldValue() == null) {
+                                try {
+                                    final Geometry geoObj = (Geometry)cidsBean.getProperty("spatialcoverage.geo_field");
+                                    setGeometry(geoObj);
+                                } catch (Exception ex) {
+                                    throw new RuntimeException("Error when setting geom origin.", ex);
+                                }
+                            }
+                        }
+                    }
+                });
         }
     }
 
     /**
      * DOCUMENT ME!
      */
-    public void initMap() {
+    private void initMap() {
         if (cidsBean != null) {
             final Object geoObj = cidsBean.getProperty("spatialcoverage.geo_field");
             if (geoObj instanceof Geometry) {
                 final Geometry pureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
                         SwitchOnConstants.COMMONS.SRS_SERVICE);
-                final XBoundingBox box;
-                try {
-                    box = new XBoundingBox(pureGeom.getEnvelope().buffer(
-                                SwitchOnConstants.COMMONS.GEO_BUFFER));
-                } catch (NullPointerException npe) {
-                    LOG.error(
-                        "NPE in the constructor of XBoundingBox. This happens if a renderer/editor is started with DevelopmentTools.",
-                        npe);
-                    return;
-                }
-                final double diagonalLength = Math.sqrt((box.getWidth() * box.getWidth())
-                                + (box.getHeight() * box.getHeight()));
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Buffer for map: " + diagonalLength);
+                    LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.COMMONS.GEO_BUFFER);
                 }
-                final XBoundingBox bufferedBox = new XBoundingBox(box.getGeometry().buffer(diagonalLength));
+                final XBoundingBox bufferedBox = new XBoundingBox(pureGeom.getEnvelope().buffer(
+                            SwitchOnConstants.COMMONS.GEO_BUFFER));
                 final Runnable mapRunnable = new Runnable() {
 
                         @Override
@@ -278,7 +188,12 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
                                     true));
                             final SimpleWMS swms = new SimpleWMS(new SimpleWmsGetMapUrl(
                                         SwitchOnConstants.COMMONS.MAP_CALL_STRING));
-                            swms.setName("Dokument");
+                            swms.setName("Resource");
+
+                            previewGeometry.setGeometry(pureGeom);
+                            previewGeometry.setFillingPaint(new Color(1, 0, 0, 0.5f));
+                            previewGeometry.setLineWidth(3);
+                            previewGeometry.setLinePaint(new Color(1, 0, 0, 1f));
                             // add the raster layer to the model
                             mappingModel.addLayer(swms);
                             // set the model
@@ -288,11 +203,22 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
                             previewMap.setAnimationDuration(0);
                             previewMap.gotoInitialBoundingBox();
                             // interaction mode
-                            cmdNewPolygon.doClick();
-
-                            previewMap.setReadOnly(false);
+                            previewMap.setInteractionMode(MappingComponent.ZOOM);
                             // finally when all configurations are done ...
                             previewMap.unlock();
+                            previewMap.addCustomInputListener("MUTE", new PBasicInputEventHandler() {
+
+                                    @Override
+                                    public void mouseClicked(final PInputEvent evt) {
+                                        if (evt.getClickCount() > 1) {
+                                            final CidsBean bean = cidsBean;
+                                            CismapUtils.switchToCismapMap();
+                                            CismapUtils.addBeanGeomAsFeatureToCismapMap(bean, false);
+                                        }
+                                    }
+                                });
+                            previewMap.setInteractionMode("MUTE");
+                            previewMap.getFeatureCollection().addFeature(previewGeometry);
                             previewMap.setAnimationDuration(duration);
                         }
                     };
@@ -301,30 +227,6 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
                 } else {
                     EventQueue.invokeLater(mapRunnable);
                 }
-            }
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void amountOfFeaturesChanged() {
-        final FeatureCollection featureCollection = previewMap.getFeatureCollection();
-        final int featureAmount = featureCollection.getFeatureCount();
-
-        if (featureAmount >= 1) {
-            cmdNewPolygon.setEnabled(false);
-            cmdRemoveGeometry.setEnabled(true);
-        } else {
-            cmdNewPolygon.setEnabled(true);
-            cmdRemoveGeometry.setEnabled(false);
-        }
-
-        if (featureAmount == 1) {
-            try {
-                cidsBean.setProperty("spatialcoverage", getGeometryBean(getGeometry()));
-            } catch (Exception ex) {
-                LOG.error("Geometry could not be added to cidsBean.", ex);
             }
         }
     }
@@ -391,53 +293,8 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
     }
 
     @Override
-    public void featuresAdded(final FeatureCollectionEvent fce) {
-        amountOfFeaturesChanged();
-    }
-
-    @Override
-    public void allFeaturesRemoved(final FeatureCollectionEvent fce) {
-        amountOfFeaturesChanged();
-    }
-
-    @Override
-    public void featuresRemoved(final FeatureCollectionEvent fce) {
-        amountOfFeaturesChanged();
-    }
-
-    @Override
-    public void featuresChanged(final FeatureCollectionEvent fce) {
-    }
-
-    @Override
-    public void featureSelectionChanged(final FeatureCollectionEvent fce) {
-    }
-
-    @Override
-    public void featureReconsiderationRequested(final FeatureCollectionEvent fce) {
-    }
-
-    @Override
-    public void featureCollectionChanged() {
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   geometry  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private CidsBean getGeometryBean(final Geometry geometry) {
-        CidsBean newGeom = null;
-        try {
-            newGeom = CidsBean.createNewCidsBeanFromTableName(
-                    "SWITCHON",
-                    "GEOM");
-            newGeom.setProperty("geo_field", geometry);
-        } catch (Exception ex) {
-            LOG.warn(ex, ex);
-        }
-        return newGeom;
+    public void dispose() {
+        bindingGroup.unbind();
+        ((DefaultCismapGeometryComboBoxEditor)cmbGeometry).dispose();
     }
 }
