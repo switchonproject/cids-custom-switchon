@@ -100,10 +100,13 @@ public class ImageGetterUtils {
             return getFallBackImage(imageSize);
         }
 
-        final URL resource = ImageGetterUtils.class.getResource(
-                "/de/cismet/tools/gui/downloadmanager/documenttypes/"
-                        + contentTypeName.split("/")[1]
-                        + imageSize.value);
+        URL resource = null;
+        if (contentTypeName.contains("/")) {
+            resource = ImageGetterUtils.class.getResource(
+                    "/de/cismet/tools/gui/downloadmanager/documenttypes/"
+                            + contentTypeName.split("/")[1]
+                            + imageSize.value);
+        }
 
         Image image = getFallBackImage(imageSize);
         if (resource != null) {
