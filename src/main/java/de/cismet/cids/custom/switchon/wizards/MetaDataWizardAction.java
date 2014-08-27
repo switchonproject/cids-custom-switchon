@@ -41,6 +41,8 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
     private static final Logger LOG = Logger.getLogger(MetaDataWizardAction.class);
 
+    public static final String PROP_CONFIGURATION = "__prop_configuration__"; // NOI18N
+
     public static final String PROP_FILEPATH = "__prop_filepath__";                 // NOI18N
     public static final String PROP_BEZEICHNUNG = "__prop_bezeichnung__";           // NOI18N
     public static final String PROP_BESCHREIBUNG = "__prop_beschreibung__";         // NOI18N
@@ -65,28 +67,20 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
      * Creates a new ImportDocumentWizardAction object.
      */
     public MetaDataWizardAction() {
-//        putValue(SHORT_DESCRIPTION, "Dokument Import Wizard öffnen");
+        putValue(SHORT_DESCRIPTION, "open Meta-Data wizard");
 //        final ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource(
 //                    "/de/cismet/cids/custom/tados/res/wand.png"));
 //        putValue(SMALL_ICON, icon);
-//        putValue(NAME, "Dokument Import Wizard öffnen");
+        putValue(NAME, "open Meta-Data wizard");
     }
 
     //~ Methods ----------------------------------------------------------------
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private WizardDescriptor.Iterator getIterator() {
-        final WizardDescriptor.Iterator it = new MetaDataWizardIterator();
-        return it;
-    }
-
     @Override
     public void actionPerformed(final ActionEvent e) {
-        final WizardDescriptor wizard = new WizardDescriptor(getIterator());
+        final WizardDescriptor.Iterator iterator = new MetaDataWizardIterator();
+        final WizardDescriptor wizard = new WizardDescriptor(iterator);
+        ((MetaDataWizardIterator)iterator).initialize(wizard);
         if (cidsBean != null) {
             wizard.putProperty(PROP_PROJEKT, cidsBean);
         }

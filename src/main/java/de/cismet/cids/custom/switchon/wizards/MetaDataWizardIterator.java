@@ -11,11 +11,14 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
+import java.awt.Component;
+
 import java.lang.reflect.InvocationTargetException;
 
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
+import javax.swing.JComponent;
 import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.switchon.wizards.panels.AdditonalMetaDataBasicInformationPanel;
@@ -78,13 +81,15 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
     }
 
     /**
-     * Initialize panels representing individual wizard's steps and sets
+     * Initialize panels representing individual wizard's steps and sets.
      *
      * <p>various properties for them influencing wizard appearance.</p>
      */
     private void initializePanels() {
         if (allPanels == null) {
             createAllPanelsHashMap(
+                MetaDataWizardConfigurationPanel.class,
+                MetaDataWizardCustomConfigurationPanel.class,
                 BasicResourcePropertiesPanel.class,
                 TopicCategoryAndKeywordsPanel.class,
                 ResourceContactInformationPanel.class,
@@ -109,6 +114,8 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
             allPanels = allPanelsHashMap.values().toArray(new WizardDescriptor.Panel[allPanelsHashMap.size()]);
 
             basicSequence = createSequenceForClasses(
+                    MetaDataWizardConfigurationPanel.class,
+                    MetaDataWizardCustomConfigurationPanel.class,
                     BasicResourcePropertiesPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
                     ResourceContactInformationPanel.class,
@@ -118,6 +125,8 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     RepresentationsPanel.class,
                     RepresentationsDataAccessInformationPanel.class);
             advancedSequence = createSequenceForClasses(
+                    MetaDataWizardConfigurationPanel.class,
+                    MetaDataWizardCustomConfigurationPanel.class,
                     BasicResourcePropertiesPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
                     ResourceContactInformationPanel.class,
@@ -134,6 +143,8 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     RepresentationsAdditionalInformationPanel.class,
                     RepresentationsDataAccessInformationPanel.class);
             expertSequence = createSequenceForClasses(
+                    MetaDataWizardConfigurationPanel.class,
+                    MetaDataWizardCustomConfigurationPanel.class,
                     BasicResourcePropertiesPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
                     ResourceContactInformationPanel.class,
@@ -155,7 +166,9 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     RelationshipsImportDocumentPanel.class,
                     RelationshipsEditDocumentPanel.class);
 
-            currentPanels = basicSequence;
+            currentPanels = createSequenceForClasses(
+                    MetaDataWizardConfigurationPanel.class,
+                    MetaDataWizardCustomConfigurationPanel.class);
         }
     }
 
@@ -191,6 +204,23 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
     public void nextPanel() {
         if (!hasNext()) {
             throw new NoSuchElementException();
+        }
+        if (index == 0) {
+            final String configuration = (String)wizardDesc.getProperty(MetaDataWizardAction.PROP_CONFIGURATION);
+            switch (configuration) {
+                case "basic": {
+                    currentPanels = basicSequence;
+                    break;
+                }
+                case "advanced": {
+                    currentPanels = advancedSequence;
+                    break;
+                }
+                case "expert": {
+                    currentPanels = expertSequence;
+                    break;
+                }
+            }
         }
 
         index++;
