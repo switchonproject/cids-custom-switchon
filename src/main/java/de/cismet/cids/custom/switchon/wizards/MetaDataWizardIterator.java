@@ -115,7 +115,6 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
 
             basicSequence = createSequenceForClasses(
                     MetaDataWizardConfigurationPanel.class,
-                    MetaDataWizardCustomConfigurationPanel.class,
                     BasicResourcePropertiesPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
                     ResourceContactInformationPanel.class,
@@ -126,7 +125,6 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     RepresentationsDataAccessInformationPanel.class);
             advancedSequence = createSequenceForClasses(
                     MetaDataWizardConfigurationPanel.class,
-                    MetaDataWizardCustomConfigurationPanel.class,
                     BasicResourcePropertiesPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
                     ResourceContactInformationPanel.class,
@@ -144,7 +142,6 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     RepresentationsDataAccessInformationPanel.class);
             expertSequence = createSequenceForClasses(
                     MetaDataWizardConfigurationPanel.class,
-                    MetaDataWizardCustomConfigurationPanel.class,
                     BasicResourcePropertiesPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
                     ResourceContactInformationPanel.class,
@@ -167,8 +164,10 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     RelationshipsEditDocumentPanel.class);
 
             currentPanels = createSequenceForClasses(
-                    MetaDataWizardConfigurationPanel.class,
-                    MetaDataWizardCustomConfigurationPanel.class);
+                    MetaDataWizardConfigurationPanel.class);
+
+            wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, index);
+            wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_DATA, new String[] { "Configuration" });
         }
     }
 
@@ -190,9 +189,12 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
 
     @Override
     public boolean hasNext() {
-        initializePanels();
-
-        return index < (currentPanels.length - 1);
+        final WizardDescriptor.Panel current = current();
+        if ((current instanceof WizardDescriptor.FinishablePanel)
+                    && ((WizardDescriptor.FinishablePanel)current).isFinishPanel()) {
+            return false;
+        }
+        return current().isValid();
     }
 
     @Override

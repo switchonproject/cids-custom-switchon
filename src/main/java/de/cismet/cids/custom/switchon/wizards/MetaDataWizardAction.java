@@ -16,6 +16,8 @@ import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
+import java.text.MessageFormat;
+
 import javax.swing.AbstractAction;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -84,6 +86,12 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         if (cidsBean != null) {
             wizard.putProperty(PROP_PROJEKT, cidsBean);
         }
+        wizard.putProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, Boolean.TRUE);
+        wizard.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.TRUE);
+        wizard.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE);
+        // set the subtitle. Component name, iterator name
+        wizard.setTitleFormat(new MessageFormat("{0} {1}"));
+        wizard.setTitle("Meta-Data Wizard");
 
         final Frame parent = StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent());
         final Dialog wizardDialog = DialogDisplayer.getDefault().createDialog(wizard);
