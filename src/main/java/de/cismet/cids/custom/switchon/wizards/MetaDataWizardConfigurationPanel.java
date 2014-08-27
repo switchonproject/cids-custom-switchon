@@ -21,7 +21,7 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class MetaDataWizardConfigurationPanel extends AbstractWizardPanel {
+public class MetaDataWizardConfigurationPanel extends AbstractWizardPanel implements NameProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -50,5 +50,11 @@ public class MetaDataWizardConfigurationPanel extends AbstractWizardPanel {
         final MetaDataWizardConfigurationVisualPanel panel = (MetaDataWizardConfigurationVisualPanel)getComponent();
         configuration = panel.getConfigurationString();
         wizard.putProperty(MetaDataWizardAction.PROP_CONFIGURATION, configuration);
+    }
+
+    @Override
+    public String getName() {
+        return java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/wizards/Bundle")
+                    .getString("MetaDataWizardConfigurationPanel.getName()");
     }
 }

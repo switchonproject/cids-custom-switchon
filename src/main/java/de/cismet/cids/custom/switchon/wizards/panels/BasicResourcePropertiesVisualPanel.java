@@ -7,18 +7,27 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.dynamics.CidsBeanStore;
+
 /**
  * DOCUMENT ME!
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel {
+public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel implements CidsBeanStore {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             BasicResourcePropertiesVisualPanel.class);
+
+    //~ Instance fields --------------------------------------------------------
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -38,15 +47,29 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 300, Short.MAX_VALUE));
+        final java.awt.GridBagConstraints gridBagConstraints;
+
+        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
+
+        setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        add(basicPropertiesPanel, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+    @Override
+    public CidsBean getCidsBean() {
+        return basicPropertiesPanel.getCidsBean();
+    }
 
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        basicPropertiesPanel.setCidsBean(cidsBean);
+    }
 }

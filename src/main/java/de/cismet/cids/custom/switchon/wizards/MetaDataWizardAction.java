@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
+import org.openide.util.Exceptions;
 
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -24,8 +25,6 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.CidsClientToolbarItem;
 
-import de.cismet.cids.utils.interfaces.CidsBeanAction;
-
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.tools.gui.StaticSwingTools;
@@ -37,27 +36,16 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @version  $Revision$, $Date$
  */
 @org.openide.util.lookup.ServiceProvider(service = CidsClientToolbarItem.class)
-public class MetaDataWizardAction extends AbstractAction implements CidsClientToolbarItem, CidsBeanAction {
+public class MetaDataWizardAction extends AbstractAction implements CidsClientToolbarItem {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final Logger LOG = Logger.getLogger(MetaDataWizardAction.class);
 
     public static final String PROP_CONFIGURATION = "__prop_configuration__"; // NOI18N
+    public static final String PROP_RESOURCE_BEAN = "__prop_resource_bean__"; // NOI18N
 
-    public static final String PROP_FILEPATH = "__prop_filepath__";                 // NOI18N
-    public static final String PROP_BEZEICHNUNG = "__prop_bezeichnung__";           // NOI18N
-    public static final String PROP_BESCHREIBUNG = "__prop_beschreibung__";         // NOI18N
-    public static final String PROP_PROJEKT = "__prop_projekt__";                   // NOI18N
-    public static final String PROP_DOKUMENT = "__prop_dokument__";                 // NOI18N
-    public static final String PROP_AS_BUILT = "__prop_as_built__";                 // NOI18N
-    public static final String PROP_BETRIEB = "__prop_betrieb__";                   // NOI18N
-    public static final String PROP_ANLAGE = "__prop_anlage__";                     // NOI18N
-    public static final String PROP_TEILANLAGE = "__prop_teilanlage__";             // NOI18N
-    public static final String PROP_GRUPPE = "__prop_gruppe__";                     // NOI18N
-    public static final String PROP_GEOMETRY = "__prop_geometry__";                 // NOI18N
-    public static final String PROP_VORGAENGER = "__prop_vorgaenger__";             // NOI18N
-    public static final String PROP_ERSTELLUNGSDATUM = "__prop_erstellungsdatum__"; // NOI18N
+    public static final String PROP_PROJEKT = "__prop_projekt__"; // NOI18N
 
     //~ Instance fields --------------------------------------------------------
 
@@ -83,15 +71,21 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         final WizardDescriptor.Iterator iterator = new MetaDataWizardIterator();
         final WizardDescriptor wizard = new WizardDescriptor(iterator);
         ((MetaDataWizardIterator)iterator).initialize(wizard);
-        if (cidsBean != null) {
-            wizard.putProperty(PROP_PROJEKT, cidsBean);
-        }
         wizard.putProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, Boolean.TRUE);
         wizard.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.TRUE);
         wizard.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE);
-        // set the subtitle. Component name, iterator name
+        // set the subtitle. The String is retrieved from iterator.name()
         wizard.setTitleFormat(new MessageFormat("{1}"));
         wizard.setTitle("Meta-Data Wizard");
+
+        // create new cidsBeans
+        try {
+            final CidsBean resource = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "resource");
+            wizard.putProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN, resource);
+        } catch (Exception ex) {
+            LOG.error(ex, ex);
+            return;
+        }
 
         final Frame parent = StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent());
         final Dialog wizardDialog = DialogDisplayer.getDefault().createDialog(wizard);
@@ -111,15 +105,5 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
     @Override
     public boolean isVisible() {
         return true;
-    }
-
-    @Override
-    public CidsBean getCidsBean() {
-        return cidsBean;
-    }
-
-    @Override
-    public void setCidsBean(final CidsBean cidsBean) {
-        this.cidsBean = cidsBean;
     }
 }

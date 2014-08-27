@@ -202,7 +202,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
 
     @Override
     public boolean hasPrevious() {
-        return index > 0;
+        return index > 1;
     }
 
     @Override
