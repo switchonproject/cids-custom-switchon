@@ -12,6 +12,8 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
@@ -54,8 +56,9 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblSourceResourceDragIcon;
+    private javax.swing.JLabel lblTargetResourceDragIcon;
     private de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel metaDataPanel;
-    private de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel metaDataPanel1;
     private javax.swing.JTable tblFromResource;
     private javax.swing.JTable tblToResource;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -68,8 +71,10 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
      */
     public RelationshipEditor() {
         initComponents();
-        new CidsBeanDropTarget(tblFromResource);
         new CidsBeanDropTarget(tblToResource);
+        new CidsBeanDropTarget(lblTargetResourceDragIcon);
+        new CidsBeanDropTarget(tblFromResource);
+        new CidsBeanDropTarget(lblSourceResourceDragIcon);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -84,7 +89,6 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        metaDataPanel1 = new de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel();
         jPanel2 = new javax.swing.JPanel();
         basicPropertiesPanel = new BasicPropertiesPanel(Taggroups.RELATIONSHIP_TYPE);
         final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
@@ -96,6 +100,7 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups);
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        lblTargetResourceDragIcon = new ToResourceDropListenerLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblToResource = new ToResourceDropListenerTable();
         jPanel1 = new javax.swing.JPanel();
@@ -103,6 +108,7 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         btnRemoveSourceResource = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblFromResource = new FromResourceDropListenerTable();
+        lblSourceResourceDragIcon = new FromResourceDropListenerLabel();
         metaDataPanel = new de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel();
 
         setOpaque(false);
@@ -121,8 +127,6 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         jPanel2.add(basicPropertiesPanel, gridBagConstraints);
-
-        additionalTagsPanel.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -145,6 +149,24 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
                     "RelationshipEditor.jPanel4.border.title"))); // NOI18N
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        lblTargetResourceDragIcon.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/switchon/document_import.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblTargetResourceDragIcon,
+            org.openide.util.NbBundle.getMessage(
+                RelationshipEditor.class,
+                "RelationshipEditor.lblTargetResourceDragIcon.text"));                           // NOI18N
+        lblTargetResourceDragIcon.setToolTipText(org.openide.util.NbBundle.getMessage(
+                RelationshipEditor.class,
+                "RelationshipEditor.lblTargetResourceDragIcon.toolTipText"));                    // NOI18N
+        lblTargetResourceDragIcon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
+        jPanel4.add(lblTargetResourceDragIcon, gridBagConstraints);
 
         tblToResource.setAutoCreateRowSorter(true);
         tblToResource.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -216,9 +238,9 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         jPanel5.add(btnRemoveSourceResource, gridBagConstraints);
 
@@ -254,11 +276,31 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         jPanel5.add(jScrollPane1, gridBagConstraints);
+
+        lblSourceResourceDragIcon.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/switchon/document_import.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblSourceResourceDragIcon,
+            org.openide.util.NbBundle.getMessage(
+                RelationshipEditor.class,
+                "RelationshipEditor.lblSourceResourceDragIcon.text"));                           // NOI18N
+        lblSourceResourceDragIcon.setToolTipText(org.openide.util.NbBundle.getMessage(
+                RelationshipEditor.class,
+                "RelationshipEditor.lblSourceResourceDragIcon.toolTipText"));                    // NOI18N
+        lblSourceResourceDragIcon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
+        jPanel5.add(lblSourceResourceDragIcon, gridBagConstraints);
 
         jPanel1.add(jPanel5);
 
@@ -405,6 +447,48 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         this.fromResources = fromResources;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  beans  DOCUMENT ME!
+     */
+    private void addBeansToFromResource(final ArrayList<CidsBean> beans) {
+        if (beans != null) {
+            for (final CidsBean bean : beans) {
+                if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
+                    if (!fromResources.contains(bean)) {
+                        fromResources.add(bean);
+                    }
+                }
+            }
+            tblFromResource.requestFocus();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  beans  DOCUMENT ME!
+     */
+    private void addBeansToToResource(final ArrayList<CidsBean> beans) {
+        if (beans != null) {
+            for (final CidsBean bean : beans) {
+                // use the first match
+                if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
+                    try {
+                        cidsBean.setProperty("toresource", bean);
+                        toResourceList.clear();
+                        toResourceList.add(bean);
+                        tblToResource.selectAll();
+                        break;
+                    } catch (Exception ex) {
+                        LOG.error("Could not set toresource of cidsBean", ex);
+                    }
+                }
+            }
+        }
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -418,16 +502,22 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
 
         @Override
         public void beansDropped(final ArrayList<CidsBean> beans) {
-            if (beans != null) {
-                for (final CidsBean bean : beans) {
-                    if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
-                        if (!fromResources.contains(bean)) {
-                            fromResources.add(bean);
-                        }
-                    }
-                }
-                tblFromResource.requestFocus();
-            }
+            addBeansToFromResource(beans);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class FromResourceDropListenerLabel extends JLabel implements CidsBeanDropListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> beans) {
+            addBeansToFromResource(beans);
         }
     }
 
@@ -442,22 +532,22 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
 
         @Override
         public void beansDropped(final ArrayList<CidsBean> beans) {
-            if (beans != null) {
-                for (final CidsBean bean : beans) {
-                    // use the first match
-                    if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
-                        try {
-                            cidsBean.setProperty("toresource", bean);
-                            toResourceList.clear();
-                            toResourceList.add(bean);
-                            tblToResource.selectAll();
-                            break;
-                        } catch (Exception ex) {
-                            LOG.error("Could not set toresource of cidsBean", ex);
-                        }
-                    }
-                }
-            }
+            addBeansToToResource(beans);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class ToResourceDropListenerLabel extends JLabel implements CidsBeanDropListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> beans) {
+            addBeansToToResource(beans);
         }
     }
 }
