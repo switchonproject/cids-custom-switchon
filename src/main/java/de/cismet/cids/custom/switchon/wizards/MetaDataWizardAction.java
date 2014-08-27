@@ -90,7 +90,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         wizard.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.TRUE);
         wizard.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE);
         // set the subtitle. Component name, iterator name
-        wizard.setTitleFormat(new MessageFormat("{0} {1}"));
+        wizard.setTitleFormat(new MessageFormat("{1}"));
         wizard.setTitle("Meta-Data Wizard");
 
         final Frame parent = StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent());

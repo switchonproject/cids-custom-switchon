@@ -167,7 +167,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     MetaDataWizardConfigurationPanel.class);
 
             wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, index);
-            wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_DATA, new String[] { "Configuration" });
+            wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_DATA, createSubtitlesForCurrentPanels());
         }
     }
 
@@ -180,11 +180,14 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
 
     @Override
     public String name() {
-        if (index == 0) {
-            return index + 1 + " of ...";
-        }
+        String name = getPanelName(currentPanels[index]);
 
-        return index + 1 + " of " + currentPanels.length;
+        if (index == 0) {
+            name += " " + (index + 1) + " of ...";
+        } else {
+            name += " " + (index + 1) + " of " + currentPanels.length;
+        }
+        return name;
     }
 
     @Override
@@ -212,14 +215,17 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
             switch (configuration) {
                 case "basic": {
                     currentPanels = basicSequence;
+                    wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_DATA, createSubtitlesForCurrentPanels());
                     break;
                 }
                 case "advanced": {
                     currentPanels = advancedSequence;
+                    wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_DATA, createSubtitlesForCurrentPanels());
                     break;
                 }
                 case "expert": {
                     currentPanels = expertSequence;
+                    wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_DATA, createSubtitlesForCurrentPanels());
                     break;
                 }
             }
@@ -291,5 +297,33 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
             panels[i] = allPanelsHashMap.get(clazz.getSimpleName());
         }
         return panels;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String[] createSubtitlesForCurrentPanels() {
+        final String[] subtitles = new String[currentPanels.length];
+        for (int i = 0; i < currentPanels.length; i++) {
+            subtitles[i] = getPanelName(currentPanels[i]);
+        }
+        return subtitles;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   panel  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String getPanelName(final WizardDescriptor.Panel panel) {
+        String name = "Unkown";
+        if (panel instanceof NameProvider) {
+            name = ((NameProvider)panel).getName();
+        }
+        return name;
     }
 }
