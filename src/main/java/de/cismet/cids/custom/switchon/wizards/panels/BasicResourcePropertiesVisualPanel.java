@@ -25,10 +25,9 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             BasicResourcePropertiesVisualPanel.class);
 
-    //~ Instance fields --------------------------------------------------------
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
+    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -38,6 +37,7 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
      */
     public BasicResourcePropertiesVisualPanel() {
         initComponents();
+        basicPropertiesPanel.setInfoReceiver(infoBoxPanel);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -49,10 +49,11 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final java.awt.GridBagConstraints gridBagConstraints;
+        java.awt.GridBagConstraints gridBagConstraints;
 
         basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel(
                 Taggroups.RESOURCE_TYPE);
+        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
 
         setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -61,9 +62,16 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weighty = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(basicPropertiesPanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 0.2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        add(infoBoxPanel, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
