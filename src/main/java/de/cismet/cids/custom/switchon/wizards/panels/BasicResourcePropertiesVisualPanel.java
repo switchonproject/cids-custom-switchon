@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.custom.switchon.utils.Taggroups;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
@@ -49,7 +51,8 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
     private void initComponents() {
         final java.awt.GridBagConstraints gridBagConstraints;
 
-        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel();
+        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel(
+                Taggroups.RESOURCE_TYPE);
 
         setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();

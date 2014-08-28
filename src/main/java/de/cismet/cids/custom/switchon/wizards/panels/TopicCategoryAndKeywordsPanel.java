@@ -10,8 +10,14 @@ package de.cismet.cids.custom.switchon.wizards.panels;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
+import org.openide.util.NbBundle;
 
 import java.awt.Component;
+
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
+import de.cismet.cids.custom.switchon.wizards.NameProvider;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.gui.wizard.AbstractWizardPanel;
 
@@ -21,7 +27,7 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TopicCategoryAndKeywordsPanel extends AbstractWizardPanel {
+public class TopicCategoryAndKeywordsPanel extends AbstractWizardPanel implements NameProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -44,11 +50,19 @@ public class TopicCategoryAndKeywordsPanel extends AbstractWizardPanel {
 
     @Override
     protected void read(final WizardDescriptor wizard) {
-        LOG.fatal("TopicCategoryAndKeywordsPanel.read: Not supported yet.", new Exception()); // NOI18N
+        final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+        ((TopicCategoryAndKeywordsVisualPanel)getComponent()).setCidsBean(resource);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        LOG.fatal("TopicCategoryAndKeywordsPanel.store: Not supported yet.", new Exception()); // NOI18N
+        final CidsBean resource = ((TopicCategoryAndKeywordsVisualPanel)getComponent()).getCidsBean();
+        wizard.putProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN, resource);
+    }
+
+    @Override
+    public String getName() {
+        return java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/wizards/Bundle")
+                    .getString("TopicCategoryAndKeywordsPanel.getName()");
     }
 }

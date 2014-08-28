@@ -7,18 +7,42 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import java.util.ArrayList;
+
+import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
+import de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
+
+import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.dynamics.CidsBeanStore;
+
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.FastBindableReferenceCombo;
+
 /**
  * DOCUMENT ME!
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel {
+public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel implements CidsBeanStore {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             TopicCategoryAndKeywordsVisualPanel.class);
+
+    //~ Instance fields --------------------------------------------------------
+
+    private CidsBean resource;
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
+    private javax.swing.JComboBox cmbTopic;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.JPanel jPanel1;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -38,15 +62,89 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 300, Short.MAX_VALUE));
+        java.awt.GridBagConstraints gridBagConstraints;
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+
+        final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
+        taggroups.add(Taggroups.COLLECTION);
+        taggroups.add(Taggroups.GEOGRAPHY);
+        taggroups.add(Taggroups.HYDROLOGICAL_CONCEPT);
+        taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
+        taggroups.add(Taggroups.KEYWORDS_OPEN);
+        additionalTagsPanel = new AdditionalTagsPanel(taggroups);
+        jPanel1 = new javax.swing.JPanel();
+        cmbTopic = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.TOPIC_CATEGORY);
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(32767, 0));
+
+        setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        add(additionalTagsPanel, gridBagConstraints);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    TopicCategoryAndKeywordsVisualPanel.class,
+                    "TopicCategoryAndKeywordsVisualPanel.jPanel1.border.title"))); // NOI18N
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.topiccategory}"),
+                cmbTopic,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(cmbTopic, gridBagConstraints);
+        ((FastBindableReferenceCombo)cmbTopic).setNullable(false);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        jPanel1.add(filler1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        add(jPanel1, gridBagConstraints);
+
+        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+    @Override
+    public CidsBean getCidsBean() {
+        return resource;
+    }
 
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        bindingGroup.unbind();
+        resource = cidsBean;
+        DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+            bindingGroup,
+            this.resource);
+        additionalTagsPanel.setCidsBean(cidsBean);
+        bindingGroup.bind();
+    }
 }
