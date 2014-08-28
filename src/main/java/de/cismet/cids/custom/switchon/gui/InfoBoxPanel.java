@@ -53,21 +53,17 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
 
         lblInformation.setForeground(new java.awt.Color(16, 76, 116));
         lblInformation.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/switchon/search/info.png")));               // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(
-            lblInformation,
-            org.openide.util.NbBundle.getMessage(InfoBoxPanel.class, "InfoBoxPanel.lblInformation.text")); // NOI18N
+                getClass().getResource("/de/cismet/cids/custom/switchon/search/info.png"))); // NOI18N
         lblInformation.setIconTextGap(5);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 5);
         add(lblInformation, gridBagConstraints);
-        lblInformation.setVisible(false);
-    }                                                                                                      // </editor-fold>//GEN-END:initComponents
+    }                                                                                        // </editor-fold>//GEN-END:initComponents
 
     @Override
     public void setInformation(final String information) {
