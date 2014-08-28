@@ -714,11 +714,16 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         add(pnlMain, gridBagConstraints);
+
+        infoBoxPanel.setMinimumSize(new java.awt.Dimension(0, 50));
+        infoBoxPanel.setPreferredSize(new java.awt.Dimension(0, 50));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         add(infoBoxPanel, gridBagConstraints);
+        infoBoxPanel.setVisible(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
