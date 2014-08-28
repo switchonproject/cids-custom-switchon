@@ -23,6 +23,8 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
 
     //~ Instance fields --------------------------------------------------------
 
+    private String generalInformation = "";
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblInformation;
     // End of variables declaration//GEN-END:variables
@@ -68,11 +70,48 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
     @Override
     public void setInformation(final String information) {
         if (StringUtils.isNotBlank(information)) {
-            if (information.startsWith("<html>")) {
-                lblInformation.setText(information);
-            } else {
-                lblInformation.setText("<html>" + information + "</html>");
-            }
+            setLabelText(information);
+        } else {
+            showGeneralInformation();
+        }
+    }
+
+    /**
+     * Shows the general information.
+     */
+    public void showGeneralInformation() {
+        setLabelText(generalInformation);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getGeneralInformation() {
+        return generalInformation;
+    }
+
+    /**
+     * Set some general information, this is shown if no other information is available.
+     *
+     * @param  generalInformation  DOCUMENT ME!
+     */
+    public void setGeneralInformation(final String generalInformation) {
+        this.generalInformation = generalInformation;
+        this.setInformation(generalInformation);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  text  DOCUMENT ME!
+     */
+    private void setLabelText(final String text) {
+        if (text.startsWith("<html>")) {
+            lblInformation.setText(text);
+        } else {
+            lblInformation.setText("<html>" + text + "</html>");
         }
     }
 }

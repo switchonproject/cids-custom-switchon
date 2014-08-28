@@ -55,6 +55,13 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
                 Taggroups.RESOURCE_TYPE);
         infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
 
+        addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    formFocusGained(evt);
+                }
+            });
         setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -62,17 +69,48 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.8;
+        gridBagConstraints.weighty = 0.7;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(basicPropertiesPanel, gridBagConstraints);
+
+        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                BasicResourcePropertiesVisualPanel.class,
+                "BasicResourcePropertiesVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
+        infoBoxPanel.setInformation(null);
+        infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
+        infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
+        infoBoxPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    infoBoxPanelMouseClicked(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 0.2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void infoBoxPanelMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_infoBoxPanelMouseClicked
+        infoBoxPanel.showGeneralInformation();
+    }                                                                            //GEN-LAST:event_infoBoxPanelMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void formFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_formFocusGained
+        infoBoxPanel.showGeneralInformation();
+    }                                                                   //GEN-LAST:event_formFocusGained
 
     @Override
     public CidsBean getCidsBean() {
