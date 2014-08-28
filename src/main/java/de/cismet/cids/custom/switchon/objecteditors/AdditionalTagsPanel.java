@@ -10,6 +10,8 @@ package de.cismet.cids.custom.switchon.objecteditors;
 import Sirius.server.middleware.types.LightweightMetaObject;
 import Sirius.server.middleware.types.MetaObject;
 
+import org.openide.util.NbBundle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,9 @@ import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.tools.gui.StaticSwingTools;
 
 /**
- * DOCUMENT ME!
+ * AdditionalTagsPanel allows it to choose a taggroup and assign tags from that to a cidsBean. It makes it also possible
+ * to create new tags of that taggroup. The selectable taggroups have to be determined in the constructor. Furthermore
+ * the GUI can be branded via the NbBundle, this means that the JLabels are different depending on the use of the GUI.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
@@ -38,8 +42,12 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AdditionalTagsPanel.class);
+    public static final String BRANDING_NONE = null;
+    public static final String BRANDING_KEYWORDS = "keywords";
 
     //~ Instance fields --------------------------------------------------------
+
+    public final String branding;
 
     private CidsBean cidsBean;
     /** The query for the combobox containing the Taggroups. */
@@ -71,15 +79,27 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
      * Creates a new AdditionalTagsPanel object.
      */
     public AdditionalTagsPanel() {
-        this(null);
+        this(null, BRANDING_NONE);
+    }
+
+    /**
+     * Creates a new AdditionalTagsPanel object.
+     *
+     * @param  allowedTaggroups  DOCUMENT ME!
+     */
+    public AdditionalTagsPanel(final List<Taggroups> allowedTaggroups) {
+        this(allowedTaggroups, BRANDING_NONE);
     }
 
     /**
      * Creates new form AdditionalTagsPanel.
      *
      * @param  allowedTaggroups  DOCUMENT ME!
+     * @param  branding          DOCUMENT ME!
      */
-    public AdditionalTagsPanel(final List<Taggroups> allowedTaggroups) {
+    public AdditionalTagsPanel(final List<Taggroups> allowedTaggroups, final String branding) {
+        this.branding = branding;
+
         String tagGroupQuery = "SELECT t.ID,"
                     + " t.NAME"
                     + " FROM taggroup t";
@@ -95,7 +115,9 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
 
         tagGroupQuery += " ORDER BY t.name";
         this.tagGroupQuery = tagGroupQuery;
+        NbBundle.setBranding(branding);
         initComponents();
+        NbBundle.setBranding(null);
         if ((allowedTaggroups == null) || allowedTaggroups.isEmpty()) {
             cmbTagGroups.setEnabled(false);
             lstTags.setEnabled(false);
@@ -462,6 +484,7 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
             assignedTags = cidsBean.getBeanCollectionProperty("tags");
             bindingGroup.bind();
 
+            NbBundle.setBranding(branding);
             if (tblAssignedTags.getColumnModel().getColumnCount() > 0) {
                 tblAssignedTags.getColumnModel()
                         .getColumn(0)
@@ -474,6 +497,7 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
                                 AdditionalTagsPanel.class,
                                 "AdditionalTagsPanel.tblAssignedTags.columnModel.title1_2")); // NOI18N
             }
+            NbBundle.setBranding(null);
         }
     }
 

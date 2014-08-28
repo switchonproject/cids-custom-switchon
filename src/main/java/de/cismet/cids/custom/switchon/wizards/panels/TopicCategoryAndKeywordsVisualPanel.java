@@ -69,12 +69,9 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
-        taggroups.add(Taggroups.COLLECTION);
-        taggroups.add(Taggroups.GEOGRAPHY);
-        taggroups.add(Taggroups.HYDROLOGICAL_CONCEPT);
         taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
         taggroups.add(Taggroups.KEYWORDS_OPEN);
-        additionalTagsPanel = new AdditionalTagsPanel(taggroups);
+        additionalTagsPanel = new AdditionalTagsPanel(taggroups, AdditionalTagsPanel.BRANDING_KEYWORDS);
         jPanel1 = new javax.swing.JPanel();
         cmbTopic = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.TOPIC_CATEGORY);
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),

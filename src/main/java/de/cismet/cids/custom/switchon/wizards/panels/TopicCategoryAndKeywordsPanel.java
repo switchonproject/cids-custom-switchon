@@ -77,7 +77,7 @@ public class TopicCategoryAndKeywordsPanel extends AbstractWizardPanel implement
 
     @Override
     public boolean isValid() {
-        final CidsBean resource = ((BasicResourcePropertiesVisualPanel)getComponent()).getCidsBean();
+        final CidsBean resource = ((TopicCategoryAndKeywordsVisualPanel)getComponent()).getCidsBean();
         final CidsBean topiccategory = (CidsBean)resource.getProperty("topiccategory");
 
         return topiccategory != null;
