@@ -7,8 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
-import Sirius.server.middleware.types.MetaObject;
-
 import java.util.UUID;
 
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
@@ -261,7 +259,7 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         add(txtUUID, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
@@ -280,7 +278,7 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 10);
         add(btnGenerateUUID, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -396,5 +394,23 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
 
             bindingGroup.bind();
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  visible  DOCUMENT ME!
+     */
+    public void setVisibleGenerateUUID(final boolean visible) {
+        btnGenerateUUID.setVisible(visible);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isVisibleGenerateUUID() {
+        return btnGenerateUUID.isVisible();
     }
 }
