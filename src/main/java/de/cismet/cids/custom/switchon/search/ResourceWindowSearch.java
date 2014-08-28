@@ -110,18 +110,17 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
+    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXDatePicker jdpEndDate;
     private org.jdesktop.swingx.JXDatePicker jdpStartDate;
-    private javax.swing.JLabel lblInformation;
     private javax.swing.JList lstKeywords;
     private javax.swing.JPanel pnlGeospatialExtent;
     private javax.swing.JPanel pnlKeywordsAndTopics;
     private javax.swing.JPanel pnlMain;
     private javax.swing.JPanel pnlSearchButtons;
-    private javax.swing.JPanel pnlStatus;
     private javax.swing.JPanel pnlTemporalExtent;
     private javax.swing.JPanel pnlTitleAndDescription;
     private javax.swing.JPanel tabAdvancedSearch;
@@ -225,8 +224,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     final boolean selected = ((JCheckBox)e.getSource()).isSelected();
                     jdpStartDate.setEnabled(selected);
                     jdpEndDate.setEnabled(selected);
-                    lblInformation.setVisible(selected);
-                    lblInformation.setText(
+                    infoBoxPanel.setVisible(selected);
+                    infoBoxPanel.setInformation(
                         NbBundle.getMessage(
                             ResourceWindowSearch.class,
                             "ResourceWindowSearch.addBorderToPanels().temporal.infotext"));
@@ -250,8 +249,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     final boolean selected = ((JCheckBox)e.getSource()).isSelected();
                     cmbGeospatial.setEnabled(selected);
                     btnGeospatial.setEnabled(selected);
-                    lblInformation.setVisible(selected);
-                    lblInformation.setText(
+                    infoBoxPanel.setVisible(selected);
+                    infoBoxPanel.setInformation(
                         NbBundle.getMessage(
                             ResourceWindowSearch.class,
                             "ResourceWindowSearch.addBorderToPanels().geospatial.infotext"));
@@ -275,8 +274,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     final boolean selected = ((JCheckBox)e.getSource()).isSelected();
                     lstKeywords.setEnabled(selected);
                     cmbTopics.setEnabled(selected);
-                    lblInformation.setVisible(selected);
-                    lblInformation.setText(
+                    infoBoxPanel.setVisible(selected);
+                    infoBoxPanel.setInformation(
                         NbBundle.getMessage(
                             ResourceWindowSearch.class,
                             "ResourceWindowSearch.addBorderToPanels().keyword.infotext"));
@@ -300,8 +299,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     final boolean selected = ((JCheckBox)e.getSource()).isSelected();
                     txtTitle.setEnabled(selected);
                     chbSearchInTitleAndDescription.setEnabled(selected);
-                    lblInformation.setVisible(selected);
-                    lblInformation.setText(
+                    infoBoxPanel.setVisible(selected);
+                    infoBoxPanel.setInformation(
                         NbBundle.getMessage(
                             ResourceWindowSearch.class,
                             "ResourceWindowSearch.addBorderToPanels().title.infotext"));
@@ -381,8 +380,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
-        pnlStatus = new javax.swing.JPanel();
-        lblInformation = new javax.swing.JLabel();
+        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -716,34 +714,11 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         add(pnlMain, gridBagConstraints);
-
-        pnlStatus.setPreferredSize(new java.awt.Dimension(682, 50));
-        pnlStatus.setLayout(new java.awt.GridBagLayout());
-
-        lblInformation.setForeground(new java.awt.Color(16, 76, 116));
-        lblInformation.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/switchon/search/info.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(
-            lblInformation,
-            org.openide.util.NbBundle.getMessage(
-                ResourceWindowSearch.class,
-                "ResourceWindowSearch.lblInformation.text"));                                // NOI18N
-        lblInformation.setIconTextGap(5);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 5);
-        pnlStatus.add(lblInformation, gridBagConstraints);
-        lblInformation.setVisible(false);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        add(pnlStatus, gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        add(infoBoxPanel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -781,7 +756,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         chbSearchInTitleAndDescription.setSelected(false);
         chbSearchInTitleAndDescription.setEnabled(false);
 
-        lblInformation.setVisible(false);
+        infoBoxPanel.setVisible(false);
         this.repaint();
     } //GEN-LAST:event_btnClearActionPerformed
 
@@ -793,11 +768,11 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private void cmbGeospatialActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbGeospatialActionPerformed
         final Object o = cmbGeospatial.getSelectedItem();
         if (o == null) {
-            lblInformation.setText(NbBundle.getMessage(
+            infoBoxPanel.setInformation(NbBundle.getMessage(
                     ResourceWindowSearch.class,
                     "ResourceWindowSearch.cmbGeospatialActionPerformed().no"));
         } else if (o instanceof String) {
-            lblInformation.setText(NbBundle.getMessage(
+            infoBoxPanel.setInformation(NbBundle.getMessage(
                     ResourceWindowSearch.class,
                     "ResourceWindowSearch.cmbGeospatialActionPerformed().mapCoord"));
         } else {
@@ -813,7 +788,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private void cmbTopicsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbTopicsActionPerformed
         final Object o = cmbTopics.getSelectedItem();
         if (o == null) {
-            lblInformation.setText(NbBundle.getMessage(
+            infoBoxPanel.setInformation(NbBundle.getMessage(
                     ResourceWindowSearch.class,
                     "ResourceWindowSearch.cmbTopicsActionPerformed().no"));
         } else {
@@ -830,7 +805,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         if (!evt.getValueIsAdjusting()) {
             final Object o = lstKeywords.getSelectedValue();
             if (o == null) {
-                lblInformation.setText(NbBundle.getMessage(
+                infoBoxPanel.setInformation(NbBundle.getMessage(
                         ResourceWindowSearch.class,
                         "ResourceWindowSearch.lstKeywordsValueChanged().no"));
             } else {
@@ -849,13 +824,13 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
             final CidsBean selectedBean = ((LightweightMetaObject)selectedObject).getBean();
             final String description = selectedBean.getProperty("description").toString();
             if (StringUtils.isNotBlank(description) && !description.equals("n/a")) {
-                lblInformation.setText("<html><i>" + description + "</i></html>");
+                infoBoxPanel.setInformation("<html><i>" + description + "</i></html>");
             } else {
                 String text = NbBundle.getMessage(
                         ResourceWindowSearch.class,
                         "ResourceWindowSearch.showDescriptionOfSelectedTag().noDescription");
                 text = "<html><i>" + String.format(text, selectedBean.toString()) + "</i></html>";
-                lblInformation.setText(text);
+                infoBoxPanel.setInformation(text);
             }
         }
     }
