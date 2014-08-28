@@ -13,6 +13,9 @@ import org.openide.WizardDescriptor;
 
 import java.awt.Component;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
@@ -26,7 +29,7 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TopicCategoryAndKeywordsPanel extends AbstractWizardPanel implements NameProvider {
+public class TopicCategoryAndKeywordsPanel extends AbstractWizardPanel implements NameProvider, PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -50,12 +53,14 @@ public class TopicCategoryAndKeywordsPanel extends AbstractWizardPanel implement
     @Override
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+        resource.addPropertyChangeListener(this);
         ((TopicCategoryAndKeywordsVisualPanel)getComponent()).setCidsBean(resource);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
         final CidsBean resource = ((TopicCategoryAndKeywordsVisualPanel)getComponent()).getCidsBean();
+        resource.removePropertyChangeListener(this);
         wizard.putProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN, resource);
     }
 
@@ -63,5 +68,18 @@ public class TopicCategoryAndKeywordsPanel extends AbstractWizardPanel implement
     public String getName() {
         return java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/wizards/Bundle")
                     .getString("TopicCategoryAndKeywordsPanel.getName()");
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        changeSupport.fireChange();
+    }
+
+    @Override
+    public boolean isValid() {
+        final CidsBean resource = ((BasicResourcePropertiesVisualPanel)getComponent()).getCidsBean();
+        final CidsBean topiccategory = (CidsBean)resource.getProperty("topiccategory");
+
+        return topiccategory != null;
     }
 }
