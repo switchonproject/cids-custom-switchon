@@ -39,7 +39,7 @@ public class TagUtils {
     //~ Methods ----------------------------------------------------------------
 
     /**
-     * Returns the description of tag. The
+     * Returns the description of tag. The tag can be a MetaObject or a CidsBean.
      *
      * @param   tag  DOCUMENT ME!
      *

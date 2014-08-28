@@ -13,8 +13,12 @@ import Sirius.server.middleware.types.MetaObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.event.ListSelectionEvent;
+
+import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
+import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.TaggroupUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
@@ -29,7 +33,7 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanStore {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -101,6 +105,15 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         } else {
             changeListModelToSelectedTaggroup();
         }
+
+        tblAssignedTags.getSelectionModel().addListSelectionListener(
+            new javax.swing.event.ListSelectionListener() {
+
+                @Override
+                public void valueChanged(final ListSelectionEvent evt) {
+                    customRowSelectionEventHandler(evt);
+                }
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -165,6 +178,13 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
+        lstTags.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+
+                @Override
+                public void valueChanged(final javax.swing.event.ListSelectionEvent evt) {
+                    lstTagsValueChanged(evt);
+                }
+            });
         jScrollPane1.setViewportView(lstTags);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -348,7 +368,10 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
      */
     private void cmbTagGroupsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbTagGroupsActionPerformed
         changeListModelToSelectedTaggroup();
-    }                                                                                //GEN-LAST:event_cmbTagGroupsActionPerformed
+
+        final String description = TagUtils.getDescriptionOfTag(cmbTagGroups.getSelectedItem());
+        provideInformation(description);
+    } //GEN-LAST:event_cmbTagGroupsActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -400,6 +423,31 @@ public class AdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanS
             LOG.error("Could not create new tag-CidsBean", ex);
         }
     } //GEN-LAST:event_btnNewActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void customRowSelectionEventHandler(final javax.swing.event.ListSelectionEvent evt) {
+        final int rowIndexView = tblAssignedTags.getSelectedRow();
+        if (rowIndexView >= 0) {
+            final int rowIndexModel = tblAssignedTags.convertRowIndexToModel(rowIndexView);
+
+            final String description = TagUtils.getDescriptionOfTag(assignedTags.get(rowIndexModel));
+            provideInformation(description);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void lstTagsValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstTagsValueChanged
+        final String description = TagUtils.getDescriptionOfTag(lstTags.getSelectedValue());
+        provideInformation(description);
+    }                                                                                  //GEN-LAST:event_lstTagsValueChanged
 
     @Override
     public CidsBean getCidsBean() {
