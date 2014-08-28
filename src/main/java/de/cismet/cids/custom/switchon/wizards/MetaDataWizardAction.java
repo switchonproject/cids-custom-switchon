@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
-import org.openide.util.Exceptions;
 
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -20,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.text.MessageFormat;
 
 import javax.swing.AbstractAction;
+import javax.swing.JDialog;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -89,11 +89,15 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
         final Frame parent = StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent());
         final Dialog wizardDialog = DialogDisplayer.getDefault().createDialog(wizard);
-        wizardDialog.pack();
-        wizardDialog.setLocationRelativeTo(parent);
+        wizardDialog.setSize(860, 560);
         wizardDialog.setModal(false);
+        if (wizardDialog instanceof JDialog) {
+            StaticSwingTools.showDialog(parent, (JDialog)wizardDialog, true);
+        } else {
+            wizardDialog.setLocationRelativeTo(parent);
+            wizardDialog.setVisible(true);
+        }
         wizardDialog.setAlwaysOnTop(true);
-        wizardDialog.setVisible(true);
         wizardDialog.toFront();
     }
 
