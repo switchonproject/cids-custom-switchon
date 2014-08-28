@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
@@ -60,6 +61,20 @@ public class BasicResourcePropertiesPanel extends AbstractWizardPanel implements
     public String getName() {
         return java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/wizards/Bundle")
                     .getString("BasicResourcePropertiesPanel.getName()");
+    }
+
+    @Override
+    public boolean isValid() {
+        final CidsBean resource = ((BasicResourcePropertiesVisualPanel)getComponent()).getCidsBean();
+        final String name = (String)resource.getProperty("name");
+        final String desc = (String)resource.getProperty("description");
+        final CidsBean type = (CidsBean)resource.getProperty("type");
+
+        boolean valid = true;
+        if (StringUtils.isBlank(name) || StringUtils.isBlank(desc) || (type == null)) {
+            valid = false;
+        }
+        return valid;
     }
 
     @Override
