@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel;
+import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -40,6 +41,7 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
     private javax.swing.JComboBox cmbTopic;
     private javax.swing.Box.Filler filler1;
+    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
     private javax.swing.JPanel jPanel1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -51,6 +53,7 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
      */
     public TopicCategoryAndKeywordsVisualPanel() {
         initComponents();
+        additionalTagsPanel.setInfoReceiver(infoBoxPanel);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -77,7 +80,15 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 0));
+        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
 
+        addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    formFocusGained(evt);
+                }
+            });
         setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -103,6 +114,13 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cmbTopic.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbTopicActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -129,8 +147,58 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(jPanel1, gridBagConstraints);
 
+        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                TopicCategoryAndKeywordsVisualPanel.class,
+                "TopicCategoryAndKeywordsVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
+        infoBoxPanel.setInformation(org.openide.util.NbBundle.getMessage(
+                TopicCategoryAndKeywordsVisualPanel.class,
+                "TopicCategoryAndKeywordsVisualPanel.infoBoxPanel.information"));        // NOI18N
+        infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
+        infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
+        infoBoxPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    infoBoxPanelMouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        add(infoBoxPanel, gridBagConstraints);
+
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void infoBoxPanelMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_infoBoxPanelMouseClicked
+        infoBoxPanel.showGeneralInformation();
+    }                                                                            //GEN-LAST:event_infoBoxPanelMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbTopicActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbTopicActionPerformed
+        final String desc = TagUtils.getDescriptionOfTag(cmbTopic.getSelectedItem());
+        infoBoxPanel.setInformation(desc);
+    }                                                                            //GEN-LAST:event_cmbTopicActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void formFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_formFocusGained
+        infoBoxPanel.showGeneralInformation();
+    }                                                                   //GEN-LAST:event_formFocusGained
 
     @Override
     public CidsBean getCidsBean() {
