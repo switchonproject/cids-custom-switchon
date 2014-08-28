@@ -7,9 +7,13 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import Sirius.server.middleware.types.MetaObject;
+
 import java.util.UUID;
 
+import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
+import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -24,7 +28,7 @@ import de.cismet.cids.editors.FastBindableReferenceCombo;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBeanStore {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -60,6 +64,7 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
      */
     public BasicPropertiesPanel() {
         this(Taggroups.META_DATA_TYPE);
+        LOG.warn("Do not use this constructor, it is only there for the Netbeans GUI editor.", new Exception());
     }
 
     /**
@@ -161,6 +166,13 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtName.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtNameFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -183,6 +195,13 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtaDescription.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtaDescriptionFocusGained(evt);
+                }
+            });
         jScrollPane1.setViewportView(txtaDescription);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -204,6 +223,13 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cmbType.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbTypeActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -222,6 +248,13 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtUUID.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtUUIDFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -258,6 +291,13 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cmbLanguage.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbLanguageActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -280,6 +320,54 @@ public class BasicPropertiesPanel extends javax.swing.JPanel implements CidsBean
         final UUID uuid = UUID.randomUUID();
         txtUUID.setText(uuid.toString());
     }                                                                                   //GEN-LAST:event_btnGenerateUUIDActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtNameFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtNameFocusGained
+        provideInformation("Please enter the name of the resource.");
+    }                                                                      //GEN-LAST:event_txtNameFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtaDescriptionFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtaDescriptionFocusGained
+        provideInformation("Please provide a comprehensive description of the resource");
+    }                                                                              //GEN-LAST:event_txtaDescriptionFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbTypeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbTypeActionPerformed
+        final String desc = TagUtils.getDescriptionOfTag(cmbType.getSelectedItem());
+        provideInformation(desc);
+    }                                                                           //GEN-LAST:event_cmbTypeActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtUUIDFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtUUIDFocusGained
+        provideInformation(
+            "Please enter a unique id of the resource. If the field is left blank, a uuid will be automatically genenrated.");
+    }                                                                      //GEN-LAST:event_txtUUIDFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbLanguageActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbLanguageActionPerformed
+        final String desc = TagUtils.getDescriptionOfTag(cmbLanguage.getSelectedItem());
+        provideInformation(desc);
+    }                                                                               //GEN-LAST:event_cmbLanguageActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
