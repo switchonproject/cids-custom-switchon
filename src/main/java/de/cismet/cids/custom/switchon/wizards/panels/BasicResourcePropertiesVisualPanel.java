@@ -63,6 +63,8 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
                 }
             });
         setLayout(new java.awt.GridBagLayout());
+
+        basicPropertiesPanel.setVisibleGenerateUUID(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -76,7 +78,9 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
         infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
                 BasicResourcePropertiesVisualPanel.class,
                 "BasicResourcePropertiesVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
-        infoBoxPanel.setInformation(null);
+        infoBoxPanel.setInformation(org.openide.util.NbBundle.getMessage(
+                BasicResourcePropertiesVisualPanel.class,
+                "BasicResourcePropertiesVisualPanel.infoBoxPanel.information"));        // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         infoBoxPanel.addMouseListener(new java.awt.event.MouseAdapter() {
