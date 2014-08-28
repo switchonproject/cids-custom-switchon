@@ -17,6 +17,11 @@ import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import java.util.UUID;
+import java.util.concurrent.Future;
+
+import de.cismet.cids.custom.switchon.utils.CidsBeanUtils;
+import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
@@ -35,6 +40,8 @@ public class BasicResourcePropertiesPanel extends AbstractWizardPanel implements
     //~ Static fields/initializers ---------------------------------------------
 
     private static final Logger LOG = Logger.getLogger(BasicResourcePropertiesPanel.class);
+    private static final Future<CidsBean> defaultType = TagUtils.fetchFutureTagByName("external data");
+    private static final Future<CidsBean> defaultLanguage = TagUtils.fetchFutureTagByName("eng");
 
     //~ Methods ----------------------------------------------------------------
 
@@ -46,15 +53,24 @@ public class BasicResourcePropertiesPanel extends AbstractWizardPanel implements
     @Override
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
-        resource.addPropertyChangeListener(this);
+        setDefaults(resource);
         ((BasicResourcePropertiesVisualPanel)getComponent()).setCidsBean(resource);
+        resource.addPropertyChangeListener(this);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
         final CidsBean resource = ((BasicResourcePropertiesVisualPanel)getComponent()).getCidsBean();
-        wizard.putProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN, resource);
         resource.removePropertyChangeListener(this);
+
+        try {
+            final String uuid = (String)resource.getProperty("uuid");
+            if (StringUtils.isBlank(uuid)) {
+                resource.setProperty("uuid", UUID.randomUUID().toString());
+            }
+        } catch (Exception ex) {
+            LOG.error(ex, ex);
+        }
     }
 
     @Override
@@ -80,5 +96,18 @@ public class BasicResourcePropertiesPanel extends AbstractWizardPanel implements
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         changeSupport.fireChange();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  resource  DOCUMENT ME!
+     */
+    private void setDefaults(final CidsBean resource) {
+        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(
+            BasicResourcePropertiesPanel.defaultLanguage,
+            resource,
+            "language");
+        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(BasicResourcePropertiesPanel.defaultType, resource, "type");
     }
 }
