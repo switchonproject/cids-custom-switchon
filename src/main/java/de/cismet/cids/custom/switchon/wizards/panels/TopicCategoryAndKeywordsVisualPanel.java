@@ -16,6 +16,7 @@ import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
@@ -26,7 +27,7 @@ import de.cismet.cids.editors.FastBindableReferenceCombo;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -211,5 +212,10 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
             this.resource);
         additionalTagsPanel.setCidsBean(cidsBean);
         bindingGroup.bind();
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
     }
 }

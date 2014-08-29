@@ -61,7 +61,7 @@ public class TopicCategoryAndKeywordsPanel extends AbstractWizardPanel implement
     protected void store(final WizardDescriptor wizard) {
         final CidsBean resource = ((TopicCategoryAndKeywordsVisualPanel)getComponent()).getCidsBean();
         resource.removePropertyChangeListener(this);
-        wizard.putProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN, resource);
+        ((TopicCategoryAndKeywordsVisualPanel)getComponent()).dispose();
     }
 
     @Override
