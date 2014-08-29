@@ -50,7 +50,7 @@ public class TemporalInformationVisualPanel extends javax.swing.JPanel implement
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        temporalInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel();
+        temporalInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel(true);
         infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
 
         setLayout(new java.awt.GridBagLayout());
