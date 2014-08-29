@@ -18,7 +18,7 @@ public interface InfoProvider {
     //~ Methods ----------------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * The parameter information will be shown in another Component, typically a InfoReceiver.
      *
      * @param  information  DOCUMENT ME!
      */

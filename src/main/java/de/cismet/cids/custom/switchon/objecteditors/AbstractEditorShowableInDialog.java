@@ -13,6 +13,8 @@ import java.awt.Component;
 
 import java.util.HashSet;
 
+import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
@@ -25,7 +27,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @version  $Revision$, $Date$
  * @see      ShowEditorInDialog
  */
-public abstract class AbstractEditorShowableInDialog extends javax.swing.JPanel implements CidsBeanRenderer,
+public abstract class AbstractEditorShowableInDialog extends InfoProviderJPanel implements CidsBeanRenderer,
     EditorShowableInDialog {
 
     //~ Static fields/initializers ---------------------------------------------
