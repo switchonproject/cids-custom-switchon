@@ -7,18 +7,27 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
+
 /**
  * DOCUMENT ME!
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TemporalInformationVisualPanel extends javax.swing.JPanel {
+public class TemporalInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             TemporalInformationVisualPanel.class);
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
+    private de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel temporalInformationPanel;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -27,6 +36,7 @@ public class TemporalInformationVisualPanel extends javax.swing.JPanel {
      */
     public TemporalInformationVisualPanel() {
         initComponents();
+        temporalInformationPanel.setInfoReceiver(infoBoxPanel);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -38,15 +48,67 @@ public class TemporalInformationVisualPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 300, Short.MAX_VALUE));
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        temporalInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel();
+        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
+
+        setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        add(temporalInformationPanel, gridBagConstraints);
+
+        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                TemporalInformationVisualPanel.class,
+                "TemporalInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
+        infoBoxPanel.setInformation(org.openide.util.NbBundle.getMessage(
+                TemporalInformationVisualPanel.class,
+                "TemporalInformationVisualPanel.infoBoxPanel.information"));        // NOI18N
+        infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
+        infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
+        infoBoxPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    infoBoxPanelMouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        add(infoBoxPanel, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void infoBoxPanelMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_infoBoxPanelMouseClicked
+        infoBoxPanel.showGeneralInformation();
+    }                                                                            //GEN-LAST:event_infoBoxPanelMouseClicked
 
+    @Override
+    public CidsBean getCidsBean() {
+        return temporalInformationPanel.getCidsBean();
+    }
+
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        temporalInformationPanel.setCidsBean(cidsBean);
+    }
+
+    @Override
+    public void dispose() {
+        temporalInformationPanel.dispose();
+    }
 }
