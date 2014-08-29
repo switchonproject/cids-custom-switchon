@@ -44,6 +44,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
     public static final String PROP_CONFIGURATION = "__prop_configuration__"; // NOI18N
     public static final String PROP_RESOURCE_BEAN = "__prop_resource_bean__"; // NOI18N
+    public static final String PROP_CONTACT_BEAN = "__prop_contact_bean__";   // NOI18N
 
     public static final String PROP_PROJEKT = "__prop_projekt__"; // NOI18N
 
@@ -82,6 +83,9 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         try {
             final CidsBean resource = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "resource");
             wizard.putProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN, resource);
+            final CidsBean contact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact");
+            wizard.putProperty(MetaDataWizardAction.PROP_CONTACT_BEAN, contact);
+            resource.setProperty("contact", contact);
         } catch (Exception ex) {
             LOG.error(ex, ex);
             return;

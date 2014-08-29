@@ -12,12 +12,13 @@ import java.awt.Component;
 import de.cismet.commons.gui.wizard.AbstractWizardPanel;
 
 /**
- * A AbstractWizardPanel which knows the class of its VisualPanel and which can generate the VisualPanel itself.
- * This avoids some code, especially the cast after a call of <code>getComponent()</code>
+ * A AbstractWizardPanel which knows the class of its VisualPanel and which can generate the VisualPanel itself. This
+ * avoids some code, especially the cast after a call of <code>getComponent()</code>
+ *
+ * @param    <T>  The class of the VisualPanel
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
- * @param <T> The class of the VisualPanel
  */
 public abstract class GenericAbstractWizardPanel<T extends Component> extends AbstractWizardPanel {
 
