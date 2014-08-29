@@ -845,6 +845,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     public void dispose() {
         bindingGroup.unbind();
         geometryChooserPanel.dispose();
+        temporalInformationPanel.dispose();
     }
 
     @Override

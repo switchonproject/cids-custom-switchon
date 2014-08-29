@@ -8,11 +8,13 @@
 package de.cismet.cids.custom.switchon.objecteditors;
 
 import de.cismet.cids.custom.switchon.gui.ISO8601JXDatePicker;
+import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.TimestampToDateConverter;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 /**
  * DOCUMENT ME!
@@ -20,7 +22,7 @@ import de.cismet.cids.dynamics.CidsBeanStore;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TemporalInformationPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class TemporalInformationPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -155,6 +157,13 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
+        dpStartDate.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    dpStartDateFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -171,6 +180,13 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
+        dpEndDate.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    dpEndDateFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -244,6 +260,13 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
+        dpCreationDate.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    dpCreationDateFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -260,6 +283,13 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
+        dpPublicationDate.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    dpPublicationDateFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -276,6 +306,13 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
+        dpLastModificationDate.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    dpLastModificationDateFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -306,6 +343,53 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void dpStartDateFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_dpStartDateFocusGained
+        provideInformation("Please specifiy the start date of the temporal coverage of the resource.");
+    }                                                                          //GEN-LAST:event_dpStartDateFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void dpEndDateFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_dpEndDateFocusGained
+        provideInformation(
+            "Please specifiy the end date of the temporal coverage of the resource. If not end date is provided, it is assumed that the data is continiously uppdated.");
+    }                                                                        //GEN-LAST:event_dpEndDateFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void dpCreationDateFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_dpCreationDateFocusGained
+        provideInformation("Please specifiy the date of creation of the resource.");
+    }                                                                             //GEN-LAST:event_dpCreationDateFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void dpPublicationDateFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_dpPublicationDateFocusGained
+        provideInformation(
+            "Please specify the date of publication of the resource at the orign website, catalogue, etc.");
+    }                                                                                //GEN-LAST:event_dpPublicationDateFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void dpLastModificationDateFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_dpLastModificationDateFocusGained
+        provideInformation("Please specify the date of last revision of the resource.");
+    }                                                                                     //GEN-LAST:event_dpLastModificationDateFocusGained
+
     @Override
     public CidsBean getCidsBean() {
         return resource;
@@ -318,5 +402,10 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
             this.resource = cidsBean;
             bindingGroup.bind();
         }
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
     }
 }

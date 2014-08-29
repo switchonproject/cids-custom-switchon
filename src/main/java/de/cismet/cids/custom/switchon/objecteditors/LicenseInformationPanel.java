@@ -28,7 +28,7 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            TemporalInformationPanel.class);
+            LicenseInformationPanel.class);
 
     //~ Instance fields --------------------------------------------------------
 

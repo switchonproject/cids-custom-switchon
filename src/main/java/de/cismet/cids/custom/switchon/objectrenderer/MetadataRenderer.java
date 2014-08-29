@@ -28,7 +28,6 @@ import javax.xml.transform.stream.StreamSource;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.ImageGetterUtils;
-import de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -49,7 +48,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            TemporalInformationPanel.class);
+            MetadataRenderer.class);
 
     //~ Instance fields --------------------------------------------------------
 
