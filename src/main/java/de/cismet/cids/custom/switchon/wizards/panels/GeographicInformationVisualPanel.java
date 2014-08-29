@@ -209,18 +209,8 @@ public class GeographicInformationVisualPanel extends javax.swing.JPanel impleme
         infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
                 GeographicInformationVisualPanel.class,
                 "GeographicInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
-        infoBoxPanel.setInformation(org.openide.util.NbBundle.getMessage(
-                GeographicInformationVisualPanel.class,
-                "GeographicInformationVisualPanel.infoBoxPanel.information"));        // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
-        infoBoxPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-
-                @Override
-                public void mouseClicked(final java.awt.event.MouseEvent evt) {
-                    infoBoxPanelMouseClicked(evt);
-                }
-            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -232,15 +222,6 @@ public class GeographicInformationVisualPanel extends javax.swing.JPanel impleme
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void infoBoxPanelMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_infoBoxPanelMouseClicked
-        infoBoxPanel.showGeneralInformation();
-    }                                                                            //GEN-LAST:event_infoBoxPanelMouseClicked
 
     /**
      * DOCUMENT ME!

@@ -78,34 +78,15 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
         infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
                 BasicResourcePropertiesVisualPanel.class,
                 "BasicResourcePropertiesVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
-        infoBoxPanel.setInformation(org.openide.util.NbBundle.getMessage(
-                BasicResourcePropertiesVisualPanel.class,
-                "BasicResourcePropertiesVisualPanel.infoBoxPanel.information"));        // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
-        infoBoxPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-
-                @Override
-                public void mouseClicked(final java.awt.event.MouseEvent evt) {
-                    infoBoxPanelMouseClicked(evt);
-                }
-            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
-    } // </editor-fold>//GEN-END:initComponents
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void infoBoxPanelMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_infoBoxPanelMouseClicked
-        infoBoxPanel.showGeneralInformation();
-    }                                                                            //GEN-LAST:event_infoBoxPanelMouseClicked
+    }                                                                                   // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!

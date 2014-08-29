@@ -51,6 +51,13 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
 
         lblInformation = new javax.swing.JLabel();
 
+        addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    formMouseClicked(evt);
+                }
+            });
         setLayout(new java.awt.GridBagLayout());
 
         lblInformation.setForeground(new java.awt.Color(16, 76, 116));
@@ -66,6 +73,15 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 5);
         add(lblInformation, gridBagConstraints);
     }                                                                                        // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void formMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_formMouseClicked
+        showGeneralInformation();
+    }                                                                    //GEN-LAST:event_formMouseClicked
 
     /**
      * DOCUMENT ME!
