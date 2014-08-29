@@ -11,14 +11,11 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
-import java.awt.Component;
-
 import java.lang.reflect.InvocationTargetException;
 
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
-import javax.swing.JComponent;
 import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.switchon.wizards.panels.AdditonalMetaDataBasicInformationPanel;
@@ -27,6 +24,7 @@ import de.cismet.cids.custom.switchon.wizards.panels.AdditonalMetaDataEditDocume
 import de.cismet.cids.custom.switchon.wizards.panels.AdditonalMetaDataImportDocumentPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.AdditonalMetaDataPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.BasicResourcePropertiesPanel;
+import de.cismet.cids.custom.switchon.wizards.panels.ContactInformationPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.GeographicInformationPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.LicenseInformationPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.RelationshipsBasicInformationPanel;
@@ -92,7 +90,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                 MetaDataWizardCustomConfigurationPanel.class,
                 BasicResourcePropertiesPanel.class,
                 TopicCategoryAndKeywordsPanel.class,
-                ResourceContactInformationPanel.class,
+                ContactInformationPanel.class,
                 GeographicInformationPanel.class,
                 TemporalInformationPanel.class,
                 LicenseInformationPanel.class,
@@ -117,7 +115,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     MetaDataWizardConfigurationPanel.class,
                     BasicResourcePropertiesPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
-                    ResourceContactInformationPanel.class,
+                    ContactInformationPanel.class,
                     GeographicInformationPanel.class,
                     TemporalInformationPanel.class,
                     LicenseInformationPanel.class,
@@ -127,7 +125,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     MetaDataWizardConfigurationPanel.class,
                     BasicResourcePropertiesPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
-                    ResourceContactInformationPanel.class,
+                    ContactInformationPanel.class,
                     GeographicInformationPanel.class,
                     TemporalInformationPanel.class,
                     LicenseInformationPanel.class,
@@ -144,7 +142,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     MetaDataWizardConfigurationPanel.class,
                     BasicResourcePropertiesPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
-                    ResourceContactInformationPanel.class,
+                    ContactInformationPanel.class,
                     GeographicInformationPanel.class,
                     TemporalInformationPanel.class,
                     LicenseInformationPanel.class,

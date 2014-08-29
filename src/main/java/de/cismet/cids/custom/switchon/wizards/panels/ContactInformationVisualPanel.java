@@ -9,6 +9,7 @@ package de.cismet.cids.custom.switchon.wizards.panels;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 /**
  * DOCUMENT ME!
@@ -16,7 +17,7 @@ import de.cismet.cids.dynamics.CidsBeanStore;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class ContactInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class ContactInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -25,7 +26,7 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
 
     //~ Instance fields --------------------------------------------------------
 
-    private CidsBean resource;
+    private CidsBean contact;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.ContactEditor contactEditor;
@@ -39,18 +40,20 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
      */
     public ContactInformationVisualPanel() {
         initComponents();
+        contactEditor.setInfoReceiver(infoBoxPanel);
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public CidsBean getCidsBean() {
-        return resource;
+        return contact;
     }
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-        resource = cidsBean;
+        contact = cidsBean;
+        contactEditor.setCidsBean(contact);
     }
 
     /**
@@ -123,4 +126,9 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
     private void formFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_formFocusGained
         infoBoxPanel.showGeneralInformation();
     }                                                                   //GEN-LAST:event_formFocusGained
+
+    @Override
+    public void dispose() {
+        contactEditor.dispose();
+    }
 }

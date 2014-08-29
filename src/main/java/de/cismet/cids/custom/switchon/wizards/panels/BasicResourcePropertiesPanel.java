@@ -105,9 +105,9 @@ public class BasicResourcePropertiesPanel extends AbstractWizardPanel implements
      */
     private void setDefaults(final CidsBean resource) {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(
-            BasicResourcePropertiesPanel.defaultLanguage,
+            defaultLanguage,
             resource,
             "language");
-        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(BasicResourcePropertiesPanel.defaultType, resource, "type");
+        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultType, resource, "type");
     }
 }

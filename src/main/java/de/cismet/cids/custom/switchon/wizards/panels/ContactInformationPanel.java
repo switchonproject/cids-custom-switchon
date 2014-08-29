@@ -12,14 +12,12 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
-import java.awt.Component;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import java.util.UUID;
 import java.util.concurrent.Future;
 
+import de.cismet.cids.custom.switchon.utils.CidsBeanUtils;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
@@ -46,11 +44,9 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
 
     /**
      * Creates a new ContactInformationPanel object.
-     *
-     * @param  clazz  DOCUMENT ME!
      */
-    public ContactInformationPanel(final Class<ContactInformationVisualPanel> clazz) {
-        super(clazz);
+    public ContactInformationPanel() {
+        super(ContactInformationVisualPanel.class);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -58,6 +54,7 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
     @Override
     protected void read(final WizardDescriptor wizard) {
         final CidsBean contact = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_CONTACT_BEAN);
+        setDefaults(contact);
         contact.addPropertyChangeListener(this);
         getComponent().setCidsBean(contact);
     }
@@ -75,6 +72,8 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
         } catch (Exception ex) {
             LOG.error(ex, ex);
         }
+
+        getComponent().dispose();
     }
 
     @Override
@@ -95,5 +94,17 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
         final String description = (String)resource.getProperty("description");
 
         return StringUtils.isNotBlank(description) && StringUtils.isNotBlank(organisation);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  resource  DOCUMENT ME!
+     */
+    private void setDefaults(final CidsBean resource) {
+        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(
+            defaultRole,
+            resource,
+            "role"); // NOI18N
     }
 }
