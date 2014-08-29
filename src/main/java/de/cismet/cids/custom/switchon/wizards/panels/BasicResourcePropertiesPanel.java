@@ -12,8 +12,6 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
-import java.awt.Component;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -22,12 +20,11 @@ import java.util.concurrent.Future;
 
 import de.cismet.cids.custom.switchon.utils.CidsBeanUtils;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
+import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
 import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.commons.gui.wizard.AbstractWizardPanel;
 
 /**
  * DOCUMENT ME!
@@ -35,7 +32,9 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicResourcePropertiesPanel extends AbstractWizardPanel implements NameProvider, PropertyChangeListener {
+public class BasicResourcePropertiesPanel extends GenericAbstractWizardPanel<BasicResourcePropertiesVisualPanel>
+        implements NameProvider,
+            PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -43,24 +42,28 @@ public class BasicResourcePropertiesPanel extends AbstractWizardPanel implements
     private static final Future<CidsBean> defaultType = TagUtils.fetchFutureTagByName("external data");
     private static final Future<CidsBean> defaultLanguage = TagUtils.fetchFutureTagByName("eng");
 
-    //~ Methods ----------------------------------------------------------------
+    //~ Constructors -----------------------------------------------------------
 
-    @Override
-    protected Component createComponent() {
-        return new BasicResourcePropertiesVisualPanel();
+    /**
+     * Creates a new BasicResourcePropertiesPanel object.
+     */
+    public BasicResourcePropertiesPanel() {
+        super(BasicResourcePropertiesVisualPanel.class);
     }
+
+    //~ Methods ----------------------------------------------------------------
 
     @Override
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
         setDefaults(resource);
-        ((BasicResourcePropertiesVisualPanel)getComponent()).setCidsBean(resource);
+        getComponent().setCidsBean(resource);
         resource.addPropertyChangeListener(this);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        final CidsBean resource = ((BasicResourcePropertiesVisualPanel)getComponent()).getCidsBean();
+        final CidsBean resource = getComponent().getCidsBean();
         resource.removePropertyChangeListener(this);
 
         try {
@@ -81,7 +84,7 @@ public class BasicResourcePropertiesPanel extends AbstractWizardPanel implements
 
     @Override
     public boolean isValid() {
-        final CidsBean resource = ((BasicResourcePropertiesVisualPanel)getComponent()).getCidsBean();
+        final CidsBean resource = getComponent().getCidsBean();
         final String name = (String)resource.getProperty("name");
         final String desc = (String)resource.getProperty("description");
         final CidsBean type = (CidsBean)resource.getProperty("type");
