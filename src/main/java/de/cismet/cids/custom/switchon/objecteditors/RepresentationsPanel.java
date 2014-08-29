@@ -248,7 +248,7 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
-            this.representations = cidsBean.getBeanCollectionProperty("representations");
+            this.representations = cidsBean.getBeanCollectionProperty("representation");
 
             bindingGroup.bind();
         }

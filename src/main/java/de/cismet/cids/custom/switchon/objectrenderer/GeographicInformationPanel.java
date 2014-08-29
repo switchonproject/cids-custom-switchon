@@ -411,7 +411,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
     private void initSpatialResolutionsAndScales() {
         final List<String> resolutions = new ArrayList<String>();
         final List<String> scales = new ArrayList<String>();
-        for (final CidsBean representation : resourceCidsBean.getBeanCollectionProperty("representations")) {
+        for (final CidsBean representation : resourceCidsBean.getBeanCollectionProperty("representation")) {
             final String resolution = (String)representation.getProperty("spatialresolution");
             if (StringUtils.isNotBlank(resolution)) {
                 resolutions.add(resolution);

@@ -541,7 +541,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
      * DOCUMENT ME!
      */
     private void generateDataAccessPanels() {
-        final List<CidsBean> representations = cidsBean.getBeanCollectionProperty("representations");
+        final List<CidsBean> representations = cidsBean.getBeanCollectionProperty("representation");
         boolean firstPane = true;
         for (final CidsBean representation : representations) {
             final String representationType = (String)representation.getProperty("type.name");
