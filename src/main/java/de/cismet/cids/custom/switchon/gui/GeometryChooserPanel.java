@@ -31,6 +31,8 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
 
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
+
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
 import de.cismet.cismap.commons.CrsTransformer;
@@ -137,6 +139,9 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                this.cidsBean);
             bindingGroup.bind();
             initMap();
 
@@ -148,6 +153,7 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
                             if (evt.getOldValue() == null) {
                                 try {
                                     final Geometry geoObj = (Geometry)cidsBean.getProperty("spatialcoverage.geo_field");
+                                    initMap();
                                     setGeometry(geoObj);
                                 } catch (Exception ex) {
                                     throw new RuntimeException("Error when setting geom origin.", ex);
