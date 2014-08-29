@@ -42,9 +42,10 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
     private static final Logger LOG = Logger.getLogger(MetaDataWizardAction.class);
 
-    public static final String PROP_CONFIGURATION = "__prop_configuration__"; // NOI18N
-    public static final String PROP_RESOURCE_BEAN = "__prop_resource_bean__"; // NOI18N
-    public static final String PROP_CONTACT_BEAN = "__prop_contact_bean__";   // NOI18N
+    public static final String PROP_CONFIGURATION = "__prop_configuration__";                               // NOI18N
+    public static final String PROP_RESOURCE_BEAN = "__prop_resource_bean__";                               // NOI18N
+    public static final String PROP_CONTACT_BEAN = "__prop_contact_bean__";                                 // NOI18N
+    public static final String PROP_SELECTED_REPRESENTATION_BEAN = "__prop_selected_representation_bean__"; // NOI18N
 
     public static final String PROP_PROJEKT = "__prop_projekt__"; // NOI18N
 
