@@ -55,6 +55,9 @@
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.licensestatement}" target="txtaLicenseStatement" targetPath="text" updateStrategy="0" immediately="false"/>
               </BindingProperties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtaLicenseStatementFocusGained"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -7,12 +7,14 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
@@ -23,7 +25,7 @@ import de.cismet.cids.editors.FastBindableReferenceCombo;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class LicenseInformationPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class LicenseInformationPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -121,6 +123,13 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtaLicenseStatement.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtaLicenseStatementFocusGained(evt);
+                }
+            });
         jScrollPane1.setViewportView(txtaLicenseStatement);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -256,6 +265,16 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtaLicenseStatementFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtaLicenseStatementFocusGained
+        provideInformation(java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/objecteditors/Bundle")
+                    .getString("LicenseInformationPanel.txtaLicenseStatementFocusGained().info"));
+    }                                                                                   //GEN-LAST:event_txtaLicenseStatementFocusGained
+
     @Override
     public CidsBean getCidsBean() {
         return resource;
@@ -271,5 +290,10 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
                 this.resource);
             bindingGroup.bind();
         }
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
     }
 }

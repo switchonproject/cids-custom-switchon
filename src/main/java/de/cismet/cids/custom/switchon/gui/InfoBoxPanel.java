@@ -67,6 +67,15 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
         add(lblInformation, gridBagConstraints);
     }                                                                                        // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getInformation() {
+        return lblInformation.getText();
+    }
+
     @Override
     public void setInformation(final String information) {
         if (StringUtils.isNotBlank(information)) {
