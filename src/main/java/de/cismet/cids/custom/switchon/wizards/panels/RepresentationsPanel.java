@@ -11,9 +11,16 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
-import java.awt.Component;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-import de.cismet.commons.gui.wizard.AbstractWizardPanel;
+import java.util.List;
+
+import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
+import de.cismet.cids.custom.switchon.wizards.NameProvider;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -21,7 +28,9 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RepresentationsPanel extends AbstractWizardPanel {
+public class RepresentationsPanel extends GenericAbstractWizardPanel<RepresentationsVisualPanel>
+        implements NameProvider,
+            PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -33,22 +42,39 @@ public class RepresentationsPanel extends AbstractWizardPanel {
      * Creates a new RepresentationsPanel object.
      */
     public RepresentationsPanel() {
+        super(RepresentationsVisualPanel.class);
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    protected Component createComponent() {
-        return new RepresentationsVisualPanel();
-    }
-
-    @Override
     protected void read(final WizardDescriptor wizard) {
-        LOG.fatal("RepresentationsPanel.read: Not supported yet.", new Exception()); // NOI18N
+        final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+        getComponent().setCidsBean(resource);
+        resource.addPropertyChangeListener(this);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        LOG.fatal("RepresentationsPanel.store: Not supported yet.", new Exception()); // NOI18N
+        final CidsBean resource = getComponent().getCidsBean();
+        resource.removePropertyChangeListener(this);
+        getComponent().dispose();
+    }
+
+    @Override
+    public String getName() {
+        return "Resource Representation";
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        changeSupport.fireChange();
+    }
+
+    @Override
+    public boolean isValid() {
+        final CidsBean resource = getComponent().getCidsBean();
+        final List<CidsBean> representations = resource.getBeanCollectionProperty("representation");
+        return !representations.isEmpty();
     }
 }

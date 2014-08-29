@@ -12,6 +12,7 @@ import java.util.List;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -21,7 +22,7 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RepresentationsPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class RepresentationsPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -270,5 +271,10 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
      */
     public void setRepresentations(final List<CidsBean> representations) {
         this.representations = representations;
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
     }
 }
