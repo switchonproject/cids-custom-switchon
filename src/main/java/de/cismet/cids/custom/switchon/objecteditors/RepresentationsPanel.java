@@ -273,6 +273,22 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
         this.representations = representations;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CidsBean getSelectedRepresentation() {
+        final int selectedRow = tblRepresentations.getSelectedRow();
+        if (selectedRow != -1) {
+            final CidsBean selectedRepresentation = representations.get(tblRepresentations.convertRowIndexToModel(
+                        selectedRow));
+            return selectedRepresentation;
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public void dispose() {
         bindingGroup.unbind();

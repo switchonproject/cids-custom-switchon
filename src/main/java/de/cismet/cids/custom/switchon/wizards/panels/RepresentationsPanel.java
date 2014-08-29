@@ -57,6 +57,12 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
     @Override
     protected void store(final WizardDescriptor wizard) {
         final CidsBean resource = getComponent().getCidsBean();
+
+        final CidsBean selectedRepresentation = getComponent().getSelectedRepresentation();
+        if (selectedRepresentation != null) {
+            wizard.putProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN, selectedRepresentation);
+        }
+
         resource.removePropertyChangeListener(this);
         getComponent().dispose();
     }
@@ -71,10 +77,21 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
         changeSupport.fireChange();
     }
 
+    /**
+     * The panel is valid if there is no representation at all, or if there are representations, but one must be
+     * selected.
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public boolean isValid() {
         final CidsBean resource = getComponent().getCidsBean();
         final List<CidsBean> representations = resource.getBeanCollectionProperty("representation");
-        return !representations.isEmpty();
+        if (representations.isEmpty()) {
+            return true;
+        }
+
+        final CidsBean selectedRepresentation = getComponent().getSelectedRepresentation();
+        return selectedRepresentation != null;
     }
 }

@@ -91,4 +91,13 @@ public class RepresentationsVisualPanel extends javax.swing.JPanel implements Ci
     public void dispose() {
         representationsPanel.dispose();
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CidsBean getSelectedRepresentation() {
+        return representationsPanel.getSelectedRepresentation();
+    }
 }
