@@ -50,14 +50,14 @@ public class LicenseInformationVisualPanel extends javax.swing.JPanel implements
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        licenseInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.LicenseInformationPanel();
+        licenseInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.LicenseInformationPanel(true);
         infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
 
         setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;

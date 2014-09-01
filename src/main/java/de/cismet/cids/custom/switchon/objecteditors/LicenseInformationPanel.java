@@ -114,6 +114,8 @@ public class LicenseInformationPanel extends InfoProviderJPanel implements CidsB
         txtaLicenseStatement.setLineWrap(true);
         txtaLicenseStatement.setRows(20);
         txtaLicenseStatement.setWrapStyleWord(true);
+        txtaLicenseStatement.setMinimumSize(new java.awt.Dimension(100, 100));
+        txtaLicenseStatement.setPreferredSize(new java.awt.Dimension(100, 100));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
