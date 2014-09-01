@@ -16,6 +16,9 @@ import java.beans.PropertyChangeListener;
 
 import java.util.List;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
@@ -30,11 +33,16 @@ import de.cismet.cids.dynamics.CidsBean;
  */
 public class RepresentationsPanel extends GenericAbstractWizardPanel<RepresentationsVisualPanel>
         implements NameProvider,
-            PropertyChangeListener {
+            PropertyChangeListener,
+            ListSelectionListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final Logger LOG = Logger.getLogger(RepresentationsPanel.class);
+
+    //~ Instance fields --------------------------------------------------------
+
+    private CidsBean selectedRepresentation = null;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -51,6 +59,8 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
         getComponent().setCidsBean(resource);
+        selectedRepresentation = null;
+        getComponent().addTableSelectionListener(this);
         resource.addPropertyChangeListener(this);
     }
 
@@ -58,12 +68,10 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
     protected void store(final WizardDescriptor wizard) {
         final CidsBean resource = getComponent().getCidsBean();
 
-        final CidsBean selectedRepresentation = getComponent().getSelectedRepresentation();
-        if (selectedRepresentation != null) {
-            wizard.putProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN, selectedRepresentation);
-        }
+        wizard.putProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN, selectedRepresentation);
 
         resource.removePropertyChangeListener(this);
+        getComponent().removeTableSelectionListener(this);
         getComponent().dispose();
     }
 
@@ -77,21 +85,11 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
         changeSupport.fireChange();
     }
 
-    /**
-     * The panel is valid if there is no representation at all, or if there are representations, but one must be
-     * selected.
-     *
-     * @return  DOCUMENT ME!
-     */
     @Override
-    public boolean isValid() {
-        final CidsBean resource = getComponent().getCidsBean();
-        final List<CidsBean> representations = resource.getBeanCollectionProperty("representation");
-        if (representations.isEmpty()) {
-            return true;
+    public void valueChanged(final ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+            selectedRepresentation = getComponent().getSelectedRepresentation();
+            changeSupport.fireChange();
         }
-
-        final CidsBean selectedRepresentation = getComponent().getSelectedRepresentation();
-        return selectedRepresentation != null;
     }
 }

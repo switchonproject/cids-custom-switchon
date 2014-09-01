@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import javax.swing.event.ListSelectionListener;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
@@ -99,5 +101,22 @@ public class RepresentationsVisualPanel extends javax.swing.JPanel implements Ci
      */
     public CidsBean getSelectedRepresentation() {
         return representationsPanel.getSelectedRepresentation();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void addTableSelectionListener(final ListSelectionListener listener) {
+        representationsPanel.addTableSelectionListener(listener);
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void removeTableSelectionListener(final ListSelectionListener listener) {
+        representationsPanel.removeTableSelectionListener(listener);
     }
 }

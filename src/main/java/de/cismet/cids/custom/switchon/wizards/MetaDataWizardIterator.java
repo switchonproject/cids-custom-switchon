@@ -36,7 +36,6 @@ import de.cismet.cids.custom.switchon.wizards.panels.RepresentationsBasicInforma
 import de.cismet.cids.custom.switchon.wizards.panels.RepresentationsDataAccessInformationPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.RepresentationsDataImportPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.RepresentationsPanel;
-import de.cismet.cids.custom.switchon.wizards.panels.ResourceContactInformationPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.TemporalInformationPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.TopicCategoryAndKeywordsPanel;
 

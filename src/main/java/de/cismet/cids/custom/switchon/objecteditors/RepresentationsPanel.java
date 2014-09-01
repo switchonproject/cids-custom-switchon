@@ -10,6 +10,8 @@ package de.cismet.cids.custom.switchon.objecteditors;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.swing.event.ListSelectionListener;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
@@ -292,5 +294,22 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
     @Override
     public void dispose() {
         bindingGroup.unbind();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void addTableSelectionListener(final ListSelectionListener listener) {
+        tblRepresentations.getSelectionModel().addListSelectionListener(listener);
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void removeTableSelectionListener(final ListSelectionListener listener) {
+        tblRepresentations.getSelectionModel().removeListSelectionListener(listener);
     }
 }
