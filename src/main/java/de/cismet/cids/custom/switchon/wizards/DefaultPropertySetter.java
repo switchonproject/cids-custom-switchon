@@ -35,7 +35,7 @@ public class DefaultPropertySetter {
     private static final Future<CidsBean> defaultSrid = TagUtils.fetchFutureTagByName("EPSG:4326"); // NOI18N
     private static final Future<CidsBean> defaultLocation = TagUtils.fetchFutureTagByName("World"); // NOI18N
     private static final Future<CidsBean> defaultAccessConditions = TagUtils.fetchFutureTagByName(
-            "No conditions apply");
+            "other");
     private static final Future<CidsBean> defaultAccessLimitations = TagUtils.fetchFutureTagByName("No limitation");
     private static final Future<CidsBean> defaultConformity = TagUtils.fetchFutureTagByName("Not evaluated");
     // Contact
@@ -59,7 +59,7 @@ public class DefaultPropertySetter {
         "Sharing Water-related Information to Tackle Changes in the Hydrosphere – for Operational Needs (SWITCH-ON).";
     private static final String defaultOrganisationMetaDataContact = "SWITCH-ON";
     private static final Future<CidsBean> defaultRoleMetaDataContact = TagUtils.fetchFutureTagByName("pointOfContact");
-    private static final String defaultURLMetaDataContact = "http://www.water\\-switch-on.eu/";
+    private static final String defaultURLMetaDataContact = "http://www.water-switch-on.eu/";
 
     //~ Methods ----------------------------------------------------------------
 

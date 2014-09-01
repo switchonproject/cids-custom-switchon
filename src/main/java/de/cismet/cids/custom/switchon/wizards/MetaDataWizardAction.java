@@ -160,13 +160,8 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
             DefaultPropertySetter.setDefaultsToMetaDataCidsBean(metadata);
             wizard.putProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN, metadata);
             final CidsBean metadataContact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact");
-            wizard.putProperty(MetaDataWizardAction.PROP_CONTACT_BEAN, metadataContact);
             DefaultPropertySetter.setDefaultsToMetaDataContactCidsBean(metadataContact);
             metadata.setProperty("contact", metadataContact);
-
-            final CidsBean representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation");
-            DefaultPropertySetter.setDefaultsToRepresentationCidsBean(representation);
-            wizard.putProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN, representation);
         } catch (Exception ex) {
             LOG.error(ex, ex);
         }
