@@ -11,15 +11,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
-import org.openide.util.Exceptions;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import java.util.concurrent.Future;
-
-import de.cismet.cids.custom.switchon.utils.CidsBeanUtils;
-import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
@@ -68,6 +63,7 @@ public class RepresentationsDataAccessInformationPanel
                 DefaultPropertySetter.setDefaultsToRepresentationCidsBean(representation);
                 final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
                 resource.getBeanCollectionProperty("representation").add(representation);
+                DefaultPropertySetter.setDefaultsToRepresentationCidsBeanDerivedByResource(representation, resource);
             } catch (Exception ex) {
                 LOG.error(ex, ex);
                 return;

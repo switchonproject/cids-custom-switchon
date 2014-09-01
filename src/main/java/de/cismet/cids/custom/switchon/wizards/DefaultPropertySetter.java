@@ -9,6 +9,7 @@ package de.cismet.cids.custom.switchon.wizards;
 
 import Sirius.navigator.connection.SessionManager;
 
+import java.util.UUID;
 import java.util.concurrent.Future;
 
 import de.cismet.cids.custom.switchon.utils.CidsBeanUtils;
@@ -40,6 +41,7 @@ public class DefaultPropertySetter {
     // Contact
     private static final Future<CidsBean> defaultRoleResource = TagUtils.fetchFutureTagByName("resourceProvider");
     // Representation
+    private static final Future<CidsBean> defaultTypeRepresentation = TagUtils.fetchFutureTagByName("original data");
     private static final Future<CidsBean> defaultContentType = TagUtils.fetchFutureTagByName(
             "application/octet-stream");
     private static final Future<CidsBean> defaultFunction = TagUtils.fetchFutureTagByName("download");
@@ -103,10 +105,26 @@ public class DefaultPropertySetter {
     /**
      * DOCUMENT ME!
      *
+     * @param   representation  DOCUMENT ME!
+     * @param   resource        DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static void setDefaultsToRepresentationCidsBeanDerivedByResource(final CidsBean representation,
+            final CidsBean resource) throws Exception {
+        final String resourceName = (String)resource.getProperty("name");
+        representation.setProperty("name", resourceName + " Representation");
+        representation.setProperty("description", "Representation of the resource " + resourceName);
+        representation.setProperty("uuid", UUID.randomUUID());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  representation  DOCUMENT ME!
      */
     public static void setDefaultsToRepresentationCidsBean(final CidsBean representation) {
-        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultTypeResource, representation, "type");
+        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultTypeRepresentation, representation, "type");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultContentType, representation, "contenttype");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultFunction, representation, "function");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultProtocol, representation, "protocol");
