@@ -16,6 +16,9 @@ import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import java.text.MessageFormat;
 
 import javax.swing.AbstractAction;
@@ -79,6 +82,25 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         // set the subtitle. The String is retrieved from iterator.name()
         wizard.setTitleFormat(new MessageFormat("{1}"));
         wizard.setTitle("Meta-Data Wizard");
+
+        wizard.addPropertyChangeListener(new PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(final PropertyChangeEvent evt) {
+                    if ((evt.getNewValue() != null)
+                                && "org.openide.WizardDescriptor.FinishAction".equals(
+                                    evt.getNewValue().getClass().getCanonicalName())) {
+                        // persist the resource bean, when the wizard finished
+                        try {
+                            final CidsBean resource = (CidsBean)wizard.getProperty(
+                                    MetaDataWizardAction.PROP_RESOURCE_BEAN);
+                            resource.persist();
+                        } catch (Exception ex) {
+                            LOG.error("The resource bean could not be persisted.", ex);
+                        }
+                    }
+                }
+            });
 
         // create new cidsBeans
         try {

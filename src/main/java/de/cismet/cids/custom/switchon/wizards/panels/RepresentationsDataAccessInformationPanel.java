@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
+import org.openide.util.Exceptions;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -33,7 +34,8 @@ import de.cismet.cids.dynamics.CidsBean;
  */
 public class RepresentationsDataAccessInformationPanel
         extends GenericAbstractWizardPanel<RepresentationsDataAccessInformationVisualPanel> implements NameProvider,
-        PropertyChangeListener {
+        PropertyChangeListener,
+        WizardDescriptor.FinishablePanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -43,6 +45,10 @@ public class RepresentationsDataAccessInformationPanel
     private static final Future<CidsBean> defaultFunction = TagUtils.fetchFutureTagByName("download");
     private static final Future<CidsBean> defaultProtocol = TagUtils.fetchFutureTagByName("WWW:LINK");
     private static final Future<CidsBean> defaultApplicationprofile = TagUtils.fetchFutureTagByName("Webbrowser");
+
+    //~ Instance fields --------------------------------------------------------
+
+    private boolean finishPanel = false;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -129,5 +135,19 @@ public class RepresentationsDataAccessInformationPanel
 
         return StringUtils.isNotBlank(contentLocation) && (contentLocation != null) && (contentType != null)
                     && (function != null) && (protocol != null) && (applicationprofile != null);
+    }
+
+    @Override
+    public boolean isFinishPanel() {
+        return finishPanel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  finishPanel  DOCUMENT ME!
+     */
+    public void setFinishPanel(final boolean finishPanel) {
+        this.finishPanel = finishPanel;
     }
 }

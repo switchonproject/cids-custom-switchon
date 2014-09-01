@@ -118,7 +118,6 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     GeographicInformationPanel.class,
                     TemporalInformationPanel.class,
                     LicenseInformationPanel.class,
-                    RepresentationsPanel.class,
                     RepresentationsDataAccessInformationPanel.class);
             advancedSequence = createSequenceForClasses(
                     MetaDataWizardConfigurationPanel.class,
@@ -213,6 +212,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                 case "basic": {
                     currentPanels = basicSequence;
                     wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_DATA, createSubtitlesForCurrentPanels());
+                    setFinishPanel(currentPanels[currentPanels.length - 1]);
                     break;
                 }
                 case "advanced": {
@@ -322,5 +322,16 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
             name = ((NameProvider)panel).getName();
         }
         return name;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  panel  DOCUMENT ME!
+     */
+    private void setFinishPanel(final WizardDescriptor.Panel panel) {
+        if (panel instanceof RepresentationsDataAccessInformationPanel) {
+            ((RepresentationsDataAccessInformationPanel)panel).setFinishPanel(true);
+        }
     }
 }
