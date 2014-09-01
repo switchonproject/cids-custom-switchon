@@ -16,10 +16,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import java.util.UUID;
-import java.util.concurrent.Future;
 
-import de.cismet.cids.custom.switchon.utils.CidsBeanUtils;
-import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
@@ -39,8 +36,6 @@ public class BasicResourcePropertiesPanel extends GenericAbstractWizardPanel<Bas
     //~ Static fields/initializers ---------------------------------------------
 
     private static final Logger LOG = Logger.getLogger(BasicResourcePropertiesPanel.class);
-    private static final Future<CidsBean> defaultType = TagUtils.fetchFutureTagByName("external data");
-    private static final Future<CidsBean> defaultLanguage = TagUtils.fetchFutureTagByName("eng");
 
     //~ Constructors -----------------------------------------------------------
 
@@ -56,7 +51,6 @@ public class BasicResourcePropertiesPanel extends GenericAbstractWizardPanel<Bas
     @Override
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
-        setDefaults(resource);
         getComponent().setCidsBean(resource);
         resource.addPropertyChangeListener(this);
     }
@@ -99,18 +93,5 @@ public class BasicResourcePropertiesPanel extends GenericAbstractWizardPanel<Bas
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         changeSupport.fireChange();
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  resource  DOCUMENT ME!
-     */
-    private void setDefaults(final CidsBean resource) {
-        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(
-            defaultLanguage,
-            resource,
-            "language");
-        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultType, resource, "type");
     }
 }

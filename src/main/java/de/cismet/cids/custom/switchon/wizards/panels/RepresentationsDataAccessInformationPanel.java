@@ -20,6 +20,7 @@ import java.util.concurrent.Future;
 
 import de.cismet.cids.custom.switchon.utils.CidsBeanUtils;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
+import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
@@ -40,11 +41,6 @@ public class RepresentationsDataAccessInformationPanel
     //~ Static fields/initializers ---------------------------------------------
 
     private static final Logger LOG = Logger.getLogger(RepresentationsDataAccessInformationPanel.class);
-    private static final Future<CidsBean> defaultContentType = TagUtils.fetchFutureTagByName(
-            "application/octet-stream");
-    private static final Future<CidsBean> defaultFunction = TagUtils.fetchFutureTagByName("download");
-    private static final Future<CidsBean> defaultProtocol = TagUtils.fetchFutureTagByName("WWW:LINK");
-    private static final Future<CidsBean> defaultApplicationprofile = TagUtils.fetchFutureTagByName("Webbrowser");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -69,6 +65,7 @@ public class RepresentationsDataAccessInformationPanel
             try {
                 // no representation selected, thus create a new representation and add it to the resource
                 representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation");
+                DefaultPropertySetter.setDefaultsToRepresentationCidsBean(representation);
                 final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
                 resource.getBeanCollectionProperty("representation").add(representation);
             } catch (Exception ex) {
@@ -77,7 +74,6 @@ public class RepresentationsDataAccessInformationPanel
             }
         }
 
-        setDefaults(representation);
         getComponent().setCidsBean(representation);
         representation.addPropertyChangeListener(this);
     }
@@ -98,30 +94,6 @@ public class RepresentationsDataAccessInformationPanel
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         changeSupport.fireChange();
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  representation  DOCUMENT ME!
-     */
-    private void setDefaults(final CidsBean representation) {
-        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(
-            defaultContentType,
-            representation,
-            "contenttype");
-        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(
-            defaultFunction,
-            representation,
-            "function");
-        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(
-            defaultProtocol,
-            representation,
-            "protocol");
-        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(
-            defaultApplicationprofile,
-            representation,
-            "applicationprofile");
     }
 
     @Override

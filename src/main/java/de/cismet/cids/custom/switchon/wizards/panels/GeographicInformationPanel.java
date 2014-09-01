@@ -14,10 +14,6 @@ import org.openide.WizardDescriptor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import java.util.concurrent.Future;
-
-import de.cismet.cids.custom.switchon.utils.CidsBeanUtils;
-import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
@@ -37,8 +33,6 @@ public class GeographicInformationPanel extends GenericAbstractWizardPanel<Geogr
     //~ Static fields/initializers ---------------------------------------------
 
     private static final Logger LOG = Logger.getLogger(GeographicInformationPanel.class);
-    private static final Future<CidsBean> defaultSrid = TagUtils.fetchFutureTagByName("EPSG:4326"); // NOI18N
-    private static final Future<CidsBean> defaultLocation = TagUtils.fetchFutureTagByName("World"); // NOI18N
 
     //~ Constructors -----------------------------------------------------------
 
@@ -54,7 +48,6 @@ public class GeographicInformationPanel extends GenericAbstractWizardPanel<Geogr
     @Override
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
-        setDefaults(resource);
         getComponent().setCidsBean(resource);
         resource.addPropertyChangeListener(this);
     }
@@ -83,21 +76,5 @@ public class GeographicInformationPanel extends GenericAbstractWizardPanel<Geogr
         final CidsBean spatialCoverage = (CidsBean)resource.getProperty("spatialcoverage"); // NOI18N
 
         return spatialCoverage != null;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  resource  DOCUMENT ME!
-     */
-    private void setDefaults(final CidsBean resource) {
-        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(
-            defaultSrid,
-            resource,
-            "srid");     // NOI18N
-        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(
-            defaultLocation,
-            resource,
-            "location"); // NOI18N
     }
 }
