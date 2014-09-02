@@ -26,14 +26,13 @@ import de.cismet.tools.configuration.NoWriteError;
 /**
  * DOCUMENT ME!
  *
- * @author   srichter
  * @version  $Revision$, $Date$
  */
 public final class SwitchOnConstants implements Configurable {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    public static final SwitchOnConstants COMMONS = new SwitchOnConstants();
+    private static volatile SwitchOnConstants instance = null;
     public static final String MLESSNUMBER =
         "nmless=5061756C612030352E31322E32303035204A75737475732032352E30372E323030382054616E6A612030362E31302E31393734";
 
@@ -69,6 +68,31 @@ public final class SwitchOnConstants implements Configurable {
             LOG.fatal("SwitchOnConstants Error!", ex);
             throw new RuntimeException(ex);
         }
+    }
+
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static SwitchOnConstants getInstance() {
+        if (instance == null) {
+            synchronized (SwitchOnConstants.class) {
+                if (instance == null) {
+                    instance = new SwitchOnConstants();
+                    instance.initConfigure();
+                }
+            }
+        }
+        return instance;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void initConfigure() {
         try {
             final ConfigurationManager manager = CismapUtils.getCismapPlugin().getConfigurationManager();
             final String home = manager.getHome();
@@ -78,11 +102,9 @@ public final class SwitchOnConstants implements Configurable {
 
             manager.configure(this, home + fs + folder + fs + fileName);
         } catch (final Exception ex) {
-            LOG.fatal("SwitchOnConstants Error while loading the xml!", ex);
+            LOG.error("SwitchOnConstants Error while loading the xml!", ex);
         }
     }
-
-    //~ Methods ----------------------------------------------------------------
 
     @Override
     public void configure(final Element parent) {

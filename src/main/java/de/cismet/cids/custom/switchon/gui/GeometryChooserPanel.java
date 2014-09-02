@@ -14,10 +14,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 import org.apache.log4j.Logger;
 
-import org.jdom.DataConversionException;
-
-import org.openide.util.Exceptions;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -181,12 +177,12 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
             Geometry tmpPureGeom = null;
             if (geoObj instanceof Geometry) {
                 tmpPureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
-                        SwitchOnConstants.COMMONS.SRS_SERVICE);
+                        SwitchOnConstants.getInstance().SRS_SERVICE);
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.COMMONS.GEO_BUFFER);
+                    LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.getInstance().GEO_BUFFER);
                 }
                 tmpBufferedBox = new XBoundingBox(tmpPureGeom.getEnvelope().buffer(
-                            SwitchOnConstants.COMMONS.GEO_BUFFER));
+                            SwitchOnConstants.getInstance().GEO_BUFFER));
             } else {
                 final String srsCode = CismapBroker.getInstance()
                             .getMappingComponent()
@@ -208,16 +204,16 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
                     @Override
                     public void run() {
                         final ActiveLayerModel mappingModel = new ActiveLayerModel();
-                        mappingModel.setSrs(SwitchOnConstants.COMMONS.SRS_SERVICE);
+                        mappingModel.setSrs(SwitchOnConstants.getInstance().SRS_SERVICE);
                         mappingModel.addHome(new XBoundingBox(
                                 bufferedBox.getX1(),
                                 bufferedBox.getY1(),
                                 bufferedBox.getX2(),
                                 bufferedBox.getY2(),
-                                SwitchOnConstants.COMMONS.SRS_SERVICE,
+                                SwitchOnConstants.getInstance().SRS_SERVICE,
                                 true));
                         final SimpleWMS swms = new SimpleWMS(new SimpleWmsGetMapUrl(
-                                    SwitchOnConstants.COMMONS.MAP_CALL_STRING));
+                                    SwitchOnConstants.getInstance().MAP_CALL_STRING));
                         swms.setName("Resource");
 
                         previewGeometry.setGeometry(pureGeom);
@@ -300,7 +296,7 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
             final XBoundingBox box;
             try {
                 box = new XBoundingBox(geometry.getEnvelope().buffer(
-                            SwitchOnConstants.COMMONS.GEO_BUFFER));
+                            SwitchOnConstants.getInstance().GEO_BUFFER));
             } catch (NullPointerException npe) {
                 LOG.error(
                     "NPE in the constructor of XBoundingBox. This happens if a renderer/editor is started with DevelopmentTools.",
