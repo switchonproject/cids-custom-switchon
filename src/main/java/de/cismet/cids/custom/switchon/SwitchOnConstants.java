@@ -11,7 +11,17 @@
  */
 package de.cismet.cids.custom.switchon;
 
+import org.apache.commons.lang.StringUtils;
+
+import org.jdom.Element;
+
+import de.cismet.cids.custom.switchon.gui.utils.CismapUtils;
+
 import de.cismet.tools.PropertyReader;
+
+import de.cismet.tools.configuration.Configurable;
+import de.cismet.tools.configuration.ConfigurationManager;
+import de.cismet.tools.configuration.NoWriteError;
 
 /**
  * DOCUMENT ME!
@@ -19,7 +29,7 @@ import de.cismet.tools.PropertyReader;
  * @author   srichter
  * @version  $Revision$, $Date$
  */
-public final class SwitchOnConstants {
+public final class SwitchOnConstants implements Configurable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -28,7 +38,7 @@ public final class SwitchOnConstants {
         "nmless=5061756C612030352E31322E32303035204A75737475732032352E30372E323030382054616E6A612030362E31302E31393734";
 
     //
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(SwitchOnConstants.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SwitchOnConstants.class);
     public static final String NEWLINE = "<br>";
     public static final String LINK_SEPARATOR_TOKEN = "::";
 
@@ -36,7 +46,7 @@ public final class SwitchOnConstants {
 
     public final String SRS_GEOM;
     public final String SRS_SERVICE;
-    public final String MAP_CALL_STRING;
+    public String MAP_CALL_STRING;
     public final double GEO_BUFFER;
 
     //~ Constructors -----------------------------------------------------------
@@ -56,8 +66,39 @@ public final class SwitchOnConstants {
             MAP_CALL_STRING = serviceProperties.getProperty("MAP_CALL_STRING") + SRS_SERVICE;
             GEO_BUFFER = Double.parseDouble(serviceProperties.getProperty("GEO_BUFFER"));
         } catch (final Exception ex) {
-            log.fatal("AlkisCommons Error!", ex);
+            LOG.fatal("SwitchOnConstants Error!", ex);
             throw new RuntimeException(ex);
         }
+        try {
+            final ConfigurationManager manager = CismapUtils.getCismapPlugin().getConfigurationManager();
+            final String home = manager.getHome();
+            final String fs = manager.getFileSeperator();
+            final String folder = manager.getFolder();
+            final String fileName = "switchOnConstantsConfiguration.xml";
+
+            manager.configure(this, home + fs + folder + fs + fileName);
+        } catch (final Exception ex) {
+            LOG.fatal("SwitchOnConstants Error while loading the xml!", ex);
+        }
+    }
+
+    //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public void configure(final Element parent) {
+        final Element previewMap = parent.getChild("previewMap");
+        final String url = previewMap.getChildText("previewMapUrl");
+        if (StringUtils.isNotBlank(url)) {
+            MAP_CALL_STRING = url;
+        }
+    }
+
+    @Override
+    public void masterConfigure(final Element parent) {
+    }
+
+    @Override
+    public Element getConfiguration() throws NoWriteError {
+        return null;
     }
 }
