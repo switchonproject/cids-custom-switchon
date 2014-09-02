@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
+import java.awt.Component;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -47,16 +49,23 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
     //~ Methods ----------------------------------------------------------------
 
     @Override
+    protected Component createComponent() {
+        final ContactInformationVisualPanel component = (ContactInformationVisualPanel)super.createComponent();
+        component.setModel(this);
+        return component;
+    }
+
+    @Override
     protected void read(final WizardDescriptor wizard) {
-        final CidsBean contact = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_CONTACT_BEAN);
-        contact.addPropertyChangeListener(this);
-        getComponent().setCidsBean(contact);
+        final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+        resource.addPropertyChangeListener(this);
+        getComponent().setCidsBean(resource);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        final CidsBean contact = getComponent().getCidsBean();
-        contact.removePropertyChangeListener(this);
+        final CidsBean resource = getComponent().getCidsBean();
+        resource.removePropertyChangeListener(this);
         getComponent().dispose();
     }
 
@@ -74,8 +83,9 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
     @Override
     public boolean isValid() {
         final CidsBean resource = getComponent().getCidsBean();
-        final String organisation = (String)resource.getProperty("organisation");
-        final String description = (String)resource.getProperty("description");
+        final CidsBean contact = (CidsBean)resource.getProperty("contact");
+        final String organisation = (String)contact.getProperty("organisation");
+        final String description = (String)contact.getProperty("description");
 
         return StringUtils.isNotBlank(description) && StringUtils.isNotBlank(organisation);
     }

@@ -64,7 +64,7 @@
     </Component>
     <Component class="javax.swing.JComboBox" name="cmbContacts">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbContactsActionPerformed"/>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cmbContactsItemStateChanged"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new QueryComboBox(&quot;select id, organisation as name from contact order by organisation&quot;, false, &quot;contact&quot;);&#xa;"/>

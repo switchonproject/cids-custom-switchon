@@ -9,7 +9,10 @@ package de.cismet.cids.custom.switchon.wizards.panels;
 
 import Sirius.server.middleware.types.MetaObject;
 
-import org.openide.util.Exceptions;
+import java.awt.event.ItemEvent;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
 
@@ -23,7 +26,9 @@ import de.cismet.cids.dynamics.Disposable;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class ContactInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class ContactInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
+    Disposable,
+    PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -32,8 +37,9 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
 
     //~ Instance fields --------------------------------------------------------
 
-    private CidsBean contact;
+    private CidsBean resource;
     private CidsBean newlyCreatedContact;
+    private ContactInformationPanel model;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNew;
@@ -57,12 +63,28 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
 
     @Override
     public CidsBean getCidsBean() {
-        return contact;
+        return resource;
     }
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-        contact = cidsBean;
+        resource = cidsBean;
+        CidsBean contact = (CidsBean)resource.getProperty("contact");
+        if (contact == null) {
+            final Object selectedObject = cmbContacts.getSelectedItem();
+            if (selectedObject instanceof MetaObject) {
+                contact = ((MetaObject)selectedObject).getBean();
+            } else if (selectedObject instanceof CidsBean) {
+                contact = (CidsBean)selectedObject;
+            }
+
+            try {
+                resource.setProperty("contact", contact);
+                model.propertyChange(null);
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+            }
+        }
         contactEditor.setCidsBean(contact);
     }
 
@@ -136,11 +158,11 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 20);
         add(btnNew, gridBagConstraints);
 
-        cmbContacts.addActionListener(new java.awt.event.ActionListener() {
+        cmbContacts.addItemListener(new java.awt.event.ItemListener() {
 
                 @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cmbContactsActionPerformed(evt);
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    cmbContactsItemStateChanged(evt);
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -166,29 +188,11 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmbContactsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbContactsActionPerformed
-        final Object selectedContact = cmbContacts.getSelectedItem();
-        CidsBean selectContactBean = null;
-        if (selectedContact instanceof MetaObject) {
-            selectContactBean = ((MetaObject)selectedContact).getBean();
-        } else if (selectedContact instanceof CidsBean) {
-            selectContactBean = (CidsBean)selectedContact;
-        }
-        contact = selectContactBean;
-        contactEditor.setCidsBean(selectContactBean);
-
-        contactEditor.setEnabled(contact == newlyCreatedContact);
-    } //GEN-LAST:event_cmbContactsActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
     private void btnNewActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewActionPerformed
         if (newlyCreatedContact == null) {
             try {
                 newlyCreatedContact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact");
+                newlyCreatedContact.addPropertyChangeListener(this);
                 cmbContacts.addItem(newlyCreatedContact);
                 cmbContacts.setSelectedItem(newlyCreatedContact);
             } catch (Exception ex) {
@@ -197,8 +201,59 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
         }
     }                                                                          //GEN-LAST:event_btnNewActionPerformed
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbContactsItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cmbContactsItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            final Object selectedContact = cmbContacts.getSelectedItem();
+            CidsBean selectContactBean = null;
+            if (selectedContact instanceof MetaObject) {
+                selectContactBean = ((MetaObject)selectedContact).getBean();
+            } else if (selectedContact instanceof CidsBean) {
+                selectContactBean = (CidsBean)selectedContact;
+            }
+            try {
+                resource.setProperty("contact", selectedContact);
+                model.propertyChange(null);
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+            }
+            contactEditor.setCidsBean(selectContactBean);
+            contactEditor.setEnabled(selectContactBean == newlyCreatedContact);
+        }
+    }                                                                              //GEN-LAST:event_cmbContactsItemStateChanged
+
     @Override
     public void dispose() {
         contactEditor.dispose();
+        if (newlyCreatedContact != null) {
+            newlyCreatedContact.removePropertyChangeListener(this);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public ContactInformationPanel getModel() {
+        return model;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  model  DOCUMENT ME!
+     */
+    public void setModel(final ContactInformationPanel model) {
+        this.model = model;
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        model.propertyChange(evt);
     }
 }
