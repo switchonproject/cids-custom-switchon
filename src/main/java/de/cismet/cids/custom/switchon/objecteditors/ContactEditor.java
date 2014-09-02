@@ -101,6 +101,10 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
             RendererTools.makeReadOnly(txtContactPerson);
             RendererTools.makeReadOnly(txtOrganisation);
             RendererTools.makeReadOnly(txtaDescription);
+        } else {
+            RendererTools.resetComponent(txtContactPerson);
+            RendererTools.resetComponent(txtOrganisation);
+            RendererTools.resetComponent(txtaDescription);
         }
     }
 
