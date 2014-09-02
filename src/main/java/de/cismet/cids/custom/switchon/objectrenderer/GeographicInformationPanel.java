@@ -316,14 +316,14 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
             final Object geoObj = resourceCidsBean.getProperty("spatialcoverage.geo_field");
             if (geoObj instanceof Geometry) {
                 final Geometry pureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
-                        SwitchOnConstants.COMMONS.SRS_SERVICE);
+                        SwitchOnConstants.getInstance().SRS_SERVICE);
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.COMMONS.GEO_BUFFER);
+                    LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.getInstance().GEO_BUFFER);
                 }
                 final XBoundingBox box;
                 try {
                     box = new XBoundingBox(pureGeom.getEnvelope().buffer(
-                                SwitchOnConstants.COMMONS.GEO_BUFFER));
+                                SwitchOnConstants.getInstance().GEO_BUFFER));
                 } catch (NullPointerException npe) {
                     LOG.error(
                         "NPE in the constructor of XBoundingBox. This happens if a renderer/editor is started with DevelopmentTools.",
@@ -341,16 +341,16 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                         @Override
                         public void run() {
                             final ActiveLayerModel mappingModel = new ActiveLayerModel();
-                            mappingModel.setSrs(SwitchOnConstants.COMMONS.SRS_SERVICE);
+                            mappingModel.setSrs(SwitchOnConstants.getInstance().SRS_SERVICE);
                             mappingModel.addHome(new XBoundingBox(
                                     bufferedBox.getX1(),
                                     bufferedBox.getY1(),
                                     bufferedBox.getX2(),
                                     bufferedBox.getY2(),
-                                    SwitchOnConstants.COMMONS.SRS_SERVICE,
+                                    SwitchOnConstants.getInstance().SRS_SERVICE,
                                     true));
                             final SimpleWMS swms = new SimpleWMS(new SimpleWmsGetMapUrl(
-                                        SwitchOnConstants.COMMONS.MAP_CALL_STRING));
+                                        SwitchOnConstants.getInstance().MAP_CALL_STRING));
                             swms.setName("Spatial Coverage");
 
                             previewGeometry.setGeometry(pureGeom);
