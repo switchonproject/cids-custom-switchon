@@ -379,8 +379,6 @@ public class RepresentationEditor extends AbstractEditorShowableInDialog impleme
 
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        additionalTagsPanel.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;

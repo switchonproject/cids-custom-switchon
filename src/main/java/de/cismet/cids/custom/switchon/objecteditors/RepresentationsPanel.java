@@ -10,8 +10,11 @@ package de.cismet.cids.custom.switchon.objecteditors;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.swing.event.ListSelectionListener;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -21,7 +24,7 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RepresentationsPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class RepresentationsPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -270,5 +273,43 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
      */
     public void setRepresentations(final List<CidsBean> representations) {
         this.representations = representations;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CidsBean getSelectedRepresentation() {
+        final int selectedRow = tblRepresentations.getSelectedRow();
+        if (selectedRow != -1) {
+            final CidsBean selectedRepresentation = representations.get(tblRepresentations.convertRowIndexToModel(
+                        selectedRow));
+            return selectedRepresentation;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void addTableSelectionListener(final ListSelectionListener listener) {
+        tblRepresentations.getSelectionModel().addListSelectionListener(listener);
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void removeTableSelectionListener(final ListSelectionListener listener) {
+        tblRepresentations.getSelectionModel().removeListSelectionListener(listener);
     }
 }

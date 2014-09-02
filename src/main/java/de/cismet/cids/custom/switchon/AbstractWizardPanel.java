@@ -16,10 +16,11 @@ import java.awt.Component;
 import javax.swing.event.ChangeListener;
 
 /**
- * DOCUMENT ME!
+ * Why is this needed here? The same class already exists in cismet-gui-commons.
  *
- * @author   martin.scholl@cismet.de
- * @version  $Revision$, $Date$
+ * @author      martin.scholl@cismet.de
+ * @version     $Revision$, $Date$
+ * @deprecated  same class already exists in cismet-gui-commons
  */
 public abstract class AbstractWizardPanel implements WizardDescriptor.Panel {
 

@@ -101,7 +101,18 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
             RendererTools.makeReadOnly(txtContactPerson);
             RendererTools.makeReadOnly(txtOrganisation);
             RendererTools.makeReadOnly(txtaDescription);
+        } else {
+            RendererTools.resetComponent(txtContactPerson);
+            RendererTools.resetComponent(txtOrganisation);
+            RendererTools.resetComponent(txtaDescription);
         }
+    }
+
+    @Override
+    public void setEnabled(final boolean enabled) {
+        super.setEnabled(enabled);
+        editor = enabled;
+        makeEditable();
     }
 
     /**
@@ -154,6 +165,13 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtOrganisation.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtOrganisationFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -225,6 +243,13 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtaDescription.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtaDescriptionFocusGained(evt);
+                }
+            });
         jScrollPane1.setViewportView(txtaDescription);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -245,6 +270,13 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtWebsite.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtWebsiteFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -261,6 +293,13 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtContactPerson.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtContactPersonFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -277,6 +316,13 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtEMail.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtEMailFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -299,6 +345,13 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cmbRole.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    cmbRoleFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -360,10 +413,10 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
                 final URI uri = new URI(hypWebsite.getText());
                 desktop.browse(uri);
             } catch (Exception e) {
-                LOG.error("Could not open URI: " + hypWebsite.getText(), e);
+                LOG.error("Could not open URI: " + hypWebsite.getText(), e);       // NOI18N
             }
         } else {
-            LOG.info("Opening a website is not supported.");
+            LOG.info("Opening a website is not supported.");                       // NOI18N
         }
     }                                                                              //GEN-LAST:event_hypWebsiteActionPerformed
 
@@ -374,9 +427,69 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
      */
     private void hypMailActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hypMailActionPerformed
         final EMailComposer mail = new EMailComposer();
-        mail.addTo(((String)cidsBean.getProperty("email")).split(" "));
+        mail.addTo(((String)cidsBean.getProperty("email")).split(" "));         // NOI18N
         mail.compose();
     }                                                                           //GEN-LAST:event_hypMailActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtOrganisationFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtOrganisationFocusGained
+        provideInformation(java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/objecteditors/Bundle")
+                    .getString("ContactEditor.txtOrganisationFocusGained.info"));
+    }                                                                              //GEN-LAST:event_txtOrganisationFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtaDescriptionFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtaDescriptionFocusGained
+        provideInformation(java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/objecteditors/Bundle")
+                    .getString("ContactEditor.txtaDescriptionFocusGained().info"));
+    }                                                                              //GEN-LAST:event_txtaDescriptionFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtWebsiteFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtWebsiteFocusGained
+        provideInformation(java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/objecteditors/Bundle")
+                    .getString("ContactEditor.txtWebsiteFocusGained().info"));
+    }                                                                         //GEN-LAST:event_txtWebsiteFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtContactPersonFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtContactPersonFocusGained
+        provideInformation(java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/objecteditors/Bundle")
+                    .getString("ContactEditor.txtContactPersonFocusGained().info"));
+    }                                                                               //GEN-LAST:event_txtContactPersonFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtEMailFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtEMailFocusGained
+        provideInformation(java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/objecteditors/Bundle")
+                    .getString("ContactEditor.txtEMailFocusGained().info"));
+    }                                                                       //GEN-LAST:event_txtEMailFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbRoleFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_cmbRoleFocusGained
+        provideInformation(java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/objecteditors/Bundle")
+                    .getString("ContactEditor.cmbRoleFocusGained().info"));
+    }                                                                      //GEN-LAST:event_cmbRoleFocusGained
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
@@ -388,12 +501,12 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
                 this.cidsBean);
             bindingGroup.bind();
 
-            String emails = (String)cidsBean.getProperty("email");
+            String emails = (String)cidsBean.getProperty("email"); // NOI18N
             if (StringUtils.isNotBlank(emails)) {
-                emails = emails.replaceAll(" +", ", ");
+                emails = emails.replaceAll(" +", ", ");            // NOI18N
                 hypMail.setText(emails);
             } else {
-                hypMail.setText("");
+                hypMail.setText("");                               // NOI18N
             }
         }
     }
@@ -412,11 +525,11 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
      */
     public static void main(final String[] args) throws Exception {
         DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
-            "SWITCHON",
-            "Administratoren",
-            "admin",
-            "cismet",
-            "contact",
+            "SWITCHON",        // NOI18N
+            "Administratoren", // NOI18N
+            "admin",           // NOI18N
+            "cismet",          // NOI18N
+            "contact",         // NOI18N
             11,
             1280,
             1024);

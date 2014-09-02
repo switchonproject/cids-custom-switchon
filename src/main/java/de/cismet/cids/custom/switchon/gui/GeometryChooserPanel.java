@@ -14,6 +14,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 import org.apache.log4j.Logger;
 
+import org.jdom.DataConversionException;
+
+import org.openide.util.Exceptions;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -31,8 +35,11 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
 
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
+
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
+import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.features.DefaultStyledFeature;
@@ -40,6 +47,7 @@ import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.StyledFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.layerwidget.ActiveLayerModel;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 
@@ -137,6 +145,9 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                this.cidsBean);
             bindingGroup.bind();
             initMap();
 
@@ -148,6 +159,7 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
                             if (evt.getOldValue() == null) {
                                 try {
                                     final Geometry geoObj = (Geometry)cidsBean.getProperty("spatialcoverage.geo_field");
+                                    initMap();
                                     setGeometry(geoObj);
                                 } catch (Exception ex) {
                                     throw new RuntimeException("Error when setting geom origin.", ex);
@@ -165,68 +177,85 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
     private void initMap() {
         if (cidsBean != null) {
             final Object geoObj = cidsBean.getProperty("spatialcoverage.geo_field");
+            XBoundingBox tmpBufferedBox;
+            Geometry tmpPureGeom = null;
             if (geoObj instanceof Geometry) {
-                final Geometry pureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
+                tmpPureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
                         SwitchOnConstants.COMMONS.SRS_SERVICE);
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.COMMONS.GEO_BUFFER);
                 }
-                final XBoundingBox bufferedBox = new XBoundingBox(pureGeom.getEnvelope().buffer(
+                tmpBufferedBox = new XBoundingBox(tmpPureGeom.getEnvelope().buffer(
                             SwitchOnConstants.COMMONS.GEO_BUFFER));
-                final Runnable mapRunnable = new Runnable() {
+            } else {
+                final String srsCode = CismapBroker.getInstance()
+                            .getMappingComponent()
+                            .getMappingModel()
+                            .getSrs()
+                            .getCode();
+                final BoundingBox initb = CismapBroker.getInstance().getMappingComponent().getInitialBoundingBox();
+                tmpBufferedBox = new XBoundingBox(initb.getX1(),
+                        initb.getY1(),
+                        initb.getX2(),
+                        initb.getY2(),
+                        srsCode,
+                        CismapBroker.getInstance().getMappingComponent().getMappingModel().getSrs().isMetric());
+            }
+            final XBoundingBox bufferedBox = tmpBufferedBox;
+            final Geometry pureGeom = tmpPureGeom;
+            final Runnable mapRunnable = new Runnable() {
 
-                        @Override
-                        public void run() {
-                            final ActiveLayerModel mappingModel = new ActiveLayerModel();
-                            mappingModel.setSrs(SwitchOnConstants.COMMONS.SRS_SERVICE);
-                            mappingModel.addHome(new XBoundingBox(
-                                    bufferedBox.getX1(),
-                                    bufferedBox.getY1(),
-                                    bufferedBox.getX2(),
-                                    bufferedBox.getY2(),
-                                    SwitchOnConstants.COMMONS.SRS_SERVICE,
-                                    true));
-                            final SimpleWMS swms = new SimpleWMS(new SimpleWmsGetMapUrl(
-                                        SwitchOnConstants.COMMONS.MAP_CALL_STRING));
-                            swms.setName("Resource");
+                    @Override
+                    public void run() {
+                        final ActiveLayerModel mappingModel = new ActiveLayerModel();
+                        mappingModel.setSrs(SwitchOnConstants.COMMONS.SRS_SERVICE);
+                        mappingModel.addHome(new XBoundingBox(
+                                bufferedBox.getX1(),
+                                bufferedBox.getY1(),
+                                bufferedBox.getX2(),
+                                bufferedBox.getY2(),
+                                SwitchOnConstants.COMMONS.SRS_SERVICE,
+                                true));
+                        final SimpleWMS swms = new SimpleWMS(new SimpleWmsGetMapUrl(
+                                    SwitchOnConstants.COMMONS.MAP_CALL_STRING));
+                        swms.setName("Resource");
 
-                            previewGeometry.setGeometry(pureGeom);
-                            previewGeometry.setFillingPaint(new Color(1, 0, 0, 0.5f));
-                            previewGeometry.setLineWidth(3);
-                            previewGeometry.setLinePaint(new Color(1, 0, 0, 1f));
-                            // add the raster layer to the model
-                            mappingModel.addLayer(swms);
-                            // set the model
-                            previewMap.setMappingModel(mappingModel);
-                            // initial positioning of the map
-                            final int duration = previewMap.getAnimationDuration();
-                            previewMap.setAnimationDuration(0);
-                            previewMap.gotoInitialBoundingBox();
-                            // interaction mode
-                            previewMap.setInteractionMode(MappingComponent.ZOOM);
-                            // finally when all configurations are done ...
-                            previewMap.unlock();
-                            previewMap.addCustomInputListener("MUTE", new PBasicInputEventHandler() {
+                        previewGeometry.setGeometry(pureGeom);
+                        previewGeometry.setFillingPaint(new Color(1, 0, 0, 0.5f));
+                        previewGeometry.setLineWidth(3);
+                        previewGeometry.setLinePaint(new Color(1, 0, 0, 1f));
+                        // add the raster layer to the model
+                        mappingModel.addLayer(swms);
+                        // set the model
+                        previewMap.setMappingModel(mappingModel);
+                        // initial positioning of the map
+                        final int duration = previewMap.getAnimationDuration();
+                        previewMap.setAnimationDuration(0);
+                        previewMap.gotoInitialBoundingBox();
+                        // interaction mode
+                        previewMap.setInteractionMode(MappingComponent.ZOOM);
+                        // finally when all configurations are done ...
+                        previewMap.unlock();
+                        previewMap.addCustomInputListener("MUTE", new PBasicInputEventHandler() {
 
-                                    @Override
-                                    public void mouseClicked(final PInputEvent evt) {
-                                        if (evt.getClickCount() > 1) {
-                                            final CidsBean bean = cidsBean;
-                                            CismapUtils.switchToCismapMap();
-                                            CismapUtils.addBeanGeomAsFeatureToCismapMap(bean, false);
-                                        }
+                                @Override
+                                public void mouseClicked(final PInputEvent evt) {
+                                    if (evt.getClickCount() > 1) {
+                                        final CidsBean bean = cidsBean;
+                                        CismapUtils.switchToCismapMap();
+                                        CismapUtils.addBeanGeomAsFeatureToCismapMap(bean, false);
                                     }
-                                });
-                            previewMap.setInteractionMode("MUTE");
-                            previewMap.getFeatureCollection().addFeature(previewGeometry);
-                            previewMap.setAnimationDuration(duration);
-                        }
-                    };
-                if (EventQueue.isDispatchThread()) {
-                    mapRunnable.run();
-                } else {
-                    EventQueue.invokeLater(mapRunnable);
-                }
+                                }
+                            });
+                        previewMap.setInteractionMode("MUTE");
+                        previewMap.getFeatureCollection().addFeature(previewGeometry);
+                        previewMap.setAnimationDuration(duration);
+                    }
+                };
+            if (EventQueue.isDispatchThread()) {
+                mapRunnable.run();
+            } else {
+                EventQueue.invokeLater(mapRunnable);
             }
         }
     }

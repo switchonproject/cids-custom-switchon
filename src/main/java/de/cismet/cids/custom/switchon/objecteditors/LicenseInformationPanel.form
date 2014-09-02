@@ -51,10 +51,19 @@
                 <Property name="lineWrap" type="boolean" value="true"/>
                 <Property name="rows" type="int" value="20"/>
                 <Property name="wrapStyleWord" type="boolean" value="true"/>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[100, 100]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[100, 100]"/>
+                </Property>
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.licensestatement}" target="txtaLicenseStatement" targetPath="text" updateStrategy="0" immediately="false"/>
               </BindingProperties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtaLicenseStatementFocusGained"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

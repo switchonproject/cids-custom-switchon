@@ -311,9 +311,6 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
       <SubComponents>
         <Component class="de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel" name="additionalTagsPanel">
-          <Properties>
-            <Property name="opaque" type="boolean" value="false"/>
-          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups)"/>
             <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="ArrayList&lt;Taggroups&gt; taggroups = new ArrayList&lt;Taggroups&gt;();&#xa;taggroups.add(Taggroups.COLLECTION);&#xa;taggroups.add(Taggroups.GEOGRAPHY);&#xa;taggroups.add(Taggroups.HYDROLOGICAL_CONCEPT);&#xa;taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);&#xa;taggroups.add(Taggroups.KEYWORDS_OPEN);"/>
