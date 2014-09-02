@@ -904,7 +904,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private void showDescriptionOfSelectedTag(final Object selectedObject) {
         if (selectedObject instanceof LightweightMetaObject) {
             final CidsBean selectedBean = ((LightweightMetaObject)selectedObject).getBean();
-            final String description = selectedBean.getProperty("description").toString();
+            final String description = (String)selectedBean.getProperty("description");
             if (StringUtils.isNotBlank(description) && !description.equals("n/a")) {
                 infoBoxPanel.setInformation("<html><i>" + description + "</i></html>");
             } else {
