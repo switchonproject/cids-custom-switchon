@@ -83,6 +83,11 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             ResourceWindowSearch.class);
     public static final String DOMAIN = "SWITCHON";
+    /**
+     * A placeholder which is added to the location combobox. It is chosen by the user, if he wants to search by a
+     * geometry, which he has drawn onto the cismap.
+     */
+    private static final String GEOMETRY_CHOSEN_PLACEHOLDER = "Selected Map Coordinates";
 
     //~ Instance fields --------------------------------------------------------
 
@@ -105,6 +110,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private javax.swing.JComboBox cmbGeospatial;
     private javax.swing.JComboBox cmbTopics;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
@@ -113,6 +119,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXDatePicker jdpEndDate;
     private org.jdesktop.swingx.JXDatePicker jdpStartDate;
@@ -123,6 +130,9 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private javax.swing.JPanel pnlSearchButtons;
     private javax.swing.JPanel pnlTemporalExtent;
     private javax.swing.JPanel pnlTitleAndDescription;
+    private javax.swing.JRadioButton rbtnEnclosure;
+    private javax.swing.JRadioButton rbtnIntersection;
+    private javax.swing.ButtonGroup rbtngGeometryFunction;
     private javax.swing.JPanel tabAdvancedSearch;
     private javax.swing.JPanel tabAggregatedSearch;
     private javax.swing.JPanel tabBasic;
@@ -138,6 +148,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     public ResourceWindowSearch() {
         mappingComponent = CismapBroker.getInstance().getMappingComponent();
         initComponents();
+        ((DefaultComboBoxModel)cmbGeospatial.getModel()).insertElementAt(GEOMETRY_CHOSEN_PLACEHOLDER, 1);
         addBorderToPanels();
         initSearchButtons();
         initIcon();
@@ -249,6 +260,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     final boolean selected = ((JCheckBox)e.getSource()).isSelected();
                     cmbGeospatial.setEnabled(selected);
                     btnGeospatial.setEnabled(selected);
+                    rbtnEnclosure.setEnabled(selected);
+                    rbtnIntersection.setEnabled(selected);
                     infoBoxPanel.setVisible(selected);
                     infoBoxPanel.setInformation(
                         NbBundle.getMessage(
@@ -328,6 +341,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         chbTemporal = new javax.swing.JCheckBox();
         chbKeywords = new javax.swing.JCheckBox();
         chbTitle = new javax.swing.JCheckBox();
+        rbtngGeometryFunction = new javax.swing.ButtonGroup();
         pnlMain = new javax.swing.JPanel();
         btnClear = new javax.swing.JButton();
         tpaSearchTabs = new javax.swing.JTabbedPane();
@@ -347,6 +361,12 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     "ResourceWindowSearch.btnGeospatial.toolTipText"));
         cmbGeospatial = new TagsComboBox(Taggroups.LOCATION);
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(32767, 0));
+        jPanel1 = new javax.swing.JPanel();
+        rbtnIntersection = new javax.swing.JRadioButton();
+        rbtnEnclosure = new javax.swing.JRadioButton();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 0));
         pnlTemporalExtent = new javax.swing.JPanel();
@@ -436,7 +456,8 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 10);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 5, 10);
         pnlGeospatialExtent.add(btnGeospatial, gridBagConstraints);
 
         cmbGeospatial.setEnabled(false);
@@ -452,15 +473,56 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 20, 5);
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 5, 5);
         pnlGeospatialExtent.add(cmbGeospatial, gridBagConstraints);
-        ((DefaultComboBoxModel)cmbGeospatial.getModel()).insertElementAt("Selected Map Coordinates", 1);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         pnlGeospatialExtent.add(filler6, gridBagConstraints);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        rbtngGeometryFunction.add(rbtnIntersection);
+        rbtnIntersection.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(
+            rbtnIntersection,
+            org.openide.util.NbBundle.getMessage(
+                ResourceWindowSearch.class,
+                "ResourceWindowSearch.rbtnIntersection.text")); // NOI18N
+        rbtnIntersection.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
+        jPanel1.add(rbtnIntersection, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            rbtnEnclosure,
+            org.openide.util.NbBundle.getMessage(
+                ResourceWindowSearch.class,
+                "ResourceWindowSearch.rbtnEnclosure.text")); // NOI18N
+        rbtnEnclosure.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 5);
+        jPanel1.add(rbtnEnclosure, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel1.add(filler2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        pnlGeospatialExtent.add(jPanel1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -640,7 +702,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         tabAdvancedSearchLayout.setVerticalGroup(
             tabAdvancedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                318,
+                325,
                 Short.MAX_VALUE));
 
         tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(
@@ -658,7 +720,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         tabAggregatedSearchLayout.setVerticalGroup(
             tabAggregatedSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                318,
+                325,
                 Short.MAX_VALUE));
 
         tpaSearchTabs.addTab(org.openide.util.NbBundle.getMessage(
@@ -742,6 +804,9 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         cmbGeospatial.setSelectedIndex(0);
         cmbGeospatial.setEnabled(false);
         btnGeospatial.setEnabled(false);
+        rbtnIntersection.setSelected(true);
+        rbtnIntersection.setEnabled(false);
+        rbtnEnclosure.setEnabled(false);
 
         chbKeywords.setSelected(false);
         lstKeywords.getSelectionModel().clearSelection();
@@ -766,24 +831,32 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     } //GEN-LAST:event_btnClearActionPerformed
 
     /**
-     * DOCUMENT ME!
+     * Shows the information depending on what kind of object was selected, the method also en/disables the geometry
+     * function radiobuttons depending on this.
      *
      * @param  evt  DOCUMENT ME!
      */
     private void cmbGeospatialActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbGeospatialActionPerformed
         final Object o = cmbGeospatial.getSelectedItem();
+        boolean enableRadioButtons = false;
         if (o == null) {
+            // nothing was selected
             infoBoxPanel.setInformation(NbBundle.getMessage(
                     ResourceWindowSearch.class,
                     "ResourceWindowSearch.cmbGeospatialActionPerformed().no"));
-        } else if (o instanceof String) {
+        } else if (o.equals(GEOMETRY_CHOSEN_PLACEHOLDER)) {
+            // the additional string element was selected, thus a geometry should be used in the search
             infoBoxPanel.setInformation(NbBundle.getMessage(
                     ResourceWindowSearch.class,
                     "ResourceWindowSearch.cmbGeospatialActionPerformed().mapCoord"));
+            enableRadioButtons = true;
         } else {
+            // a tag was selected
             showDescriptionOfSelectedTag(cmbGeospatial.getSelectedItem());
         }
-    }                                                                                 //GEN-LAST:event_cmbGeospatialActionPerformed
+        rbtnEnclosure.setEnabled(enableRadioButtons);
+        rbtnIntersection.setEnabled(enableRadioButtons);
+    } //GEN-LAST:event_cmbGeospatialActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -851,13 +924,24 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                 SessionManager.getSession().getUser());
         if (chbGeospatial.isSelected()) {
             final Object selectedItem = cmbGeospatial.getSelectedItem();
+            // check if a location was selected or a geometry
             if (selectedItem instanceof LightweightMetaObject) {
                 searchStatement.setLocation(((LightweightMetaObject)selectedItem).getName());
             } else if ((selectedItem != null) && (selectedGeometry != null)) {
+                // set the geometry
                 final Geometry transformedBoundingBox;
                 transformedBoundingBox = CrsTransformer.transformToDefaultCrs(selectedGeometry);
                 transformedBoundingBox.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
                 searchStatement.setGeometryToSearchFor(transformedBoundingBox);
+
+                // set the geometry function
+                if (rbtnIntersection.isSelected()) {
+                    searchStatement.setGeometryFunction(
+                        MetaObjectNodeResourceSearchStatement.GeometryFunction.INTERSECT);
+                } else {
+                    searchStatement.setGeometryFunction(
+                        MetaObjectNodeResourceSearchStatement.GeometryFunction.CONTAINS);
+                }
             }
         }
 
