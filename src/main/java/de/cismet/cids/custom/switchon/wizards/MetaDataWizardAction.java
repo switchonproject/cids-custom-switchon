@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
-import org.openide.util.Exceptions;
 
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -23,6 +22,7 @@ import java.beans.PropertyChangeListener;
 import java.text.MessageFormat;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -65,9 +65,9 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
      */
     public MetaDataWizardAction() {
         putValue(SHORT_DESCRIPTION, "open Meta-Data wizard");
-//        final ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource(
-//                    "/de/cismet/cids/custom/tados/res/wand.png"));
-//        putValue(SMALL_ICON, icon);
+        final ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource(
+                    "/de/cismet/cids/custom/switchon/wizards/wand.png"));
+        putValue(SMALL_ICON, icon);
         putValue(NAME, "open Meta-Data wizard");
     }
 
