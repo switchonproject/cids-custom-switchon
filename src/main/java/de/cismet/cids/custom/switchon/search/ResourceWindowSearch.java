@@ -260,8 +260,12 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     final boolean selected = ((JCheckBox)e.getSource()).isSelected();
                     cmbGeospatial.setEnabled(selected);
                     btnGeospatial.setEnabled(selected);
-                    rbtnEnclosure.setEnabled(selected);
-                    rbtnIntersection.setEnabled(selected);
+
+                    final boolean placholderSelected = GEOMETRY_CHOSEN_PLACEHOLDER.equals(
+                            cmbGeospatial.getSelectedItem());
+                    rbtnEnclosure.setEnabled(selected && placholderSelected);
+                    rbtnIntersection.setEnabled(selected && placholderSelected);
+
                     infoBoxPanel.setVisible(selected);
                     infoBoxPanel.setInformation(
                         NbBundle.getMessage(
