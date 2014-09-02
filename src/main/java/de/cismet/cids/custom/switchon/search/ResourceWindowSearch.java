@@ -82,12 +82,14 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             ResourceWindowSearch.class);
-    public static final String DOMAIN = "SWITCHON";
+    public static final String DOMAIN = "SWITCHON"; // NOI18N
     /**
      * A placeholder which is added to the location combobox. It is chosen by the user, if he wants to search by a
      * geometry, which he has drawn onto the cismap.
      */
-    private static final String GEOMETRY_CHOSEN_PLACEHOLDER = "Selected Map Coordinates";
+    private static final String GEOMETRY_CHOSEN_PLACEHOLDER = java.util.ResourceBundle.getBundle(
+                "de/cismet/cids/custom/switchon/search/Bundle")
+                .getString("ResourceWindowSearch.GEOMETRY_CHOSEN_PLACEHOLDER");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -227,7 +229,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
 
         chbTemporal.setText(NbBundle.getMessage(
                 ResourceWindowSearch.class,
-                "ResourceWindowSearch.addBorderToPanels.temporal"));
+                "ResourceWindowSearch.addBorderToPanels.temporal")); // NOI18N
         chbTemporal.addActionListener(new ActionListener() {
 
                 @Override
@@ -239,7 +241,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     infoBoxPanel.setInformation(
                         NbBundle.getMessage(
                             ResourceWindowSearch.class,
-                            "ResourceWindowSearch.addBorderToPanels().temporal.infotext"));
+                            "ResourceWindowSearch.addBorderToPanels().temporal.infotext")); // NOI18N
                 }
             });
         chbTemporal.addActionListener(enableSearchButtonActionListener);
@@ -247,12 +249,12 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         ComponentTitledBorder border = new ComponentTitledBorder(
                 chbTemporal,
                 pnlTemporalExtent,
-                BorderFactory.createTitledBorder(""));
+                BorderFactory.createTitledBorder("")); // NOI18N
         pnlTemporalExtent.setBorder(border);
 
         chbGeospatial.setText(NbBundle.getMessage(
                 ResourceWindowSearch.class,
-                "ResourceWindowSearch.addBorderToPanels.geospatial"));
+                "ResourceWindowSearch.addBorderToPanels.geospatial")); // NOI18N
         chbGeospatial.addActionListener(new ActionListener() {
 
                 @Override
@@ -270,7 +272,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     infoBoxPanel.setInformation(
                         NbBundle.getMessage(
                             ResourceWindowSearch.class,
-                            "ResourceWindowSearch.addBorderToPanels().geospatial.infotext"));
+                            "ResourceWindowSearch.addBorderToPanels().geospatial.infotext")); // NOI18N
                 }
             });
         chbGeospatial.addActionListener(enableSearchButtonActionListener);
@@ -278,12 +280,12 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         border = new ComponentTitledBorder(
                 chbGeospatial,
                 pnlGeospatialExtent,
-                BorderFactory.createTitledBorder(""));
+                BorderFactory.createTitledBorder("")); // NOI18N
         pnlGeospatialExtent.setBorder(border);
 
         chbKeywords.setText(NbBundle.getMessage(
                 ResourceWindowSearch.class,
-                "ResourceWindowSearch.addBorderToPanels.keywords"));
+                "ResourceWindowSearch.addBorderToPanels.keywords")); // NOI18N
         chbKeywords.addActionListener(new ActionListener() {
 
                 @Override
@@ -295,7 +297,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     infoBoxPanel.setInformation(
                         NbBundle.getMessage(
                             ResourceWindowSearch.class,
-                            "ResourceWindowSearch.addBorderToPanels().keyword.infotext"));
+                            "ResourceWindowSearch.addBorderToPanels().keyword.infotext")); // NOI18N
                 }
             });
         chbKeywords.addActionListener(enableSearchButtonActionListener);
@@ -303,12 +305,12 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         border = new ComponentTitledBorder(
                 chbKeywords,
                 pnlKeywordsAndTopics,
-                BorderFactory.createTitledBorder(""));
+                BorderFactory.createTitledBorder("")); // NOI18N
         pnlKeywordsAndTopics.setBorder(border);
 
         chbTitle.setText(NbBundle.getMessage(
                 ResourceWindowSearch.class,
-                "ResourceWindowSearch.addBorderToPanels.title"));
+                "ResourceWindowSearch.addBorderToPanels.title")); // NOI18N
         chbTitle.addActionListener(new ActionListener() {
 
                 @Override
@@ -320,7 +322,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
                     infoBoxPanel.setInformation(
                         NbBundle.getMessage(
                             ResourceWindowSearch.class,
-                            "ResourceWindowSearch.addBorderToPanels().title.infotext"));
+                            "ResourceWindowSearch.addBorderToPanels().title.infotext")); // NOI18N
                 }
             });
         chbTitle.addActionListener(enableSearchButtonActionListener);
@@ -328,7 +330,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         border = new ComponentTitledBorder(
                 chbTitle,
                 pnlTitleAndDescription,
-                BorderFactory.createTitledBorder(""));
+                BorderFactory.createTitledBorder("")); // NOI18N
         pnlTitleAndDescription.setBorder(border);
     }
 
@@ -825,7 +827,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         jdpEndDate.setDate(null);
 
         chbTitle.setSelected(false);
-        txtTitle.setText("");
+        txtTitle.setText(""); // NOI18N
         txtTitle.setEnabled(false);
         chbSearchInTitleAndDescription.setSelected(false);
         chbSearchInTitleAndDescription.setEnabled(false);
@@ -847,12 +849,12 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
             // nothing was selected
             infoBoxPanel.setInformation(NbBundle.getMessage(
                     ResourceWindowSearch.class,
-                    "ResourceWindowSearch.cmbGeospatialActionPerformed().no"));
+                    "ResourceWindowSearch.cmbGeospatialActionPerformed().no")); // NOI18N
         } else if (o.equals(GEOMETRY_CHOSEN_PLACEHOLDER)) {
             // the additional string element was selected, thus a geometry should be used in the search
             infoBoxPanel.setInformation(NbBundle.getMessage(
                     ResourceWindowSearch.class,
-                    "ResourceWindowSearch.cmbGeospatialActionPerformed().mapCoord"));
+                    "ResourceWindowSearch.cmbGeospatialActionPerformed().mapCoord")); // NOI18N
             enableRadioButtons = true;
         } else {
             // a tag was selected
@@ -872,7 +874,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         if (o == null) {
             infoBoxPanel.setInformation(NbBundle.getMessage(
                     ResourceWindowSearch.class,
-                    "ResourceWindowSearch.cmbTopicsActionPerformed().no"));
+                    "ResourceWindowSearch.cmbTopicsActionPerformed().no"));       // NOI18N
         } else {
             showDescriptionOfSelectedTag(cmbTopics.getSelectedItem());
         }
@@ -889,7 +891,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
             if (o == null) {
                 infoBoxPanel.setInformation(NbBundle.getMessage(
                         ResourceWindowSearch.class,
-                        "ResourceWindowSearch.lstKeywordsValueChanged().no"));
+                        "ResourceWindowSearch.lstKeywordsValueChanged().no"));             // NOI18N
             } else {
                 showDescriptionOfSelectedTag(lstKeywords.getSelectedValue());
             }
@@ -904,14 +906,14 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
     private void showDescriptionOfSelectedTag(final Object selectedObject) {
         if (selectedObject instanceof LightweightMetaObject) {
             final CidsBean selectedBean = ((LightweightMetaObject)selectedObject).getBean();
-            final String description = (String)selectedBean.getProperty("description");
-            if (StringUtils.isNotBlank(description) && !description.equals("n/a")) {
-                infoBoxPanel.setInformation("<html><i>" + description + "</i></html>");
+            final String description = (String)selectedBean.getProperty("description");            // NOI18N
+            if (StringUtils.isNotBlank(description) && !description.equals("n/a")) {               // NOI18N
+                infoBoxPanel.setInformation("<html><i>" + description + "</i></html>");            // NOI18N
             } else {
                 String text = NbBundle.getMessage(
                         ResourceWindowSearch.class,
-                        "ResourceWindowSearch.showDescriptionOfSelectedTag().noDescription");
-                text = "<html><i>" + String.format(text, selectedBean.toString()) + "</i></html>";
+                        "ResourceWindowSearch.showDescriptionOfSelectedTag().noDescription");      // NOI18N
+                text = "<html><i>" + String.format(text, selectedBean.toString()) + "</i></html>"; // NOI18N
                 infoBoxPanel.setInformation(text);
             }
         }
@@ -1040,12 +1042,12 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
      */
     private String getTagListQuery() {
         return "SELECT distinct t.ID,\n"
-                    + "t.NAME\n"
+                    + "t.NAME\n"                                                                         // NOI18N
                     + "FROM tag t\n"
-                    + "JOIN jt_resource_tag tags ON tags.tagid = t.id \n"
+                    + "JOIN jt_resource_tag tags ON tags.tagid = t.id \n"                                // NOI18N
                     + "WHERE taggroup = (select id from taggroup where name = 'keywords - INSPIRE themes 1.0' limit 1)\n"
-                    + "OR taggroup = (select id from taggroup where name = 'keywords - open' limit 1)\n"
-                    + "ORDER BY t.name";
+                    + "OR taggroup = (select id from taggroup where name = 'keywords - open' limit 1)\n" // NOI18N
+                    + "ORDER BY t.name";                                                                 // NOI18N
     }
 
     //~ Inner Classes ----------------------------------------------------------
