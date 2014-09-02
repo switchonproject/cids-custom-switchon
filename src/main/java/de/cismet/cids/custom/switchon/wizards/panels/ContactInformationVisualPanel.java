@@ -7,6 +7,12 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import Sirius.server.middleware.types.MetaObject;
+
+import org.openide.util.Exceptions;
+
+import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
@@ -27,8 +33,11 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean contact;
+    private CidsBean newlyCreatedContact;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNew;
+    private javax.swing.JComboBox cmbContacts;
     private de.cismet.cids.custom.switchon.objecteditors.ContactEditor contactEditor;
     private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
     // End of variables declaration//GEN-END:variables
@@ -40,6 +49,7 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
      */
     public ContactInformationVisualPanel() {
         initComponents();
+
         contactEditor.setInfoReceiver(infoBoxPanel);
     }
 
@@ -67,6 +77,12 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
 
         contactEditor = new de.cismet.cids.custom.switchon.objecteditors.ContactEditor();
         infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
+        btnNew = new javax.swing.JButton();
+        cmbContacts = new QueryComboBox(
+                "select id, organisation as name from contact order by organisation",
+                false,
+                "contact");
+        ;
 
         addFocusListener(new java.awt.event.FocusAdapter() {
 
@@ -76,9 +92,12 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
                 }
             });
         setLayout(new java.awt.GridBagLayout());
+
+        contactEditor.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -94,10 +113,44 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
-    }                                                                              // </editor-fold>//GEN-END:initComponents
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnNew,
+            org.openide.util.NbBundle.getMessage(
+                ContactInformationVisualPanel.class,
+                "ContactInformationVisualPanel.btnNew.text")); // NOI18N
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnNewActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 20);
+        add(btnNew, gridBagConstraints);
+
+        cmbContacts.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbContactsActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 10);
+        add(cmbContacts, gridBagConstraints);
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -107,6 +160,42 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
     private void formFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_formFocusGained
         infoBoxPanel.showGeneralInformation();
     }                                                                   //GEN-LAST:event_formFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbContactsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbContactsActionPerformed
+        final Object selectedContact = cmbContacts.getSelectedItem();
+        CidsBean selectContactBean = null;
+        if (selectedContact instanceof MetaObject) {
+            selectContactBean = ((MetaObject)selectedContact).getBean();
+        } else if (selectedContact instanceof CidsBean) {
+            selectContactBean = (CidsBean)selectedContact;
+        }
+        contact = selectContactBean;
+        contactEditor.setCidsBean(selectContactBean);
+
+        contactEditor.setEnabled(contact == newlyCreatedContact);
+    } //GEN-LAST:event_cmbContactsActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnNewActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewActionPerformed
+        if (newlyCreatedContact == null) {
+            try {
+                newlyCreatedContact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact");
+                cmbContacts.addItem(newlyCreatedContact);
+                cmbContacts.setSelectedItem(newlyCreatedContact);
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+            }
+        }
+    }                                                                          //GEN-LAST:event_btnNewActionPerformed
 
     @Override
     public void dispose() {
