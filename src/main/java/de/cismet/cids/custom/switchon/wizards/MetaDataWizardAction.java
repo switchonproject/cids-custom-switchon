@@ -34,7 +34,8 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.tools.gui.StaticSwingTools;
 
 /**
- * DOCUMENT ME!
+ * A wizard which creates a new Resource CidsBean with its sub-cidsBeans. The wizard has four configurations Basic,
+ * Advanced, Expert and Custom.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
@@ -53,10 +54,6 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
     public static final String PROP_PROJEKT = "__prop_projekt__"; // NOI18N
     private static String PROP_SELECTED_METADATA_BEAN;
-
-    //~ Instance fields --------------------------------------------------------
-
-    private CidsBean cidsBean;
 
     //~ Constructors -----------------------------------------------------------
 
