@@ -504,6 +504,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
         jPanel1.add(rbtnIntersection, gridBagConstraints);
 
+        rbtngGeometryFunction.add(rbtnEnclosure);
         org.openide.awt.Mnemonics.setLocalizedText(
             rbtnEnclosure,
             org.openide.util.NbBundle.getMessage(
