@@ -14,18 +14,25 @@ import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
+import org.openide.util.Exceptions;
+
 import java.awt.Component;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
@@ -57,6 +64,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
 
     //~ Instance fields --------------------------------------------------------
 
+    private boolean firstRepresentationPreviewPane = false;
+
     private CidsBean cidsBean;
     private final ResourceBundle roleBundle = ResourceBundle.getBundle(
             "de/cismet/cids/custom/switchon/tagBundles/role");
@@ -81,6 +90,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JPanel panTitleString;
     private javax.swing.JPanel pnlContact;
     private javax.swing.JPanel pnlDataAccess;
+    private javax.swing.JPanel pnlDataPreview;
     private javax.swing.JPanel pnlDescription;
     private javax.swing.JPanel pnlGeographic;
     private javax.swing.JPanel pnlLicense;
@@ -88,6 +98,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JPanel pnlTemporal;
     private org.jdesktop.swingx.JXTaskPaneContainer taskPaneContainerDataAccess;
     private org.jdesktop.swingx.JXTaskPaneContainer taskPaneContainerMetaData;
+    private org.jdesktop.swingx.JXTaskPaneContainer taskPaneDataPreview;
     private de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel temporalInformationPanel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -144,6 +155,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         taskPaneContainerMetaData = new org.jdesktop.swingx.JXTaskPaneContainer();
         pnlDataAccess = new javax.swing.JPanel();
         taskPaneContainerDataAccess = new org.jdesktop.swingx.JXTaskPaneContainer();
+        pnlDataPreview = new javax.swing.JPanel();
+        taskPaneDataPreview = new org.jdesktop.swingx.JXTaskPaneContainer();
 
         panTitle.setOpaque(false);
         panTitle.setLayout(new java.awt.BorderLayout());
@@ -385,6 +398,24 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 "ResourceRenderer.pnlDataAccess.TabConstraints.tabTitle"),
             pnlDataAccess); // NOI18N
 
+        pnlDataPreview.setOpaque(false);
+        pnlDataPreview.setLayout(new java.awt.GridBagLayout());
+
+        taskPaneDataPreview.setOpaque(false);
+        final org.jdesktop.swingx.VerticalLayout verticalLayout3 = new org.jdesktop.swingx.VerticalLayout();
+        verticalLayout3.setGap(14);
+        taskPaneDataPreview.setLayout(verticalLayout3);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        pnlDataPreview.add(taskPaneDataPreview, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlDataPreview.TabConstraints.tabTitle"),
+            pnlDataPreview); // NOI18N
+
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
@@ -419,8 +450,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             licenseInformationPanel.setCidsBean(cidsBean);
 
             generateMetadataPanels();
-
             generateDataAccessPanels();
+            generateRepresentationPreviewPanels();
 
             bindingGroup.bind();
             generateListWithKeywords();
@@ -567,7 +598,85 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
+    private void generateRepresentationPreviewPanels() {
+        final List<CidsBean> representations = cidsBean.getBeanCollectionProperty("representation");
+        firstRepresentationPreviewPane = true;
+        for (final CidsBean representation : representations) {
+            final String urlString = (String)representation.getProperty("contentlocation");
+            final CidsBean type = (CidsBean)representation.getProperty("type");
+            if (StringUtils.isNotBlank(urlString) && "preview data".equalsIgnoreCase(String.valueOf(type))) {
+                new GenerateRepresentationPreviewWorker(representation).execute();
+            }
+        }
+    }
+
     //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * Checks if the content type of the content of a Representation is an image via an HEAD-request, if this is the
+     * case, a preview panel will be added in the Preview pane.
+     *
+     * <p><b>Note:</b> The HEAD request does NOT use the WebAccessManager.</p>
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class GenerateRepresentationPreviewWorker extends SwingWorker<String, Void> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        CidsBean representation;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new GenerateRepresentationPreviewWorker object.
+         *
+         * @param  representation  DOCUMENT ME!
+         */
+        public GenerateRepresentationPreviewWorker(final CidsBean representation) {
+            this.representation = representation;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        protected String doInBackground() throws Exception {
+            final String urlString = (String)representation.getProperty("contentlocation");
+            final URL url = new URL(urlString);
+            final HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("HEAD");
+            connection.connect();
+            return connection.getContentType();
+        }
+
+        @Override
+        protected void done() {
+            try {
+                final String contentType = get();
+                if (contentType.startsWith("image")) {
+                    final JXTaskPane taskPane = new JXTaskPane();
+                    final RepresentationPreview preview = new RepresentationPreview();
+                    preview.setSizeReference(pnlDataAccess);
+                    taskPane.setTitle(representation.toString());
+                    taskPane.add(preview);
+                    preview.setCidsBean(representation);
+
+                    taskPane.setCollapsed(!firstRepresentationPreviewPane);
+                    firstRepresentationPreviewPane = false;
+                    taskPane.addPropertyChangeListener(new CollapseListener(taskPaneDataPreview, taskPane));
+
+                    taskPaneDataPreview.add(taskPane);
+                }
+            } catch (InterruptedException ex) {
+                Exceptions.printStackTrace(ex);
+            } catch (ExecutionException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }
 
     /**
      * A listener for JXTaskPanes which makes sure that only one JXTaskPane in a JXTaskPaneContainer is not collapsed.
