@@ -394,6 +394,7 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
                 }
                 lblPicture.setText("");
                 lblPicture.setToolTipText(null);
+                lblPicture.setIcon(new ImageIcon(adjustScale(originalImage, 20, 20)));
             } catch (InterruptedException ex) {
                 originalImage = null;
                 LOG.warn(ex, ex);
