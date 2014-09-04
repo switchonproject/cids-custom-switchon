@@ -659,6 +659,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 if (contentType.startsWith("image")) {
                     final JXTaskPane taskPane = new JXTaskPane();
                     final RepresentationPreview preview = new RepresentationPreview();
+                    taskPane.setTitle(representation.toString());
                     taskPane.add(preview);
                     preview.setCidsBean(representation);
 
