@@ -606,7 +606,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         firstRepresentationPreviewPane = true;
         for (final CidsBean representation : representations) {
             final String urlString = (String)representation.getProperty("contentlocation");
-            if (StringUtils.isNotBlank(urlString)) {
+            final CidsBean type = (CidsBean)representation.getProperty("type");
+            if (StringUtils.isNotBlank(urlString) && "preview data".equalsIgnoreCase(String.valueOf(type))) {
                 new GenerateRepresentationPreviewWorker(representation).execute();
             }
         }
