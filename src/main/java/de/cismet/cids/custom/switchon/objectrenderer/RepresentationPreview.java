@@ -35,6 +35,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
@@ -81,13 +82,14 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
     //~ Instance fields --------------------------------------------------------
 
     CidsBean representation;
+    private JComponent sizeReference;
 
     private final Timer timer = new Timer(30, new ActionListener() {
 
                 @Override
                 public void actionPerformed(final ActionEvent e) {
                     if (originalImage != null) {
-                        scaledimage = adjustScale(originalImage, pnlPicture, 20, 20);
+                        scaledimage = adjustScale(originalImage, 20, 20);
                         lblPicture.setIcon(new ImageIcon(scaledimage));
                     }
                 }
@@ -267,19 +269,24 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
     /**
      * DOCUMENT ME!
      *
-     * @param   bi         DOCUMENT ME!
-     * @param   component  DOCUMENT ME!
-     * @param   insetX     DOCUMENT ME!
-     * @param   insetY     DOCUMENT ME!
+     * @param   bi      DOCUMENT ME!
+     * @param   insetX  DOCUMENT ME!
+     * @param   insetY  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
     public Image adjustScale(final Image bi,
-            final JComponent component,
             final int insetX,
             final int insetY) {
-        final double scalex = (double)component.getWidth() / bi.getWidth(null);
-        final double scaley = (double)component.getHeight() / bi.getHeight(null);
+        final Dimension size;
+        if (sizeReference != null) {
+            size = sizeReference.getSize();
+            size.width = (int)(size.width * 0.75);
+        } else {
+            size = this.getSize();
+        }
+        final double scalex = (double)size.getWidth() / bi.getWidth(null);
+        final double scaley = (double)size.getHeight() / bi.getHeight(null);
         final double scale = Math.min(scalex, scaley);
         if (scale <= 1d) {
             return bi.getScaledInstance((int)(bi.getWidth(null) * scale) - insetX,
@@ -311,6 +318,24 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
 
     @Override
     public void componentHidden(final ComponentEvent e) {
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  sizeReference  DOCUMENT ME!
+     */
+    public void setSizeReference(final JComponent sizeReference) {
+        this.sizeReference = sizeReference;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public JComponent getSizeReference() {
+        return sizeReference;
     }
 
     //~ Inner Classes ----------------------------------------------------------

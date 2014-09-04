@@ -79,7 +79,6 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
@@ -91,6 +90,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JPanel panTitleString;
     private javax.swing.JPanel pnlContact;
     private javax.swing.JPanel pnlDataAccess;
+    private javax.swing.JPanel pnlDataPreview;
     private javax.swing.JPanel pnlDescription;
     private javax.swing.JPanel pnlGeographic;
     private javax.swing.JPanel pnlLicense;
@@ -155,7 +155,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         taskPaneContainerMetaData = new org.jdesktop.swingx.JXTaskPaneContainer();
         pnlDataAccess = new javax.swing.JPanel();
         taskPaneContainerDataAccess = new org.jdesktop.swingx.JXTaskPaneContainer();
-        jPanel3 = new javax.swing.JPanel();
+        pnlDataPreview = new javax.swing.JPanel();
         taskPaneDataPreview = new org.jdesktop.swingx.JXTaskPaneContainer();
 
         panTitle.setOpaque(false);
@@ -398,8 +398,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 "ResourceRenderer.pnlDataAccess.TabConstraints.tabTitle"),
             pnlDataAccess); // NOI18N
 
-        jPanel3.setOpaque(false);
-        jPanel3.setLayout(new java.awt.GridBagLayout());
+        pnlDataPreview.setOpaque(false);
+        pnlDataPreview.setLayout(new java.awt.GridBagLayout());
 
         taskPaneDataPreview.setOpaque(false);
         final org.jdesktop.swingx.VerticalLayout verticalLayout3 = new org.jdesktop.swingx.VerticalLayout();
@@ -409,12 +409,12 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        jPanel3.add(taskPaneDataPreview, gridBagConstraints);
+        pnlDataPreview.add(taskPaneDataPreview, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceRenderer.class,
-                "ResourceRenderer.jPanel3.TabConstraints.tabTitle"),
-            jPanel3); // NOI18N
+                "ResourceRenderer.pnlDataPreview.TabConstraints.tabTitle"),
+            pnlDataPreview); // NOI18N
 
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
@@ -659,6 +659,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 if (contentType.startsWith("image")) {
                     final JXTaskPane taskPane = new JXTaskPane();
                     final RepresentationPreview preview = new RepresentationPreview();
+                    preview.setSizeReference(pnlDataAccess);
                     taskPane.setTitle(representation.toString());
                     taskPane.add(preview);
                     preview.setCidsBean(representation);
