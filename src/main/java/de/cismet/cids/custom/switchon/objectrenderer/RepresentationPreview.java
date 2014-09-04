@@ -10,6 +10,12 @@ package de.cismet.cids.custom.switchon.objectrenderer;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 
 import java.io.IOException;
@@ -30,6 +36,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.SwingWorker;
+import javax.swing.Timer;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -42,7 +49,7 @@ import de.cismet.security.WebAccessManager;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RepresentationPreview extends javax.swing.JPanel implements CidsBeanStore {
+public class RepresentationPreview extends javax.swing.JPanel implements CidsBeanStore, ComponentListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -74,7 +81,19 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
     //~ Instance fields --------------------------------------------------------
 
     CidsBean representation;
-    private Image image;
+
+    private final Timer timer = new Timer(30, new ActionListener() {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    if (originalImage != null) {
+                        scaledimage = adjustScale(originalImage, pnlPicture, 20, 20);
+                        lblPicture.setIcon(new ImageIcon(scaledimage));
+                    }
+                }
+            });
+    private Image scaledimage;
+    private Image originalImage;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel4;
@@ -90,6 +109,8 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
      */
     public RepresentationPreview() {
         initComponents();
+        timer.setRepeats(false);
+        this.addComponentListener(this);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -270,6 +291,28 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
         }
     }
 
+    @Override
+    public void componentResized(final ComponentEvent e) {
+        if (!timer.isRunning()) {
+            timer.setInitialDelay(300);
+            timer.start();
+        }
+    }
+
+    @Override
+    public void componentMoved(final ComponentEvent e) {
+    }
+
+    @Override
+    public void componentShown(final ComponentEvent e) {
+        timer.setInitialDelay(0);
+        timer.start();
+    }
+
+    @Override
+    public void componentHidden(final ComponentEvent e) {
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -320,19 +363,17 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
         @Override
         protected void done() {
             try {
-                image = get();
-                if (image == null) {
+                originalImage = get();
+                if (originalImage == null) {
                     indicateNotAvailable("");
                 }
-                image = adjustScale(image, pnlPicture, 20, 20);
-                lblPicture.setIcon(new ImageIcon(image));
                 lblPicture.setText("");
                 lblPicture.setToolTipText(null);
             } catch (InterruptedException ex) {
-                image = null;
+                originalImage = null;
                 LOG.warn(ex, ex);
             } catch (ExecutionException ex) {
-                image = null;
+                originalImage = null;
                 LOG.error(ex, ex);
                 indicateNotAvailable("");
             } finally {
