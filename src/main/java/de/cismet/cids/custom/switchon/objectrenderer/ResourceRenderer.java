@@ -14,8 +14,6 @@ import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
-import org.openide.util.Exceptions;
-
 import java.awt.Component;
 
 import java.beans.PropertyChangeEvent;
@@ -671,9 +669,9 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                     taskPaneDataPreview.add(taskPane);
                 }
             } catch (InterruptedException ex) {
-                Exceptions.printStackTrace(ex);
+                LOG.error(ex, ex);
             } catch (ExecutionException ex) {
-                Exceptions.printStackTrace(ex);
+                LOG.error(ex, ex);
             }
         }
     }

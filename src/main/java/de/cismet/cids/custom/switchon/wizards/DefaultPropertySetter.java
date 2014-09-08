@@ -46,7 +46,7 @@ public class DefaultPropertySetter {
             "application/octet-stream");
     private static final Future<CidsBean> defaultFunction = TagUtils.fetchFutureTagByName("download");
     private static final Future<CidsBean> defaultProtocol = TagUtils.fetchFutureTagByName("WWW:LINK");
-    private static final Future<CidsBean> defaultApplicationprofile = TagUtils.fetchFutureTagByName("Webbrowser");
+    private static final Future<CidsBean> defaultApplicationprofile = TagUtils.fetchFutureTagByName("Web Browser");
     // meta-data
     private static final Future<CidsBean> defaultStandard = TagUtils.fetchFutureTagByName("none");
     private static final Future<CidsBean> defaultTypeMetaData = TagUtils.fetchFutureTagByName("basic meta-data");
@@ -98,7 +98,7 @@ public class DefaultPropertySetter {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultRoleMetaDataContact, contact, "role"); // NOI18N
         contact.setProperty("name", defaultNameMetaDataContact);
         contact.setProperty("description", defaultDescriptionMetaDataContact);
-        contact.setProperty("organistaion", defaultOrganisationMetaDataContact);
+        contact.setProperty("organisation", defaultOrganisationMetaDataContact);
         contact.setProperty("url", defaultURLMetaDataContact);
     }
 
@@ -128,10 +128,6 @@ public class DefaultPropertySetter {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultContentType, representation, "contenttype");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultFunction, representation, "function");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultProtocol, representation, "protocol");
-        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(
-            defaultApplicationprofile,
-            representation,
-            "applicationprofile");
     }
 
     /**
@@ -146,7 +142,7 @@ public class DefaultPropertySetter {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultStandard, metadata, "standard");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultContentType, metadata, "contenttype");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultTypeMetaData, metadata, "type");
-        metadata.setProperty(defaultNameMetaData, "name");
-        metadata.setProperty(defaultDescriptionMetaData, "description");
+        metadata.setProperty("name", defaultNameMetaData);
+        metadata.setProperty("description", defaultDescriptionMetaData);
     }
 }

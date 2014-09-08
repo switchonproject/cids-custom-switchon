@@ -154,6 +154,10 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         addBorderToPanels();
         initSearchButtons();
         initIcon();
+
+        // Remove the tabs which are not needed at the moment
+        tpaSearchTabs.remove(tabAdvancedSearch);
+        tpaSearchTabs.remove(tabAggregatedSearch);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -216,7 +220,7 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
             final JScrollPane jsp = new JScrollPane(new ResourceWindowSearch());
             DevelopmentTools.showTestFrame(jsp, 800, 1000);
         } catch (Exception ex) {
-            Exceptions.printStackTrace(ex);
+            LOG.error(ex, ex);
         }
     }
 

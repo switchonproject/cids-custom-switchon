@@ -46,8 +46,8 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblApplication;
     private javax.swing.JTextField txtContentLocation;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -59,6 +59,10 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
      */
     public RepresentationsDataAccessInformationVisualPanel() {
         initComponents();
+
+        // make the application components, till they are really needed
+        lblApplication.setVisible(false);
+        cmbApplication.setVisible(false);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -81,7 +85,7 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
         cmbFunction = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.FUNCTION);
         jLabel4 = new javax.swing.JLabel();
         cmbProtocol = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.PROTOCOL);
-        jLabel5 = new javax.swing.JLabel();
+        lblApplication = new javax.swing.JLabel();
         cmbApplication = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
                 Taggroups.APPLICATION_PROFILE);
         jLabel2 = new javax.swing.JLabel();
@@ -221,16 +225,16 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
         jPanel1.add(cmbProtocol, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel5,
+            lblApplication,
             org.openide.util.NbBundle.getMessage(
                 RepresentationsDataAccessInformationVisualPanel.class,
-                "RepresentationsDataAccessInformationVisualPanel.jLabel5.text")); // NOI18N
+                "RepresentationsDataAccessInformationVisualPanel.lblApplication.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
-        jPanel1.add(jLabel5, gridBagConstraints);
+        jPanel1.add(lblApplication, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
