@@ -101,10 +101,9 @@ public class RepresentationsDataAccessInformationPanel
         final Object contentType = representation.getProperty("contenttype");                 // NOI18N
         final Object function = representation.getProperty("function");                       // NOI18N
         final Object protocol = representation.getProperty("protocol");                       // NOI18N
-        final Object applicationprofile = representation.getProperty("applicationprofile");   // NOI18N
 
         return StringUtils.isNotBlank(contentLocation) && (contentLocation != null) && (contentType != null)
-                    && (function != null) && (protocol != null) && (applicationprofile != null);
+                    && (function != null) && (protocol != null);
     }
 
     @Override
