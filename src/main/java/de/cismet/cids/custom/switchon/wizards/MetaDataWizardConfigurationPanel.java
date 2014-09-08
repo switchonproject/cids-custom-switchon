@@ -10,6 +10,7 @@ package de.cismet.cids.custom.switchon.wizards;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
+import org.openide.util.NbBundle;
 
 import java.awt.Component;
 
@@ -54,7 +55,8 @@ public class MetaDataWizardConfigurationPanel extends AbstractWizardPanel implem
 
     @Override
     public String getName() {
-        return java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/wizards/Bundle")
-                    .getString("MetaDataWizardConfigurationPanel.getName()");
+        return NbBundle.getMessage(
+                MetaDataWizardConfigurationPanel.class,
+                "MetaDataWizardConfigurationPanel.getName()");
     }
 }

@@ -13,6 +13,8 @@ import org.openide.WizardDescriptor;
 
 import java.awt.Component;
 
+import de.cismet.cids.custom.switchon.wizards.NameProvider;
+
 import de.cismet.commons.gui.wizard.AbstractWizardPanel;
 
 /**
@@ -21,7 +23,7 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditonalMetaDataEditDocumentPanel extends AbstractWizardPanel {
+public class AdditonalMetaDataEditDocumentPanel extends AbstractWizardPanel implements NameProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -50,5 +52,12 @@ public class AdditonalMetaDataEditDocumentPanel extends AbstractWizardPanel {
     @Override
     protected void store(final WizardDescriptor wizard) {
         LOG.fatal("AdditonalMetaDataEditDocumentPanel.store: Not supported yet.", new Exception()); // NOI18N
+    }
+
+    @Override
+    public String getName() {
+        return org.openide.util.NbBundle.getMessage(
+                AdditonalMetaDataEditDocumentPanel.class,
+                "AdditonalMetaDataEditDocumentPanel.name");
     }
 }
