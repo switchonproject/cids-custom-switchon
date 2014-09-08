@@ -216,7 +216,7 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
                 selectContactBean = (CidsBean)selectedContact;
             }
             try {
-                resource.setProperty("contact", selectedContact);
+                resource.setProperty("contact", selectContactBean);
                 model.propertyChange(null);
             } catch (Exception ex) {
                 LOG.error(ex, ex);
