@@ -98,7 +98,7 @@ public class DefaultPropertySetter {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultRoleMetaDataContact, contact, "role"); // NOI18N
         contact.setProperty("name", defaultNameMetaDataContact);
         contact.setProperty("description", defaultDescriptionMetaDataContact);
-        contact.setProperty("organistaion", defaultOrganisationMetaDataContact);
+        contact.setProperty("organisation", defaultOrganisationMetaDataContact);
         contact.setProperty("url", defaultURLMetaDataContact);
     }
 
@@ -128,10 +128,6 @@ public class DefaultPropertySetter {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultContentType, representation, "contenttype");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultFunction, representation, "function");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultProtocol, representation, "protocol");
-        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(
-            defaultApplicationprofile,
-            representation,
-            "applicationprofile");
     }
 
     /**
@@ -146,7 +142,7 @@ public class DefaultPropertySetter {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultStandard, metadata, "standard");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultContentType, metadata, "contenttype");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultTypeMetaData, metadata, "type");
-        metadata.setProperty(defaultNameMetaData, "name");
-        metadata.setProperty(defaultDescriptionMetaData, "description");
+        metadata.setProperty("name", defaultNameMetaData);
+        metadata.setProperty("description", defaultDescriptionMetaData);
     }
 }
