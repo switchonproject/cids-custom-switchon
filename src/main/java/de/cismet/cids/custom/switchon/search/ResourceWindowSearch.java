@@ -154,6 +154,10 @@ public class ResourceWindowSearch extends javax.swing.JPanel implements CidsWind
         addBorderToPanels();
         initSearchButtons();
         initIcon();
+
+        // Remove the tabs which are not needed at the moment
+        tpaSearchTabs.remove(tabAdvancedSearch);
+        tpaSearchTabs.remove(tabAggregatedSearch);
     }
 
     //~ Methods ----------------------------------------------------------------
