@@ -85,8 +85,7 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
         final CidsBean resource = getComponent().getCidsBean();
         final CidsBean contact = (CidsBean)resource.getProperty("contact");
         final String organisation = (String)contact.getProperty("organisation");
-        final String description = (String)contact.getProperty("description");
 
-        return StringUtils.isNotBlank(description) && StringUtils.isNotBlank(organisation);
+        return StringUtils.isNotBlank(organisation);
     }
 }
