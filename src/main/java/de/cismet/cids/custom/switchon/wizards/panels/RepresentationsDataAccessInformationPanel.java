@@ -59,10 +59,10 @@ public class RepresentationsDataAccessInformationPanel
         if (representation == null) {
             try {
                 // no representation selected, thus create a new representation and add it to the resource
-                representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation");
+                representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation"); // NOI18N
                 DefaultPropertySetter.setDefaultsToRepresentationCidsBean(representation);
                 final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
-                resource.getBeanCollectionProperty("representation").add(representation);
+                resource.getBeanCollectionProperty("representation").add(representation);               // NOI18N
                 DefaultPropertySetter.setDefaultsToRepresentationCidsBeanDerivedByResource(representation, resource);
             } catch (Exception ex) {
                 LOG.error(ex, ex);
@@ -84,7 +84,9 @@ public class RepresentationsDataAccessInformationPanel
 
     @Override
     public String getName() {
-        return "Resource Representation:  Data Access Properties";
+        return org.openide.util.NbBundle.getMessage(
+                RepresentationsDataAccessInformationPanel.class,
+                "RepresentationsDataAccessInformationPanel.name");
     }
 
     @Override
@@ -95,11 +97,11 @@ public class RepresentationsDataAccessInformationPanel
     @Override
     public boolean isValid() {
         final CidsBean representation = getComponent().getCidsBean();
-        final String contentLocation = (String)representation.getProperty("contentlocation");
-        final Object contentType = representation.getProperty("contenttype");
-        final Object function = representation.getProperty("function");
-        final Object protocol = representation.getProperty("protocol");
-        final Object applicationprofile = representation.getProperty("applicationprofile");
+        final String contentLocation = (String)representation.getProperty("contentlocation"); // NOI18N
+        final Object contentType = representation.getProperty("contenttype");                 // NOI18N
+        final Object function = representation.getProperty("function");                       // NOI18N
+        final Object protocol = representation.getProperty("protocol");                       // NOI18N
+        final Object applicationprofile = representation.getProperty("applicationprofile");   // NOI18N
 
         return StringUtils.isNotBlank(contentLocation) && (contentLocation != null) && (contentType != null)
                     && (function != null) && (protocol != null) && (applicationprofile != null);

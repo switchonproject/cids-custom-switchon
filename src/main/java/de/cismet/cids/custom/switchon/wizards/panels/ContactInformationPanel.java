@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
+import org.openide.util.NbBundle;
 
 import java.awt.Component;
 
@@ -71,8 +72,7 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
 
     @Override
     public String getName() {
-        return java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/wizards/panels/Bundle")
-                    .getString("ContactInformation.name");
+        return NbBundle.getMessage(ContactInformationPanel.class, "ContactInformation.name");
     }
 
     @Override

@@ -10,13 +10,10 @@ package de.cismet.cids.custom.switchon.wizards.panels;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
+import org.openide.util.NbBundle;
 
 import java.awt.Component;
 
-import java.util.concurrent.Future;
-
-import de.cismet.cids.custom.switchon.utils.CidsBeanUtils;
-import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
@@ -65,7 +62,6 @@ public class LicenseInformationPanel extends GenericAbstractWizardPanel<LicenseI
 
     @Override
     public String getName() {
-        return java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/wizards/panels/Bundle")
-                    .getString("LicenseInformationPanel.name");
+        return NbBundle.getMessage(LicenseInformationPanel.class, "LicenseInformationPanel.name");
     }
 }
