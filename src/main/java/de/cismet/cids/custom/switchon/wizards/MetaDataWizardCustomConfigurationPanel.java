@@ -21,7 +21,7 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class MetaDataWizardCustomConfigurationPanel extends AbstractWizardPanel {
+public class MetaDataWizardCustomConfigurationPanel extends AbstractWizardPanel implements NameProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -40,5 +40,12 @@ public class MetaDataWizardCustomConfigurationPanel extends AbstractWizardPanel 
 
     @Override
     protected void store(final WizardDescriptor wizard) {
+    }
+
+    @Override
+    public String getName() {
+        return org.openide.util.NbBundle.getMessage(
+                MetaDataWizardCustomConfigurationPanel.class,
+                "MetaDataWizardCustomConfigurationPanel.name");
     }
 }

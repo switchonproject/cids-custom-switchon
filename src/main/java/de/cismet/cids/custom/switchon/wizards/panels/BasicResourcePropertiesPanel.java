@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
+import org.openide.util.NbBundle;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -72,8 +73,7 @@ public class BasicResourcePropertiesPanel extends GenericAbstractWizardPanel<Bas
 
     @Override
     public String getName() {
-        return java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/wizards/Bundle")
-                    .getString("BasicResourcePropertiesPanel.getName()");
+        return NbBundle.getMessage(BasicResourcePropertiesPanel.class, "BasicResourcePropertiesPanel.getName()");
     }
 
     @Override

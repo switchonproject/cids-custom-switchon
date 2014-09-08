@@ -125,7 +125,6 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
             wizardDialog.setLocationRelativeTo(parent);
             wizardDialog.setVisible(true);
         }
-        wizardDialog.setAlwaysOnTop(true);
         wizardDialog.toFront();
     }
 

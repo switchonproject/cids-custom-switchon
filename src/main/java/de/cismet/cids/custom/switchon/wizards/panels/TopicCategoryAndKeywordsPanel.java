@@ -10,6 +10,7 @@ package de.cismet.cids.custom.switchon.wizards.panels;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
+import org.openide.util.NbBundle;
 
 import java.awt.Component;
 
@@ -66,8 +67,7 @@ public class TopicCategoryAndKeywordsPanel extends AbstractWizardPanel implement
 
     @Override
     public String getName() {
-        return java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/wizards/Bundle")
-                    .getString("TopicCategoryAndKeywordsPanel.getName()");
+        return NbBundle.getMessage(TopicCategoryAndKeywordsPanel.class, "TopicCategoryAndKeywordsPanel.getName()");
     }
 
     @Override

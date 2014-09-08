@@ -10,6 +10,7 @@ package de.cismet.cids.custom.switchon.wizards.panels;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
+import org.openide.util.NbBundle;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -61,8 +62,7 @@ public class TemporalInformationPanel extends GenericAbstractWizardPanel<Tempora
 
     @Override
     public String getName() {
-        return java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/wizards/panels/Bundle")
-                    .getString("TemporalInformationPanel.name");
+        return NbBundle.getMessage(TemporalInformationPanel.class, "TemporalInformationPanel.name");
     }
 
     @Override

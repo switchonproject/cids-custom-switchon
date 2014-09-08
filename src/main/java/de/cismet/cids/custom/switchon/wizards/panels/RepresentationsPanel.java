@@ -14,8 +14,6 @@ import org.openide.WizardDescriptor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import java.util.List;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -77,7 +75,7 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
 
     @Override
     public String getName() {
-        return "Resource Representation";
+        return org.openide.util.NbBundle.getMessage(RepresentationsPanel.class, "RepresentationsPanel.name");
     }
 
     @Override
