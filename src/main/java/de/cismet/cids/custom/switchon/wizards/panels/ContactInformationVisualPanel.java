@@ -42,6 +42,7 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
     private ContactInformationPanel model;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnNew;
     private javax.swing.JComboBox cmbContacts;
     private de.cismet.cids.custom.switchon.objecteditors.ContactEditor contactEditor;
@@ -105,6 +106,7 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
                 false,
                 "contact");
         ;
+        btnEdit = new javax.swing.JButton();
 
         addFocusListener(new java.awt.event.FocusAdapter() {
 
@@ -119,7 +121,7 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -135,7 +137,7 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
@@ -155,7 +157,7 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 20);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
         add(btnNew, gridBagConstraints);
 
         cmbContacts.addItemListener(new java.awt.event.ItemListener() {
@@ -172,6 +174,24 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 10);
         add(cmbContacts, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnEdit,
+            org.openide.util.NbBundle.getMessage(
+                ContactInformationVisualPanel.class,
+                "ContactInformationVisualPanel.btnEdit.text")); // NOI18N
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnEditActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 20);
+        add(btnEdit, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -225,6 +245,15 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
             contactEditor.setEnabled(selectContactBean == newlyCreatedContact);
         }
     }                                                                              //GEN-LAST:event_cmbContactsItemStateChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnEditActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnEditActionPerformed
+        contactEditor.setEnabled(true);
+    }                                                                           //GEN-LAST:event_btnEditActionPerformed
 
     @Override
     public void dispose() {
