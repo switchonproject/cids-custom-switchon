@@ -7,24 +7,13 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objectrenderer;
 
-import com.vividsolutions.jts.geom.Geometry;
-
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-
 import org.apache.commons.lang.StringUtils;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
 
-import de.cismet.cids.custom.switchon.SwitchOnConstants;
-import de.cismet.cids.custom.switchon.gui.utils.CismapUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.gui.utils.ResourceUtils;
@@ -34,15 +23,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-
-import de.cismet.cismap.commons.CrsTransformer;
-import de.cismet.cismap.commons.XBoundingBox;
-import de.cismet.cismap.commons.features.DefaultStyledFeature;
-import de.cismet.cismap.commons.features.StyledFeature;
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.gui.layerwidget.ActiveLayerModel;
-import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
-import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 
 /**
  * DOCUMENT ME!
@@ -59,10 +39,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
 
     //~ Instance fields --------------------------------------------------------
 
-    final StyledFeature previewGeometry = new DefaultStyledFeature();
-
     private CidsBean resourceCidsBean;
-    private final MappingComponent previewMap;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cmbLocation;
@@ -75,7 +52,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList lstCatchements;
-    private javax.swing.JPanel pnlMap;
+    private de.cismet.cids.custom.switchon.gui.PreviewMapPanel previewMapPanel;
     private javax.swing.JTextField txtResolutions;
     private javax.swing.JTextField txtScales;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -88,10 +65,6 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
      */
     public GeographicInformationPanel() {
         initComponents();
-
-        previewMap = new MappingComponent();
-        pnlMap.setLayout(new BorderLayout());
-        pnlMap.add(previewMap, BorderLayout.CENTER);
 
         RendererTools.makeReadOnly(txtResolutions);
         RendererTools.makeReadOnly(txtScales);
@@ -111,7 +84,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel1 = new javax.swing.JPanel();
-        pnlMap = new javax.swing.JPanel();
+        previewMapPanel = new de.cismet.cids.custom.switchon.gui.PreviewMapPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstCatchements = new javax.swing.JList();
@@ -133,23 +106,13 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                     GeographicInformationPanel.class,
                     "GeographicInformationPanel.jPanel1.border.title"))); // NOI18N
         jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        final javax.swing.GroupLayout pnlMapLayout = new javax.swing.GroupLayout(pnlMap);
-        pnlMap.setLayout(pnlMapLayout);
-        pnlMapLayout.setHorizontalGroup(
-            pnlMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
-        pnlMapLayout.setVerticalGroup(
-            pnlMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
-
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(pnlMap, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(previewMapPanel, gridBagConstraints);
+        previewMapPanel.setGeoFieldPropertyKey("spatialcoverage.geo_field");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -302,104 +265,9 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
                 bindingGroup,
                 this.resourceCidsBean);
             bindingGroup.bind();
-            initMap();
+            previewMapPanel.setCidsBean(cidsBean);
             initCatchmentsList();
             initSpatialResolutionsAndScales();
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void initMap() {
-        if (resourceCidsBean != null) {
-            final Object geoObj = resourceCidsBean.getProperty("spatialcoverage.geo_field");
-            if (geoObj instanceof Geometry) {
-                final Geometry pureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
-                        SwitchOnConstants.getInstance().SRS_SERVICE);
-
-                double buffer;
-                if (isSmallGeom(pureGeom)) {
-                    final XBoundingBox box = new XBoundingBox(pureGeom);
-
-                    final double diagonalLength = Math.sqrt((box.getWidth() * box.getWidth())
-                                    + (box.getHeight() * box.getHeight()));
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Buffer for map: " + diagonalLength);
-                    }
-                    buffer = diagonalLength;
-                } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.getInstance().GEO_BUFFER);
-                    }
-                    buffer = SwitchOnConstants.getInstance().GEO_BUFFER;
-                }
-
-                final XBoundingBox bufferedBox;
-                try {
-                    bufferedBox = new XBoundingBox(pureGeom.getEnvelope().buffer(
-                                buffer));
-                } catch (NullPointerException npe) {
-                    LOG.error(
-                        "NPE in the constructor of XBoundingBox. This happens if a renderer/editor is started with DevelopmentTools.",
-                        npe);
-                    return;
-                }
-                final Runnable mapRunnable = new Runnable() {
-
-                        @Override
-                        public void run() {
-                            final ActiveLayerModel mappingModel = new ActiveLayerModel();
-                            mappingModel.setSrs(SwitchOnConstants.getInstance().SRS_SERVICE);
-                            mappingModel.addHome(new XBoundingBox(
-                                    bufferedBox.getX1(),
-                                    bufferedBox.getY1(),
-                                    bufferedBox.getX2(),
-                                    bufferedBox.getY2(),
-                                    SwitchOnConstants.getInstance().SRS_SERVICE,
-                                    true));
-                            final SimpleWMS swms = new SimpleWMS(new SimpleWmsGetMapUrl(
-                                        SwitchOnConstants.getInstance().MAP_CALL_STRING));
-                            swms.setName("Spatial Coverage");
-
-                            previewGeometry.setGeometry(pureGeom);
-                            previewGeometry.setFillingPaint(new Color(1, 0, 0, 0.5f));
-                            previewGeometry.setLineWidth(3);
-                            previewGeometry.setLinePaint(new Color(1, 0, 0, 1f));
-                            // add the raster layer to the model
-                            mappingModel.addLayer(swms);
-                            // set the model
-                            previewMap.setMappingModel(mappingModel);
-                            // initial positioning of the map
-                            final int duration = previewMap.getAnimationDuration();
-                            previewMap.setAnimationDuration(0);
-                            previewMap.gotoInitialBoundingBox();
-                            // interaction mode
-                            previewMap.setInteractionMode(MappingComponent.ZOOM);
-                            // finally when all configurations are done ...
-                            previewMap.unlock();
-                            previewMap.addCustomInputListener("MUTE", new PBasicInputEventHandler() {
-
-                                    @Override
-                                    public void mouseClicked(final PInputEvent evt) {
-                                        if (evt.getClickCount() > 1) {
-                                            final CidsBean bean = resourceCidsBean;
-                                            CismapUtils.switchToCismapMap();
-                                            CismapUtils.addBeanGeomAsFeatureToCismapMap(bean, false);
-                                        }
-                                    }
-                                });
-                            previewMap.setInteractionMode("MUTE");
-                            previewMap.getFeatureCollection().addFeature(previewGeometry);
-                            previewMap.setAnimationDuration(duration);
-                        }
-                    };
-                if (EventQueue.isDispatchThread()) {
-                    mapRunnable.run();
-                } else {
-                    EventQueue.invokeLater(mapRunnable);
-                }
-            }
         }
     }
 
@@ -433,36 +301,5 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         }
         txtResolutions.setText(StringUtils.join(resolutions, ", "));
         txtScales.setText(StringUtils.join(scales, ", "));
-    }
-
-    /**
-     * Returns true if {@code pureGeom} is in EPSG:4326 and the difference of the X coordinates or of the Y coordinates
-     * of its bounding box is below 1.
-     *
-     * @param   pureGeom  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private boolean isSmallGeom(final Geometry pureGeom) {
-        if (isEpsg4326(SwitchOnConstants.getInstance().SRS_SERVICE)) {
-            final XBoundingBox bbox = new XBoundingBox(pureGeom);
-            final boolean bigX = Math.abs(bbox.getX2() - bbox.getX1()) < 1;
-            final boolean bigY = Math.abs(bbox.getY2() - bbox.getY1()) < 1;
-
-            return bigX || bigY;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   srsService  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private boolean isEpsg4326(final String srsService) {
-        return "EPSG:4326".equals(srsService);
     }
 }
