@@ -15,7 +15,10 @@ import org.openide.util.NbBundle;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.RowFilter;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
@@ -53,6 +56,7 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
     /** The query for the combobox containing the Taggroups. */
     private final String tagGroupQuery;
     private List<CidsBean> assignedTags = new ArrayList<CidsBean>();
+    private List<Taggroups> allowedTaggroups;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -99,6 +103,7 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
      */
     public AdditionalTagsPanel(final List<Taggroups> allowedTaggroups, final String branding) {
         this.branding = branding;
+        this.allowedTaggroups = allowedTaggroups;
 
         String tagGroupQuery = "SELECT t.ID,"
                     + " t.NAME"
@@ -484,6 +489,8 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
             assignedTags = cidsBean.getBeanCollectionProperty("tags");
             bindingGroup.bind();
 
+            // after the binding the column titles and the row filter have to be set again, as they will be overwritten
+            // otherwise set column titles
             NbBundle.setBranding(branding);
             if (tblAssignedTags.getColumnModel().getColumnCount() > 0) {
                 tblAssignedTags.getColumnModel()
@@ -498,6 +505,28 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
                                 "AdditionalTagsPanel.tblAssignedTags.columnModel.title1_2")); // NOI18N
             }
             NbBundle.setBranding(null);
+
+            // set row filter, to only show those tags from the allowed taggroups
+            final RowFilter<Object, Object> filter = new RowFilter<Object, Object>() {
+
+                    @Override
+                    public boolean include(final RowFilter.Entry entry) {
+                        final CidsBean taggroup = (CidsBean)entry.getValue(0);
+                        final String taggroupName = (String)taggroup.getProperty("name");
+                        boolean allowed = false;
+                        for (final Taggroups allowedTaggroup : allowedTaggroups) {
+                            if (allowedTaggroup.getValue().equalsIgnoreCase(taggroupName)) {
+                                allowed = true;
+                                break;
+                            }
+                        }
+                        return allowed;
+                    }
+                };
+
+            final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tblAssignedTags.getModel());
+            sorter.setRowFilter(filter);
+            tblAssignedTags.setRowSorter(sorter);
         }
     }
 

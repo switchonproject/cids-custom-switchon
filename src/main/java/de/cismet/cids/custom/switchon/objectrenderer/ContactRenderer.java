@@ -26,6 +26,7 @@ public class ContactRenderer extends ContactEditor {
      */
     public ContactRenderer() {
         super(false);
+        hideRoleComponents();
     }
 
     //~ Methods ----------------------------------------------------------------

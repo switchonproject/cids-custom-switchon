@@ -7,7 +7,15 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards;
 
+import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
+import Sirius.navigator.types.treenode.RootTreeNode;
+import Sirius.navigator.ui.ComponentRegistry;
+
 import org.apache.log4j.Logger;
+
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
 
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
@@ -21,9 +29,18 @@ import java.beans.PropertyChangeListener;
 
 import java.text.MessageFormat;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.SwingWorker;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -90,13 +107,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                         if ("org.openide.WizardDescriptor.FinishAction".equals(
                                         evt.getNewValue().getClass().getCanonicalName())) {
                             // persist the resource bean, when the wizard finished
-                            try {
-                                final CidsBean resource = (CidsBean)wizard.getProperty(
-                                        MetaDataWizardAction.PROP_RESOURCE_BEAN);
-                                resource.persist();
-                            } catch (Exception ex) {
-                                LOG.error("The resource bean could not be persisted.", ex);
-                            }
+                            new CidsBeanPersistWorker(wizard).execute();
                         } else if ((evt.getPropertyName() != null)
                                     && evt.getPropertyName().equals("__prop_configuration__")
                                     && evt.getNewValue().equals("basic")) {
@@ -155,6 +166,80 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
             metadata.setProperty("contact", metadataContact);
         } catch (Exception ex) {
             LOG.error(ex, ex);
+        }
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class CidsBeanPersistWorker extends SwingWorker<CidsBean, Void> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        WizardDescriptor wizard;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new CidsBeanPersistWorker object.
+         *
+         * @param  wizard  DOCUMENT ME!
+         */
+        public CidsBeanPersistWorker(final WizardDescriptor wizard) {
+            this.wizard = wizard;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        protected CidsBean doInBackground() throws Exception {
+            try {
+                final CidsBean resource = (CidsBean)wizard.getProperty(
+                        MetaDataWizardAction.PROP_RESOURCE_BEAN);
+                return resource.persist();
+            } catch (Exception ex) {
+                LOG.error("The resource bean could not be persisted.", ex);
+            }
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            try {
+                get();
+                // reload the tree
+                try {
+                    final TreePath selectionPath = ComponentRegistry.getRegistry()
+                                .getCatalogueTree()
+                                .getSelectionPath();
+                    if ((selectionPath != null) && (selectionPath.getPath().length > 0)) {
+                        final RootTreeNode rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots());
+                        ((DefaultTreeModel)ComponentRegistry.getRegistry().getCatalogueTree().getModel()).setRoot(
+                            rootTreeNode);
+                        ((DefaultTreeModel)ComponentRegistry.getRegistry().getCatalogueTree().getModel()).reload();
+                        ComponentRegistry.getRegistry().getCatalogueTree().exploreSubtree(selectionPath);
+                    }
+                } catch (ConnectionException ex) {
+                    LOG.error("Error while refreshing the tree", ex); // NOI18N
+                } catch (RuntimeException ex) {
+                    LOG.error("Error while refreshing the tree", ex); // NOI18N
+                }
+            } catch (Exception ex) {
+                LOG.warn(ex, ex);
+                final ErrorInfo info = new ErrorInfo(
+                        "Persist error",
+                        "The resource bean could not be persisted.",
+                        null,
+                        "ERROR",
+                        ex,
+                        Level.SEVERE,
+                        null);
+                JXErrorPane.showDialog(ComponentRegistry.getRegistry().getMainWindow(), info);
+            }
         }
     }
 }

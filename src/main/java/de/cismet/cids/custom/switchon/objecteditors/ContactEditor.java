@@ -84,13 +84,17 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
 
     //~ Methods ----------------------------------------------------------------
 
+    @Override
+    public void setEnabled(final boolean enabled) {
+        super.setEnabled(enabled);
+        editor = enabled;
+        makeEditable();
+    }
+
     /**
      * DOCUMENT ME!
      */
     private void makeEditable() {
-        cmbRole.setVisible(editor);
-        lblRole.setVisible(editor);
-
         txtWebsite.setVisible(editor);
         txtEMail.setVisible(editor);
 
@@ -101,18 +105,21 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
             RendererTools.makeReadOnly(txtContactPerson);
             RendererTools.makeReadOnly(txtOrganisation);
             RendererTools.makeReadOnly(txtaDescription);
+            RendererTools.makeReadOnly(cmbRole);
         } else {
             RendererTools.resetComponent(txtContactPerson);
             RendererTools.resetComponent(txtOrganisation);
             RendererTools.resetComponent(txtaDescription);
+            RendererTools.resetComponent(cmbRole);
         }
     }
 
-    @Override
-    public void setEnabled(final boolean enabled) {
-        super.setEnabled(enabled);
-        editor = enabled;
-        makeEditable();
+    /**
+     * DOCUMENT ME!
+     */
+    protected void hideRoleComponents() {
+        cmbRole.setVisible(false);
+        lblRole.setVisible(false);
     }
 
     /**

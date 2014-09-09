@@ -103,6 +103,9 @@
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.accessconditions}" target="cmbConditions" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbConditionsActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="((FastBindableReferenceCombo)cmbConditions).setNullable(false);"/>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.ACCESS_CONDITIONS)&#xa;"/>
@@ -117,6 +120,9 @@
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.accesslimitations}" target="cmbLimitations" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbLimitationsActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="((FastBindableReferenceCombo)cmbLimitations).setNullable(false);"/>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.ACCESS_LIMITATIONS)&#xa;"/>
@@ -155,6 +161,9 @@
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.conformity}" target="cmbConformity" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbConformityActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="((FastBindableReferenceCombo)cmbConformity).setNullable(false);"/>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.CONFORMITY) "/>
