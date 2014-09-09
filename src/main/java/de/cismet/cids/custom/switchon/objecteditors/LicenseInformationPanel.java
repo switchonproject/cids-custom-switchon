@@ -10,6 +10,7 @@ package de.cismet.cids.custom.switchon.objecteditors;
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
+import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -180,6 +181,13 @@ public class LicenseInformationPanel extends InfoProviderJPanel implements CidsB
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cmbConditions.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbConditionsActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -198,6 +206,13 @@ public class LicenseInformationPanel extends InfoProviderJPanel implements CidsB
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cmbLimitations.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbLimitationsActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -240,6 +255,13 @@ public class LicenseInformationPanel extends InfoProviderJPanel implements CidsB
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cmbConformity.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbConformityActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -276,6 +298,36 @@ public class LicenseInformationPanel extends InfoProviderJPanel implements CidsB
         provideInformation(java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/objecteditors/Bundle")
                     .getString("LicenseInformationPanel.txtaLicenseStatementFocusGained().info"));
     }                                                                                   //GEN-LAST:event_txtaLicenseStatementFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbConditionsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbConditionsActionPerformed
+        final String desc = TagUtils.getDescriptionOfTag(cmbConditions.getSelectedItem());
+        provideInformation(desc);
+    }                                                                                 //GEN-LAST:event_cmbConditionsActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbLimitationsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbLimitationsActionPerformed
+        final String desc = TagUtils.getDescriptionOfTag(cmbLimitations.getSelectedItem());
+        provideInformation(desc);
+    }                                                                                  //GEN-LAST:event_cmbLimitationsActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbConformityActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbConformityActionPerformed
+        final String desc = TagUtils.getDescriptionOfTag(cmbConformity.getSelectedItem());
+        provideInformation(desc);
+    }                                                                                 //GEN-LAST:event_cmbConformityActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
