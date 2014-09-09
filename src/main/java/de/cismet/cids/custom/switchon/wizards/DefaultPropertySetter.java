@@ -115,7 +115,7 @@ public class DefaultPropertySetter {
         final String resourceName = (String)resource.getProperty("name");
         representation.setProperty("name", resourceName + " Representation");
         representation.setProperty("description", "Representation of the resource " + resourceName);
-        representation.setProperty("uuid", UUID.randomUUID());
+        representation.setProperty("uuid", UUID.randomUUID().toString());
     }
 
     /**
