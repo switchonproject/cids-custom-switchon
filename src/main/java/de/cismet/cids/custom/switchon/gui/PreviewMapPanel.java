@@ -16,18 +16,24 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.cismet.cids.custom.switchon.SwitchOnConstants;
 import de.cismet.cids.custom.switchon.gui.utils.CismapUtils;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
+import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.features.DefaultStyledFeature;
+import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.StyledFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.layerwidget.ActiveLayerModel;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 
@@ -84,92 +90,183 @@ public class PreviewMapPanel extends javax.swing.JPanel implements CidsBeanStore
     private void initMap() {
         if (cidsBean != null) {
             final Object geoObj = cidsBean.getProperty(geoFieldPropertyKey);
-            if (geoObj instanceof Geometry) {
-                final Geometry pureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
+            Geometry tmpPureGeom = null;
+            if (geoObj != null) {
+                tmpPureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
                         SwitchOnConstants.getInstance().SRS_SERVICE);
-
-                double buffer;
-                if (isSmallGeom(pureGeom)) {
-                    final XBoundingBox box = new XBoundingBox(pureGeom);
-
-                    final double diagonalLength = Math.sqrt((box.getWidth() * box.getWidth())
-                                    + (box.getHeight() * box.getHeight()));
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Buffer for map: " + diagonalLength);
-                    }
-                    buffer = diagonalLength;
-                } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.getInstance().GEO_BUFFER);
-                    }
-                    buffer = SwitchOnConstants.getInstance().GEO_BUFFER;
-                }
-
-                final XBoundingBox bufferedBox;
-                try {
-                    bufferedBox = new XBoundingBox(pureGeom.getEnvelope().buffer(
-                                buffer));
-                } catch (NullPointerException npe) {
-                    LOG.error(
-                        "NPE in the constructor of XBoundingBox. This happens if a renderer/editor is started with DevelopmentTools.",
-                        npe);
-                    return;
-                }
-                final Runnable mapRunnable = new Runnable() {
-
-                        @Override
-                        public void run() {
-                            final ActiveLayerModel mappingModel = new ActiveLayerModel();
-                            mappingModel.setSrs(SwitchOnConstants.getInstance().SRS_SERVICE);
-                            mappingModel.addHome(new XBoundingBox(
-                                    bufferedBox.getX1(),
-                                    bufferedBox.getY1(),
-                                    bufferedBox.getX2(),
-                                    bufferedBox.getY2(),
-                                    SwitchOnConstants.getInstance().SRS_SERVICE,
-                                    true));
-                            final SimpleWMS swms = new SimpleWMS(new SimpleWmsGetMapUrl(
-                                        SwitchOnConstants.getInstance().MAP_CALL_STRING));
-                            swms.setName("Spatial Coverage");
-
-                            previewGeometry.setGeometry(pureGeom);
-                            previewGeometry.setFillingPaint(new Color(1, 0, 0, 0.5f));
-                            previewGeometry.setLineWidth(3);
-                            previewGeometry.setLinePaint(new Color(1, 0, 0, 1f));
-                            // add the raster layer to the model
-                            mappingModel.addLayer(swms);
-                            // set the model
-                            previewMap.setMappingModel(mappingModel);
-                            // initial positioning of the map
-                            final int duration = previewMap.getAnimationDuration();
-                            previewMap.setAnimationDuration(0);
-                            previewMap.gotoInitialBoundingBox();
-                            // interaction mode
-                            previewMap.setInteractionMode(MappingComponent.ZOOM);
-                            // finally when all configurations are done ...
-                            previewMap.unlock();
-                            previewMap.addCustomInputListener("MUTE", new PBasicInputEventHandler() {
-
-                                    @Override
-                                    public void mouseClicked(final PInputEvent evt) {
-                                        if (evt.getClickCount() > 1) {
-                                            final CidsBean bean = cidsBean;
-                                            CismapUtils.switchToCismapMap();
-                                            CismapUtils.addBeanGeomAsFeatureToCismapMap(bean, false);
-                                        }
-                                    }
-                                });
-                            previewMap.setInteractionMode("MUTE");
-                            previewMap.getFeatureCollection().addFeature(previewGeometry);
-                            previewMap.setAnimationDuration(duration);
-                        }
-                    };
-                if (EventQueue.isDispatchThread()) {
-                    mapRunnable.run();
-                } else {
-                    EventQueue.invokeLater(mapRunnable);
-                }
             }
+            final Geometry pureGeom = tmpPureGeom;
+
+            final Runnable mapRunnable = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final ActiveLayerModel mappingModel = new ActiveLayerModel();
+                        mappingModel.setSrs(SwitchOnConstants.getInstance().SRS_SERVICE);
+                        mappingModel.addHome(getBoundingBox(pureGeom));
+                        final SimpleWMS swms = new SimpleWMS(new SimpleWmsGetMapUrl(
+                                    SwitchOnConstants.getInstance().MAP_CALL_STRING));
+                        swms.setName("Spatial Coverage");
+
+                        previewGeometry.setGeometry(pureGeom);
+                        previewGeometry.setFillingPaint(new Color(1, 0, 0, 0.5f));
+                        previewGeometry.setLineWidth(3);
+                        previewGeometry.setLinePaint(new Color(1, 0, 0, 1f));
+                        // add the raster layer to the model
+                        mappingModel.addLayer(swms);
+                        // set the model
+                        previewMap.setMappingModel(mappingModel);
+                        // initial positioning of the map
+                        final int duration = previewMap.getAnimationDuration();
+                        previewMap.setAnimationDuration(0);
+                        previewMap.gotoInitialBoundingBox();
+                        // interaction mode
+                        previewMap.setInteractionMode(MappingComponent.ZOOM);
+                        // finally when all configurations are done ...
+                        previewMap.unlock();
+                        previewMap.addCustomInputListener("MUTE", new PBasicInputEventHandler() {
+
+                                @Override
+                                public void mouseClicked(final PInputEvent evt) {
+                                    if (evt.getClickCount() > 1) {
+                                        final CidsBean bean = cidsBean;
+                                        CismapUtils.switchToCismapMap();
+                                        CismapUtils.addBeanGeomAsFeatureToCismapMap(bean, false);
+                                    }
+                                }
+                            });
+                        previewMap.setInteractionMode("MUTE");
+                        previewMap.getFeatureCollection().addFeature(previewGeometry);
+                        previewMap.setAnimationDuration(duration);
+                    }
+                };
+            if (EventQueue.isDispatchThread()) {
+                mapRunnable.run();
+            } else {
+                EventQueue.invokeLater(mapRunnable);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   geom  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private XBoundingBox getBoundingBox(final Geometry geom) {
+        if (geom == null) {
+            final String srsCode = CismapBroker.getInstance()
+                        .getMappingComponent()
+                        .getMappingModel()
+                        .getSrs()
+                        .getCode();
+            final BoundingBox initb = CismapBroker.getInstance().getMappingComponent().getInitialBoundingBox();
+            return new XBoundingBox(initb.getX1(),
+                    initb.getY1(),
+                    initb.getX2(),
+                    initb.getY2(),
+                    srsCode,
+                    CismapBroker.getInstance().getMappingComponent().getMappingModel().getSrs().isMetric());
+        }
+
+        double buffer;
+        if (isSmallGeom(geom)) {
+            final XBoundingBox box = new XBoundingBox(geom);
+
+            final double diagonalLength = Math.sqrt((box.getWidth() * box.getWidth())
+                            + (box.getHeight() * box.getHeight()));
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Buffer for map: " + diagonalLength);
+            }
+            buffer = diagonalLength;
+        } else {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.getInstance().GEO_BUFFER);
+            }
+            buffer = SwitchOnConstants.getInstance().GEO_BUFFER;
+        }
+
+        final XBoundingBox bufferedBox;
+        try {
+            bufferedBox = new XBoundingBox(geom.getEnvelope().buffer(
+                        buffer));
+        } catch (NullPointerException npe) {
+            LOG.error(
+                "NPE in the constructor of XBoundingBox. This happens if a renderer/editor is started with DevelopmentTools.",
+                npe);
+            return null;
+        }
+
+        return new XBoundingBox(
+                bufferedBox.getX1(),
+                bufferedBox.getY1(),
+                bufferedBox.getX2(),
+                bufferedBox.getY2(),
+                SwitchOnConstants.getInstance().SRS_SERVICE,
+                true);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Geometry getGeometry() {
+        Geometry geom = null;
+        for (final Feature f : previewMap.getFeatureCollection().getAllFeatures()) {
+            final Geometry g = f.getGeometry();
+            if (g != null) {
+                geom = g;
+                break;
+            }
+        }
+        return geom;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  geometry  DOCUMENT ME!
+     */
+    public void setGeometry(final Geometry geometry) {
+        initMap();
+        // remove all features from the map
+        final List<Feature> featuresToRemove = new ArrayList<Feature>();
+        for (final Feature f : previewMap.getFeatureCollection().getAllFeatures()) {
+            featuresToRemove.add(f);
+        }
+        previewMap.getFeatureCollection().removeFeatures(featuresToRemove);
+        if (geometry != null) {
+            final StyledFeature dsf = new DefaultStyledFeature();
+            dsf.setGeometry(geometry);
+            dsf.setFillingPaint(new Color(1, 0, 0, 0.5f));
+            dsf.setLineWidth(3);
+            dsf.setLinePaint(new Color(1, 0, 0, 1f));
+            dsf.setEditable(true);
+
+            final XBoundingBox box;
+            try {
+                box = new XBoundingBox(geometry.getEnvelope().buffer(
+                            SwitchOnConstants.getInstance().GEO_BUFFER));
+            } catch (NullPointerException npe) {
+                LOG.error(
+                    "NPE in the constructor of XBoundingBox. This happens if a renderer/editor is started with DevelopmentTools.",
+                    npe);
+                return;
+            }
+
+            if (previewMap.getMappingModel() != null) {
+                ((ActiveLayerModel)previewMap.getMappingModel()).addHome(box);
+                previewMap.gotoInitialBoundingBox();
+            } else {
+                LOG.error(
+                    "previewMap.getMappingModel() is null, can not set initial bounding box",
+                    new NullPointerException());
+            }
+
+            previewMap.getFeatureCollection().addFeature(dsf);
         }
     }
 

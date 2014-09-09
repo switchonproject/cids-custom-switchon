@@ -90,7 +90,8 @@ public final class SwitchOnConstants implements Configurable {
     }
 
     /**
-     * DOCUMENT ME!
+     * Reads the configuration of the optional switchOnConstantsConfiguration.xml. If this file is not present the
+     * properties from the previewMap.properties will be used.
      */
     private void initConfigure() {
         try {
@@ -102,7 +103,7 @@ public final class SwitchOnConstants implements Configurable {
 
             manager.configure(this, home + fs + folder + fs + fileName);
         } catch (final Exception ex) {
-            LOG.error("SwitchOnConstants Error while loading the xml!", ex);
+            LOG.warn("SwitchOnConstants Error while loading the optional xml!", ex);
         }
     }
 
