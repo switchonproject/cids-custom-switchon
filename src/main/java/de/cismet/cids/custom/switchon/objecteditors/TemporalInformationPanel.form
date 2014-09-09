@@ -66,9 +66,6 @@
               </Property>
             </BindingProperty>
           </BindingProperties>
-          <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="dpStartDateFocusGained"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ISO8601JXDatePicker();&#xa;"/>
           </AuxValues>
@@ -86,9 +83,6 @@
               </Property>
             </BindingProperty>
           </BindingProperties>
-          <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="dpEndDateFocusGained"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ISO8601JXDatePicker();&#xa;"/>
           </AuxValues>
@@ -177,9 +171,6 @@
               </Property>
             </BindingProperty>
           </BindingProperties>
-          <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="dpCreationDateFocusGained"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ISO8601JXDatePicker();&#xa;"/>
           </AuxValues>
@@ -197,9 +188,6 @@
               </Property>
             </BindingProperty>
           </BindingProperties>
-          <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="dpPublicationDateFocusGained"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ISO8601JXDatePicker();&#xa;"/>
           </AuxValues>
@@ -217,9 +205,6 @@
               </Property>
             </BindingProperty>
           </BindingProperties>
-          <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="dpLastModificationDateFocusGained"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ISO8601JXDatePicker();&#xa;"/>
           </AuxValues>
