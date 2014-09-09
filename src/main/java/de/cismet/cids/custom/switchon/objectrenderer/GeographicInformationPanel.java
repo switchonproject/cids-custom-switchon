@@ -317,25 +317,34 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
             if (geoObj instanceof Geometry) {
                 final Geometry pureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
                         SwitchOnConstants.getInstance().SRS_SERVICE);
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.getInstance().GEO_BUFFER);
+
+                double buffer;
+                if (isSmallGeom(pureGeom)) {
+                    final XBoundingBox box = new XBoundingBox(pureGeom);
+
+                    final double diagonalLength = Math.sqrt((box.getWidth() * box.getWidth())
+                                    + (box.getHeight() * box.getHeight()));
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Buffer for map: " + diagonalLength);
+                    }
+                    buffer = diagonalLength;
+                } else {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.getInstance().GEO_BUFFER);
+                    }
+                    buffer = SwitchOnConstants.getInstance().GEO_BUFFER;
                 }
-                final XBoundingBox box;
+
+                final XBoundingBox bufferedBox;
                 try {
-                    box = new XBoundingBox(pureGeom.getEnvelope().buffer(
-                                SwitchOnConstants.getInstance().GEO_BUFFER));
+                    bufferedBox = new XBoundingBox(pureGeom.getEnvelope().buffer(
+                                buffer));
                 } catch (NullPointerException npe) {
                     LOG.error(
                         "NPE in the constructor of XBoundingBox. This happens if a renderer/editor is started with DevelopmentTools.",
                         npe);
                     return;
                 }
-                final double diagonalLength = Math.sqrt((box.getWidth() * box.getWidth())
-                                + (box.getHeight() * box.getHeight()));
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Buffer for map: " + diagonalLength);
-                }
-                final XBoundingBox bufferedBox = box;
                 final Runnable mapRunnable = new Runnable() {
 
                         @Override
@@ -424,5 +433,36 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         }
         txtResolutions.setText(StringUtils.join(resolutions, ", "));
         txtScales.setText(StringUtils.join(scales, ", "));
+    }
+
+    /**
+     * Returns true if {@code pureGeom} is in EPSG:4326 and the difference of the X coordinates or of the Y coordinates
+     * of its bounding box is below 1.
+     *
+     * @param   pureGeom  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isSmallGeom(final Geometry pureGeom) {
+        if (isEpsg4326(SwitchOnConstants.getInstance().SRS_SERVICE)) {
+            final XBoundingBox bbox = new XBoundingBox(pureGeom);
+            final boolean bigX = Math.abs(bbox.getX2() - bbox.getX1()) < 1;
+            final boolean bigY = Math.abs(bbox.getY2() - bbox.getY1()) < 1;
+
+            return bigX || bigY;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   srsService  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isEpsg4326(final String srsService) {
+        return "EPSG:4326".equals(srsService);
     }
 }
