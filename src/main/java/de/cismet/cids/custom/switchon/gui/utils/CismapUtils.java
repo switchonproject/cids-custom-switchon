@@ -25,8 +25,6 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 import de.cismet.cismap.navigatorplugin.CismapPlugin;
 
-import static de.cismet.cids.custom.switchon.Utils.CISMAP_PLUGIN_NAME;
-
 /**
  * DOCUMENT ME!
  *
