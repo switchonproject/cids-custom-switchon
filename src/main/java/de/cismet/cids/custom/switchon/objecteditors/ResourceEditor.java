@@ -57,7 +57,6 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private CidsBean provenanceRelationship = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
     private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
     private javax.swing.JButton btnAddLocation;
     private javax.swing.JButton btnAddSrid;
@@ -69,7 +68,6 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private javax.swing.JComboBox cmbContact;
     private javax.swing.JComboBox cmbLocation;
     private javax.swing.JComboBox cmbSrid;
-    private javax.swing.JComboBox cmbTopic;
     private de.cismet.cids.custom.switchon.objecteditors.ContactEditor contactEditor;
     private de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction createNewLocation;
     private de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction createNewSrid;
@@ -83,7 +81,6 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private de.cismet.cids.custom.switchon.gui.GeometryChooserPanel geometryChooserPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
@@ -105,6 +102,8 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     private javax.swing.JPanel pnlTemporalInformation;
     private de.cismet.cids.custom.switchon.objecteditors.RepresentationsPanel representationsPanel;
     private de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel temporalInformationPanel;
+    private de.cismet.cids.custom.switchon.objecteditors.TopicCollectionAdditionalTagsPanel
+        topicCollectionAdditionalTagsPanel;
     private javax.swing.JTextField txtProvenanceRelationship;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -139,15 +138,8 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
         pnlTagsAndCategory = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        cmbTopic = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.TOPIC_CATEGORY);
-        final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
-        taggroups.add(Taggroups.COLLECTION);
-        taggroups.add(Taggroups.GEOGRAPHY);
-        taggroups.add(Taggroups.HYDROLOGICAL_CONCEPT);
-        taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
-        taggroups.add(Taggroups.KEYWORDS_OPEN);
-        additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups);
+        topicCollectionAdditionalTagsPanel =
+            new de.cismet.cids.custom.switchon.objecteditors.TopicCollectionAdditionalTagsPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -232,43 +224,15 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             pnlBasicProperties); // NOI18N
 
         pnlTagsAndCategory.setLayout(new java.awt.GridBagLayout());
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(ResourceEditor.class, "ResourceEditor.jPanel1.border.title"))); // NOI18N
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.topiccategory}"),
-                cmbTopic,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(cmbTopic, gridBagConstraints);
-        ((FastBindableReferenceCombo)cmbTopic).setNullable(false);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
-        pnlTagsAndCategory.add(jPanel1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        pnlTagsAndCategory.add(additionalTagsPanel, gridBagConstraints);
+        pnlTagsAndCategory.add(topicCollectionAdditionalTagsPanel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weighty = 0.5;
         pnlTagsAndCategory.add(filler2, gridBagConstraints);
@@ -285,7 +249,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                     ResourceEditor.class,
                     "ResourceEditor.contactEditor.border.title"))); // NOI18N
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.contact}"),
@@ -872,7 +836,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
                 bindingGroup,
                 this.cidsBean);
             basicPropertiesPanel.setCidsBean(cidsBean);
-            additionalTagsPanel.setCidsBean(cidsBean);
+            topicCollectionAdditionalTagsPanel.setCidsBean(cidsBean);
             temporalInformationPanel.setCidsBean(cidsBean);
             licenseInformationPanel.setCidsBean(cidsBean);
             metaDataPanel.setCidsBean(cidsBean);
@@ -886,6 +850,7 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        topicCollectionAdditionalTagsPanel.dispose();
         geometryChooserPanel.dispose();
         temporalInformationPanel.dispose();
     }

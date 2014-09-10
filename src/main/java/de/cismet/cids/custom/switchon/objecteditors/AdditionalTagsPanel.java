@@ -15,6 +15,7 @@ import org.openide.util.NbBundle;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.RowFilter;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableModel;
@@ -405,11 +406,15 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
      */
     private void changeListModelToSelectedTaggroup() {
         final LightweightMetaObject taggroupMo = (LightweightMetaObject)cmbTagGroups.getSelectedItem();
-        final Taggroups chosenTaggroup = TaggroupUtils.getTaggroupFromString(taggroupMo.toString());
+        Taggroups chosenTaggroup = null;
+        if (taggroupMo != null) {
+            chosenTaggroup = TaggroupUtils.getTaggroupFromString(taggroupMo.toString());
+        }
+
         if (chosenTaggroup != null) {
             ((TagsJList)lstTags).changeModelToTaggroup(chosenTaggroup);
         } else {
-            lstTags.setModel(null);
+            lstTags.setModel(new DefaultListModel());
         }
     }
 
