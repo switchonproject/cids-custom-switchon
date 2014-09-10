@@ -92,7 +92,6 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         jPanel2 = new javax.swing.JPanel();
         basicPropertiesPanel = new BasicPropertiesPanel(Taggroups.RELATIONSHIP_TYPE);
         final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
-        taggroups.add(Taggroups.COLLECTION);
         taggroups.add(Taggroups.GEOGRAPHY);
         taggroups.add(Taggroups.HYDROLOGICAL_CONCEPT);
         taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
