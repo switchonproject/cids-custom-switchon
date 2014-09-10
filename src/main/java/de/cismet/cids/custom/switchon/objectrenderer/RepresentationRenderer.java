@@ -447,7 +447,8 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
                                     DownloadManagerDialog.getJobname(),
                                     cidsBean.toString(),
                                     filename,
-                                    extension));
+                                    "."
+                                    + extension));
                 }
             }
         }
