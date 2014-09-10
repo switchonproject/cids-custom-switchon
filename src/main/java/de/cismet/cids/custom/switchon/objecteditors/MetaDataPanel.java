@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -23,7 +24,7 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -260,6 +261,11 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
      */
     public void setMetadatas(final List<CidsBean> metadatas) {
         this.metadatas = metadatas;
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
     }
 
     //~ Inner Classes ----------------------------------------------------------
