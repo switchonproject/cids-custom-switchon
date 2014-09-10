@@ -64,7 +64,7 @@ public class TagsJList extends QueryJList {
     //~ Methods ----------------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * Replace the model of the list with a model filled with the tags of the given taggroup.
      *
      * @param  taggroup  DOCUMENT ME!
      */
@@ -78,7 +78,7 @@ public class TagsJList extends QueryJList {
     }
 
     /**
-     * DOCUMENT ME!
+     * Replace the model of the list with a model filled with the tags of the given taggroup.
      *
      * @param  taggroupID  DOCUMENT ME!
      */
