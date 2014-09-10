@@ -12,6 +12,9 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.navigator.types.treenode.RootTreeNode;
 import Sirius.navigator.ui.ComponentRegistry;
 
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
+
 import org.apache.log4j.Logger;
 
 import org.jdesktop.swingx.JXErrorPane;
@@ -19,6 +22,7 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
+import org.openide.util.Exceptions;
 
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -45,6 +49,7 @@ import javax.swing.tree.TreePath;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.CidsClientToolbarItem;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
@@ -155,18 +160,20 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
      * @param  wizard  DOCUMENT ME!
      */
     private void setBasicDefaults(final WizardDescriptor wizard) {
-        DefaultPropertySetter.setDefaultsToResourceCidsBean((CidsBean)wizard.getProperty(
-                MetaDataWizardAction.PROP_RESOURCE_BEAN));
-        try {
-            final CidsBean metadata = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata");
-            DefaultPropertySetter.setDefaultsToMetaDataCidsBean(metadata);
-            wizard.putProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN, metadata);
-            final CidsBean metadataContact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact");
-            DefaultPropertySetter.setDefaultsToMetaDataContactCidsBean(metadataContact);
-            metadata.setProperty("contact", metadataContact);
-        } catch (Exception ex) {
-            LOG.error(ex, ex);
-        }
+        final CidsBean resource = (CidsBean)wizard.getProperty(
+                MetaDataWizardAction.PROP_RESOURCE_BEAN);
+        DefaultPropertySetter.setDefaultsToResourceCidsBean(resource);
+
+        setStandardMetaData(resource);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  resource  DOCUMENT ME!
+     */
+    private void setStandardMetaData(final CidsBean resource) {
+        new StandardMetaDataFetcher(resource).execute();
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -239,6 +246,143 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                         Level.SEVERE,
                         null);
                 JXErrorPane.showDialog(ComponentRegistry.getRegistry().getMainWindow(), info);
+            }
+        }
+    }
+
+    /**
+     * The main task of this class is to fetch the standard meta data from the database and add it to a resource. To
+     * achieve this it tries to fetch the standard meta data-CidsBean and a Switch-On contact-CidsBean. If this fails it
+     * creates a new CidsBean, using the methods from {@link DefaultPropertySetter}. Finally the standard meta
+     * data-CidsBean is added to the resource-CidsBean.
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class StandardMetaDataFetcher extends SwingWorker<CidsBean, Void> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        CidsBean resource;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new StandardMetaDataFetcher object.
+         *
+         * @param  resource  DOCUMENT ME!
+         */
+        public StandardMetaDataFetcher(final CidsBean resource) {
+            this.resource = resource;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        protected CidsBean doInBackground() throws Exception {
+            CidsBean standardMetaObject = null;
+            try {
+                standardMetaObject = fetchStandardMetaData();
+            } catch (Exception ex) {
+                LOG.error("Error while fetching standard meta object. Creating new meta object instead.", ex);
+            }
+            if (standardMetaObject == null) {
+                standardMetaObject = createNewStandardMetaData();
+            }
+            CidsBean switchOnContact = null;
+            try {
+                switchOnContact = fetchSwitchOnContact();
+            } catch (Exception ex) {
+                LOG.error("Error while fetching switchon contact. Creating new meta object instead.", ex);
+            }
+            if (switchOnContact == null) {
+                switchOnContact = createNewSwitchOnContact();
+            }
+
+            standardMetaObject.setProperty("contact", switchOnContact);
+            return standardMetaObject;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        private CidsBean fetchStandardMetaData() throws Exception {
+            final MetaClass MB_MC = ClassCacheMultiple.getMetaClass("SWITCHON", "metadata");
+            String query = "SELECT " + MB_MC.getID() + ", " + MB_MC.getPrimaryKey() + " ";
+            query += "FROM " + MB_MC.getTableName();
+            query += " WHERE name ilike '" + DefaultPropertySetter.defaultNameMetaData + "' limit 1";
+
+            final MetaObject[] mos = SessionManager.getProxy()
+                        .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
+            if (mos.length >= 1) {
+                return mos[0].getBean();
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        private CidsBean createNewStandardMetaData() throws Exception {
+            final CidsBean standardMetaObject = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata");
+            DefaultPropertySetter.setDefaultsToMetaDataCidsBean(standardMetaObject);
+            return standardMetaObject;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        private CidsBean fetchSwitchOnContact() throws Exception {
+            final MetaClass MB_MC = ClassCacheMultiple.getMetaClass("SWITCHON", "contact");
+            String query = "SELECT " + MB_MC.getID() + ", " + MB_MC.getPrimaryKey() + " ";
+            query += "FROM " + MB_MC.getTableName();
+            query += " WHERE name ilike '" + DefaultPropertySetter.defaultNameMetaDataContact + "'";
+            query += " AND organisation ilike '" + DefaultPropertySetter.defaultOrganisationMetaDataContact + "'";
+            query += " limit 1";
+
+            final MetaObject[] mos = SessionManager.getProxy()
+                        .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
+            if (mos.length >= 1) {
+                return mos[0].getBean();
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        private CidsBean createNewSwitchOnContact() throws Exception {
+            final CidsBean metadataContact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact");
+            DefaultPropertySetter.setDefaultsToMetaDataContactCidsBean(metadataContact);
+            return metadataContact;
+        }
+
+        @Override
+        protected void done() {
+            try {
+                final CidsBean standardMetaObject = get();
+                resource.getBeanCollectionProperty("metadata").add(standardMetaObject);
+            } catch (InterruptedException ex) {
+                LOG.error(ex, ex);
+            } catch (ExecutionException ex) {
+                LOG.error(ex, ex);
             }
         }
     }
