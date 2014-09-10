@@ -13,7 +13,7 @@ package de.cismet.cids.custom.switchon.wizards.panels;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditonalMetaDataBasicInformationVisualPanel extends javax.swing.JPanel {
+public class AdditonalMetaDataBasicInformationVisualPanel extends BasicResourcePropertiesVisualPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -27,6 +27,9 @@ public class AdditonalMetaDataBasicInformationVisualPanel extends javax.swing.JP
      */
     public AdditonalMetaDataBasicInformationVisualPanel() {
         initComponents();
+        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                AdditonalMetaDataBasicInformationVisualPanel.class,
+                "AdditonalMetaDataBasicInformationVisualPanel.infobox.gerneralInfromation"));
     }
 
     //~ Methods ----------------------------------------------------------------

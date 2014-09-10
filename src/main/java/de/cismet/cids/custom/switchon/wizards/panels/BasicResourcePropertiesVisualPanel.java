@@ -27,8 +27,8 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
             BasicResourcePropertiesVisualPanel.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
-    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
+    protected de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
+    protected de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
