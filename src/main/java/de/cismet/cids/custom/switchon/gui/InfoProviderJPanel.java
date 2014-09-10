@@ -10,7 +10,7 @@ package de.cismet.cids.custom.switchon.gui;
 import javax.swing.JPanel;
 
 /**
- * DOCUMENT ME!
+ * A JPanel which is also an InfoProvider. This is only a convenience class to avoid boilerplate code.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$

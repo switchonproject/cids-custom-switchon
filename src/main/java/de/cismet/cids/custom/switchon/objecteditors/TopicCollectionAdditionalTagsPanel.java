@@ -9,7 +9,10 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import java.util.ArrayList;
 
+import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
+import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -25,7 +28,7 @@ import de.cismet.cids.editors.FastBindableReferenceCombo;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TopicCollectionAdditionalTagsPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -37,8 +40,8 @@ public class TopicCollectionAdditionalTagsPanel extends javax.swing.JPanel imple
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
+    private javax.swing.JComboBox cmbCollection;
     private javax.swing.JComboBox cmbTopic;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -68,7 +71,7 @@ public class TopicCollectionAdditionalTagsPanel extends javax.swing.JPanel imple
         jPanel1 = new javax.swing.JPanel();
         cmbTopic = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.TOPIC_CATEGORY);
         jPanel3 = new javax.swing.JPanel();
-        jComboBox1 = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.COLLECTION);
+        cmbCollection = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.COLLECTION);
         final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
         taggroups.add(Taggroups.COLLECTION);
         taggroups.add(Taggroups.GEOGRAPHY);
@@ -93,6 +96,13 @@ public class TopicCollectionAdditionalTagsPanel extends javax.swing.JPanel imple
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cmbTopic.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbTopicActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -117,17 +127,24 @@ public class TopicCollectionAdditionalTagsPanel extends javax.swing.JPanel imple
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.collection}"),
-                jComboBox1,
+                cmbCollection,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cmbCollection.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbCollectionActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(jComboBox1, gridBagConstraints);
+        jPanel3.add(cmbCollection, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -146,6 +163,26 @@ public class TopicCollectionAdditionalTagsPanel extends javax.swing.JPanel imple
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbTopicActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbTopicActionPerformed
+        final String desc = TagUtils.getDescriptionOfTag(cmbTopic.getSelectedItem());
+        provideInformation(desc);
+    }                                                                            //GEN-LAST:event_cmbTopicActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbCollectionActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbCollectionActionPerformed
+        final String desc = TagUtils.getDescriptionOfTag(cmbCollection.getSelectedItem());
+        provideInformation(desc);
+    }                                                                                 //GEN-LAST:event_cmbCollectionActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -168,5 +205,11 @@ public class TopicCollectionAdditionalTagsPanel extends javax.swing.JPanel imple
     @Override
     public void dispose() {
         bindingGroup.unbind();
+    }
+
+    @Override
+    public void setInfoReceiver(final InfoReceiver infoReceiver) {
+        super.setInfoReceiver(infoReceiver);
+        additionalTagsPanel.setInfoReceiver(infoReceiver);
     }
 }

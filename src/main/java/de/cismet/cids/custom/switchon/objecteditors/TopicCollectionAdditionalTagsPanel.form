@@ -38,6 +38,9 @@
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.topiccategory}" target="cmbTopic" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbTopicActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="((FastBindableReferenceCombo)cmbTopic).setNullable(false);"/>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.TOPIC_CATEGORY)&#xa;"/>
@@ -68,10 +71,13 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="cmbCollection">
           <BindingProperties>
-            <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.collection}" target="jComboBox1" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.collection}" target="cmbCollection" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbCollectionActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.COLLECTION) "/>
           </AuxValues>

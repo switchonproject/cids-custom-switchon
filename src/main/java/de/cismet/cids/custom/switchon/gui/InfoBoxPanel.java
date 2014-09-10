@@ -10,7 +10,7 @@ package de.cismet.cids.custom.switchon.gui;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * DOCUMENT ME!
+ * A Panel which contains an info box.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
