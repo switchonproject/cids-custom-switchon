@@ -60,6 +60,7 @@ public class BasicResourcePropertiesPanel extends GenericAbstractWizardPanel<Bas
     protected void store(final WizardDescriptor wizard) {
         final CidsBean resource = getComponent().getCidsBean();
         resource.removePropertyChangeListener(this);
+        getComponent().dispose();
 
         try {
             final String uuid = (String)resource.getProperty("uuid");

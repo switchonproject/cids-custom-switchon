@@ -441,5 +441,6 @@ public class RepresentationEditor extends AbstractEditorShowableInDialog impleme
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        basicPropertiesPanel.dispose();
     }
 }

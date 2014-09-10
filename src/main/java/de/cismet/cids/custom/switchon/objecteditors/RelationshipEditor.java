@@ -390,6 +390,7 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
     public void dispose() {
         bindingGroup.unbind();
         metaDataPanel.dispose();
+        basicPropertiesPanel.dispose();
     }
 
     /**

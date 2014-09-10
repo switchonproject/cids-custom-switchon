@@ -16,6 +16,7 @@ import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
@@ -26,7 +27,7 @@ import de.cismet.cids.editors.FastBindableReferenceCombo;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBeanStore {
+public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -412,5 +413,10 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
      */
     public boolean isVisibleGenerateUUID() {
         return btnGenerateUUID.isVisible();
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
     }
 }

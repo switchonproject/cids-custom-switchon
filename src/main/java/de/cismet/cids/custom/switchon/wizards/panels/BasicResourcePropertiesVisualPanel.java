@@ -11,6 +11,7 @@ import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 /**
  * DOCUMENT ME!
@@ -18,7 +19,7 @@ import de.cismet.cids.dynamics.CidsBeanStore;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -105,5 +106,10 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         basicPropertiesPanel.setCidsBean(cidsBean);
+    }
+
+    @Override
+    public void dispose() {
+        basicPropertiesPanel.dispose();
     }
 }
