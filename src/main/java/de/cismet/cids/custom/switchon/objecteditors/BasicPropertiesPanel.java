@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import org.openide.util.NbBundle;
+
 import java.util.UUID;
 
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
@@ -36,7 +38,8 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
-    private Taggroups typeTaggroup;
+    private final Taggroups typeTaggroup;
+    private final String branding;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerateUUID;
@@ -63,7 +66,7 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
      */
     public BasicPropertiesPanel() {
         this(Taggroups.META_DATA_TYPE);
-        LOG.warn("Do not use this constructor, it is only there for the Netbeans GUI editor.", new Exception());
+        LOG.warn("Do not use this constructor, it is only there for the Netbeans GUI editor.", new Exception()); // NOI18N
     }
 
     /**
@@ -73,6 +76,7 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
      */
     public BasicPropertiesPanel(final Taggroups typeTaggroup) {
         this.typeTaggroup = typeTaggroup;
+        branding = typeTaggroup.getValue().replaceAll("\\W", "");
         initComponents();
     }
 
@@ -326,7 +330,11 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void txtNameFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtNameFocusGained
-        provideInformation("Please enter the name of the resource.");
+        NbBundle.setBranding(branding);
+        provideInformation(org.openide.util.NbBundle.getMessage(
+                BasicPropertiesPanel.class,
+                "BasicPropertiesPanel.txtNameFocusGained().info"));
+        NbBundle.setBranding(null);
     }                                                                      //GEN-LAST:event_txtNameFocusGained
 
     /**
@@ -335,7 +343,11 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void txtaDescriptionFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtaDescriptionFocusGained
-        provideInformation("Please provide a comprehensive description of the resource");
+        NbBundle.setBranding(branding);
+        provideInformation(org.openide.util.NbBundle.getMessage(
+                BasicPropertiesPanel.class,
+                "BasicPropertiesPanel.txtaDescriptionFocusGained().info"));
+        NbBundle.setBranding(null);
     }                                                                              //GEN-LAST:event_txtaDescriptionFocusGained
 
     /**
@@ -354,8 +366,12 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void txtUUIDFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtUUIDFocusGained
+        NbBundle.setBranding(branding);
         provideInformation(
-            "Please enter a unique id of the resource. If the field is left blank, a uuid will be automatically genenrated.");
+            org.openide.util.NbBundle.getMessage(
+                BasicPropertiesPanel.class,
+                "BasicPropertiesPanel.txtUUIDFocusGained().info"));
+        NbBundle.setBranding(null);
     }                                                                      //GEN-LAST:event_txtUUIDFocusGained
 
     /**
@@ -385,7 +401,7 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
             // hide controls for the language, if it the cidsBean has no such property
             boolean hasPropertyLanguage = false;
             for (final String property : cidsBean.getPropertyNames()) {
-                if (property.equals("language")) {
+                if (property.equals("language")) { // NOI18N
                     hasPropertyLanguage = true;
                     break;
                 }
