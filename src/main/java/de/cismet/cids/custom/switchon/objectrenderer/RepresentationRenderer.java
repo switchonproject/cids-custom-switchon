@@ -7,26 +7,36 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objectrenderer;
 
+import Sirius.navigator.plugin.PluginRegistry;
+
+import org.apache.commons.io.FilenameUtils;
+
 import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
+
+import java.util.ResourceBundle;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.switchon.gui.utils.CismapUtils;
 import de.cismet.cids.custom.switchon.gui.utils.ImageGetterUtils;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.cismap.navigatorplugin.CismapPlugin;
+
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
-import de.cismet.tools.gui.downloadmanager.HttpDownload;
+import de.cismet.tools.gui.downloadmanager.HttpOrFtpDownload;
 
 /**
  * DOCUMENT ME!
@@ -43,15 +53,26 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
 
     //~ Instance fields --------------------------------------------------------
 
+    private final InitiateDownloadActionListener initiateDownloadActionListener = new InitiateDownloadActionListener();
+    private final OpenInBrowserActionListener openInBrowserActionListener = new OpenInBrowserActionListener();
     private CidsBean cidsBean;
+    private ActionListener hyperlinkActionListener = null;
+    private final ResourceBundle functionBundle = ResourceBundle.getBundle(
+            "de/cismet/cids/custom/switchon/tagBundles/function");
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private org.jdesktop.swingx.JXHyperlink hypAddToCismap;
     private org.jdesktop.swingx.JXHyperlink hypDownload;
+    private org.jdesktop.swingx.JXHyperlink hypOpenInBrowser;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAddToCismapIcon;
+    private javax.swing.JLabel lblDownloadIcon;
+    private javax.swing.JLabel lblUrl;
     private de.cismet.cids.custom.switchon.objecteditors.SpatialAndTemporalPropertiesPanel
         spatialAndTemporalPropertiesPanel;
     private javax.swing.JTextArea txtaDescription;
@@ -85,8 +106,16 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         spatialAndTemporalPropertiesPanel =
             new de.cismet.cids.custom.switchon.objecteditors.SpatialAndTemporalPropertiesPanel();
         jPanel3 = new javax.swing.JPanel();
-        hypDownload = new org.jdesktop.swingx.JXHyperlink();
+        lblDownloadIcon = new javax.swing.JLabel();
+        lblUrl = new javax.swing.JLabel();
         hypAddToCismap = new org.jdesktop.swingx.JXHyperlink();
+        lblAddToCismapIcon = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        hypOpenInBrowser = new org.jdesktop.swingx.JXHyperlink();
+        hypDownload = new org.jdesktop.swingx.JXHyperlink();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(32767, 0));
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -150,38 +179,106 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
+        lblDownloadIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.openide.awt.Mnemonics.setLocalizedText(
-            hypDownload,
+            lblDownloadIcon,
             org.openide.util.NbBundle.getMessage(
                 RepresentationRenderer.class,
-                "RepresentationRenderer.hypDownload.text")); // NOI18N
-        hypDownload.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    hypDownloadActionPerformed(evt);
-                }
-            });
+                "RepresentationRenderer.lblDownloadIcon.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 5);
+        jPanel3.add(lblDownloadIcon, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblUrl,
+            org.openide.util.NbBundle.getMessage(RepresentationRenderer.class, "RepresentationRenderer.lblUrl.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
-        jPanel3.add(hypDownload, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 5, 10, 10);
+        jPanel3.add(lblUrl, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             hypAddToCismap,
             org.openide.util.NbBundle.getMessage(
                 RepresentationRenderer.class,
                 "RepresentationRenderer.hypAddToCismap.text")); // NOI18N
+        hypAddToCismap.setIconTextGap(10);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 10);
+        jPanel3.add(hypAddToCismap, gridBagConstraints);
+
+        lblAddToCismapIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAddToCismapIcon.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/switchon/objectrenderer/add.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblAddToCismapIcon,
+            org.openide.util.NbBundle.getMessage(
+                RepresentationRenderer.class,
+                "RepresentationRenderer.lblAddToCismapIcon.text"));                                 // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 5);
+        jPanel3.add(lblAddToCismapIcon, gridBagConstraints);
+
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            hypOpenInBrowser,
+            org.openide.util.NbBundle.getMessage(
+                RepresentationRenderer.class,
+                "RepresentationRenderer.hypOpenInBrowser.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
-        jPanel3.add(hypAddToCismap, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 2, 10);
+        jPanel2.add(hypOpenInBrowser, gridBagConstraints);
+        hypOpenInBrowser.addActionListener(openInBrowserActionListener);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            hypDownload,
+            org.openide.util.NbBundle.getMessage(
+                RepresentationRenderer.class,
+                "RepresentationRenderer.hypDownload.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 2, 10);
+        jPanel2.add(hypDownload, gridBagConstraints);
+        hypDownload.addActionListener(initiateDownloadActionListener);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel2.add(filler2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel3.add(jPanel2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -199,50 +296,6 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void hypDownloadActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hypDownloadActionPerformed
-        final String urlString = (String)cidsBean.getProperty("contentlocation");
-        URL url = null;
-        try {
-            url = new URL(urlString);
-        } catch (MalformedURLException ex) {
-            LOG.error(urlString + " is not a valid URL.", ex);
-        }
-        if (url != null) {
-            final String function = (String)cidsBean.getProperty("function.name");
-            if ("download".equalsIgnoreCase(function)) {                            // download the content
-                if (DownloadManagerDialog.showAskingForUserTitle(RepresentationRenderer.this)) {
-                    final String filename = urlString.substring(urlString.lastIndexOf("/") + 1);
-
-                    DownloadManager.instance()
-                            .add(
-                                new HttpDownload(
-                                    url,
-                                    "",
-                                    DownloadManagerDialog.getJobname(),
-                                    cidsBean.toString(),
-                                    filename.substring(0, filename.lastIndexOf(".")),
-                                    filename.substring(filename.lastIndexOf("."))));
-                }
-            } else { // direct download not possible open it in browser
-                final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-                if ((desktop != null) && desktop.isSupported(Desktop.Action.BROWSE)) {
-                    try {
-                        desktop.browse(url.toURI());
-                    } catch (Exception e) {
-                        LOG.error("Could not open URI: " + urlString, e);
-                    }
-                } else {
-                    LOG.info("Opening a website is not supported.");
-                }
-            }
-        }
-    }                //GEN-LAST:event_hypDownloadActionPerformed
-
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -259,6 +312,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
             bindingGroup.bind();
 
             setHyperlinkIconAndText();
+            setHyperlinkAddToCismap();
         }
     }
 
@@ -277,29 +331,67 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
     }
 
     /**
-     * DOCUMENT ME!
+     * Configures the download or open in browser hyperlink.
      */
     private void setHyperlinkIconAndText() {
         Icon icon;
         final String function = (String)cidsBean.getProperty("function.name");
-        String text = "Open browser";
+
         if ("download".equalsIgnoreCase(function)) {
+            hypDownload.setVisible(true);
+            hypOpenInBrowser.setText("Open in Browser");
+
             final String contentType = (String)cidsBean.getProperty("contenttype.name");
-            icon = new ImageIcon(ImageGetterUtils.getImageForContentType(contentType));
-            text = "Download File";
+            final String urlString = (String)cidsBean.getProperty("contentlocation");
+            final String extension = FilenameUtils.getExtension(urlString);
+            icon = new ImageIcon(ImageGetterUtils.getImageForContentType(
+                        contentType,
+                        ImageGetterUtils.ImageSize.PIXEL_32,
+                        extension));
         } else {
+            hypDownload.setVisible(false);
+
+            final String text = functionBundle.getString(function + ".action");
+            hypOpenInBrowser.setText(text);
+
             final String protocol = (String)cidsBean.getProperty("protocol.name");
             icon = new ImageIcon(ImageGetterUtils.getImageForProtocol(protocol));
-
-            if ("order".equalsIgnoreCase(function)) {
-                text = "Open order form";
-            } else if ("service".equalsIgnoreCase(function)) {
-                text = "Show Service URL";
-            }
         }
 
-        hypDownload.setText(text);
-        hypDownload.setIcon(icon);
+        lblDownloadIcon.setIcon(icon);
+        lblDownloadIcon.setText("");
+
+        final String url = String.valueOf(cidsBean.getProperty("contentlocation"));
+        lblUrl.setText(url);
+        lblUrl.setToolTipText(url);
+    }
+
+    /**
+     * Configures the Add-to-Cismap hyperlink. It is visible if the protocol of the Representation is WMS or WFS. On
+     * click on the hyperlink the contentlocation is added as capability to the capability widget of the cismap.
+     * Afterwards a switch to the Cismap happens.
+     */
+    private void setHyperlinkAddToCismap() {
+        final String protocol = (String)cidsBean.getProperty("protocol.name");
+        if ("OGC:WFS".equalsIgnoreCase(protocol) || "OGC:WMS".equalsIgnoreCase(protocol)) {
+            hypAddToCismap.setVisible(true);
+            lblAddToCismapIcon.setVisible(true);
+
+            hypAddToCismap.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(final ActionEvent e) {
+                        final CismapPlugin cismapPlugin = (CismapPlugin)PluginRegistry.getRegistry()
+                                    .getPlugin("cismap");
+                        final String url = String.valueOf(cidsBean.getProperty("contentlocation"));
+                        cismapPlugin.getCapabilities().processUrl(url, null);
+                        CismapUtils.switchToCismapMap();
+                    }
+                });
+        } else {
+            hypAddToCismap.setVisible(false);
+            lblAddToCismapIcon.setVisible(false);
+        }
     }
 
     /**
@@ -320,5 +412,78 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
             "Representation",
             1280,
             1024);
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class InitiateDownloadActionListener implements ActionListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            final String urlString = (String)cidsBean.getProperty("contentlocation");
+            URL url = null;
+            try {
+                url = new URL(urlString);
+            } catch (MalformedURLException ex) {
+                LOG.error(urlString + " is not a valid URL.", ex);
+            }
+            if (url != null) {
+                if (DownloadManagerDialog.showAskingForUserTitle(RepresentationRenderer.this)) {
+                    final String filename = FilenameUtils.getBaseName(urlString);
+                    final String extension = FilenameUtils.getExtension(urlString);
+
+                    DownloadManager.instance()
+                            .add(
+                                new HttpOrFtpDownload(
+                                    url,
+                                    "",
+                                    DownloadManagerDialog.getJobname(),
+                                    cidsBean.toString(),
+                                    filename,
+                                    "."
+                                    + extension));
+                }
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class OpenInBrowserActionListener implements ActionListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            final String urlString = (String)cidsBean.getProperty("contentlocation");
+            URL url = null;
+            try {
+                url = new URL(urlString);
+            } catch (MalformedURLException ex) {
+                LOG.error(urlString + " is not a valid URL.", ex);
+            }
+            if (url != null) {
+                final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+                if ((desktop != null) && desktop.isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        desktop.browse(url.toURI());
+                    } catch (Exception ex) {
+                        LOG.error("Could not open URI: " + urlString, ex);
+                    }
+                } else {
+                    LOG.info("Opening a website is not supported.");
+                }
+            }
+        }
     }
 }

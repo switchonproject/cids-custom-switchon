@@ -7,13 +7,17 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.utils.TagUtils;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
 
 /**
@@ -22,23 +26,25 @@ import de.cismet.cids.editors.FastBindableReferenceCombo;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class LicenseInformationPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class LicenseInformationPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            TemporalInformationPanel.class);
+            LicenseInformationPanel.class);
 
     //~ Instance fields --------------------------------------------------------
 
-    private CidsBean cidsBean;
+    private CidsBean resource;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cmbConditions;
+    private javax.swing.JComboBox cmbConformity;
     private javax.swing.JComboBox cmbLimitations;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -49,13 +55,25 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form LicenseInformationPanel.
+     * Creates a new LicenseInformationPanel object.
      */
     public LicenseInformationPanel() {
+        this(false);
+    }
+
+    /**
+     * Creates new form LicenseInformationPanel.
+     *
+     * @param  editable  DOCUMENT ME!
+     */
+    public LicenseInformationPanel(final boolean editable) {
         initComponents();
-        RendererTools.makeReadOnly(txtaLicenseStatement);
-        RendererTools.makeReadOnly(cmbConditions);
-        RendererTools.makeReadOnly(cmbLimitations);
+        if (!editable) {
+            RendererTools.makeReadOnly(txtaLicenseStatement);
+            RendererTools.makeReadOnly(cmbConditions);
+            RendererTools.makeReadOnly(cmbLimitations);
+            RendererTools.makeReadOnly(cmbConformity);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -80,6 +98,8 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         cmbLimitations = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
                 Taggroups.ACCESS_LIMITATIONS);
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        cmbConformity = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.CONFORMITY);
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -92,10 +112,11 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
                     "LicenseInformationPanel.jPanel1.border.title"))); // NOI18N
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        txtaLicenseStatement.setColumns(20);
         txtaLicenseStatement.setLineWrap(true);
-        txtaLicenseStatement.setRows(5);
+        txtaLicenseStatement.setRows(20);
         txtaLicenseStatement.setWrapStyleWord(true);
+        txtaLicenseStatement.setMinimumSize(new java.awt.Dimension(100, 100));
+        txtaLicenseStatement.setPreferredSize(new java.awt.Dimension(100, 100));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -105,6 +126,13 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtaLicenseStatement.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtaLicenseStatementFocusGained(evt);
+                }
+            });
         jScrollPane1.setViewportView(txtaLicenseStatement);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -120,10 +148,11 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.4;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jPanel1, gridBagConstraints);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -152,6 +181,13 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cmbConditions.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbConditionsActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -170,15 +206,22 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cmbLimitations.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbLimitationsActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 10);
         jPanel2.add(cmbLimitations, gridBagConstraints);
-        ((FastBindableReferenceCombo)cmbConditions).setNullable(false);
+        ((FastBindableReferenceCombo)cmbLimitations).setNullable(false);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel2,
@@ -189,8 +232,44 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         jPanel2.add(jLabel2, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel3,
+            org.openide.util.NbBundle.getMessage(
+                LicenseInformationPanel.class,
+                "LicenseInformationPanel.jLabel3.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
+        jPanel2.add(jLabel3, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.conformity}"),
+                cmbConformity,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cmbConformity.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmbConformityActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 10);
+        jPanel2.add(cmbConformity, gridBagConstraints);
+        ((FastBindableReferenceCombo)cmbConformity).setNullable(false);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -198,28 +277,77 @@ public class LicenseInformationPanel extends javax.swing.JPanel implements CidsB
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jPanel2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weighty = 0.6;
         add(filler1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtaLicenseStatementFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtaLicenseStatementFocusGained
+        provideInformation(java.util.ResourceBundle.getBundle("de/cismet/cids/custom/switchon/objecteditors/Bundle")
+                    .getString("LicenseInformationPanel.txtaLicenseStatementFocusGained().info"));
+    }                                                                                   //GEN-LAST:event_txtaLicenseStatementFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbConditionsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbConditionsActionPerformed
+        final String desc = TagUtils.getDescriptionOfTag(cmbConditions.getSelectedItem());
+        provideInformation(desc);
+    }                                                                                 //GEN-LAST:event_cmbConditionsActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbLimitationsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbLimitationsActionPerformed
+        final String desc = TagUtils.getDescriptionOfTag(cmbLimitations.getSelectedItem());
+        provideInformation(desc);
+    }                                                                                  //GEN-LAST:event_cmbLimitationsActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmbConformityActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbConformityActionPerformed
+        final String desc = TagUtils.getDescriptionOfTag(cmbConformity.getSelectedItem());
+        provideInformation(desc);
+    }                                                                                 //GEN-LAST:event_cmbConformityActionPerformed
+
     @Override
     public CidsBean getCidsBean() {
-        return cidsBean;
+        return resource;
     }
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
-            this.cidsBean = cidsBean;
+            this.resource = cidsBean;
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                this.resource);
             bindingGroup.bind();
         }
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
     }
 }

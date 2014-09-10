@@ -2,6 +2,12 @@
 <cismetConfigurationManager>
     <metaSearch>
         <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
+        <searchTopic name="Resources" description="Search for available resources" key="cmdResources" icon="/de/cismet/cids/custom/switchon/georeferenz_16.gif" selected="false">
+            <!-- arbitrary number of searchClass -->
+            <!-- domain = name of domainserver, cidsClass = name of class in domain -->
+            <searchClass domain="SWITCHON" cidsClass="resource"/>
+        </searchTopic>
+        <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
         <searchTopic name="Areas" description="Search for available areas" key="cmdAreas" icon="/de/cismet/cids/custom/switchon/area_16.png" selected="false">
             <!-- arbitrary number of searchClass -->
             <!-- domain = name of domainserver, cidsClass = name of class in domain -->
@@ -65,7 +71,10 @@
 
     <cismapActiveLayerConfiguration/>
     <cismapPluginSelectedSearchClasses/>
-    <cismapPluginUIPreferences/>
+    <cismapPluginUIPreferences>
+        <help_url><![CDATA[http://water-switch-on.eu/]]></help_url>
+        <news_url><![CDATA[http://sites.liu.se:19008/?q=news]]></news_url>
+    </cismapPluginUIPreferences>
     <cismapFeatureControl/>
     <serverProfiles/>
 </cismetConfigurationManager>

@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objectrenderer;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.StringReader;
@@ -27,7 +28,6 @@ import javax.xml.transform.stream.StreamSource;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.ImageGetterUtils;
-import de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -35,7 +35,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
-import de.cismet.tools.gui.downloadmanager.HttpDownload;
+import de.cismet.tools.gui.downloadmanager.HttpOrFtpDownload;
 
 /**
  * DOCUMENT ME!
@@ -48,7 +48,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            TemporalInformationPanel.class);
+            MetadataRenderer.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -59,8 +59,8 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
     private org.jdesktop.swingx.JXHyperlink hypDownload;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pnlDocument;
+    private javax.swing.JScrollPane scpTxtaDocument;
     private javax.swing.JTextArea txtaDescription;
     private javax.swing.JTextArea txtaDocument;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -92,7 +92,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         txtaDescription = new javax.swing.JTextArea();
         pnlDocument = new javax.swing.JPanel();
         hypDownload = new org.jdesktop.swingx.JXHyperlink();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        scpTxtaDocument = new javax.swing.JScrollPane();
         txtaDocument = new javax.swing.JTextArea();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
@@ -160,14 +160,16 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         pnlDocument.add(hypDownload, gridBagConstraints);
 
         txtaDocument.setEditable(false);
         txtaDocument.setColumns(20);
         txtaDocument.setRows(10);
-        jScrollPane2.setViewportView(txtaDocument);
+        scpTxtaDocument.setViewportView(txtaDocument);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -178,7 +180,7 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
-        pnlDocument.add(jScrollPane2, gridBagConstraints);
+        pnlDocument.add(scpTxtaDocument, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -212,17 +214,19 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
         }
         if (url != null) {
             if (DownloadManagerDialog.showAskingForUserTitle(MetadataRenderer.this)) {
-                final String filename = urlString.substring(urlString.lastIndexOf("/") + 1);
+                final String filename = FilenameUtils.getBaseName(urlString);
+                final String extension = FilenameUtils.getExtension(urlString);
 
                 DownloadManager.instance()
                         .add(
-                            new HttpDownload(
+                            new HttpOrFtpDownload(
                                 url,
                                 "",
                                 DownloadManagerDialog.getJobname(),
                                 cidsBean.toString(),
-                                filename.substring(0, filename.lastIndexOf(".")),
-                                filename.substring(filename.lastIndexOf("."))));
+                                filename,
+                                "."
+                                + extension));
             }
         }
     } //GEN-LAST:event_hypDownloadActionPerformed
@@ -244,17 +248,27 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
 
             if (StringUtils.isBlank(content) && StringUtils.isBlank(urlString)) {
                 pnlDocument.setVisible(false);
-            } else if (StringUtils.isBlank(content)) {
-                txtaDocument.setVisible(false);
-                hypDownload.setVisible(true);
-
-                final String contentTypeName = (String)cidsBean.getProperty("contenttype.name");
-                hypDownload.setIcon(new ImageIcon(ImageGetterUtils.getImageForContentType(contentTypeName)));
             } else {
-                txtaDocument.setText(prettyFormat(content));
+                if (StringUtils.isBlank(content)) {
+                    scpTxtaDocument.setVisible(false);
+                } else {
+                    txtaDocument.setText(prettyFormat(content));
+                    txtaDocument.setVisible(true);
+                }
 
-                txtaDocument.setVisible(true);
-                hypDownload.setVisible(false);
+                if (StringUtils.isBlank(urlString)) {
+                    scpTxtaDocument.setVisible(false);
+                } else {
+                    final String contentTypeName = (String)cidsBean.getProperty("contenttype.name");
+                    final String extension = FilenameUtils.getExtension(urlString);
+                    hypDownload.setIcon(new ImageIcon(
+                            ImageGetterUtils.getImageForContentType(
+                                contentTypeName,
+                                ImageGetterUtils.ImageSize.PIXEL_16,
+                                extension)));
+                    hypDownload.setToolTipText(urlString);
+                    hypDownload.setVisible(true);
+                }
             }
         }
     }

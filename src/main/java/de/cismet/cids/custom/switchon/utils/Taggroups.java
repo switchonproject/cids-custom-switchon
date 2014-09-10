@@ -5,7 +5,7 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.switchon.gui.utils;
+package de.cismet.cids.custom.switchon.utils;
 
 /**
  * DOCUMENT ME!
@@ -23,7 +23,7 @@ public enum Taggroups {
     HYDROLOGICAL_CONCEPT("hydrological concept"), KEYWORDS_INSPIRE_THEMES_1_0("keywords - INSPIRE themes 1.0"),
     KEYWORDS_OPEN("keywords - open"), LANGUAGE("language"), LOCATION("location"),
     META_DATA_STANDARD("meta-data standard"), META_DATA_TYPE("meta-data type"), PROTOCOL("protocol"),
-    REALTIONSHIP_TYPE("realtionship type"), REPRESENTATION_TYPE("representation type"), ROLE("role"), SRID("srid"),
+    RELATIONSHIP_TYPE("relationship type"), REPRESENTATION_TYPE("representation type"), ROLE("role"), SRID("srid"),
     TOPIC_CATEGORY("topic category"), CONFORMITY("conformity"), RESOURCE_TYPE("resource type");
 
     //~ Instance fields --------------------------------------------------------

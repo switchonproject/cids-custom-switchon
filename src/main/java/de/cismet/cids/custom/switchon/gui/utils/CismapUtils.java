@@ -23,6 +23,7 @@ import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.cismap.navigatorplugin.CidsFeature;
+import de.cismet.cismap.navigatorplugin.CismapPlugin;
 
 /**
  * DOCUMENT ME!
@@ -85,5 +86,14 @@ public class CismapUtils {
             bigMap.getFeatureCollection().addFeatures(addedFeatures);
             bigMap.zoomToFeatureCollection();
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static CismapPlugin getCismapPlugin() {
+        return (CismapPlugin)PluginRegistry.getRegistry().getPlugin(CISMAP_PLUGIN_NAME);
     }
 }

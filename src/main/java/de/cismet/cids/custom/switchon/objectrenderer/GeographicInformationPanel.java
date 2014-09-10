@@ -7,42 +7,22 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objectrenderer;
 
-import com.vividsolutions.jts.geom.Geometry;
-
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-
 import org.apache.commons.lang.StringUtils;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
 
-import de.cismet.cids.custom.switchon.SwitchOnConstants;
-import de.cismet.cids.custom.switchon.gui.utils.CismapUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.gui.utils.ResourceUtils;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-
-import de.cismet.cismap.commons.CrsTransformer;
-import de.cismet.cismap.commons.XBoundingBox;
-import de.cismet.cismap.commons.features.DefaultStyledFeature;
-import de.cismet.cismap.commons.features.StyledFeature;
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.gui.layerwidget.ActiveLayerModel;
-import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
-import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 
 /**
  * DOCUMENT ME!
@@ -59,10 +39,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
 
     //~ Instance fields --------------------------------------------------------
 
-    final StyledFeature previewGeometry = new DefaultStyledFeature();
-
-    private CidsBean cidsBean;
-    private final MappingComponent previewMap;
+    private CidsBean resourceCidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cmbLocation;
@@ -70,12 +47,12 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList lstCatchements;
+    private javax.swing.JPanel pnlCatchments;
     private javax.swing.JPanel pnlMap;
+    private de.cismet.cids.custom.switchon.gui.PreviewMapPanel previewMapPanel;
     private javax.swing.JTextField txtResolutions;
     private javax.swing.JTextField txtScales;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -88,10 +65,6 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
      */
     public GeographicInformationPanel() {
         initComponents();
-
-        previewMap = new MappingComponent();
-        pnlMap.setLayout(new BorderLayout());
-        pnlMap.add(previewMap, BorderLayout.CENTER);
 
         RendererTools.makeReadOnly(txtResolutions);
         RendererTools.makeReadOnly(txtScales);
@@ -110,9 +83,9 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jPanel1 = new javax.swing.JPanel();
         pnlMap = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        previewMapPanel = new de.cismet.cids.custom.switchon.gui.PreviewMapPanel();
+        pnlCatchments = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstCatchements = new javax.swing.JList();
         jPanel3 = new javax.swing.JPanel();
@@ -128,44 +101,36 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
 
         setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
+        pnlMap.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
                     GeographicInformationPanel.class,
-                    "GeographicInformationPanel.jPanel1.border.title"))); // NOI18N
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        final javax.swing.GroupLayout pnlMapLayout = new javax.swing.GroupLayout(pnlMap);
-        pnlMap.setLayout(pnlMapLayout);
-        pnlMapLayout.setHorizontalGroup(
-            pnlMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
-        pnlMapLayout.setVerticalGroup(
-            pnlMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
+                    "GeographicInformationPanel.pnlMap.border.title"))); // NOI18N
+        pnlMap.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        pnlMap.add(previewMapPanel, gridBagConstraints);
+        previewMapPanel.setGeoFieldPropertyKey("spatialcoverage.geo_field");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 0.75;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(pnlMap, gridBagConstraints);
+        add(pnlMap, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        add(jPanel1, gridBagConstraints);
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(
+        pnlCatchments.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
                     GeographicInformationPanel.class,
-                    "GeographicInformationPanel.jPanel2.border.title"))); // NOI18N
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+                    "GeographicInformationPanel.pnlCatchments.border.title"))); // NOI18N
+        pnlCatchments.setLayout(new java.awt.GridBagLayout());
 
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(0, 0));
         jScrollPane1.setViewportView(lstCatchements);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -176,16 +141,17 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(jScrollPane1, gridBagConstraints);
+        pnlCatchments.add(jScrollPane1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 0.25;
         gridBagConstraints.weighty = 1.0;
-        add(jPanel2, gridBagConstraints);
+        add(pnlCatchments, gridBagConstraints);
+        pnlCatchments.setVisible(false);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
@@ -288,19 +254,19 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
 
     @Override
     public CidsBean getCidsBean() {
-        return cidsBean;
+        return resourceCidsBean;
     }
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
-            this.cidsBean = cidsBean;
+            this.resourceCidsBean = cidsBean;
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
-                this.cidsBean);
+                this.resourceCidsBean);
             bindingGroup.bind();
-            initMap();
+            previewMapPanel.setCidsBean(cidsBean);
             initCatchmentsList();
             initSpatialResolutionsAndScales();
         }
@@ -309,87 +275,9 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
     /**
      * DOCUMENT ME!
      */
-    private void initMap() {
-        if (cidsBean != null) {
-            final Object geoObj = cidsBean.getProperty("spatialcoverage.geo_field");
-            if (geoObj instanceof Geometry) {
-                final Geometry pureGeom = CrsTransformer.transformToGivenCrs((Geometry)geoObj,
-                        SwitchOnConstants.COMMONS.SRS_SERVICE);
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("SwitchOnConstants.Commons.GeoBUffer: " + SwitchOnConstants.COMMONS.GEO_BUFFER);
-                }
-                final XBoundingBox box = new XBoundingBox(pureGeom.getEnvelope().buffer(
-                            SwitchOnConstants.COMMONS.GEO_BUFFER));
-                final double diagonalLength = Math.sqrt((box.getWidth() * box.getWidth())
-                                + (box.getHeight() * box.getHeight()));
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Buffer for map: " + diagonalLength);
-                }
-                final XBoundingBox bufferedBox = new XBoundingBox(box.getGeometry().buffer(diagonalLength));
-                final Runnable mapRunnable = new Runnable() {
-
-                        @Override
-                        public void run() {
-                            final ActiveLayerModel mappingModel = new ActiveLayerModel();
-                            mappingModel.setSrs(SwitchOnConstants.COMMONS.SRS_SERVICE);
-                            mappingModel.addHome(new XBoundingBox(
-                                    bufferedBox.getX1(),
-                                    bufferedBox.getY1(),
-                                    bufferedBox.getX2(),
-                                    bufferedBox.getY2(),
-                                    SwitchOnConstants.COMMONS.SRS_SERVICE,
-                                    true));
-                            final SimpleWMS swms = new SimpleWMS(new SimpleWmsGetMapUrl(
-                                        SwitchOnConstants.COMMONS.MAP_CALL_STRING));
-                            swms.setName("Spatial Coverage");
-
-                            previewGeometry.setGeometry(pureGeom);
-                            previewGeometry.setFillingPaint(new Color(1, 0, 0, 0.5f));
-                            previewGeometry.setLineWidth(3);
-                            previewGeometry.setLinePaint(new Color(1, 0, 0, 1f));
-                            // add the raster layer to the model
-                            mappingModel.addLayer(swms);
-                            // set the model
-                            previewMap.setMappingModel(mappingModel);
-                            // initial positioning of the map
-                            final int duration = previewMap.getAnimationDuration();
-                            previewMap.setAnimationDuration(0);
-                            previewMap.gotoInitialBoundingBox();
-                            // interaction mode
-                            previewMap.setInteractionMode(MappingComponent.ZOOM);
-                            // finally when all configurations are done ...
-                            previewMap.unlock();
-                            previewMap.addCustomInputListener("MUTE", new PBasicInputEventHandler() {
-
-                                    @Override
-                                    public void mouseClicked(final PInputEvent evt) {
-                                        if (evt.getClickCount() > 1) {
-                                            final CidsBean bean = cidsBean;
-                                            CismapUtils.switchToCismapMap();
-                                            CismapUtils.addBeanGeomAsFeatureToCismapMap(bean, false);
-                                        }
-                                    }
-                                });
-                            previewMap.setInteractionMode("MUTE");
-                            previewMap.getFeatureCollection().addFeature(previewGeometry);
-                            previewMap.setAnimationDuration(duration);
-                        }
-                    };
-                if (EventQueue.isDispatchThread()) {
-                    mapRunnable.run();
-                } else {
-                    EventQueue.invokeLater(mapRunnable);
-                }
-            }
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
     private void initCatchmentsList() {
         final DefaultListModel<CidsBean> listModel = new DefaultListModel<CidsBean>();
-        for (final CidsBean catchement : ResourceUtils.filterTagsOfResource(cidsBean, Taggroups.CATCHMENTS)) {
+        for (final CidsBean catchement : ResourceUtils.filterTagsOfResource(resourceCidsBean, Taggroups.CATCHMENTS)) {
             listModel.addElement(catchement);
         }
         lstCatchements.setModel(listModel);
@@ -401,15 +289,15 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
     private void initSpatialResolutionsAndScales() {
         final List<String> resolutions = new ArrayList<String>();
         final List<String> scales = new ArrayList<String>();
-        for (final CidsBean representation : cidsBean.getBeanCollectionProperty("representation")) {
+        for (final CidsBean representation : resourceCidsBean.getBeanCollectionProperty("representation")) {
             final String resolution = (String)representation.getProperty("spatialresolution");
             if (StringUtils.isNotBlank(resolution)) {
                 resolutions.add(resolution);
             }
 
-            final String spatialscale = (String)representation.getProperty("spatialscale");
-            if (StringUtils.isNotBlank(spatialscale)) {
-                scales.add(spatialscale);
+            final Integer spatialscale = (Integer)representation.getProperty("spatialscale");
+            if (spatialscale != null) {
+                scales.add(spatialscale.toString());
             }
         }
         txtResolutions.setText(StringUtils.join(resolutions, ", "));

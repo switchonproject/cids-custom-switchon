@@ -19,6 +19,7 @@ import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -87,6 +88,32 @@ public class RendererTools {
         if (editorComponent instanceof JTextComponent) {
             ((JTextComponent)editorComponent).setDisabledTextColor(Color.black);
             ((JTextComponent)editorComponent).setBackground(Color.white);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  comp  DOCUMENT ME!
+     */
+    public static void resetComponent(final JComponent comp) {
+        if (comp instanceof JTextComponent) {
+            final JTextComponent tComp = (JTextComponent)comp;
+            tComp.setEditable(true);
+            tComp.setOpaque(true);
+            String borderKey;
+            if (comp instanceof JTextField) {
+                borderKey = "TextField.border";
+            } else {
+                borderKey = "TextArea.border";
+            }
+            tComp.setBorder(UIManager.getBorder(borderKey));
+        } else if (comp instanceof JScrollPane) {
+            final JScrollPane jsp = (JScrollPane)comp;
+            jsp.setOpaque(true);
+            jsp.getViewport().setOpaque(true);
+        } else if (comp != null) {
+            comp.setEnabled(true);
         }
     }
 }

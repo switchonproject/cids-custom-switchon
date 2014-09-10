@@ -19,18 +19,24 @@ import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.ImageGetterUtils;
-import de.cismet.cids.custom.switchon.gui.utils.Taggroups;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -56,13 +62,19 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
 
     //~ Instance fields --------------------------------------------------------
 
+    private boolean firstRepresentationPreviewPane = false;
+
     private CidsBean cidsBean;
+    private final ResourceBundle roleBundle = ResourceBundle.getBundle(
+            "de/cismet/cids/custom/switchon/tagBundles/role");
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objectrenderer.ContactRenderer contactRenderer;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private de.cismet.cids.custom.switchon.objectrenderer.GeographicInformationPanel geographicInformationPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -76,6 +88,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JPanel panTitleString;
     private javax.swing.JPanel pnlContact;
     private javax.swing.JPanel pnlDataAccess;
+    private javax.swing.JPanel pnlDataPreview;
     private javax.swing.JPanel pnlDescription;
     private javax.swing.JPanel pnlGeographic;
     private javax.swing.JPanel pnlLicense;
@@ -83,6 +96,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JPanel pnlTemporal;
     private org.jdesktop.swingx.JXTaskPaneContainer taskPaneContainerDataAccess;
     private org.jdesktop.swingx.JXTaskPaneContainer taskPaneContainerMetaData;
+    private org.jdesktop.swingx.JXTaskPaneContainer taskPaneDataPreview;
     private de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel temporalInformationPanel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -119,6 +133,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel2 = new javax.swing.JPanel();
         lblKeywords = new javax.swing.JLabel();
         lblTopic = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -137,6 +153,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         taskPaneContainerMetaData = new org.jdesktop.swingx.JXTaskPaneContainer();
         pnlDataAccess = new javax.swing.JPanel();
         taskPaneContainerDataAccess = new org.jdesktop.swingx.JXTaskPaneContainer();
+        pnlDataPreview = new javax.swing.JPanel();
+        taskPaneDataPreview = new org.jdesktop.swingx.JXTaskPaneContainer();
 
         panTitle.setOpaque(false);
         panTitle.setLayout(new java.awt.BorderLayout());
@@ -173,9 +191,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
         jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
         jTextArea1.setWrapStyleWord(true);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -199,8 +215,9 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         jPanel1.add(jScrollPane1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         pnlDescription.add(jPanel1, gridBagConstraints);
 
@@ -208,17 +225,13 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.jPanel2.border.title"))); // NOI18N
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            lblKeywords,
-            org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.lblKeywords.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 5, 10);
         jPanel2.add(lblKeywords, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -230,11 +243,31 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 5, 10);
         jPanel2.add(lblTopic, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel1,
+            org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        jPanel2.add(jLabel1, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel2,
+            org.openide.util.NbBundle.getMessage(ResourceRenderer.class, "ResourceRenderer.jLabel2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        jPanel2.add(jLabel2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -363,6 +396,24 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 "ResourceRenderer.pnlDataAccess.TabConstraints.tabTitle"),
             pnlDataAccess); // NOI18N
 
+        pnlDataPreview.setOpaque(false);
+        pnlDataPreview.setLayout(new java.awt.GridBagLayout());
+
+        taskPaneDataPreview.setOpaque(false);
+        final org.jdesktop.swingx.VerticalLayout verticalLayout3 = new org.jdesktop.swingx.VerticalLayout();
+        verticalLayout3.setGap(14);
+        taskPaneDataPreview.setLayout(verticalLayout3);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        pnlDataPreview.add(taskPaneDataPreview, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlDataPreview.TabConstraints.tabTitle"),
+            pnlDataPreview); // NOI18N
+
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
@@ -383,7 +434,11 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             contactRenderer.setCidsBean(contact);
             if (contact != null) {
                 final TitledBorder contactBorder = (TitledBorder)contactRenderer.getBorder();
-                contactBorder.setTitle((String)contact.getProperty("role.name"));
+                final String role = (String)contact.getProperty("role.name");
+                if (StringUtils.isNotBlank(role)) {
+                    final String borderTitle = roleBundle.getString(role);
+                    contactBorder.setTitle(borderTitle);
+                }
             }
 
             geographicInformationPanel.setCidsBean(cidsBean);
@@ -393,8 +448,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
             licenseInformationPanel.setCidsBean(cidsBean);
 
             generateMetadataPanels();
-
             generateDataAccessPanels();
+            generateRepresentationPreviewPanels();
 
             bindingGroup.bind();
             generateListWithKeywords();
@@ -416,12 +471,13 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                     return o1.toString().compareTo(o2.toString());
                 }
             });
-        lblKeywords.setText(StringUtils.join(keywords, ", "));
+        lblKeywords.setText("<html>" + StringUtils.join(keywords, ", ") + "</html>");
     }
 
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        temporalInformationPanel.dispose();
     }
 
     @Override
@@ -444,7 +500,13 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         if (cidsBean != null) {
             title = cidsBean.toString();
             final String resourceType = (String)cidsBean.getProperty("type.name");
-            icon = new ImageIcon(ImageGetterUtils.getImageForString(resourceType, ImageGetterUtils.CIRCLE_LETTER_PATH));
+            if ("experiment result data".equalsIgnoreCase(resourceType)) {
+                icon = new ImageIcon(ImageGetterUtils.getImageForLetter('x', ImageGetterUtils.CIRCLE_LETTER_PATH));
+            } else {
+                icon = new ImageIcon(ImageGetterUtils.getImageForString(
+                            resourceType,
+                            ImageGetterUtils.CIRCLE_LETTER_PATH));
+            }
         }
 
         lblTitle.setIcon(icon);
@@ -490,6 +552,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
                 taskPane.setIcon(new ImageIcon(
                         ImageGetterUtils.getImageForString(metadataType, ImageGetterUtils.DOCUMENT_LETTER_PATH)));
 
+                taskPane.setTitle(metadata.toString());
+
                 final MetadataRenderer metadataRenderer = new MetadataRenderer();
                 metadataRenderer.setCidsBean(metadata);
                 taskPane.add(metadataRenderer);
@@ -532,7 +596,85 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
+    private void generateRepresentationPreviewPanels() {
+        final List<CidsBean> representations = cidsBean.getBeanCollectionProperty("representation");
+        firstRepresentationPreviewPane = true;
+        for (final CidsBean representation : representations) {
+            final String urlString = (String)representation.getProperty("contentlocation");
+            final CidsBean type = (CidsBean)representation.getProperty("type");
+            if (StringUtils.isNotBlank(urlString) && "preview data".equalsIgnoreCase(String.valueOf(type))) {
+                new GenerateRepresentationPreviewWorker(representation).execute();
+            }
+        }
+    }
+
     //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * Checks if the content type of the content of a Representation is an image via an HEAD-request, if this is the
+     * case, a preview panel will be added in the Preview pane.
+     *
+     * <p><b>Note:</b> The HEAD request does NOT use the WebAccessManager.</p>
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class GenerateRepresentationPreviewWorker extends SwingWorker<String, Void> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        CidsBean representation;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new GenerateRepresentationPreviewWorker object.
+         *
+         * @param  representation  DOCUMENT ME!
+         */
+        public GenerateRepresentationPreviewWorker(final CidsBean representation) {
+            this.representation = representation;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        protected String doInBackground() throws Exception {
+            final String urlString = (String)representation.getProperty("contentlocation");
+            final URL url = new URL(urlString);
+            final HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("HEAD");
+            connection.connect();
+            return connection.getContentType();
+        }
+
+        @Override
+        protected void done() {
+            try {
+                final String contentType = get();
+                if (contentType.startsWith("image")) {
+                    final JXTaskPane taskPane = new JXTaskPane();
+                    final RepresentationPreview preview = new RepresentationPreview();
+                    preview.setSizeReference(pnlDataAccess);
+                    taskPane.setTitle(representation.toString());
+                    taskPane.add(preview);
+                    preview.setCidsBean(representation);
+
+                    taskPane.setCollapsed(!firstRepresentationPreviewPane);
+                    firstRepresentationPreviewPane = false;
+                    taskPane.addPropertyChangeListener(new CollapseListener(taskPaneDataPreview, taskPane));
+
+                    taskPaneDataPreview.add(taskPane);
+                }
+            } catch (InterruptedException ex) {
+                LOG.error(ex, ex);
+            } catch (ExecutionException ex) {
+                LOG.error(ex, ex);
+            }
+        }
+    }
 
     /**
      * A listener for JXTaskPanes which makes sure that only one JXTaskPane in a JXTaskPaneContainer is not collapsed.

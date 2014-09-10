@@ -52,7 +52,6 @@ import de.cismet.cids.utils.abstracts.AbstractCidsBeanAction;
  *
  * @version  $Revision$, $Date$
  */
-@org.openide.util.lookup.ServiceProvider(service = CidsClientToolbarItem.class)
 public final class IDFImportWizardAction extends AbstractCidsBeanAction implements CidsClientToolbarItem {
 
     //~ Static fields/initializers ---------------------------------------------

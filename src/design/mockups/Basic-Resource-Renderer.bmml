@@ -108,7 +108,7 @@
     </control>
     <control controlID="48" controlTypeID="com.balsamiq.mockups::StickyNote" x="25" y="2479" w="406" h="325" measuredW="109" measuredH="123" zOrder="18" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>*UC06%20%u2013Assess%20usefulness%20of%20resources%20by%20viewing%20Quality%20and%20basic%20Lineage%20Meta-Data*%3A%20_Meta-Data%20Renderer_%0A%20%0AThe%20Meta-Data%20Renderer%20shows%20only%20Meta-Data%20objects%20which%20are%20*not*%20of%20type%20%22basic%20meta-data%22.%20If%2C%20possible%2C%20the%20type%20of%20the%20meta-data%20object%20should%20be%20indicated%20by%20an%20icon%20in%20the%20title%20bar%20of%20the%20respective%20accordion%20page%2C%20e.g.%20a%20%22Q%22%20Icon%20for%20quality%20meta-data.%0A%20%0AMeta-Data%20Document%20shows%20*either*%20an%20icon%20and%20a%20download%20link%20to%20the%20meta-data%20file%20or%20the%20formatted%20_content_%20in%20a%20HTML%20Pane.</text>
+        <text>*UC06%20%u2013Assess%20usefulness%20of%20resources%20by%20viewing%20Quality%20and%20basic%20Lineage%20Meta-Data*%3A%20_Meta-Data%20Renderer_%0A%20%0AThe%20Meta-Data%20Renderer%20shows%20only%20Meta-Data%20objects%20which%20are%20*not*%20of%20type%20%22basic%20meta-data%22.%20If%2C%20possible%2C%20the%20type%20of%20the%20meta-data%20object%20should%20be%20indicated%20by%20an%20icon%20in%20the%20title%20bar%20of%20the%20respective%20accordion%20page%2C%20e.g.%20a%20%22Q%22%20Icon%20for%20quality%20meta-data.%20The%20title%20shows%20the%20_name_%20of%20the%20Meta-Data%20object.%0A%20%0AMeta-Data%20Document%20shows%20*either*%20an%20icon%20and%20a%20download%20link%20to%20the%20meta-data%20file%20or%20the%20formatted%20_content_%20in%20a%20HTML%20Pane.</text>
       </controlProperties>
     </control>
     <control controlID="52" controlTypeID="com.balsamiq.mockups::FieldSet" x="501" y="1125" w="290" h="250" measuredW="200" measuredH="170" zOrder="19" locked="false" isInGroup="-1">
@@ -396,17 +396,17 @@
         <verticalScrollbar>true</verticalScrollbar>
       </controlProperties>
     </control>
-    <control controlID="130" controlTypeID="com.balsamiq.mockups::FieldSet" x="508" y="3456" w="480" h="114" measuredW="200" measuredH="170" zOrder="67" locked="false" isInGroup="-1">
+    <control controlID="130" controlTypeID="com.balsamiq.mockups::FieldSet" x="508" y="3456" w="480" h="125" measuredW="200" measuredH="170" zOrder="67" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Data%20Access%20Functions</text>
       </controlProperties>
     </control>
-    <control controlID="131" controlTypeID="com.balsamiq.mockups::Icon" x="527" y="3482" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="68" locked="false" isInGroup="-1">
+    <control controlID="131" controlTypeID="com.balsamiq.mockups::Icon" x="518" y="3480" w="-1" h="-1" measuredW="48" measuredH="48" zOrder="68" locked="false" isInGroup="-1">
       <controlProperties>
-        <icon>DocExcelIcon%7Csmall</icon>
+        <icon>DocExcelIcon%7Clarge</icon>
       </controlProperties>
     </control>
-    <control controlID="132" controlTypeID="com.balsamiq.mockups::Link" x="559" y="3487" w="-1" h="-1" measuredW="81" measuredH="19" zOrder="69" locked="false" isInGroup="-1">
+    <control controlID="132" controlTypeID="com.balsamiq.mockups::Link" x="566" y="3489" w="-1" h="-1" measuredW="81" measuredH="19" zOrder="69" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Download%20File</text>
       </controlProperties>
@@ -454,12 +454,12 @@
         <text>daily</text>
       </controlProperties>
     </control>
-    <control controlID="146" controlTypeID="com.balsamiq.mockups::Icon" x="527" y="3521" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="78" locked="false" isInGroup="-1">
+    <control controlID="146" controlTypeID="com.balsamiq.mockups::Icon" x="527" y="3543" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="78" locked="false" isInGroup="-1">
       <controlProperties>
         <icon>CircledPlusIcon%7Csmall</icon>
       </controlProperties>
     </control>
-    <control controlID="147" controlTypeID="com.balsamiq.mockups::Link" x="559" y="3526" w="-1" h="-1" measuredW="84" measuredH="19" zOrder="79" locked="false" isInGroup="-1">
+    <control controlID="147" controlTypeID="com.balsamiq.mockups::Link" x="559" y="3546" w="-1" h="-1" measuredW="84" measuredH="19" zOrder="79" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Add%20to%20cismap</text>
       </controlProperties>
@@ -512,6 +512,11 @@
     <control controlID="155" controlTypeID="com.balsamiq.mockups::Label" x="495" y="819" w="89" h="-1" measuredW="26" measuredH="21" zOrder="86" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Role</text>
+      </controlProperties>
+    </control>
+    <control controlID="157" controlTypeID="com.balsamiq.mockups::Label" x="566" y="3508" w="358" h="-1" measuredW="248" measuredH="21" zOrder="87" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>http%3A//www.waterswitchon.eu/download.xls</text>
       </controlProperties>
     </control>
   </controls>

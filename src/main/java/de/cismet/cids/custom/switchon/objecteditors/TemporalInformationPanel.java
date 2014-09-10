@@ -7,11 +7,17 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+
+import de.cismet.cids.custom.switchon.gui.ISO8601JXDatePicker;
+import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.TimestampToDateConverter;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 /**
  * DOCUMENT ME!
@@ -19,7 +25,7 @@ import de.cismet.cids.dynamics.CidsBeanStore;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TemporalInformationPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class TemporalInformationPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -28,7 +34,7 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
 
     //~ Instance fields --------------------------------------------------------
 
-    private CidsBean cidsBean;
+    private CidsBean resource;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXDatePicker dpCreationDate;
@@ -55,15 +61,70 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
      * Creates new form TemporalInformationPanel.
      */
     public TemporalInformationPanel() {
+        this(false);
+    }
+
+    /**
+     * Creates a new TemporalInformationPanel object.
+     *
+     * @param  editable  DOCUMENT ME!
+     */
+    public TemporalInformationPanel(final boolean editable) {
         initComponents();
-        RendererTools.makeReadOnly(dpCreationDate);
-        RendererTools.makeReadOnly(dpEndDate);
-        RendererTools.makeReadOnly(dpLastModificationDate);
-        RendererTools.makeReadOnly(dpPublicationDate);
-        RendererTools.makeReadOnly(dpStartDate);
+        if (!editable) {
+            RendererTools.makeReadOnly(dpCreationDate);
+            RendererTools.makeReadOnly(dpEndDate);
+            RendererTools.makeReadOnly(dpLastModificationDate);
+            RendererTools.makeReadOnly(dpPublicationDate);
+            RendererTools.makeReadOnly(dpStartDate);
+        }
+        setFocusListenersOnDatePickers();
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setFocusListenersOnDatePickers() {
+        dpCreationDate.getEditor().addFocusListener(new FocusAdapter() {
+
+                @Override
+                public void focusGained(final FocusEvent e) {
+                    provideInformation("Please specifiy the date of creation of the resource.");
+                }
+            });
+        dpEndDate.getEditor().addFocusListener(new FocusAdapter() {
+
+                @Override
+                public void focusGained(final FocusEvent e) {
+                    provideInformation(
+                        "Please specifiy the end date of the temporal coverage of the resource. If not end date is provided, it is assumed that the data is continiously uppdated.");
+                }
+            });
+        dpLastModificationDate.getEditor().addFocusListener(new FocusAdapter() {
+
+                @Override
+                public void focusGained(final FocusEvent e) {
+                    provideInformation("Please specify the date of last revision of the resource.");
+                }
+            });
+        dpPublicationDate.getEditor().addFocusListener(new FocusAdapter() {
+
+                @Override
+                public void focusGained(final FocusEvent e) {
+                    provideInformation(
+                        "Please specify the date of publication of the resource at the orign website, catalogue, etc.");
+                }
+            });
+        dpStartDate.getEditor().addFocusListener(new FocusAdapter() {
+
+                @Override
+                public void focusGained(final FocusEvent e) {
+                    provideInformation("Please specifiy the start date of the temporal coverage of the resource.");
+                }
+            });
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -78,8 +139,10 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        dpStartDate = new org.jdesktop.swingx.JXDatePicker();
-        dpEndDate = new org.jdesktop.swingx.JXDatePicker();
+        dpStartDate = new ISO8601JXDatePicker();
+        ;
+        dpEndDate = new ISO8601JXDatePicker();
+        ;
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 0));
@@ -87,9 +150,12 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        dpCreationDate = new org.jdesktop.swingx.JXDatePicker();
-        dpPublicationDate = new org.jdesktop.swingx.JXDatePicker();
-        dpLastModificationDate = new org.jdesktop.swingx.JXDatePicker();
+        dpCreationDate = new ISO8601JXDatePicker();
+        ;
+        dpPublicationDate = new ISO8601JXDatePicker();
+        ;
+        dpLastModificationDate = new ISO8601JXDatePicker();
+        ;
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 0));
@@ -173,6 +239,7 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jPanel1, gridBagConstraints);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -276,6 +343,7 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jPanel2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -289,15 +357,20 @@ public class TemporalInformationPanel extends javax.swing.JPanel implements Cids
 
     @Override
     public CidsBean getCidsBean() {
-        return cidsBean;
+        return resource;
     }
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
-            this.cidsBean = cidsBean;
+            this.resource = cidsBean;
             bindingGroup.bind();
         }
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
     }
 }

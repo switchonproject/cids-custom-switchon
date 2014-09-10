@@ -10,6 +10,8 @@ package de.cismet.cids.custom.switchon.gui.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.cismet.cids.custom.switchon.utils.Taggroups;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 /**
@@ -23,7 +25,8 @@ public class ResourceUtils {
     //~ Methods ----------------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * Returns a list of tags, filtered by a certain taggroup. The original list is taken from the property 'tags' of a
+     * cidsbean.
      *
      * @param   resourceBean  DOCUMENT ME!
      * @param   taggroup      DOCUMENT ME!
