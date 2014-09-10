@@ -151,6 +151,7 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
         pnlCollection.add(cmbCollection, gridBagConstraints);
         createNewCollection.setCombo((FastBindableReferenceCombo)cmbCollection);
 
+        btnNewCollection.setAction(createNewCollection);
         org.openide.awt.Mnemonics.setLocalizedText(
             btnNewCollection,
             org.openide.util.NbBundle.getMessage(
