@@ -13,11 +13,14 @@ import org.apache.log4j.Logger;
 import org.openide.WizardDescriptor;
 import org.openide.util.NbBundle;
 
+import java.awt.Component;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import java.util.UUID;
 
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
@@ -48,6 +51,11 @@ public class BasicResourcePropertiesPanel extends GenericAbstractWizardPanel<Bas
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    protected Component createComponent() {
+        return new BasicResourcePropertiesVisualPanel(Taggroups.RESOURCE_TYPE);
+    }
 
     @Override
     protected void read(final WizardDescriptor wizard) {

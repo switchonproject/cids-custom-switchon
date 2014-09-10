@@ -20,13 +20,12 @@ import java.beans.PropertyChangeListener;
 
 import java.util.UUID;
 
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
 import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.commons.gui.wizard.AbstractWizardPanel;
 
 /**
  * DOCUMENT ME!
@@ -52,6 +51,11 @@ public class AdditonalMetaDataBasicInformationPanel
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    protected Component createComponent() {
+        return new AdditonalMetaDataBasicInformationVisualPanel(Taggroups.META_DATA_TYPE);
+    }
 
     @Override
     protected void read(final WizardDescriptor wizard) {

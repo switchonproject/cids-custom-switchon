@@ -26,6 +26,9 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             BasicResourcePropertiesVisualPanel.class);
 
+    //~ Instance fields --------------------------------------------------------
+
+    private Taggroups typeTaggroup;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
     protected de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
@@ -35,8 +38,21 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
 
     /**
      * Creates new form BasicResourcePropertiesVisualPanel.
+     *
+     * @deprecated  Constructor for Netbeans
      */
     public BasicResourcePropertiesVisualPanel() {
+        this(Taggroups.META_DATA_TYPE);
+        LOG.warn("Do not use this constructor, it is only there for the Netbeans GUI editor.", new Exception());
+    }
+
+    /**
+     * Creates new form BasicResourcePropertiesVisualPanel.
+     *
+     * @param  typeTaggroup  DOCUMENT ME!
+     */
+    public BasicResourcePropertiesVisualPanel(final Taggroups typeTaggroup) {
+        this.typeTaggroup = typeTaggroup;
         initComponents();
         basicPropertiesPanel.setInfoReceiver(infoBoxPanel);
     }
@@ -52,8 +68,7 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel(
-                Taggroups.RESOURCE_TYPE);
+        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel(typeTaggroup);
         infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
 
         addFocusListener(new java.awt.event.FocusAdapter() {
