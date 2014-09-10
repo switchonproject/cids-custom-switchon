@@ -268,6 +268,22 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
         bindingGroup.unbind();
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CidsBean getSelectedMetaData() {
+        final int selectedRow = tblMetaDatas.getSelectedRow();
+        if (selectedRow != -1) {
+            final CidsBean selectedRepresentation = metadatas.get(tblMetaDatas.convertRowIndexToModel(
+                        selectedRow));
+            return selectedRepresentation;
+        } else {
+            return null;
+        }
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**

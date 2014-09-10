@@ -11,11 +11,12 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
-import java.awt.Component;
-
+import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
+import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
-import de.cismet.commons.gui.wizard.AbstractWizardPanel;
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -23,7 +24,8 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditonalMetaDataPanel extends AbstractWizardPanel implements NameProvider {
+public class AdditonalMetaDataPanel extends GenericAbstractWizardPanel<AdditonalMetaDataVisualPanel>
+        implements NameProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -35,23 +37,36 @@ public class AdditonalMetaDataPanel extends AbstractWizardPanel implements NameP
      * Creates a new AdditonalMetaDataPanel object.
      */
     public AdditonalMetaDataPanel() {
+        super(AdditonalMetaDataVisualPanel.class);
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    protected Component createComponent() {
-        return new AdditonalMetaDataVisualPanel();
-    }
-
-    @Override
     protected void read(final WizardDescriptor wizard) {
-        LOG.fatal("AdditonalMetaDataPanel.read: Not supported yet.", new Exception()); // NOI18N
+        final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+        getComponent().setCidsBean(resource);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        LOG.fatal("AdditonalMetaDataPanel.store: Not supported yet.", new Exception()); // NOI18N
+        CidsBean selectedMetaData = getComponent().getSelectedMetaData();
+        if (selectedMetaData == null) {
+            try {
+                // no metadata selected, thus create a new metadata and add it to the resource
+                selectedMetaData = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata"); // NOI18N
+                DefaultPropertySetter.setDefaultsToMetaDataCidsBean(selectedMetaData);
+                final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+                resource.getBeanCollectionProperty("metadata").add(selectedMetaData);               // NOI18N
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+                return;
+            }
+        }
+
+        wizard.putProperty(
+            MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN,
+            selectedMetaData);
     }
 
     @Override

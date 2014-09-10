@@ -73,9 +73,9 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
     public static final String PROP_RESOURCE_BEAN = "__prop_resource_bean__";                               // NOI18N
     public static final String PROP_CONTACT_BEAN = "__prop_contact_bean__";                                 // NOI18N
     public static final String PROP_SELECTED_REPRESENTATION_BEAN = "__prop_selected_representation_bean__"; // NOI18N
+    public static final String PROP_SELECTED_METADATA_BEAN = "__prop_selected_metadata_bean__";             // NOI18N
 
     public static final String PROP_PROJEKT = "__prop_projekt__"; // NOI18N
-    private static String PROP_SELECTED_METADATA_BEAN;
 
     //~ Constructors -----------------------------------------------------------
 
