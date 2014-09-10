@@ -225,7 +225,8 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
                                 DownloadManagerDialog.getJobname(),
                                 cidsBean.toString(),
                                 filename,
-                                extension));
+                                "."
+                                + extension));
             }
         }
     } //GEN-LAST:event_hypDownloadActionPerformed
