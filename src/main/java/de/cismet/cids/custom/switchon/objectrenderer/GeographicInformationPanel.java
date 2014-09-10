@@ -47,11 +47,11 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList lstCatchements;
+    private javax.swing.JPanel pnlCatchments;
+    private javax.swing.JPanel pnlMap;
     private de.cismet.cids.custom.switchon.gui.PreviewMapPanel previewMapPanel;
     private javax.swing.JTextField txtResolutions;
     private javax.swing.JTextField txtScales;
@@ -83,9 +83,9 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jPanel1 = new javax.swing.JPanel();
+        pnlMap = new javax.swing.JPanel();
         previewMapPanel = new de.cismet.cids.custom.switchon.gui.PreviewMapPanel();
-        jPanel2 = new javax.swing.JPanel();
+        pnlCatchments = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstCatchements = new javax.swing.JList();
         jPanel3 = new javax.swing.JPanel();
@@ -101,17 +101,17 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
 
         setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
+        pnlMap.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
                     GeographicInformationPanel.class,
-                    "GeographicInformationPanel.jPanel1.border.title"))); // NOI18N
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+                    "GeographicInformationPanel.pnlMap.border.title"))); // NOI18N
+        pnlMap.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(previewMapPanel, gridBagConstraints);
+        pnlMap.add(previewMapPanel, gridBagConstraints);
         previewMapPanel.setGeoFieldPropertyKey("spatialcoverage.geo_field");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -121,13 +121,13 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.75;
         gridBagConstraints.weighty = 1.0;
-        add(jPanel1, gridBagConstraints);
+        add(pnlMap, gridBagConstraints);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(
+        pnlCatchments.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
                     GeographicInformationPanel.class,
-                    "GeographicInformationPanel.jPanel2.border.title"))); // NOI18N
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+                    "GeographicInformationPanel.pnlCatchments.border.title"))); // NOI18N
+        pnlCatchments.setLayout(new java.awt.GridBagLayout());
 
         jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(0, 0));
@@ -141,7 +141,7 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(jScrollPane1, gridBagConstraints);
+        pnlCatchments.add(jScrollPane1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -150,7 +150,8 @@ public class GeographicInformationPanel extends javax.swing.JPanel implements Ci
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.25;
         gridBagConstraints.weighty = 1.0;
-        add(jPanel2, gridBagConstraints);
+        add(pnlCatchments, gridBagConstraints);
+        pnlCatchments.setVisible(false);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
