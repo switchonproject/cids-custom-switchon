@@ -333,7 +333,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
          */
         private CidsBean createNewStandardMetaData() throws Exception {
             final CidsBean standardMetaObject = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata");
-            DefaultPropertySetter.setDefaultsToMetaDataCidsBean(standardMetaObject);
+            DefaultPropertySetter.setDefaultsToMetaDataCidsBeanForBasicProfile(standardMetaObject);
             return standardMetaObject;
         }
 

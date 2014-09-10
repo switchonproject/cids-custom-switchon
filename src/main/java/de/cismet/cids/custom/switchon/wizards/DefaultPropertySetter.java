@@ -142,6 +142,16 @@ public class DefaultPropertySetter {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultStandard, metadata, "standard");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultContentType, metadata, "contenttype");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultTypeMetaData, metadata, "type");
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   metadata  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static void setDefaultsToMetaDataCidsBeanForBasicProfile(final CidsBean metadata) throws Exception {
+        setDefaultsToMetaDataCidsBean(metadata);
         metadata.setProperty("name", defaultNameMetaData);
         metadata.setProperty("description", defaultDescriptionMetaData);
     }
