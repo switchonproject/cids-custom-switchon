@@ -42,8 +42,8 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
     private javax.swing.JComboBox cmbCollection;
     private javax.swing.JComboBox cmbTopic;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel pnlCollection;
+    private javax.swing.JPanel pnlTopicCategory;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -68,9 +68,9 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jPanel1 = new javax.swing.JPanel();
+        pnlTopicCategory = new javax.swing.JPanel();
         cmbTopic = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.TOPIC_CATEGORY);
-        jPanel3 = new javax.swing.JPanel();
+        pnlCollection = new javax.swing.JPanel();
         cmbCollection = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.COLLECTION);
         final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
         taggroups.add(Taggroups.COLLECTION);
@@ -82,11 +82,11 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
 
         setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
+        pnlTopicCategory.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
                     TopicCollectionAdditionalTagsPanel.class,
-                    "TopicCollectionAdditionalTagsPanel.jPanel1.border.title"))); // NOI18N
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+                    "TopicCollectionAdditionalTagsPanel.pnlTopicCategory.border.title"))); // NOI18N
+        pnlTopicCategory.setLayout(new java.awt.GridBagLayout());
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -107,7 +107,7 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(cmbTopic, gridBagConstraints);
+        pnlTopicCategory.add(cmbTopic, gridBagConstraints);
         ((FastBindableReferenceCombo)cmbTopic).setNullable(false);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -115,13 +115,13 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
-        add(jPanel1, gridBagConstraints);
+        add(pnlTopicCategory, gridBagConstraints);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(
+        pnlCollection.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
                     TopicCollectionAdditionalTagsPanel.class,
-                    "TopicCollectionAdditionalTagsPanel.jPanel3.border.title"))); // NOI18N
-        jPanel3.setLayout(new java.awt.GridBagLayout());
+                    "TopicCollectionAdditionalTagsPanel.pnlCollection.border.title"))); // NOI18N
+        pnlCollection.setLayout(new java.awt.GridBagLayout());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -144,14 +144,14 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel3.add(cmbCollection, gridBagConstraints);
+        pnlCollection.add(cmbCollection, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
-        add(jPanel3, gridBagConstraints);
+        add(pnlCollection, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
