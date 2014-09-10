@@ -114,9 +114,13 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                             // persist the resource bean, when the wizard finished
                             new CidsBeanPersistWorker(wizard).execute();
                         } else if ((evt.getPropertyName() != null)
-                                    && evt.getPropertyName().equals("__prop_configuration__")
-                                    && evt.getNewValue().equals("basic")) {
-                            setBasicDefaults(wizard);
+                                    && evt.getPropertyName().equals(PROP_CONFIGURATION)) {
+                            // set the defaults based on the chosen profile
+                            if (evt.getNewValue().equals("basic")) {
+                                setBasicDefaults(wizard);
+                            } else if (evt.getNewValue().equals("advanced")) {
+                                setAdvancedDefaults(wizard);
+                            }
                         }
                     }
                 }
@@ -152,6 +156,17 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
     @Override
     public boolean isVisible() {
         return true;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizard  DOCUMENT ME!
+     */
+    private void setAdvancedDefaults(final WizardDescriptor wizard) {
+        final CidsBean resource = (CidsBean)wizard.getProperty(
+                MetaDataWizardAction.PROP_RESOURCE_BEAN);
+        DefaultPropertySetter.setDefaultsToResourceCidsBean(resource);
     }
 
     /**
