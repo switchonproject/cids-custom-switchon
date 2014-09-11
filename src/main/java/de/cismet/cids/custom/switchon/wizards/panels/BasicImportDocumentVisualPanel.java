@@ -21,6 +21,9 @@ import java.net.URI;
 
 import java.util.List;
 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import de.cismet.cismap.commons.util.DnDUtils;
 
 /**
@@ -40,11 +43,11 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnImport;
     private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblDestination;
     private javax.swing.JLabel lblFileChooser;
+    private javax.swing.JPanel pnlImport;
     private javax.swing.JProgressBar prbStatus;
     private javax.swing.JTextArea txtLocation;
     // End of variables declaration//GEN-END:variables
@@ -56,8 +59,31 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
      */
     public BasicImportDocumentVisualPanel() {
         initComponents();
+        txtLocation.getDocument().addDocumentListener(new DocumentListener() {
 
-        new DropTarget(lblFileChooser, new FileDropListener());
+                @Override
+                public void insertUpdate(final DocumentEvent e) {
+                    isFile();
+                }
+
+                @Override
+                public void removeUpdate(final DocumentEvent e) {
+                    isFile();
+                }
+
+                @Override
+                public void changedUpdate(final DocumentEvent e) {
+                    isFile();
+                }
+
+                private void isFile() {
+                    final File possibleFile = new File(txtLocation.getText());
+                    final boolean canImport = possibleFile.isFile() && possibleFile.canRead();
+                    btnImport.setEnabled(canImport);
+                }
+            });
+
+        new DropTarget(pnlImport, new FileDropListener());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -80,7 +106,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
+        pnlImport = new javax.swing.JPanel();
         txtLocation = new javax.swing.JTextArea();
         lblFileChooser = new javax.swing.JLabel();
         btnImport = new javax.swing.JButton();
@@ -93,11 +119,11 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
+        pnlImport.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
                     BasicImportDocumentVisualPanel.class,
-                    "BasicImportDocumentVisualPanel.jPanel1.border.title"))); // NOI18N
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+                    "BasicImportDocumentVisualPanel.pnlImport.border.title"))); // NOI18N
+        pnlImport.setLayout(new java.awt.GridBagLayout());
 
         txtLocation.setColumns(20);
         txtLocation.setLineWrap(true);
@@ -112,7 +138,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(txtLocation, gridBagConstraints);
+        pnlImport.add(txtLocation, gridBagConstraints);
 
         lblFileChooser.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/cids/custom/switchon/document_import.png"))); // NOI18N
@@ -126,19 +152,20 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(lblFileChooser, gridBagConstraints);
+        pnlImport.add(lblFileChooser, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             btnImport,
             org.openide.util.NbBundle.getMessage(
                 BasicImportDocumentVisualPanel.class,
                 "BasicImportDocumentVisualPanel.btnImport.text")); // NOI18N
+        btnImport.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(btnImport, gridBagConstraints);
+        pnlImport.add(btnImport, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -147,7 +174,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        add(jPanel1, gridBagConstraints);
+        add(pnlImport, gridBagConstraints);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel2.setLayout(new java.awt.GridBagLayout());
