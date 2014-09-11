@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -55,6 +57,15 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
     public MetaDataPanel() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
         initComponents();
+        tblMetaDatas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+                @Override
+                public void valueChanged(final ListSelectionEvent e) {
+                    final boolean oneOrMoreSelected = tblMetaDatas.getSelectedRowCount() > 0;
+                    btnEditMetaData.setEnabled(oneOrMoreSelected);
+                    btnRemoveMetaData.setEnabled(oneOrMoreSelected);
+                }
+            });
 
         final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
                 "${metadatas}");
@@ -120,6 +131,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
         org.openide.awt.Mnemonics.setLocalizedText(
             btnRemoveMetaData,
             org.openide.util.NbBundle.getMessage(MetaDataPanel.class, "MetaDataPanel.btnRemoveMetaData.text")); // NOI18N
+        btnRemoveMetaData.setEnabled(false);
         btnRemoveMetaData.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -137,6 +149,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
         org.openide.awt.Mnemonics.setLocalizedText(
             btnEditMetaData,
             org.openide.util.NbBundle.getMessage(MetaDataPanel.class, "MetaDataPanel.btnEditMetaData.text")); // NOI18N
+        btnEditMetaData.setEnabled(false);
         btnEditMetaData.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
