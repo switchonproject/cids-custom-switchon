@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import Sirius.server.middleware.types.MetaObject;
+
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
@@ -46,11 +48,23 @@ public class AdditonalMetaDataPanel extends GenericAbstractWizardPanel<Additonal
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
         getComponent().setCidsBean(resource);
+        wizard.putProperty(
+            MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN,
+            null);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
         CidsBean selectedMetaData = getComponent().getSelectedMetaData();
+        final CidsBean wizMetaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN);
+
+        // the store method is always run twice. Check if it is the second execution.
+        // it is the second execution if:
+        // meta data in the wizard is not null
+        if (wizMetaData != null) {
+            return;
+        }
+
         if (selectedMetaData == null) {
             try {
                 // no metadata selected, thus create a new metadata and add it to the resource
