@@ -34,7 +34,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextArea" name="txtSpeicherort">
+        <Component class="javax.swing.JTextArea" name="txtLocation">
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="lineWrap" type="boolean" value="true"/>

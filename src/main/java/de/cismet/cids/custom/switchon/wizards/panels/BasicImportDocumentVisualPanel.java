@@ -7,6 +7,22 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
+
+import java.io.File;
+
+import java.net.URI;
+
+import java.util.List;
+
+import de.cismet.cismap.commons.util.DnDUtils;
+
 /**
  * DOCUMENT ME!
  *
@@ -30,7 +46,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblDestination;
     private javax.swing.JLabel lblFileChooser;
     private javax.swing.JProgressBar prbStatus;
-    private javax.swing.JTextArea txtSpeicherort;
+    private javax.swing.JTextArea txtLocation;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -40,6 +56,8 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
      */
     public BasicImportDocumentVisualPanel() {
         initComponents();
+
+        new DropTarget(lblFileChooser, new FileDropListener());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -63,7 +81,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
-        txtSpeicherort = new javax.swing.JTextArea();
+        txtLocation = new javax.swing.JTextArea();
         lblFileChooser = new javax.swing.JLabel();
         btnImport = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -81,12 +99,12 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
                     "BasicImportDocumentVisualPanel.jPanel1.border.title"))); // NOI18N
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        txtSpeicherort.setColumns(20);
-        txtSpeicherort.setLineWrap(true);
-        txtSpeicherort.setRows(1);
-        txtSpeicherort.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        txtSpeicherort.setEnabled(false);
-        txtSpeicherort.setOpaque(false);
+        txtLocation.setColumns(20);
+        txtLocation.setLineWrap(true);
+        txtLocation.setRows(1);
+        txtLocation.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtLocation.setEnabled(false);
+        txtLocation.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -94,7 +112,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(txtSpeicherort, gridBagConstraints);
+        jPanel1.add(txtLocation, gridBagConstraints);
 
         lblFileChooser.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/cids/custom/switchon/document_import.png"))); // NOI18N
@@ -192,4 +210,102 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class FileDropListener implements DropTargetListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void dragEnter(final DropTargetDragEvent dtde) {
+            if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)
+                        || dtde.isDataFlavorSupported(DnDUtils.URI_LIST_FLAVOR)) {
+                dtde.acceptDrag(DnDConstants.ACTION_COPY_OR_MOVE);
+            } else {
+                dtde.rejectDrag();
+            }
+        }
+
+        @Override
+        public void dragOver(final DropTargetDragEvent dtde) {
+            if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)
+                        || dtde.isDataFlavorSupported(DnDUtils.URI_LIST_FLAVOR)) {
+                dtde.acceptDrag(DnDConstants.ACTION_COPY_OR_MOVE);
+            } else {
+                dtde.rejectDrag();
+            }
+        }
+
+        @Override
+        public void dropActionChanged(final DropTargetDragEvent dtde) {
+            if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)
+                        || dtde.isDataFlavorSupported(DnDUtils.URI_LIST_FLAVOR)) {
+                dtde.acceptDrag(DnDConstants.ACTION_COPY_OR_MOVE);
+            } else {
+                dtde.rejectDrag();
+            }
+        }
+
+        @Override
+        public void dragExit(final DropTargetEvent dte) {
+            // noop
+        }
+
+        @Override
+        public void drop(final DropTargetDropEvent dtde) {
+            try {
+                if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)
+                            || dtde.isDataFlavorSupported(DnDUtils.URI_LIST_FLAVOR)) {
+                    dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
+
+                    final File file;
+                    if (dtde.isDataFlavorSupported(DnDUtils.URI_LIST_FLAVOR)) {
+                        // unix drop
+                        final String uriList = (String)dtde.getTransferable().getTransferData(DnDUtils.URI_LIST_FLAVOR);
+                        final String[] uris = uriList.split(System.getProperty("line.separator")); // NOI18N
+                        if (uris.length >= 1) {
+                            file = new File(new URI(uris[0].trim()));                              // NOI18N
+                            dtde.dropComplete(true);
+                        } else {
+                            file = null;
+                            dtde.dropComplete(false);
+                        }
+                    } else {
+                        // win drop
+                        @SuppressWarnings("unchecked")
+                        final List<File> data = (List)dtde.getTransferable()
+                                    .getTransferData(DataFlavor.javaFileListFlavor);
+                        if (data.size() == 1) {
+                            file = data.get(0);
+                            dtde.dropComplete(true);
+                        } else {
+                            file = null;
+                            dtde.dropComplete(false);
+                        }
+                    }
+
+                    if (file != null) {
+                        final String path = file.getPath();
+                        txtLocation.setText(path);
+//                    txtBezeichnung.setText(FilenameUtils.getBaseName(path));
+//                    showPreview(path);
+                    }
+                } else {
+                    dtde.rejectDrop();
+                }
+            } catch (final Exception e) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("reject drop: " + dtde, e); // NOI18N
+                }
+
+                dtde.dropComplete(false);
+            }
+        }
+    }
 }
