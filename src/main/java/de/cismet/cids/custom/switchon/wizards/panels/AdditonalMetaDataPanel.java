@@ -7,11 +7,11 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
-import Sirius.server.middleware.types.MetaObject;
-
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
+
+import java.awt.Component;
 
 import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
@@ -45,6 +45,19 @@ public class AdditonalMetaDataPanel extends GenericAbstractWizardPanel<Additonal
     //~ Methods ----------------------------------------------------------------
 
     @Override
+    protected Component createComponent() {
+        final AdditonalMetaDataVisualPanel component = (AdditonalMetaDataVisualPanel)super.createComponent();
+        component.addButtonShouldSimulateNextButton(wizard);
+        component.editButtonShouldSimulateNextButton(wizard);
+        return component;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizard  DOCUMENT ME!
+     */
+    @Override
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
         getComponent().setCidsBean(resource);
@@ -53,6 +66,11 @@ public class AdditonalMetaDataPanel extends GenericAbstractWizardPanel<Additonal
             null);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizard  DOCUMENT ME!
+     */
     @Override
     protected void store(final WizardDescriptor wizard) {
         CidsBean selectedMetaData = getComponent().getSelectedMetaData();
@@ -87,6 +105,11 @@ public class AdditonalMetaDataPanel extends GenericAbstractWizardPanel<Additonal
             selectedMetaData);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public String getName() {
         return org.openide.util.NbBundle.getMessage(AdditonalMetaDataPanel.class, "AdditonalMetaDataPanel.name");

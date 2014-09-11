@@ -7,6 +7,11 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.openide.WizardDescriptor;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
@@ -98,5 +103,37 @@ public class AdditonalMetaDataVisualPanel extends javax.swing.JPanel implements 
      */
     public CidsBean getSelectedMetaData() {
         return metaDataPanel.getSelectedMetaData();
+    }
+
+    /**
+     * The add button of the metaDataPanel should work like clicking the next button. Although the selection in the
+     * table has to be cleared first, because otherwise the selected metadata will be edited.
+     *
+     * @param  wizardDescriptor  DOCUMENT ME!
+     */
+    public void addButtonShouldSimulateNextButton(final WizardDescriptor wizardDescriptor) {
+        metaDataPanel.replaceActionListenerOfAddButton(new ActionListener() {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    metaDataPanel.clearTableSelection();
+                    wizardDescriptor.doNextClick();
+                }
+            });
+    }
+
+    /**
+     * The edit button of the metaDataPanel should work exactly like clicking the next button.
+     *
+     * @param  wizardDescriptor  DOCUMENT ME!
+     */
+    void editButtonShouldSimulateNextButton(final WizardDescriptor wizardDescriptor) {
+        metaDataPanel.replaceActionListenerOfEditButton(new ActionListener() {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    wizardDescriptor.doNextClick();
+                }
+            });
     }
 }

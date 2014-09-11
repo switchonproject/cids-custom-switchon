@@ -7,9 +7,12 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import java.awt.event.ActionListener;
+
 import java.util.HashSet;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -282,6 +285,44 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
         } else {
             return null;
         }
+    }
+
+    /**
+     * Removes all actionListeners from the Add-button and adds the parameter actionListener.
+     *
+     * @param  actionListener  The ActionListener which will be added to the button.
+     */
+    public void replaceActionListenerOfAddButton(final ActionListener actionListener) {
+        removeActionListeners(btnAddMetaData);
+        btnAddMetaData.addActionListener(actionListener);
+    }
+
+    /**
+     * Removes all actionListeners from the Edit-button and adds the parameter actionListener.
+     *
+     * @param  actionListener  The ActionListener which will be added to the button.
+     */
+    public void replaceActionListenerOfEditButton(final ActionListener actionListener) {
+        removeActionListeners(btnEditMetaData);
+        btnEditMetaData.addActionListener(actionListener);
+    }
+
+    /**
+     * Remove all ActionListeners from a button.
+     *
+     * @param  button  DOCUMENT ME!
+     */
+    private void removeActionListeners(final JButton button) {
+        for (final ActionListener l : button.getActionListeners()) {
+            button.removeActionListener(l);
+        }
+    }
+
+    /**
+     * Clear the selection of the table with the MetaDatas.
+     */
+    public void clearTableSelection() {
+        tblMetaDatas.clearSelection();
     }
 
     //~ Inner Classes ----------------------------------------------------------
