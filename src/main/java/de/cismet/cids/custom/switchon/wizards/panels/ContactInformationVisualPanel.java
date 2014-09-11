@@ -39,14 +39,14 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
 
     private CidsBean resource;
     private CidsBean newlyCreatedContact;
-    private ContactInformationPanel model;
+    private PropertyChangeListener model;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnNew;
     private javax.swing.JComboBox cmbContacts;
     private de.cismet.cids.custom.switchon.objecteditors.ContactEditor contactEditor;
-    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
+    protected de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -268,7 +268,7 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
      *
      * @return  DOCUMENT ME!
      */
-    public ContactInformationPanel getModel() {
+    public PropertyChangeListener getModel() {
         return model;
     }
 
@@ -277,7 +277,7 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
      *
      * @param  model  DOCUMENT ME!
      */
-    public void setModel(final ContactInformationPanel model) {
+    public void setModel(final PropertyChangeListener model) {
         this.model = model;
     }
 

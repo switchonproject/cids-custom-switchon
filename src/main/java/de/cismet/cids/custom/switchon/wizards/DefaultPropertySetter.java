@@ -40,6 +40,7 @@ public class DefaultPropertySetter {
     private static final Future<CidsBean> defaultConformity = TagUtils.fetchFutureTagByName("Not evaluated");
     // Contact
     private static final Future<CidsBean> defaultRoleResource = TagUtils.fetchFutureTagByName("resourceProvider");
+    private static final Future<CidsBean> defaultRoleMetaData = TagUtils.fetchFutureTagByName("pointOfContact");
     // Representation
     private static final Future<CidsBean> defaultTypeRepresentation = TagUtils.fetchFutureTagByName("original data");
     private static final Future<CidsBean> defaultContentType = TagUtils.fetchFutureTagByName(
@@ -85,6 +86,14 @@ public class DefaultPropertySetter {
      */
     public static void setDefaultsToContactCidsBean(final CidsBean contact) {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultRoleResource, contact, "role"); // NOI18N
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  contact  DOCUMENT ME!
+     */
+    public static void setDefaultsToContactCidsBeanMetaData(final CidsBean contact) {
+        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultRoleMetaData, contact, "role"); // NOI18N
     }
 
     /**

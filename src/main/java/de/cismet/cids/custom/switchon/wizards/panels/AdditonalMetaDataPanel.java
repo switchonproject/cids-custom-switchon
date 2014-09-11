@@ -68,10 +68,14 @@ public class AdditonalMetaDataPanel extends GenericAbstractWizardPanel<Additonal
         if (selectedMetaData == null) {
             try {
                 // no metadata selected, thus create a new metadata and add it to the resource
-                selectedMetaData = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata"); // NOI18N
+                selectedMetaData = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata");      // NOI18N
                 DefaultPropertySetter.setDefaultsToMetaDataCidsBean(selectedMetaData);
+                final CidsBean contact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact"); // NOI18N
+                DefaultPropertySetter.setDefaultsToContactCidsBeanMetaData(contact);
+                selectedMetaData.setProperty("contact", contact);
+
                 final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
-                resource.getBeanCollectionProperty("metadata").add(selectedMetaData);               // NOI18N
+                resource.getBeanCollectionProperty("metadata").add(selectedMetaData); // NOI18N
             } catch (Exception ex) {
                 LOG.error(ex, ex);
                 return;
