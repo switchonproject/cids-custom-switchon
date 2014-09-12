@@ -7,6 +7,10 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.apache.commons.io.IOUtils;
+
+import org.openide.util.Exceptions;
+
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
@@ -16,13 +20,26 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 
 import java.io.File;
+import java.io.IOException;
 
 import java.net.URI;
 
-import java.util.List;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import de.cismet.cids.custom.switchon.utils.TagUtils;
+
+import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.dynamics.CidsBeanStore;
 
 import de.cismet.cismap.commons.util.DnDUtils;
 
@@ -32,12 +49,17 @@ import de.cismet.cismap.commons.util.DnDUtils;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
+public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implements CidsBeanStore {
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final long ONEHUNDRED_KILOBYTES = (long)1e5;
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             BasicImportDocumentVisualPanel.class);
+
+    //~ Instance fields --------------------------------------------------------
+
+    private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImport;
@@ -77,8 +99,8 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
                 }
 
                 private void isFile() {
-                    final File possibleFile = new File(txtLocation.getText());
-                    final boolean canImport = possibleFile.isFile() && possibleFile.canRead();
+                    final Path path = Paths.get(txtLocation.getText());
+                    final boolean canImport = Files.isRegularFile(path) && Files.isReadable(path);
                     btnImport.setEnabled(canImport);
                 }
             });
@@ -160,6 +182,13 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
                 BasicImportDocumentVisualPanel.class,
                 "BasicImportDocumentVisualPanel.btnImport.text")); // NOI18N
         btnImport.setEnabled(false);
+        btnImport.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnImportActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -178,8 +207,6 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        prbStatus.setIndeterminate(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -238,7 +265,151 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel {
         add(infoBoxPanel, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnImportActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnImportActionPerformed
+        final String pathStr = txtLocation.getText();
+        new CreateContent(Paths.get(pathStr)).execute();
+    }                                                                             //GEN-LAST:event_btnImportActionPerformed
+
+    @Override
+    public CidsBean getCidsBean() {
+        return cidsBean;
+    }
+
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        this.cidsBean = cidsBean;
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   contentInformation  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    private void setContentInformationToCidsBean(final ContentInformation contentInformation) throws Exception {
+        if ((cidsBean != null) && (contentInformation != null)) {
+            if (contentInformation.contentType != null) {
+                cidsBean.setProperty("contenttype", contentInformation.contentType);
+            }
+            if (contentInformation.contentLocation != null) {
+                cidsBean.setProperty("contentlocation", contentInformation.contentLocation);
+            }
+            if (contentInformation.content != null) {
+                cidsBean.setProperty("content", contentInformation.content);
+            }
+        }
+    }
+
     //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class CreateContent extends SwingWorker<ContentInformation, Object> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private final Path path;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new CreateContent object.
+         *
+         * @param  path  DOCUMENT ME!
+         */
+        public CreateContent(final Path path) {
+            this.path = path;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        protected ContentInformation doInBackground() throws Exception {
+            final ContentInformation information = new ContentInformation();
+            final String contentType = Files.probeContentType(path);
+            fetchContentTypeTag(contentType, information);
+            boolean upload = true;
+            if (contentType.startsWith("text")) {
+                final long size = Files.size(path);
+                upload = size > ONEHUNDRED_KILOBYTES;
+            }
+            if (upload) {
+                uploadContent(path, information);
+            } else {
+                saveContent(path, information);
+            }
+            return information;
+        }
+
+        @Override
+        protected void done() {
+            try {
+                setContentInformationToCidsBean(get());
+            } catch (InterruptedException ex) {
+                LOG.error(ex, ex);
+            } catch (ExecutionException ex) {
+                LOG.error(ex, ex);
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  contentType  DOCUMENT ME!
+         * @param  information  DOCUMENT ME!
+         */
+        private void fetchContentTypeTag(final String contentType, final ContentInformation information) {
+            information.contentType = TagUtils.fetchTagByName(contentType);
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  path         DOCUMENT ME!
+         * @param  information  DOCUMENT ME!
+         */
+        private void uploadContent(final Path path, final ContentInformation information) {
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  path         DOCUMENT ME!
+         * @param  information  DOCUMENT ME!
+         */
+        private void saveContent(final Path path, final ContentInformation information) {
+            try {
+                information.content = IOUtils.toString(Files.newBufferedReader(path, Charset.defaultCharset()));
+            } catch (IOException ex) {
+                LOG.error("Could not read content of:" + path, ex);
+                information.content = "";
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    public class ContentInformation {
+
+        //~ Instance fields ----------------------------------------------------
+
+        public CidsBean contentType;
+        public String content;
+        public String contentLocation;
+    }
 
     /**
      * DOCUMENT ME!
