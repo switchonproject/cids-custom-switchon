@@ -13,7 +13,10 @@ import org.openide.WizardDescriptor;
 import org.openide.util.NbBundle;
 
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -41,12 +44,12 @@ public class AdditonalMetaDataImportDocumentPanel
 
     @Override
     protected void read(final WizardDescriptor wizard) {
-        LOG.fatal("AdditonalMetaDataImportDocumentPanel.read: Not supported yet.", new Exception()); // NOI18N
+        final CidsBean metaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN);
+        getComponent().setCidsBean(metaData);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        LOG.fatal("AdditonalMetaDataImportDocumentPanel.store: Not supported yet.", new Exception()); // NOI18N
     }
 
     @Override

@@ -12,7 +12,6 @@
 package de.cismet.cids.custom.switchon.utils;
 
 import Sirius.navigator.connection.SessionManager;
-//import de.cismet.cids.custom.switchon.search.server.actions.WebDavTunnelAction;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -20,7 +19,6 @@ import org.apache.log4j.Logger;
 import java.awt.Component;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -29,6 +27,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import javax.swing.ProgressMonitorInputStream;
+
+import de.cismet.cids.custom.switchon.search.actions.WebDavTunnelAction;
 
 import de.cismet.cids.server.actions.ServerActionParameter;
 
@@ -105,42 +105,42 @@ public class WebDavHelper {
             final File toUpload,
             final String webDavDirectory,
             final Component parent) throws Exception {
-//        final BufferedInputStream bfis = new BufferedInputStream(new ProgressMonitorInputStream(
-//                    parent,
-//                    "Bild wird übertragen...",
-//                    new FileInputStream(toUpload)));
-//        final byte[] bytes = IOUtils.toByteArray(bfis);
-//        try {
-//            final ServerActionParameter proxySAP = new ServerActionParameter<Proxy>(
-//                    WebDavTunnelAction.PARAMETER_TYPE.PROXY.toString(),
-//                    proxy);
-//            final ServerActionParameter usernameSAP = new ServerActionParameter<String>(
-//                    WebDavTunnelAction.PARAMETER_TYPE.USERNAME.toString(),
-//                    username);
-//            final ServerActionParameter passwordSAP = new ServerActionParameter<String>(
-//                    WebDavTunnelAction.PARAMETER_TYPE.PASSWORD.toString(),
-//                    password);
-//            final ServerActionParameter ntAuthSAP = new ServerActionParameter<Boolean>(
-//                    WebDavTunnelAction.PARAMETER_TYPE.NTAUTH.toString(),
-//                    useNtAuth);
-//
-//            final ServerActionParameter putSAP = new ServerActionParameter<String>(WebDavTunnelAction.PARAMETER_TYPE.PUT
-//                            .toString(),
-//                    webDavDirectory
-//                            + encodeURL(fileName));
-//            SessionManager.getProxy()
-//                    .executeTask(
-//                        WEBDAV_OVER_TUNNEL,
-//                        "WUNDA_BLAU",
-//                        bytes,
-//                        putSAP,
-//                        proxySAP,
-//                        usernameSAP,
-//                        passwordSAP,
-//                        ntAuthSAP);
-//        } finally {
-//            IOUtils.closeQuietly(bfis);
-//        }
+        final BufferedInputStream bfis = new BufferedInputStream(new ProgressMonitorInputStream(
+                    parent,
+                    "Transmission of the file...",
+                    new FileInputStream(toUpload)));
+        final byte[] bytes = IOUtils.toByteArray(bfis);
+        try {
+            final ServerActionParameter proxySAP = new ServerActionParameter<Proxy>(
+                    WebDavTunnelAction.PARAMETER_TYPE.PROXY.toString(),
+                    proxy);
+            final ServerActionParameter usernameSAP = new ServerActionParameter<String>(
+                    WebDavTunnelAction.PARAMETER_TYPE.USERNAME.toString(),
+                    username);
+            final ServerActionParameter passwordSAP = new ServerActionParameter<String>(
+                    WebDavTunnelAction.PARAMETER_TYPE.PASSWORD.toString(),
+                    password);
+            final ServerActionParameter ntAuthSAP = new ServerActionParameter<Boolean>(
+                    WebDavTunnelAction.PARAMETER_TYPE.NTAUTH.toString(),
+                    useNtAuth);
+
+            final ServerActionParameter putSAP = new ServerActionParameter<String>(WebDavTunnelAction.PARAMETER_TYPE.PUT
+                            .toString(),
+                    webDavDirectory
+                            + encodeURL(fileName));
+            SessionManager.getProxy()
+                    .executeTask(
+                        WEBDAV_OVER_TUNNEL,
+                        "SWITCHON",
+                        bytes,
+                        putSAP,
+                        proxySAP,
+                        usernameSAP,
+                        passwordSAP,
+                        ntAuthSAP);
+        } finally {
+            IOUtils.closeQuietly(bfis);
+        }
     }
 
     /**
@@ -153,40 +153,40 @@ public class WebDavHelper {
      */
     public boolean deleteFileFromWebDAV(final String fileName,
             final String webDavDirectory) {
-//        if ((fileName != null) && (fileName.length() > 0)) {
-//            try {
-//                final ServerActionParameter proxySAP = new ServerActionParameter<Proxy>(
-//                        WebDavTunnelAction.PARAMETER_TYPE.PROXY.toString(),
-//                        proxy);
-//                final ServerActionParameter usernameSAP = new ServerActionParameter<String>(
-//                        WebDavTunnelAction.PARAMETER_TYPE.USERNAME.toString(),
-//                        username);
-//                final ServerActionParameter passwordSAP = new ServerActionParameter<String>(
-//                        WebDavTunnelAction.PARAMETER_TYPE.PASSWORD.toString(),
-//                        password);
-//                final ServerActionParameter ntAuthSAP = new ServerActionParameter<Boolean>(
-//                        WebDavTunnelAction.PARAMETER_TYPE.NTAUTH.toString(),
-//                        useNtAuth);
-//
-//                final ServerActionParameter deleteSAP = new ServerActionParameter<String>(
-//                        WebDavTunnelAction.PARAMETER_TYPE.DELETE.toString(),
-//                        webDavDirectory
-//                                + encodeURL(fileName));
-//                SessionManager.getProxy()
-//                        .executeTask(
-//                            WEBDAV_OVER_TUNNEL,
-//                            "WUNDA_BLAU",
-//                            null,
-//                            deleteSAP,
-//                            proxySAP,
-//                            usernameSAP,
-//                            passwordSAP,
-//                            ntAuthSAP);
-//                return true;
-//            } catch (Exception ex) {
-//                LOG.error(ex, ex);
-//            }
-//        }
+        if ((fileName != null) && (fileName.length() > 0)) {
+            try {
+                final ServerActionParameter proxySAP = new ServerActionParameter<Proxy>(
+                        WebDavTunnelAction.PARAMETER_TYPE.PROXY.toString(),
+                        proxy);
+                final ServerActionParameter usernameSAP = new ServerActionParameter<String>(
+                        WebDavTunnelAction.PARAMETER_TYPE.USERNAME.toString(),
+                        username);
+                final ServerActionParameter passwordSAP = new ServerActionParameter<String>(
+                        WebDavTunnelAction.PARAMETER_TYPE.PASSWORD.toString(),
+                        password);
+                final ServerActionParameter ntAuthSAP = new ServerActionParameter<Boolean>(
+                        WebDavTunnelAction.PARAMETER_TYPE.NTAUTH.toString(),
+                        useNtAuth);
+
+                final ServerActionParameter deleteSAP = new ServerActionParameter<String>(
+                        WebDavTunnelAction.PARAMETER_TYPE.DELETE.toString(),
+                        webDavDirectory
+                                + encodeURL(fileName));
+                SessionManager.getProxy()
+                        .executeTask(
+                            WEBDAV_OVER_TUNNEL,
+                            "SWITCHON",
+                            null,
+                            deleteSAP,
+                            proxySAP,
+                            usernameSAP,
+                            passwordSAP,
+                            ntAuthSAP);
+                return true;
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+            }
+        }
         return false;
     }
 
