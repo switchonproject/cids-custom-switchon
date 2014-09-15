@@ -7,9 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-
-import org.openide.util.Exceptions;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
@@ -30,18 +29,25 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import de.cismet.cids.custom.switchon.utils.TagUtils;
+import de.cismet.cids.custom.switchon.utils.WebDavHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
 import de.cismet.cismap.commons.util.DnDUtils;
+
+import de.cismet.netutil.Proxy;
+
+import de.cismet.tools.PasswordEncrypter;
 
 /**
  * DOCUMENT ME!
@@ -56,8 +62,32 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     private static final long ONEHUNDRED_KILOBYTES = (long)1e5;
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             BasicImportDocumentVisualPanel.class);
+    private static String WEB_DAV_USER;
+    private static String WEB_DAV_PASSWORD;
+    private static String BASIC_IMPORT_URL;
+
+    static {
+        try {
+            final ResourceBundle bundle = ResourceBundle.getBundle(
+                    "de/cismet/cids/custom/switchon/wizards/panels/webdav/WebDav");
+            final String pass = bundle.getString("password");
+            WEB_DAV_PASSWORD = pass;
+
+            WEB_DAV_USER = bundle.getString("user");
+            BASIC_IMPORT_URL = bundle.getString("url_basic_import");
+        } catch (Exception ex) {
+            LOG.error(
+                "Could not read WebDav properties from property file. The umleitungsmechanism for Vermessungrisse will not work",
+                ex);
+            WEB_DAV_PASSWORD = "";
+            WEB_DAV_USER = "";
+            BASIC_IMPORT_URL = "";
+        }
+    }
 
     //~ Instance fields --------------------------------------------------------
+
+    private WebDavHelper webDavHelper;
 
     private CidsBean cidsBean;
 
@@ -106,6 +136,8 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             });
 
         new DropTarget(pnlImport, new FileDropListener());
+
+        webDavHelper = new WebDavHelper(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD, true);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -375,10 +407,22 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         /**
          * DOCUMENT ME!
          *
-         * @param  path         DOCUMENT ME!
-         * @param  information  DOCUMENT ME!
+         * @param   path         DOCUMENT ME!
+         * @param   information  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
          */
-        private void uploadContent(final Path path, final ContentInformation information) {
+        private void uploadContent(final Path path, final ContentInformation information) throws Exception {
+            final String filename = FilenameUtils.getName(path.toString());
+
+            webDavHelper.uploadFileToWebDAV(
+                filename,
+                path.toFile(),
+                BASIC_IMPORT_URL,
+                BasicImportDocumentVisualPanel.this);
+
+            information.content = null;
+            information.contentLocation = BASIC_IMPORT_URL + filename;
         }
 
         /**
@@ -390,6 +434,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         private void saveContent(final Path path, final ContentInformation information) {
             try {
                 information.content = IOUtils.toString(Files.newBufferedReader(path, Charset.defaultCharset()));
+                information.contentLocation = null;
             } catch (IOException ex) {
                 LOG.error("Could not read content of:" + path, ex);
                 information.content = "";
