@@ -359,6 +359,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
          */
         public CreateContent(final Path path) {
             this.path = path;
+            prbStatus.setIndeterminate(true);
         }
 
         //~ Methods ------------------------------------------------------------
@@ -391,6 +392,8 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 LOG.error(ex, ex);
             } catch (Exception ex) {
                 LOG.error(ex, ex);
+            } finally {
+                prbStatus.setIndeterminate(false);
             }
         }
 
@@ -414,6 +417,15 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
          */
         private void uploadContent(final Path path, final ContentInformation information) throws Exception {
             final String filename = FilenameUtils.getName(path.toString());
+            final String url = BASIC_IMPORT_URL + filename;
+
+            SwingUtilities.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        lblDestination.setText(url);
+                    }
+                });
 
             webDavHelper.uploadFileToWebDAV(
                 filename,
@@ -422,7 +434,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 BasicImportDocumentVisualPanel.this);
 
             information.content = null;
-            information.contentLocation = BASIC_IMPORT_URL + filename;
+            information.contentLocation = url;
         }
 
         /**
