@@ -74,6 +74,8 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
     public static final String PROP_CONTACT_BEAN = "__prop_contact_bean__";                                 // NOI18N
     public static final String PROP_SELECTED_REPRESENTATION_BEAN = "__prop_selected_representation_bean__"; // NOI18N
     public static final String PROP_SELECTED_METADATA_BEAN = "__prop_selected_metadata_bean__";             // NOI18N
+    public static final String PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED =
+        "__prop_AdditonalMetaDataImportDocumentPanel_was_opened__";                                         // NOI18N
 
     public static final String PROP_PROJEKT = "__prop_projekt__"; // NOI18N
 
@@ -100,6 +102,10 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         wizard.putProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, Boolean.TRUE);
         wizard.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.TRUE);
         wizard.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE);
+
+        // additional properties
+        wizard.putProperty(PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED, Boolean.FALSE);
+
         // set the subtitle. The String is retrieved from iterator.name()
         wizard.setTitleFormat(new MessageFormat("{1}"));
         wizard.setTitle("Meta-Data Wizard");

@@ -44,6 +44,7 @@ public class AdditonalMetaDataImportDocumentPanel
 
     @Override
     protected void read(final WizardDescriptor wizard) {
+        wizard.putProperty(MetaDataWizardAction.PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED, Boolean.TRUE);
         final CidsBean metaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN);
         getComponent().setCidsBean(metaData);
     }
