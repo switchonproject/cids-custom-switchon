@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -46,8 +45,6 @@ import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cismap.commons.util.DnDUtils;
 
 import de.cismet.netutil.Proxy;
-
-import de.cismet.tools.PasswordEncrypter;
 
 /**
  * DOCUMENT ME!
@@ -69,7 +66,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     static {
         try {
             final ResourceBundle bundle = ResourceBundle.getBundle(
-                    "de/cismet/cids/custom/switchon/wizards/panels/webdav/WebDav");
+                    "de/cismet/cids/custom/switchon/wizards/panels/webdav/WebDav"); // NOI18N
             final String pass = bundle.getString("password");
             WEB_DAV_PASSWORD = pass;
 
@@ -77,11 +74,11 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             BASIC_IMPORT_URL = bundle.getString("url_basic_import");
         } catch (Exception ex) {
             LOG.error(
-                "Could not read WebDav properties from property file. The umleitungsmechanism for Vermessungrisse will not work",
+                "Could not read WebDav properties from property file. The umleitungsmechanism for Vermessungrisse will not work", // NOI18N
                 ex);
-            WEB_DAV_PASSWORD = "";
-            WEB_DAV_USER = "";
-            BASIC_IMPORT_URL = "";
+            WEB_DAV_PASSWORD = ""; // NOI18N
+            WEB_DAV_USER = ""; // NOI18N
+            BASIC_IMPORT_URL = ""; // NOI18N
         }
     }
 
@@ -94,11 +91,10 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImport;
     private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JLabel lblDestination;
     private javax.swing.JLabel lblFileChooser;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JPanel pnlImport;
     private javax.swing.JProgressBar prbStatus;
     private javax.swing.JTextArea txtLocation;
@@ -167,8 +163,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         jPanel2 = new javax.swing.JPanel();
         prbStatus = new javax.swing.JProgressBar();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        lblDestination = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
         infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
 
         setLayout(new java.awt.GridBagLayout());
@@ -251,27 +246,16 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel1,
+            lblStatus,
             org.openide.util.NbBundle.getMessage(
                 BasicImportDocumentVisualPanel.class,
-                "BasicImportDocumentVisualPanel.jLabel1.text")); // NOI18N
+                "BasicImportDocumentVisualPanel.lblStatus.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-        jPanel3.add(jLabel1, gridBagConstraints);
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            lblDestination,
-            org.openide.util.NbBundle.getMessage(
-                BasicImportDocumentVisualPanel.class,
-                "BasicImportDocumentVisualPanel.lblDestination.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        jPanel3.add(lblDestination, gridBagConstraints);
+        jPanel3.add(lblStatus, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -326,13 +310,13 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     private void setContentInformationToCidsBean(final ContentInformation contentInformation) throws Exception {
         if ((cidsBean != null) && (contentInformation != null)) {
             if (contentInformation.contentType != null) {
-                cidsBean.setProperty("contenttype", contentInformation.contentType);
+                cidsBean.setProperty("contenttype", contentInformation.contentType);         // NOI18N
             }
             if (contentInformation.contentLocation != null) {
-                cidsBean.setProperty("contentlocation", contentInformation.contentLocation);
+                cidsBean.setProperty("contentlocation", contentInformation.contentLocation); // NOI18N
             }
             if (contentInformation.content != null) {
-                cidsBean.setProperty("content", contentInformation.content);
+                cidsBean.setProperty("content", contentInformation.content);                 // NOI18N
             }
         }
     }
@@ -344,7 +328,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
      *
      * @version  $Revision$, $Date$
      */
-    private class CreateContent extends SwingWorker<ContentInformation, Object> {
+    private class CreateContent extends SwingWorker<ContentInformation, ProcessInformation> {
 
         //~ Instance fields ----------------------------------------------------
 
@@ -359,27 +343,43 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
          */
         public CreateContent(final Path path) {
             this.path = path;
-            prbStatus.setIndeterminate(true);
         }
 
         //~ Methods ------------------------------------------------------------
 
         @Override
         protected ContentInformation doInBackground() throws Exception {
+            publish(new ProcessInformation(
+                    org.openide.util.NbBundle.getMessage(
+                        BasicImportDocumentVisualPanel.class,
+                        "BasicImportDocumentVisualPanel.CreateContent.fetchContent"),
+                    0));
             final ContentInformation information = new ContentInformation();
             final String contentType = Files.probeContentType(path);
             fetchContentTypeTag(contentType, information);
             boolean upload = true;
-            if (contentType.startsWith("text")) {
+            if (contentType.startsWith("text")) { // NOI18N
                 final long size = Files.size(path);
                 upload = size > ONEHUNDRED_KILOBYTES;
             }
             if (upload) {
                 uploadContent(path, information);
             } else {
+                publish(new ProcessInformation(
+                        org.openide.util.NbBundle.getMessage(
+                            BasicImportDocumentVisualPanel.class,
+                            "BasicImportDocumentVisualPanel.CreateContent.Save"),
+                        25));
                 saveContent(path, information);
             }
             return information;
+        }
+
+        @Override
+        protected void process(final List<ProcessInformation> chunks) {
+            if (!chunks.isEmpty()) {
+                showProcess(chunks.get(chunks.size() - 1));
+            }
         }
 
         @Override
@@ -393,8 +393,22 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             } catch (Exception ex) {
                 LOG.error(ex, ex);
             } finally {
-                prbStatus.setIndeterminate(false);
+                showProcess(new ProcessInformation(
+                        org.openide.util.NbBundle.getMessage(
+                            BasicImportDocumentVisualPanel.class,
+                            "BasicImportDocumentVisualPanel.CreateContent.finished"),
+                        100));
             }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  processInformation  DOCUMENT ME!
+         */
+        private void showProcess(final ProcessInformation processInformation) {
+            prbStatus.setValue(processInformation.processInPercent);
+            lblStatus.setText(processInformation.message);
         }
 
         /**
@@ -419,13 +433,11 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             final String filename = FilenameUtils.getName(path.toString());
             final String url = BASIC_IMPORT_URL + filename;
 
-            SwingUtilities.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        lblDestination.setText(url);
-                    }
-                });
+            final String message = java.text.MessageFormat.format(java.util.ResourceBundle.getBundle(
+                        "de/cismet/cids/custom/switchon/wizards/panels/Bundle").getString(
+                        "BasicImportDocumentVisualPanel.CreateContent.uploadTo"),
+                    url);
+            publish(new ProcessInformation(message, 25));
 
             webDavHelper.uploadFileToWebDAV(
                 filename,
@@ -448,9 +460,34 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 information.content = IOUtils.toString(Files.newBufferedReader(path, Charset.defaultCharset()));
                 information.contentLocation = null;
             } catch (IOException ex) {
-                LOG.error("Could not read content of:" + path, ex);
-                information.content = "";
+                LOG.error("Could not read content of:" + path, ex); // NOI18N
+                information.content = "";                           // NOI18N
             }
+        }
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    public class ProcessInformation {
+
+        //~ Instance fields ----------------------------------------------------
+
+        String message;
+        int processInPercent;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new ProcessInformation object.
+         *
+         * @param  message           DOCUMENT ME!
+         * @param  processInPercent  DOCUMENT ME!
+         */
+        public ProcessInformation(final String message, final int processInPercent) {
+            this.message = message;
+            this.processInPercent = processInPercent;
         }
     }
 
@@ -548,8 +585,6 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                     if (file != null) {
                         final String path = file.getPath();
                         txtLocation.setText(path);
-//                    txtBezeichnung.setText(FilenameUtils.getBaseName(path));
-//                    showPreview(path);
                     }
                 } else {
                     dtde.rejectDrop();
