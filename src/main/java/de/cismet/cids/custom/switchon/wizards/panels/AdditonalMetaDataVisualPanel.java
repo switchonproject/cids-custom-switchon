@@ -127,7 +127,7 @@ public class AdditonalMetaDataVisualPanel extends javax.swing.JPanel implements 
      *
      * @param  wizardDescriptor  DOCUMENT ME!
      */
-    void editButtonShouldSimulateNextButton(final WizardDescriptor wizardDescriptor) {
+    public void editButtonShouldSimulateNextButton(final WizardDescriptor wizardDescriptor) {
         metaDataPanel.replaceActionListenerOfEditButton(new ActionListener() {
 
                 @Override
