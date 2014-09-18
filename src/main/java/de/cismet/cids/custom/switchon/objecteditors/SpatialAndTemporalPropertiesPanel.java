@@ -7,10 +7,12 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 /**
  * DOCUMENT ME!
@@ -18,7 +20,7 @@ import de.cismet.cids.dynamics.CidsBeanStore;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class SpatialAndTemporalPropertiesPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class SpatialAndTemporalPropertiesPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -135,6 +137,13 @@ public class SpatialAndTemporalPropertiesPanel extends javax.swing.JPanel implem
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtTemporalResolution.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtTemporalResolutionFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -152,6 +161,13 @@ public class SpatialAndTemporalPropertiesPanel extends javax.swing.JPanel implem
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtSpatialResolution.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtSpatialResolutionFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -169,6 +185,13 @@ public class SpatialAndTemporalPropertiesPanel extends javax.swing.JPanel implem
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtSpatialScales.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtSpatialScalesFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -186,6 +209,40 @@ public class SpatialAndTemporalPropertiesPanel extends javax.swing.JPanel implem
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtTemporalResolutionFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtTemporalResolutionFocusGained
+        provideInformation(org.openide.util.NbBundle.getMessage(
+                SpatialAndTemporalPropertiesPanel.class,
+                "SpatialAndTemporalPropertiesPanel.txtTemporalResolution.info"));
+    }                                                                                    //GEN-LAST:event_txtTemporalResolutionFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtSpatialResolutionFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtSpatialResolutionFocusGained
+        provideInformation(org.openide.util.NbBundle.getMessage(
+                SpatialAndTemporalPropertiesPanel.class,
+                "SpatialAndTemporalPropertiesPanel.txtSpatialResolution.info"));
+    }                                                                                   //GEN-LAST:event_txtSpatialResolutionFocusGained
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtSpatialScalesFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtSpatialScalesFocusGained
+        provideInformation(
+            org.openide.util.NbBundle.getMessage(
+                SpatialAndTemporalPropertiesPanel.class,
+                "SpatialAndTemporalPropertiesPanel.txtSpatialScales.info"));
+    }                                                                               //GEN-LAST:event_txtSpatialScalesFocusGained
 
     /**
      * Returns a Representation-CidsBean.
@@ -209,5 +266,10 @@ public class SpatialAndTemporalPropertiesPanel extends javax.swing.JPanel implem
             this.representationBean = cidsBean;
             bindingGroup.bind();
         }
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
     }
 }
