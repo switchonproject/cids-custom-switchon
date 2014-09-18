@@ -15,7 +15,7 @@ import de.cismet.cids.custom.switchon.utils.Taggroups;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RepresentationsBasicInformationVisualPanel extends BasicResourcePropertiesVisualPanel {
+public class RepresentationsBasicInformationVisualPanel extends BasicInformationVisualPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 

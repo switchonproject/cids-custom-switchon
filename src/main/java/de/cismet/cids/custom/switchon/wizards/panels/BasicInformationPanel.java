@@ -33,28 +33,28 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicResourcePropertiesPanel extends GenericAbstractWizardPanel<BasicResourcePropertiesVisualPanel>
+public class BasicInformationPanel extends GenericAbstractWizardPanel<BasicInformationVisualPanel>
         implements NameProvider,
             PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final Logger LOG = Logger.getLogger(BasicResourcePropertiesPanel.class);
+    private static final Logger LOG = Logger.getLogger(BasicInformationPanel.class);
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new BasicResourcePropertiesPanel object.
      */
-    public BasicResourcePropertiesPanel() {
-        super(BasicResourcePropertiesVisualPanel.class);
+    public BasicInformationPanel() {
+        super(BasicInformationVisualPanel.class);
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     protected Component createComponent() {
-        return new BasicResourcePropertiesVisualPanel(Taggroups.RESOURCE_TYPE);
+        return new BasicInformationVisualPanel(Taggroups.RESOURCE_TYPE);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class BasicResourcePropertiesPanel extends GenericAbstractWizardPanel<Bas
 
     @Override
     public String getName() {
-        return NbBundle.getMessage(BasicResourcePropertiesPanel.class, "BasicResourcePropertiesPanel.getName()");
+        return NbBundle.getMessage(BasicInformationPanel.class, "BasicResourcePropertiesPanel.getName()");
     }
 
     @Override

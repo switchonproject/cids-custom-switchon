@@ -19,12 +19,12 @@ import de.cismet.cids.dynamics.Disposable;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class BasicInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            BasicResourcePropertiesVisualPanel.class);
+            BasicInformationVisualPanel.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -41,7 +41,7 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
      *
      * @deprecated  Constructor for Netbeans
      */
-    public BasicResourcePropertiesVisualPanel() {
+    public BasicInformationVisualPanel() {
         this(Taggroups.META_DATA_TYPE);
         LOG.warn("Do not use this constructor, it is only there for the Netbeans GUI editor.", new Exception());
     }
@@ -51,7 +51,7 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
      *
      * @param  typeTaggroup  DOCUMENT ME!
      */
-    public BasicResourcePropertiesVisualPanel(final Taggroups typeTaggroup) {
+    public BasicInformationVisualPanel(final Taggroups typeTaggroup) {
         this.typeTaggroup = typeTaggroup;
         initComponents();
         basicPropertiesPanel.setInfoReceiver(infoBoxPanel);
@@ -92,8 +92,8 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
         add(basicPropertiesPanel, gridBagConstraints);
 
         infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                BasicResourcePropertiesVisualPanel.class,
-                "BasicResourcePropertiesVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
+                BasicInformationVisualPanel.class,
+                "BasicInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -102,7 +102,7 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
-    }                                                                                   // </editor-fold>//GEN-END:initComponents
+    }                                                                            // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
