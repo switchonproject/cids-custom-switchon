@@ -384,4 +384,22 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
     public void dispose() {
         bindingGroup.bind();
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  panelWasOpen  DOCUMENT ME!
+     */
+    public void changeAppearanceAsImportDocumentPanelWasOpen(final boolean panelWasOpen) {
+        txtContentLocation.setEnabled(!panelWasOpen);
+        if (panelWasOpen) {
+            infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationVisualPanel.class,
+                    "RepresentationsDataAccessInformationVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasOpen.info"));
+        } else {
+            infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationVisualPanel.class,
+                    "RepresentationsDataAccessInformationVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasNotOpen.info"));
+        }
+    }
 }

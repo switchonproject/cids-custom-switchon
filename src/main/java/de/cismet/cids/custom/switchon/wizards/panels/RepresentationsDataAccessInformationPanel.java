@@ -15,7 +15,6 @@ import org.openide.WizardDescriptor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
@@ -55,21 +54,10 @@ public class RepresentationsDataAccessInformationPanel
     @Override
     protected void read(final WizardDescriptor wizard) {
         // check if a representation was selected previously
-        CidsBean representation = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
-        if (representation == null) {
-            try {
-                // no representation selected, thus create a new representation and add it to the resource
-                representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation"); // NOI18N
-                DefaultPropertySetter.setDefaultsToRepresentationCidsBean(representation);
-                final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
-                resource.getBeanCollectionProperty("representation").add(representation);               // NOI18N
-                DefaultPropertySetter.setDefaultsToRepresentationCidsBeanDerivedByResource(representation, resource);
-            } catch (Exception ex) {
-                LOG.error(ex, ex);
-                return;
-            }
-        }
-
+        final CidsBean representation = (CidsBean)wizard.getProperty(
+                MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
+        getComponent().changeAppearanceAsImportDocumentPanelWasOpen((boolean)wizard.getProperty(
+                MetaDataWizardAction.PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED));
         getComponent().setCidsBean(representation);
         representation.addPropertyChangeListener(this);
     }
@@ -86,7 +74,7 @@ public class RepresentationsDataAccessInformationPanel
     public String getName() {
         return org.openide.util.NbBundle.getMessage(
                 RepresentationsDataAccessInformationPanel.class,
-                "RepresentationsDataAccessInformationPanel.name");
+                "RepresentationsDataAccessInformationPanel.name"); // NOI18N
     }
 
     @Override
