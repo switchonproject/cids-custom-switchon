@@ -132,6 +132,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             });
 
         new DropTarget(pnlImport, new FileDropListener());
+        new DropTarget(txtLocation, new FileDropListener());
 
         webDavHelper = new WebDavHelper(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD, true);
     }

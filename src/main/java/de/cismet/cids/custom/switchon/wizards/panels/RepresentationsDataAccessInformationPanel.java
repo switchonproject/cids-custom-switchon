@@ -15,6 +15,7 @@ import org.openide.WizardDescriptor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import de.cismet.cids.custom.switchon.wizards.AdvancedFinishablePanel;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
@@ -30,7 +31,7 @@ import de.cismet.cids.dynamics.CidsBean;
 public class RepresentationsDataAccessInformationPanel
         extends GenericAbstractWizardPanel<RepresentationsDataAccessInformationVisualPanel> implements NameProvider,
         PropertyChangeListener,
-        WizardDescriptor.FinishablePanel {
+        AdvancedFinishablePanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -98,11 +99,7 @@ public class RepresentationsDataAccessInformationPanel
         return finishPanel;
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  finishPanel  DOCUMENT ME!
-     */
+    @Override
     public void setFinishPanel(final boolean finishPanel) {
         this.finishPanel = finishPanel;
     }
