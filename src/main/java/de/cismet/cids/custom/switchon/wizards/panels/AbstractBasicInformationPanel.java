@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
-import org.openide.util.NbBundle;
 
 import java.awt.Component;
 
@@ -22,10 +21,10 @@ import java.util.UUID;
 
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
-import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
 import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.dynamics.CidsBeanStore;
 
 /**
  * DOCUMENT ME!
@@ -33,20 +32,21 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicInformationPanel extends GenericAbstractWizardPanel<BasicInformationVisualPanel>
+public abstract class AbstractBasicInformationPanel extends GenericAbstractWizardPanel<BasicInformationVisualPanel>
         implements NameProvider,
-            PropertyChangeListener {
+            PropertyChangeListener,
+            CidsBeanStore {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final Logger LOG = Logger.getLogger(BasicInformationPanel.class);
+    private static final Logger LOG = Logger.getLogger(AbstractBasicInformationPanel.class);
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new BasicResourcePropertiesPanel object.
      */
-    public BasicInformationPanel() {
+    public AbstractBasicInformationPanel() {
         super(BasicInformationVisualPanel.class);
     }
 
@@ -54,35 +54,46 @@ public class BasicInformationPanel extends GenericAbstractWizardPanel<BasicInfor
 
     @Override
     protected Component createComponent() {
-        return new BasicInformationVisualPanel(Taggroups.RESOURCE_TYPE);
+        final BasicInformationVisualPanel panel = new BasicInformationVisualPanel(getTypeTaggroup());
+        panel.setGeneralInformation(getGeneralInformation());
+        return panel;
     }
+
+    /**
+     * The used type taggroup when the BasicInformationVisualPanel is created.
+     *
+     * @return  DOCUMENT ME!
+     */
+    protected abstract Taggroups getTypeTaggroup();
+
+    /**
+     * The shown general information in the BasicInformationVisualPanel.
+     *
+     * @return  DOCUMENT ME!
+     */
+    protected abstract String getGeneralInformation();
 
     @Override
     protected void read(final WizardDescriptor wizard) {
-        final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
-        getComponent().setCidsBean(resource);
-        resource.addPropertyChangeListener(this);
+        final CidsBean cidsBean = getCidsBean();
+        getComponent().setCidsBean(cidsBean);
+        cidsBean.addPropertyChangeListener(this);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        final CidsBean resource = getComponent().getCidsBean();
-        resource.removePropertyChangeListener(this);
+        final CidsBean cidsBean = getCidsBean();
+        cidsBean.removePropertyChangeListener(this);
         getComponent().dispose();
 
         try {
-            final String uuid = (String)resource.getProperty("uuid");
+            final String uuid = (String)cidsBean.getProperty("uuid");
             if (StringUtils.isBlank(uuid)) {
-                resource.setProperty("uuid", UUID.randomUUID().toString());
+                cidsBean.setProperty("uuid", UUID.randomUUID().toString());
             }
         } catch (Exception ex) {
             LOG.error(ex, ex);
         }
-    }
-
-    @Override
-    public String getName() {
-        return NbBundle.getMessage(BasicInformationPanel.class, "BasicResourcePropertiesPanel.getName()");
     }
 
     @Override

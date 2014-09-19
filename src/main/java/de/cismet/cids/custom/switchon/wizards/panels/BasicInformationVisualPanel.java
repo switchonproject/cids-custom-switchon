@@ -127,4 +127,13 @@ public class BasicInformationVisualPanel extends javax.swing.JPanel implements C
     public void dispose() {
         basicPropertiesPanel.dispose();
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  generalInformation  DOCUMENT ME!
+     */
+    public void setGeneralInformation(final String generalInformation) {
+        infoBoxPanel.setGeneralInformation(generalInformation);
+    }
 }

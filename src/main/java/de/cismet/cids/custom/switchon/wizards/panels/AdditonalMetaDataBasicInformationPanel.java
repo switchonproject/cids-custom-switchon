@@ -11,9 +11,10 @@ import org.apache.log4j.Logger;
 
 import org.openide.util.NbBundle;
 
-import java.awt.Component;
-
 import de.cismet.cids.custom.switchon.utils.Taggroups;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -21,7 +22,7 @@ import de.cismet.cids.custom.switchon.utils.Taggroups;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditonalMetaDataBasicInformationPanel extends BasicInformationPanel {
+public class AdditonalMetaDataBasicInformationPanel extends AbstractBasicInformationPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -30,14 +31,31 @@ public class AdditonalMetaDataBasicInformationPanel extends BasicInformationPane
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    protected Component createComponent() {
-        return new AdditonalMetaDataBasicInformationVisualPanel(Taggroups.META_DATA_TYPE);
-    }
-
-    @Override
     public String getName() {
         return NbBundle.getMessage(
                 AdditonalMetaDataBasicInformationPanel.class,
                 "AdditonalMetaDataBasicInformationPanel.name");
+    }
+
+    @Override
+    public CidsBean getCidsBean() {
+        return (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN);
+    }
+
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        wizard.putProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN, cidsBean);
+    }
+
+    @Override
+    protected Taggroups getTypeTaggroup() {
+        return Taggroups.META_DATA_TYPE;
+    }
+
+    @Override
+    protected String getGeneralInformation() {
+        return org.openide.util.NbBundle.getMessage(
+                AdditonalMetaDataBasicInformationPanel.class,
+                "AdditonalMetaDataBasicInformationVisualPanel.infobox.gerneralInfromation");
     }
 }
