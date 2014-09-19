@@ -264,7 +264,7 @@ public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel
         infoBoxPanel.setInformation(
             org.openide.util.NbBundle.getMessage(
                 AdditonalMetaDataEditDocumentVisualPanel.class,
-                "AdditonalMetaDataEditDocumentVisualPanel.txtaContent.info"));
+                "AdditonalMetaDataEditDocumentVisualPanel.txtaContent.info")); // NOI18N
     }                                                                          //GEN-LAST:event_txtaContentFocusGained
 
     /**
@@ -276,7 +276,7 @@ public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel
         infoBoxPanel.setInformation(
             org.openide.util.NbBundle.getMessage(
                 AdditonalMetaDataEditDocumentVisualPanel.class,
-                "AdditonalMetaDataEditDocumentVisualPanel.txtContent.info"));
+                "AdditonalMetaDataEditDocumentVisualPanel.txtContent.info"));         // NOI18N
     }                                                                                 //GEN-LAST:event_txtContentLocationFocusGained
 
     /**
@@ -324,10 +324,19 @@ public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel
     /**
      * DOCUMENT ME!
      *
-     * @param  enable  DOCUMENT ME!
+     * @param  panelWasOpen  enable DOCUMENT ME!
      */
-    public void enableContentAndContentLocation(final boolean enable) {
-        txtaContent.setEnabled(enable);
-        txtContentLocation.setEnabled(enable);
+    public void changeAppearanceAsImportDocumentPanelWasOpen(final boolean panelWasOpen) {
+        txtaContent.setEnabled(!panelWasOpen);
+        txtContentLocation.setEnabled(!panelWasOpen);
+        if (panelWasOpen) {
+            infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    AdditonalMetaDataEditDocumentVisualPanel.class,
+                    "AdditonalMetaDataEditDocumentVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasOpen.info"));
+        } else {
+            infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    AdditonalMetaDataEditDocumentVisualPanel.class,
+                    "AdditonalMetaDataEditDocumentVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasNotOpen.info"));
+        }
     }
 }

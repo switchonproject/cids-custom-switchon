@@ -50,7 +50,7 @@ public class AdditonalMetaDataEditDocumentPanel
     protected void read(final WizardDescriptor wizard) {
         final CidsBean metaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN);
         // disable the content and content location components if AdditonalMetaDataImportDocumentPanel was already open
-        getComponent().enableContentAndContentLocation(!(boolean)wizard.getProperty(
+        getComponent().changeAppearanceAsImportDocumentPanelWasOpen((boolean)wizard.getProperty(
                 MetaDataWizardAction.PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED));
         getComponent().setCidsBean(metaData);
         metaData.addPropertyChangeListener(this);
@@ -58,7 +58,6 @@ public class AdditonalMetaDataEditDocumentPanel
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        LOG.fatal("AdditonalMetaDataEditDocumentPanel.store: Not supported yet.", new Exception()); // NOI18N
     }
 
     @Override
