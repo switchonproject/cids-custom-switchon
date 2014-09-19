@@ -150,12 +150,12 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util</artifactId>
-            <version>${netbeans.version}</version>
+            <version>RELEASE701</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util-lookup</artifactId>
-            <version>${netbeans.version}</version>
+            <version>RELEASE701</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
@@ -165,7 +165,7 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-awt</artifactId>
-            <version>${netbeans.version}</version>
+            <version>RELEASE691</version>
         </dependency>
         <dependency>
             <groupId>com.vividsolutions</groupId>
