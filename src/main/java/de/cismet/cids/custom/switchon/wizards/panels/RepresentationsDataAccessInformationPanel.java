@@ -57,7 +57,7 @@ public class RepresentationsDataAccessInformationPanel
         final CidsBean representation = (CidsBean)wizard.getProperty(
                 MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
         getComponent().changeAppearanceAsImportDocumentPanelWasOpen((boolean)wizard.getProperty(
-                MetaDataWizardAction.PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED));
+                MetaDataWizardAction.PROP_RepresentationsDataImportPanel_WAS_OPENED));
         getComponent().setCidsBean(representation);
         representation.addPropertyChangeListener(this);
     }

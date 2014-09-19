@@ -135,6 +135,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     RepresentationsPanel.class,
                     RepresentationsBasicInformationPanel.class,
                     RepresentationsAdditionalInformationPanel.class,
+                    RepresentationsDataImportPanel.class,
                     RepresentationsDataAccessInformationPanel.class);
             expertSequence = createSequenceForClasses(
                     MetaDataWizardConfigurationPanel.class,
