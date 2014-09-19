@@ -17,6 +17,7 @@ import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
+import de.cismet.cids.custom.switchon.wizards.PreviousButtonEnabler;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -27,7 +28,8 @@ import de.cismet.cids.dynamics.CidsBean;
  * @version  $Revision$, $Date$
  */
 public class RepresentationsPanel extends GenericAbstractWizardPanel<RepresentationsVisualPanel>
-        implements NameProvider {
+        implements NameProvider,
+            PreviousButtonEnabler {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -106,5 +108,10 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
     @Override
     public String getName() {
         return org.openide.util.NbBundle.getMessage(RepresentationsPanel.class, "RepresentationsPanel.name");
+    }
+
+    @Override
+    public boolean hasPrevious() {
+        return false;
     }
 }

@@ -53,7 +53,6 @@ public class RepresentationsDataAccessInformationPanel
 
     @Override
     protected void read(final WizardDescriptor wizard) {
-        // check if a representation was selected previously
         final CidsBean representation = (CidsBean)wizard.getProperty(
                 MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
         getComponent().changeAppearanceAsImportDocumentPanelWasOpen((boolean)wizard.getProperty(
