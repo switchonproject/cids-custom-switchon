@@ -13,6 +13,8 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
+import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
@@ -26,7 +28,7 @@ import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TargetResourceRelationshipPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class TargetResourceRelationshipPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -128,6 +130,13 @@ public class TargetResourceRelationshipPanel extends javax.swing.JPanel implemen
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
+        tblToResource.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    tblToResourceMouseClicked(evt);
+                }
+            });
         jScrollPane2.setViewportView(tblToResource);
         if (tblToResource.getColumnModel().getColumnCount() > 0) {
             tblToResource.getColumnModel()
@@ -143,6 +152,8 @@ public class TargetResourceRelationshipPanel extends javax.swing.JPanel implemen
         }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
@@ -156,6 +167,19 @@ public class TargetResourceRelationshipPanel extends javax.swing.JPanel implemen
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void tblToResourceMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_tblToResourceMouseClicked
+        if (tblToResource.isEnabled()) {
+            provideInformation(org.openide.util.NbBundle.getMessage(
+                    TargetResourceRelationshipPanel.class,
+                    "TargetResourceRelationshipPanel.tblToResource.info"));
+        }
+    }                                                                             //GEN-LAST:event_tblToResourceMouseClicked
     /**
      * DOCUMENT ME!
      *
@@ -165,15 +189,15 @@ public class TargetResourceRelationshipPanel extends javax.swing.JPanel implemen
         if (beans != null) {
             for (final CidsBean bean : beans) {
                 // use the first match
-                if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
+                if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) { // NOI18N
                     try {
-                        cidsBean.setProperty("toresource", bean);
+                        cidsBean.setProperty("toresource", bean);                   // NOI18N
                         toResourceList.clear();
                         toResourceList.add(bean);
                         tblToResource.selectAll();
                         break;
                     } catch (Exception ex) {
-                        LOG.error("Could not set toresource of cidsBean", ex);
+                        LOG.error("Could not set toresource of cidsBean", ex);      // NOI18N
                     }
                 }
             }
@@ -209,7 +233,7 @@ public class TargetResourceRelationshipPanel extends javax.swing.JPanel implemen
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
             toResourceList = new ArrayList<CidsBean>(1);
-            toResourceList.add((CidsBean)cidsBean.getProperty("toresource"));
+            toResourceList.add((CidsBean)cidsBean.getProperty("toresource")); // NOI18N
             bindingGroup.bind();
 
             if (tblToResource.getColumnModel().getColumnCount() > 0) {

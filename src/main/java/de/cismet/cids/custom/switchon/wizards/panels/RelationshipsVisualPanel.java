@@ -43,6 +43,8 @@ public class RelationshipsVisualPanel extends javax.swing.JPanel implements Cids
      */
     public RelationshipsVisualPanel() {
         initComponents();
+        sourceResourceRelationshipPanel.setInfoReceiver(infoBoxPanel);
+        targetResourceRelationshipPanel.setInfoReceiver(infoBoxPanel);
     }
 
     //~ Methods ----------------------------------------------------------------

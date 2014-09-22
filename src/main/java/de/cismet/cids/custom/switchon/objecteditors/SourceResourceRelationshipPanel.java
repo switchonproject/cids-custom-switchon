@@ -13,6 +13,8 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
+import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
@@ -26,7 +28,7 @@ import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class SourceResourceRelationshipPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class SourceResourceRelationshipPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -123,18 +125,25 @@ public class SourceResourceRelationshipPanel extends javax.swing.JPanel implemen
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
+        tblFromResource.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    tblFromResourceMouseClicked(evt);
+                }
+            });
         jScrollPane1.setViewportView(tblFromResource);
         if (tblFromResource.getColumnModel().getColumnCount() > 0) {
             tblFromResource.getColumnModel()
                     .getColumn(0)
                     .setHeaderValue(org.openide.util.NbBundle.getMessage(
                             SourceResourceRelationshipPanel.class,
-                            "RelationshipEditor.tblFromResource.columnModel.title0_1")); // NOI18N
+                            "SourceResourceRelationshipPanel.tblFromResource.columnModel.title0_1")); // NOI18N
             tblFromResource.getColumnModel()
                     .getColumn(1)
                     .setHeaderValue(org.openide.util.NbBundle.getMessage(
                             SourceResourceRelationshipPanel.class,
-                            "RelationshipEditor.tblFromResource.columnModel.title1_1")); // NOI18N
+                            "SourceResourceRelationshipPanel.tblFromResource.columnModel.title1_1")); // NOI18N
         }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -181,6 +190,17 @@ public class SourceResourceRelationshipPanel extends javax.swing.JPanel implemen
         }
     }                                                                                           //GEN-LAST:event_btnRemoveSourceResourceActionPerformed
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void tblFromResourceMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_tblFromResourceMouseClicked
+        provideInformation(org.openide.util.NbBundle.getMessage(
+                SourceResourceRelationshipPanel.class,
+                "SourceResourceRelationshipPanel.tblFromResource.info"));
+    }                                                                               //GEN-LAST:event_tblFromResourceMouseClicked
+
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -191,7 +211,7 @@ public class SourceResourceRelationshipPanel extends javax.swing.JPanel implemen
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
-            fromResources = cidsBean.getBeanCollectionProperty("fromresources");
+            fromResources = cidsBean.getBeanCollectionProperty("fromresources"); // NOI18N
 
             bindingGroup.bind();
             if (tblFromResource.getColumnModel().getColumnCount() > 0) {
@@ -240,7 +260,7 @@ public class SourceResourceRelationshipPanel extends javax.swing.JPanel implemen
     private void addBeansToFromResource(final ArrayList<CidsBean> beans) {
         if (beans != null) {
             for (final CidsBean bean : beans) {
-                if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
+                if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) { // NOI18N
                     if (!fromResources.contains(bean)) {
                         fromResources.add(bean);
                     }

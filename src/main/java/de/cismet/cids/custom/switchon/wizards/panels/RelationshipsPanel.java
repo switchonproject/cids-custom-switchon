@@ -55,7 +55,8 @@ public class RelationshipsPanel extends GenericAbstractWizardPanel<Relationships
         }
         relationship.addPropertyChangeListener(this);
         getComponent().setCidsBean(relationship);
-        getComponent().setEnableTargetResource(wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN) != null);
+        // disable the target resource table if a resource bean is present
+        getComponent().setEnableTargetResource(wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN) == null);
     }
 
     @Override
