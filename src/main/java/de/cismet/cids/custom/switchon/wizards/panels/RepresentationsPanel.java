@@ -11,15 +11,13 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.Component;
 
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
+import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
+import de.cismet.cids.custom.switchon.wizards.PreviousButtonEnabler;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -31,16 +29,11 @@ import de.cismet.cids.dynamics.CidsBean;
  */
 public class RepresentationsPanel extends GenericAbstractWizardPanel<RepresentationsVisualPanel>
         implements NameProvider,
-            PropertyChangeListener,
-            ListSelectionListener {
+            PreviousButtonEnabler {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final Logger LOG = Logger.getLogger(RepresentationsPanel.class);
-
-    //~ Instance fields --------------------------------------------------------
-
-    private CidsBean selectedRepresentation = null;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -54,23 +47,62 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
     //~ Methods ----------------------------------------------------------------
 
     @Override
+    protected Component createComponent() {
+        final RepresentationsVisualPanel component = (RepresentationsVisualPanel)super.createComponent();
+        component.addButtonShouldSimulateNextButton(wizard);
+        component.editButtonShouldSimulateNextButton(wizard);
+        return component;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizard  DOCUMENT ME!
+     */
+    @Override
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
         getComponent().setCidsBean(resource);
-        selectedRepresentation = null;
-        getComponent().addTableSelectionListener(this);
-        resource.addPropertyChangeListener(this);
+        wizard.putProperty(
+            MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN,
+            null);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizard  DOCUMENT ME!
+     */
     @Override
     protected void store(final WizardDescriptor wizard) {
-        final CidsBean resource = getComponent().getCidsBean();
+        CidsBean selectedRepresentation = getComponent().getSelectedRepresentation();
+        final CidsBean wizMetaData = (CidsBean)wizard.getProperty(
+                MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
 
-        wizard.putProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN, selectedRepresentation);
+        // the store method is always run twice. Check if it is the second execution.
+        // it is the second execution if:
+        // representation in the wizard is not null
+        if (wizMetaData != null) {
+            return;
+        }
 
-        resource.removePropertyChangeListener(this);
-        getComponent().removeTableSelectionListener(this);
-        getComponent().dispose();
+        if (selectedRepresentation == null) {
+            try {
+                // no representation selected, thus create a new representation and add it to the resource
+                selectedRepresentation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation"); // NOI18N
+                DefaultPropertySetter.setDefaultsToRepresentationCidsBean(selectedRepresentation);
+
+                final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+                resource.getBeanCollectionProperty("representation").add(selectedRepresentation); // NOI18N
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+                return;
+            }
+        }
+
+        wizard.putProperty(
+            MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN,
+            selectedRepresentation);
     }
 
     @Override
@@ -79,15 +111,7 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
     }
 
     @Override
-    public void propertyChange(final PropertyChangeEvent evt) {
-        changeSupport.fireChange();
-    }
-
-    @Override
-    public void valueChanged(final ListSelectionEvent e) {
-        if (!e.getValueIsAdjusting()) {
-            selectedRepresentation = getComponent().getSelectedRepresentation();
-            changeSupport.fireChange();
-        }
+    public boolean hasPrevious() {
+        return false;
     }
 }

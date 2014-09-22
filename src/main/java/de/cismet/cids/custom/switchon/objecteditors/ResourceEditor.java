@@ -853,6 +853,8 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         topicCollectionAdditionalTagsPanel.dispose();
         geometryChooserPanel.dispose();
         temporalInformationPanel.dispose();
+        metaDataPanel.dispose();
+        basicPropertiesPanel.dispose();
     }
 
     @Override

@@ -7,9 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
-import org.apache.log4j.Logger;
-
-import java.awt.Component;
+import org.openide.util.NbBundle;
 
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
@@ -22,40 +20,39 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RepresentationsBasicInformationPanel extends AbstractBasicInformationPanel {
+public class ResourceBasicInformationPanel extends AbstractBasicInformationPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final Logger LOG = Logger.getLogger(RepresentationsBasicInformationPanel.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            ResourceBasicInformationPanel.class);
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    public String getName() {
-        return org.openide.util.NbBundle.getMessage(
-                RepresentationsBasicInformationPanel.class,
-                "RepresentationsBasicInformationPanel.name");
-    }
-
-    @Override
     protected Taggroups getTypeTaggroup() {
-        return Taggroups.REPRESENTATION_TYPE;
+        return Taggroups.RESOURCE_TYPE;
     }
 
     @Override
     protected String getGeneralInformation() {
         return org.openide.util.NbBundle.getMessage(
-                RepresentationsBasicInformationPanel.class,
-                "RepresentationsBasicInformationVisualPanel.generalInformation");
+                ResourceBasicInformationPanel.class,
+                "BasicInformationVisualPanel.infoBoxPanel.generalInformation");
+    }
+
+    @Override
+    public String getName() {
+        return NbBundle.getMessage(ResourceBasicInformationPanel.class, "BasicResourcePropertiesPanel.getName()");
     }
 
     @Override
     public CidsBean getCidsBean() {
-        return (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
+        return (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
     }
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-        wizard.putProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN, cidsBean);
+        wizard.putProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN, cidsBean);
     }
 }

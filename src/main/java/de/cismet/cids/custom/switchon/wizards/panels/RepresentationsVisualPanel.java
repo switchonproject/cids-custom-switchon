@@ -7,6 +7,11 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.openide.WizardDescriptor;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.event.ListSelectionListener;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -118,5 +123,37 @@ public class RepresentationsVisualPanel extends javax.swing.JPanel implements Ci
      */
     public void removeTableSelectionListener(final ListSelectionListener listener) {
         representationsPanel.removeTableSelectionListener(listener);
+    }
+
+    /**
+     * The add button of the metaDataPanel should work like clicking the next button. Although the selection in the
+     * table has to be cleared first, because otherwise the selected representation will be edited.
+     *
+     * @param  wizardDescriptor  DOCUMENT ME!
+     */
+    public void addButtonShouldSimulateNextButton(final WizardDescriptor wizardDescriptor) {
+        representationsPanel.replaceActionListenerOfAddButton(new ActionListener() {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    representationsPanel.clearTableSelection();
+                    wizardDescriptor.doNextClick();
+                }
+            });
+    }
+
+    /**
+     * The edit button of the metaDataPanel should work exactly like clicking the next button.
+     *
+     * @param  wizardDescriptor  DOCUMENT ME!
+     */
+    public void editButtonShouldSimulateNextButton(final WizardDescriptor wizardDescriptor) {
+        representationsPanel.replaceActionListenerOfEditButton(new ActionListener() {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    wizardDescriptor.doNextClick();
+                }
+            });
     }
 }

@@ -7,13 +7,19 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import java.awt.event.ActionListener;
+
 import java.util.HashSet;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -23,7 +29,7 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -51,6 +57,15 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
     public MetaDataPanel() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
         initComponents();
+        tblMetaDatas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+                @Override
+                public void valueChanged(final ListSelectionEvent e) {
+                    final boolean oneOrMoreSelected = tblMetaDatas.getSelectedRowCount() > 0;
+                    btnEditMetaData.setEnabled(oneOrMoreSelected);
+                    btnRemoveMetaData.setEnabled(oneOrMoreSelected);
+                }
+            });
 
         final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
                 "${metadatas}");
@@ -116,6 +131,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
         org.openide.awt.Mnemonics.setLocalizedText(
             btnRemoveMetaData,
             org.openide.util.NbBundle.getMessage(MetaDataPanel.class, "MetaDataPanel.btnRemoveMetaData.text")); // NOI18N
+        btnRemoveMetaData.setEnabled(false);
         btnRemoveMetaData.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -133,6 +149,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
         org.openide.awt.Mnemonics.setLocalizedText(
             btnEditMetaData,
             org.openide.util.NbBundle.getMessage(MetaDataPanel.class, "MetaDataPanel.btnEditMetaData.text")); // NOI18N
+        btnEditMetaData.setEnabled(false);
         btnEditMetaData.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -260,6 +277,65 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore {
      */
     public void setMetadatas(final List<CidsBean> metadatas) {
         this.metadatas = metadatas;
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CidsBean getSelectedMetaData() {
+        final int selectedRow = tblMetaDatas.getSelectedRow();
+        if (selectedRow != -1) {
+            final CidsBean selectedRepresentation = metadatas.get(tblMetaDatas.convertRowIndexToModel(
+                        selectedRow));
+            return selectedRepresentation;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Removes all actionListeners from the Add-button and adds the parameter actionListener.
+     *
+     * @param  actionListener  The ActionListener which will be added to the button.
+     */
+    public void replaceActionListenerOfAddButton(final ActionListener actionListener) {
+        removeActionListeners(btnAddMetaData);
+        btnAddMetaData.addActionListener(actionListener);
+    }
+
+    /**
+     * Removes all actionListeners from the Edit-button and adds the parameter actionListener.
+     *
+     * @param  actionListener  The ActionListener which will be added to the button.
+     */
+    public void replaceActionListenerOfEditButton(final ActionListener actionListener) {
+        removeActionListeners(btnEditMetaData);
+        btnEditMetaData.addActionListener(actionListener);
+    }
+
+    /**
+     * Remove all ActionListeners from a button.
+     *
+     * @param  button  DOCUMENT ME!
+     */
+    private void removeActionListeners(final JButton button) {
+        for (final ActionListener l : button.getActionListeners()) {
+            button.removeActionListener(l);
+        }
+    }
+
+    /**
+     * Clear the selection of the table with the MetaDatas.
+     */
+    public void clearTableSelection() {
+        tblMetaDatas.clearSelection();
     }
 
     //~ Inner Classes ----------------------------------------------------------

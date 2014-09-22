@@ -73,9 +73,13 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
     public static final String PROP_RESOURCE_BEAN = "__prop_resource_bean__";                               // NOI18N
     public static final String PROP_CONTACT_BEAN = "__prop_contact_bean__";                                 // NOI18N
     public static final String PROP_SELECTED_REPRESENTATION_BEAN = "__prop_selected_representation_bean__"; // NOI18N
+    public static final String PROP_SELECTED_METADATA_BEAN = "__prop_selected_metadata_bean__";             // NOI18N
+    public static final String PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED =
+        "__prop_AdditonalMetaDataImportDocumentPanel_was_opened__";                                         // NOI18N
 
     public static final String PROP_PROJEKT = "__prop_projekt__"; // NOI18N
-    private static String PROP_SELECTED_METADATA_BEAN;
+    public static String PROP_RepresentationsDataImportPanel_WAS_OPENED =
+        "__prop_RepresentationsDataImportPanel_was_opened__";     // NOI18N
 
     //~ Constructors -----------------------------------------------------------
 
@@ -100,6 +104,11 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         wizard.putProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, Boolean.TRUE);
         wizard.putProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.TRUE);
         wizard.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE);
+
+        // additional properties
+        wizard.putProperty(PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED, Boolean.FALSE);
+        wizard.putProperty(PROP_RepresentationsDataImportPanel_WAS_OPENED, Boolean.FALSE);
+
         // set the subtitle. The String is retrieved from iterator.name()
         wizard.setTitleFormat(new MessageFormat("{1}"));
         wizard.setTitle("Meta-Data Wizard");
@@ -114,9 +123,13 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                             // persist the resource bean, when the wizard finished
                             new CidsBeanPersistWorker(wizard).execute();
                         } else if ((evt.getPropertyName() != null)
-                                    && evt.getPropertyName().equals("__prop_configuration__")
-                                    && evt.getNewValue().equals("basic")) {
-                            setBasicDefaults(wizard);
+                                    && evt.getPropertyName().equals(PROP_CONFIGURATION)) {
+                            // set the defaults based on the chosen profile
+                            if (evt.getNewValue().equals("basic")) {
+                                setBasicDefaults(wizard);
+                            } else if (evt.getNewValue().equals("advanced")) {
+                                setAdvancedDefaults(wizard);
+                            }
                         }
                     }
                 }
@@ -152,6 +165,17 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
     @Override
     public boolean isVisible() {
         return true;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizard  DOCUMENT ME!
+     */
+    private void setAdvancedDefaults(final WizardDescriptor wizard) {
+        final CidsBean resource = (CidsBean)wizard.getProperty(
+                MetaDataWizardAction.PROP_RESOURCE_BEAN);
+        DefaultPropertySetter.setDefaultsToResourceCidsBean(resource);
     }
 
     /**
@@ -333,7 +357,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
          */
         private CidsBean createNewStandardMetaData() throws Exception {
             final CidsBean standardMetaObject = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata");
-            DefaultPropertySetter.setDefaultsToMetaDataCidsBean(standardMetaObject);
+            DefaultPropertySetter.setDefaultsToMetaDataCidsBeanForBasicProfile(standardMetaObject);
             return standardMetaObject;
         }
 
