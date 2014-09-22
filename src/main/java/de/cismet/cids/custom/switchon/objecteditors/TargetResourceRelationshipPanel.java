@@ -40,6 +40,7 @@ public class TargetResourceRelationshipPanel extends javax.swing.JPanel implemen
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblTargetResourceDragIcon;
     private javax.swing.JTable tblToResource;
@@ -76,6 +77,9 @@ public class TargetResourceRelationshipPanel extends javax.swing.JPanel implemen
         lblTargetResourceDragIcon = new ToResourceDropListenerLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblToResource = new ToResourceDropListenerTable();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 32767));
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
@@ -100,6 +104,9 @@ public class TargetResourceRelationshipPanel extends javax.swing.JPanel implemen
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         add(lblTargetResourceDragIcon, gridBagConstraints);
+
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(22, 38));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(22, 38));
 
         tblToResource.setAutoCreateRowSorter(true);
         tblToResource.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -127,20 +134,25 @@ public class TargetResourceRelationshipPanel extends javax.swing.JPanel implemen
                     .getColumn(0)
                     .setHeaderValue(org.openide.util.NbBundle.getMessage(
                             TargetResourceRelationshipPanel.class,
-                            "RelationshipEditor.tblToResource.columnModel.title0_1")); // NOI18N
+                            "TargetResourceRelationshipPanel.tblToResource.columnModel.title0_1")); // NOI18N
             tblToResource.getColumnModel()
                     .getColumn(1)
                     .setHeaderValue(org.openide.util.NbBundle.getMessage(
                             TargetResourceRelationshipPanel.class,
-                            "RelationshipEditor.tblToResource.columnModel.title1_1")); // NOI18N
+                            "TargetResourceRelationshipPanel.tblToResource.columnModel.title1_1")); // NOI18N
         }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(jScrollPane2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        add(filler1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
