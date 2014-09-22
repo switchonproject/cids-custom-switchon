@@ -12,7 +12,6 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
@@ -41,8 +40,6 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
 
     //~ Instance fields --------------------------------------------------------
 
-    /** The single resource 'toResource' has to be put in a list, such that the binding to the table works. */
-    List<CidsBean> toResourceList;
     List<CidsBean> fromResources;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -52,15 +49,13 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblSourceResourceDragIcon;
-    private javax.swing.JLabel lblTargetResourceDragIcon;
     private de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel metaDataPanel;
+    private de.cismet.cids.custom.switchon.objecteditors.TargetResourceRelationshipPanel
+        targetResourceRelationshipPanel;
     private javax.swing.JTable tblFromResource;
-    private javax.swing.JTable tblToResource;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -71,8 +66,6 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
      */
     public RelationshipEditor() {
         initComponents();
-        new CidsBeanDropTarget(tblToResource);
-        new CidsBeanDropTarget(lblTargetResourceDragIcon);
         new CidsBeanDropTarget(tblFromResource);
         new CidsBeanDropTarget(lblSourceResourceDragIcon);
     }
@@ -98,10 +91,8 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         taggroups.add(Taggroups.KEYWORDS_OPEN);
         additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups);
         jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        lblTargetResourceDragIcon = new ToResourceDropListenerLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblToResource = new ToResourceDropListenerTable();
+        targetResourceRelationshipPanel =
+            new de.cismet.cids.custom.switchon.objecteditors.TargetResourceRelationshipPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         btnRemoveSourceResource = new javax.swing.JButton();
@@ -142,80 +133,15 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         jPanel3.setPreferredSize(new java.awt.Dimension(344, 332));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    RelationshipEditor.class,
-                    "RelationshipEditor.jPanel4.border.title"))); // NOI18N
-        jPanel4.setOpaque(false);
-        jPanel4.setLayout(new java.awt.GridBagLayout());
-
-        lblTargetResourceDragIcon.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/switchon/document_import.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(
-            lblTargetResourceDragIcon,
-            org.openide.util.NbBundle.getMessage(
-                RelationshipEditor.class,
-                "RelationshipEditor.lblTargetResourceDragIcon.text"));                           // NOI18N
-        lblTargetResourceDragIcon.setToolTipText(org.openide.util.NbBundle.getMessage(
-                RelationshipEditor.class,
-                "RelationshipEditor.lblTargetResourceDragIcon.toolTipText"));                    // NOI18N
-        lblTargetResourceDragIcon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        targetResourceRelationshipPanel.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
-        jPanel4.add(lblTargetResourceDragIcon, gridBagConstraints);
-
-        tblToResource.setAutoCreateRowSorter(true);
-        tblToResource.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${toResource}");
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJTableBinding(
-                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                        this,
-                        eLProperty,
-                        tblToResource);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(
-                org.jdesktop.beansbinding.ELProperty.create("${name}"));
-        columnBinding.setColumnName("Name");
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${type.name}"));
-        columnBinding.setColumnName("Type.name");
-        columnBinding.setEditable(false);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        jScrollPane2.setViewportView(tblToResource);
-        if (tblToResource.getColumnModel().getColumnCount() > 0) {
-            tblToResource.getColumnModel()
-                    .getColumn(0)
-                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
-                            RelationshipEditor.class,
-                            "RelationshipEditor.tblToResource.columnModel.title0_1")); // NOI18N
-            tblToResource.getColumnModel()
-                    .getColumn(1)
-                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
-                            RelationshipEditor.class,
-                            "RelationshipEditor.tblToResource.columnModel.title1_1")); // NOI18N
-        }
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel4.add(jScrollPane2, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        jPanel3.add(jPanel4, gridBagConstraints);
+        jPanel3.add(targetResourceRelationshipPanel, gridBagConstraints);
 
         jPanel1.setOpaque(false);
-        jPanel1.setLayout(new java.awt.GridLayout(0, 1));
+        jPanel1.setLayout(new java.awt.GridLayout(0, 1, 0, 10));
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
@@ -246,13 +172,16 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         tblFromResource.setAutoCreateRowSorter(true);
         tblFromResource.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${fromResources}");
-        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                eLProperty,
-                tblFromResource);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
+        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${fromResources}");
+        final org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJTableBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        tblFromResource);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(
+                org.jdesktop.beansbinding.ELProperty.create("${name}"));
         columnBinding.setColumnName("Name");
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${type.name}"));
@@ -350,26 +279,11 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
             basicPropertiesPanel.setCidsBean(cidsBean);
             additionalTagsPanel.setCidsBean(cidsBean);
             metaDataPanel.setCidsBean(cidsBean);
-
-            toResourceList = new ArrayList<CidsBean>(1);
-            toResourceList.add((CidsBean)cidsBean.getProperty("toresource"));
+            targetResourceRelationshipPanel.setCidsBean(cidsBean);
 
             fromResources = cidsBean.getBeanCollectionProperty("fromresources");
 
             bindingGroup.bind();
-
-            if (tblToResource.getColumnModel().getColumnCount() > 0) {
-                tblToResource.getColumnModel()
-                        .getColumn(0)
-                        .setHeaderValue(org.openide.util.NbBundle.getMessage(
-                                RelationshipEditor.class,
-                                "RelationshipEditor.tblToResource.columnModel.title0_1")); // NOI18N
-                tblToResource.getColumnModel()
-                        .getColumn(1)
-                        .setHeaderValue(org.openide.util.NbBundle.getMessage(
-                                RelationshipEditor.class,
-                                "RelationshipEditor.tblToResource.columnModel.title1_1")); // NOI18N
-            }
 
             if (tblFromResource.getColumnModel().getColumnCount() > 0) {
                 tblFromResource.getColumnModel()
@@ -391,6 +305,7 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         bindingGroup.unbind();
         metaDataPanel.dispose();
         basicPropertiesPanel.dispose();
+        targetResourceRelationshipPanel.dispose();
     }
 
     /**
@@ -410,24 +325,6 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
             1,
             1280,
             1024);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public List<CidsBean> getToResource() {
-        return toResourceList;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  toResource  DOCUMENT ME!
-     */
-    public void setToResource(final List<CidsBean> toResource) {
-        this.toResourceList = toResource;
     }
 
     /**
@@ -466,30 +363,6 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         }
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  beans  DOCUMENT ME!
-     */
-    private void addBeansToToResource(final ArrayList<CidsBean> beans) {
-        if (beans != null) {
-            for (final CidsBean bean : beans) {
-                // use the first match
-                if (bean.getClass().getSimpleName().equalsIgnoreCase("resource")) {
-                    try {
-                        cidsBean.setProperty("toresource", bean);
-                        toResourceList.clear();
-                        toResourceList.add(bean);
-                        tblToResource.selectAll();
-                        break;
-                    } catch (Exception ex) {
-                        LOG.error("Could not set toresource of cidsBean", ex);
-                    }
-                }
-            }
-        }
-    }
-
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -519,36 +392,6 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
         @Override
         public void beansDropped(final ArrayList<CidsBean> beans) {
             addBeansToFromResource(beans);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private class ToResourceDropListenerTable extends JTable implements CidsBeanDropListener {
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public void beansDropped(final ArrayList<CidsBean> beans) {
-            addBeansToToResource(beans);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private class ToResourceDropListenerLabel extends JLabel implements CidsBeanDropListener {
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public void beansDropped(final ArrayList<CidsBean> beans) {
-            addBeansToToResource(beans);
         }
     }
 }
