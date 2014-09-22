@@ -221,6 +221,7 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        additionalTagsPanel.dispose();
     }
 
     @Override

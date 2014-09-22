@@ -448,6 +448,7 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
     public void dispose() {
         bindingGroup.unbind();
         basicPropertiesPanel.dispose();
+        additionalTagsPanel.dispose();
     }
 
     /**
