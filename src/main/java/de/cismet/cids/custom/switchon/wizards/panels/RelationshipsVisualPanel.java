@@ -101,6 +101,7 @@ public class RelationshipsVisualPanel extends javax.swing.JPanel implements Cids
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        this.cidsBean = cidsBean;
         sourceResourceRelationshipPanel.setCidsBean(cidsBean);
         targetResourceRelationshipPanel.setCidsBean(cidsBean);
     }
@@ -109,5 +110,14 @@ public class RelationshipsVisualPanel extends javax.swing.JPanel implements Cids
     public void dispose() {
         sourceResourceRelationshipPanel.dispose();
         targetResourceRelationshipPanel.dispose();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  enabled  DOCUMENT ME!
+     */
+    public void setEnableTargetResource(final boolean enabled) {
+        targetResourceRelationshipPanel.setEnabled(enabled);
     }
 }

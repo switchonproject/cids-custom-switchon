@@ -50,11 +50,12 @@ public class RelationshipsPanel extends GenericAbstractWizardPanel<Relationships
     protected void read(final WizardDescriptor wizard) {
         CidsBean relationship = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_CREATED_RELATIONSHIP_BEAN);
         if (relationship == null) {
-            relationship = createNewRelationshipCidsBean();
+            relationship = createNewRelationshipCidsBean(wizard);
             wizard.putProperty(MetaDataWizardAction.PROP_CREATED_RELATIONSHIP_BEAN, relationship);
         }
         relationship.addPropertyChangeListener(this);
         getComponent().setCidsBean(relationship);
+        getComponent().setEnableTargetResource(wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN) != null);
     }
 
     @Override
@@ -86,12 +87,16 @@ public class RelationshipsPanel extends GenericAbstractWizardPanel<Relationships
     /**
      * DOCUMENT ME!
      *
+     * @param   wizard  DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
-    private CidsBean createNewRelationshipCidsBean() {
+    private CidsBean createNewRelationshipCidsBean(final WizardDescriptor wizard) {
         CidsBean relationship = null;
         try {
             relationship = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "relationship");
+            final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+            relationship.setProperty("toresource", resource);
         } catch (Exception ex) {
             LOG.error("Could not create new Relationship-CidsBean", ex);
         }

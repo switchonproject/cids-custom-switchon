@@ -232,6 +232,13 @@ public class TargetResourceRelationshipPanel extends javax.swing.JPanel implemen
         bindingGroup.unbind();
     }
 
+    @Override
+    public void setEnabled(final boolean enabled) {
+        super.setEnabled(enabled);
+        tblToResource.setEnabled(enabled);
+        lblTargetResourceDragIcon.setEnabled(enabled);
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**

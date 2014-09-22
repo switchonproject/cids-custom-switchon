@@ -127,6 +127,8 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                                 setBasicDefaults(wizard);
                             } else if (evt.getNewValue().equals("advanced")) {
                                 setAdvancedDefaults(wizard);
+                            } else if (evt.getNewValue().equals("expert")) {
+                                setExpertDefaults(wizard);
                             }
                         }
                     }
@@ -163,6 +165,15 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
     @Override
     public boolean isVisible() {
         return true;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizard  DOCUMENT ME!
+     */
+    private void setExpertDefaults(final WizardDescriptor wizard) {
+        setAdvancedDefaults(wizard);
     }
 
     /**
