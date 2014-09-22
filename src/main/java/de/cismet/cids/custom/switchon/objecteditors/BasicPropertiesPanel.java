@@ -291,7 +291,8 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.language}"),
                 cmbLanguage,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
+                "bindingLanguage");
         bindingGroup.addBinding(binding);
 
         cmbLanguage.addActionListener(new java.awt.event.ActionListener() {
@@ -394,9 +395,6 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
-            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
-                bindingGroup,
-                this.cidsBean);
 
             // hide controls for the language, if it the cidsBean has no such property
             boolean hasPropertyLanguage = false;
@@ -408,6 +406,13 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
             }
             lblLanguage.setVisible(hasPropertyLanguage);
             cmbLanguage.setVisible(hasPropertyLanguage);
+            if (!hasPropertyLanguage) {
+                bindingGroup.removeBinding(bindingGroup.getBinding("bindingLanguage"));
+            }
+
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                this.cidsBean);
 
             bindingGroup.bind();
         }
