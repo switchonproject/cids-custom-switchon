@@ -22,7 +22,6 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
-import org.openide.util.Exceptions;
 
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -33,8 +32,6 @@ import java.beans.PropertyChangeListener;
 
 import java.text.MessageFormat;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
@@ -42,7 +39,6 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.SwingWorker;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
@@ -80,6 +76,8 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
     public static final String PROP_PROJEKT = "__prop_projekt__"; // NOI18N
     public static String PROP_RepresentationsDataImportPanel_WAS_OPENED =
         "__prop_RepresentationsDataImportPanel_was_opened__";     // NOI18N
+
+    public static String PROP_CREATED_RELATIONSHIP_BEAN = "__prop_created_relationship__"; // NOI18N
 
     //~ Constructors -----------------------------------------------------------
 

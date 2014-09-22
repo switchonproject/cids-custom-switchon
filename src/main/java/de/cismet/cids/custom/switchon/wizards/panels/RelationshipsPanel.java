@@ -11,11 +11,16 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
-import java.awt.Component;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
+import java.util.List;
+
+import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
-import de.cismet.commons.gui.wizard.AbstractWizardPanel;
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -23,7 +28,8 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RelationshipsPanel extends AbstractWizardPanel implements NameProvider {
+public class RelationshipsPanel extends GenericAbstractWizardPanel<RelationshipsVisualPanel> implements NameProvider,
+    PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -35,27 +41,41 @@ public class RelationshipsPanel extends AbstractWizardPanel implements NameProvi
      * Creates a new RelationshipsPanel object.
      */
     public RelationshipsPanel() {
+        super(RelationshipsVisualPanel.class);
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    protected Component createComponent() {
-        return new RelationshipsVisualPanel();
-    }
-
-    @Override
     protected void read(final WizardDescriptor wizard) {
-        LOG.fatal("RelationshipsPanel.read: Not supported yet.", new Exception()); // NOI18N
+        final CidsBean relationship = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_CREATED_RELATIONSHIP_BEAN);
+        relationship.addPropertyChangeListener(this);
+        getComponent().setCidsBean(relationship);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        LOG.fatal("RelationshipsPanel.store: Not supported yet.", new Exception()); // NOI18N
+        final CidsBean relationship = getComponent().getCidsBean();
+        relationship.removePropertyChangeListener(this);
+        getComponent().dispose();
     }
 
     @Override
     public String getName() {
         return org.openide.util.NbBundle.getMessage(RelationshipsPanel.class, "RelationshipsPanel.name");
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        changeSupport.fireChange();
+    }
+
+    @Override
+    public boolean isValid() {
+        final CidsBean relationship = getComponent().getCidsBean();
+        final CidsBean toresource = (CidsBean)relationship.getProperty("toresource");
+        final List<CidsBean> fromResources = relationship.getBeanCollectionProperty("fromresources");
+
+        return (toresource != null) && !fromResources.isEmpty();
     }
 }
