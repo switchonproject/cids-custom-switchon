@@ -1,70 +1,91 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>cids-custom-switchon by switchonproject</title>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <title>cids-custom-switchon by switchonproject</title>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="stylesheets/styles.css">
+        <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+        <script src="javascripts/scale.fix.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Cids-custom-switchon</h1>
-        <p>SWITCH-ON Expert Catalogue Management GUI</p>
-        <p class="view"><a href="https://github.com/switchonproject/cids-custom-switchon">View the Project on GitHub <small>switchonproject/cids-custom-switchon</small></a></p>
-        <ul>
-          <li><a href="https://github.com/switchonproject/cids-custom-switchon/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/switchonproject/cids-custom-switchon/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/switchonproject/cids-custom-switchon">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="wrapper">
+            <header>
+                <h1>SIP Expert Catalogue and Data Management GUI</h1>
+                <p>cids-custom-switchon project</p>
+                <p class="view"><a href="https://github.com/switchonproject/cids-custom-switchon">View the Project on GitHub <small>switchonproject/cids-custom-switchon</small></a></p>
+                <ul>
+                    <li><a href="https://github.com/switchonproject/cids-custom-switchon/zipball/master">Download <strong>ZIP File</strong></a></li>
+                    <li><a href="https://github.com/switchonproject/cids-custom-switchon">View On <strong>GitHub</strong></a></li>
+                    <li><a href="http://tl-ap001.xtr.deltares.nl/switchonDist_v2/client/switchon/cids-custom-switchon-1.0-SNAPSHOT-starter.jnlp">Start the <strong>Expert GUI</strong></a></li>
+                    <li><a href="https://github.com/switchonproject/cids-custom-switchon/issues">Report <strong>Bugs</strong></a></li>
+                </ul>
+            </header>
+            <section>
+                <h3>
+                    <a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About the SIP Expert GUI</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+                <p> This is the Expert GUI of the Spatial Information Platform of the <a href="http://www.water-switch-on.eu/" title="SWITCH-ON">SWITCH-ON</a> EU FP7 collaborative project.
+                    Besides advanced data and meta-data visualisation, search, and manipulation functionalities, 
+                    the SIP Expert GUI covers the whole cycle of publishing, binding, finding and repurposing of open data. 
+                    The Expert GUI is implemented by <a href="http://www.water-switch-on.eu/" title="SWITCH-ON">SWITCH-ON</a> partner 
+                    <a href="http://www.cismet.de">cismet</a> on basis of the <a href="https://github.com/cismet/cids-navigator">cids navigator</a> as integrated desktop application which can be run from the Internet 
+                    (Java WebStart). It is intended to be used by verified experts and members of the SWITCH-ON project only. 
+                    A lightwight HTML5 version of the SIP GUI for finding and binding open data is currently under development.
+                </p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+                <h3>
+                    <a name="concepts" class="anchor" href="#concepts"><span class="octicon octicon-link"></span></a>SIP Concepts
+                </h3>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+                <p>The concepts of the Spatial Information Platform are briefly explained in the <a href="assets/SIP-Concepts.pdf">SIP Concepts</a> presentation.<br>
+                The following video showcases a typical FIND, BIND, TRANSFORM and PUBLISH open data workflow that can be carried out with help of the SIP.</p>
+                <p><iframe width="853" height="480" src="//www.youtube.com/embed/jXEBJq5V1ZU?rel=0" frameborder="0" allowfullscreen></iframe></p>
+                
+                <h3>
+                    <a name="status" class="anchor" href="#status"><span class="octicon octicon-link"></span></a>SIP Development Status</h3>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+                <p>The latest implementation of the SIP Expert GUI supports the following <b>find</b> and <b>bind</b> use cases:</p>
+                <ul>
+                    <li>Find Data by Browsing Meta-Data</li>
+                    <li>Find Data by Query on Resource Meta-Data (basic queries)</li>
+                    <li>Assess usefulness of resources by viewing basic Meta-Data</li>
+                    <li>Find Data by Query on Resource Meta-Data (basic queries)</li>
+                    <li>Assess usefulness of resources by viewing Quality and basic Lineage Meta-Data</li>
+                    <li>Show a Preview of the Resources</li>
+                    <li>Access Resources Data </li>
+                    <li>View Resource Data in SIP GUI</li>
+                    <li>Edit Resource Meta-Data</li>
+                    <li>Register new Resource Meta-Data</li>
+                </ul>
+                <p>The following video showcases the above mentioned use cases:</p>
+                <p><iframe width="960" height="720" src="//www.youtube.com/embed/4bLpJHxWkno?rel=0" frameborder="0" allowfullscreen></iframe></p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+                <h3>
+                    <a name="running" class="anchor" href="#running"><span class="octicon octicon-link"></span></a>Running the SIP Expert GUI</h3>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+                <p>The latest relase of the SIP Expert GUI can be started via the following <a href="http://tl-ap001.xtr.deltares.nl/switchonDist_v2/client/switchon/cids-custom-switchon-1.0-SNAPSHOT-starter.jnlp">JNLP Link</a>. 
+                    Please note, that the <a href="http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html" target="_blank">Java Runtime Environment 1.7</a> is required run the SIP.
+                <br>The following video provides instructions on how to run a JNLP file:</p>
+                <p><iframe width="853" height="480" src="//www.youtube.com/embed/GM-t0XAv7jk?rel=0" frameborder="0" allowfullscreen></iframe></p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+                <h3>
+                    <a name="problems" class="anchor" href="#problems"><span class="octicon octicon-link"></span></a>Reporting Problems</h3>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+                <p>Please report any problems or bugs by using the <a href="https://github.com/switchonproject/cids-custom-switchon/issues">GitHub Issue Tracker</a>.</p>
+          </section>
+        </div>
+        <footer>
+            <p>Project maintained by <a href="https://github.com/switchonproject">switchonproject</a></p>
+            <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+        </footer>
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
-    <footer>
-      <p>Project maintained by <a href="https://github.com/switchonproject">switchonproject</a></p>
-      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-    </footer>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
-  </body>
+    </body>
 </html>
