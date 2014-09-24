@@ -917,9 +917,16 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             final Collection searchResults = SessionManager.getConnection()
                         .customServerSearch(SessionManager.getSession().getUser(), relationshipSearchStatement);
             if ((searchResults != null) && !searchResults.isEmpty()) {
-                final ArrayList firstColumnObject = (ArrayList)searchResults.toArray(new Object[1])[0];
-                final Object firstRowObject = firstColumnObject.get(0);
-                return ((MetaObject)firstRowObject).getBean();
+                final Object firstRowObject = searchResults.toArray(new Object[1])[0];
+                if (firstRowObject instanceof MetaObject) {
+                    return ((MetaObject)firstRowObject).getBean();
+                } else if (firstRowObject instanceof ArrayList) {
+                    final ArrayList firstColumnObject = (ArrayList)searchResults.toArray(new Object[1])[0];
+                    final Object firstRow = firstColumnObject.get(0);
+                    return ((MetaObject)firstRow).getBean();
+                } else {
+                    return null;
+                }
             }
             return null;
         }

@@ -229,6 +229,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                 case "expert": {
                     currentPanels = expertSequence;
                     wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_DATA, createSubtitlesForCurrentPanels());
+                    setFinishPanel(currentPanels[currentPanels.length - 1]);
                     break;
                 }
             }
@@ -339,7 +340,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
         if (panel instanceof AdvancedFinishablePanel) {
             ((AdvancedFinishablePanel)panel).setFinishPanel(true);
         } else {
-            LOG.warn(panel.getClass().getSimpleName() + " is not a AdvancedFinishablePanel", null);
+            LOG.warn(panel.getClass().getSimpleName() + " is not an AdvancedFinishablePanel", null);
         }
     }
 }

@@ -373,11 +373,13 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
-        this.representation = cidsBean;
-        DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
-            bindingGroup,
-            this.representation);
-        bindingGroup.bind();
+        if (cidsBean != null) {
+            this.representation = cidsBean;
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                this.representation);
+            bindingGroup.bind();
+        }
     }
 
     @Override

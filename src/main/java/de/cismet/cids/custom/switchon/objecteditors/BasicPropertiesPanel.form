@@ -179,7 +179,9 @@
     </Component>
     <Component class="javax.swing.JComboBox" name="cmbLanguage">
       <BindingProperties>
-        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.language}" target="cmbLanguage" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.language}" target="cmbLanguage" targetPath="selectedItem" updateStrategy="0" immediately="false">
+          <Property name="name" type="java.lang.String" value="bindingLanguage"/>
+        </BindingProperty>
       </BindingProperties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbLanguageActionPerformed"/>

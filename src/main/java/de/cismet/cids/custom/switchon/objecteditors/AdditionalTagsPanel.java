@@ -30,6 +30,7 @@ import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -41,7 +42,7 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanStore {
+public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -551,5 +552,10 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
      */
     public void setAssignedTags(final List<CidsBean> assignedTags) {
         this.assignedTags = assignedTags;
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
     }
 }

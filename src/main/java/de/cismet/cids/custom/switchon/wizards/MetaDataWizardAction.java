@@ -22,7 +22,6 @@ import org.jdesktop.swingx.error.ErrorInfo;
 
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
-import org.openide.util.Exceptions;
 
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -33,8 +32,6 @@ import java.beans.PropertyChangeListener;
 
 import java.text.MessageFormat;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
@@ -42,7 +39,6 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.SwingWorker;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
@@ -80,6 +76,10 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
     public static final String PROP_PROJEKT = "__prop_projekt__"; // NOI18N
     public static String PROP_RepresentationsDataImportPanel_WAS_OPENED =
         "__prop_RepresentationsDataImportPanel_was_opened__";     // NOI18N
+    public static String PROP_RelationshipsImportDocumentPanel_WAS_OPENED =
+        "__prop_RelationshipsImportDocumentPanel_was_opened__";   // NOI18N
+
+    public static String PROP_CREATED_RELATIONSHIP_BEAN = "__prop_created_relationship__"; // NOI18N
 
     //~ Constructors -----------------------------------------------------------
 
@@ -108,6 +108,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         // additional properties
         wizard.putProperty(PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED, Boolean.FALSE);
         wizard.putProperty(PROP_RepresentationsDataImportPanel_WAS_OPENED, Boolean.FALSE);
+        wizard.putProperty(PROP_RelationshipsImportDocumentPanel_WAS_OPENED, Boolean.FALSE);
 
         // set the subtitle. The String is retrieved from iterator.name()
         wizard.setTitleFormat(new MessageFormat("{1}"));
@@ -129,6 +130,8 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                                 setBasicDefaults(wizard);
                             } else if (evt.getNewValue().equals("advanced")) {
                                 setAdvancedDefaults(wizard);
+                            } else if (evt.getNewValue().equals("expert")) {
+                                setExpertDefaults(wizard);
                             }
                         }
                     }
@@ -172,6 +175,15 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
      *
      * @param  wizard  DOCUMENT ME!
      */
+    private void setExpertDefaults(final WizardDescriptor wizard) {
+        setAdvancedDefaults(wizard);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizard  DOCUMENT ME!
+     */
     private void setAdvancedDefaults(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(
                 MetaDataWizardAction.PROP_RESOURCE_BEAN);
@@ -187,6 +199,15 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         final CidsBean resource = (CidsBean)wizard.getProperty(
                 MetaDataWizardAction.PROP_RESOURCE_BEAN);
         DefaultPropertySetter.setDefaultsToResourceCidsBean(resource);
+
+        try {
+            final CidsBean representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation");
+            DefaultPropertySetter.setDefaultsToRepresentationCidsBean(representation);
+            wizard.putProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN, representation);
+            resource.getBeanCollectionProperty("representation").add(representation);
+        } catch (Exception ex) {
+            LOG.error(ex, ex);
+        }
 
         setStandardMetaData(resource);
     }
@@ -229,9 +250,19 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         @Override
         protected CidsBean doInBackground() throws Exception {
             try {
-                final CidsBean resource = (CidsBean)wizard.getProperty(
-                        MetaDataWizardAction.PROP_RESOURCE_BEAN);
-                return resource.persist();
+                final CidsBean relationship = (CidsBean)wizard.getProperty(
+                        MetaDataWizardAction.PROP_CREATED_RELATIONSHIP_BEAN);
+
+                CidsBean persistedBean;
+                if (relationship != null) {
+                    persistedBean = relationship.persist();
+                } else {
+                    final CidsBean resource = (CidsBean)wizard.getProperty(
+                            MetaDataWizardAction.PROP_RESOURCE_BEAN);
+                    persistedBean = resource.persist();
+                }
+
+                return persistedBean;
             } catch (Exception ex) {
                 LOG.error("The resource bean could not be persisted.", ex);
             }
