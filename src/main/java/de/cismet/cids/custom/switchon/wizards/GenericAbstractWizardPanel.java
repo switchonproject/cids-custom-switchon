@@ -8,8 +8,11 @@
 package de.cismet.cids.custom.switchon.wizards;
 
 import org.openide.WizardDescriptor;
+import org.openide.util.Utilities;
 
 import java.awt.Component;
+
+import java.text.BreakIterator;
 
 import de.cismet.commons.gui.wizard.AbstractWizardPanel;
 
@@ -83,13 +86,24 @@ public abstract class GenericAbstractWizardPanel<T extends Component> extends Ab
      * @param  generalInformation  DOCUMENT ME!
      */
     public void setGeneralInformation(final String generalInformation) {
-        this.generalInformation = generalInformation;
+        if (generalInformation != null) {
+            this.generalInformation = generalInformation;
+        } else {
+            this.generalInformation = "";
+        }
     }
 
     /**
-     * DOCUMENT ME!
+     * The general information must be wrapped inside html and the line break must be explicitely set, as otherwise the
+     * newline will not be shown. This is the case with the openIde version RELEASE701.
      */
     public void showGeneralInformation() {
-        wizard.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, generalInformation);
+        String stringToShow = Utilities.wrapString(
+                generalInformation,
+                100,
+                BreakIterator.getWordInstance(),
+                true);
+        stringToShow = "<html>" + stringToShow.replaceAll("\n", "<br>") + "</html>";
+        wizard.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, stringToShow);
     }
 }
