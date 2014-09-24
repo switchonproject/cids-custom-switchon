@@ -200,6 +200,15 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                 MetaDataWizardAction.PROP_RESOURCE_BEAN);
         DefaultPropertySetter.setDefaultsToResourceCidsBean(resource);
 
+        try {
+            final CidsBean representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation");
+            DefaultPropertySetter.setDefaultsToRepresentationCidsBean(representation);
+            wizard.putProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN, representation);
+            resource.getBeanCollectionProperty("representation").add(representation);
+        } catch (Exception ex) {
+            LOG.error(ex, ex);
+        }
+
         setStandardMetaData(resource);
     }
 
