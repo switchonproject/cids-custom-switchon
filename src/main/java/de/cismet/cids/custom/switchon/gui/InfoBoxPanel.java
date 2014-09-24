@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.gui;
 
+import javax.swing.Icon;
+import javax.swing.border.TitledBorder;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -79,9 +81,9 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void formMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_formMouseClicked
+    private void formMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         showGeneralInformation();
-    }                                                                    //GEN-LAST:event_formMouseClicked
+    }//GEN-LAST:event_formMouseClicked
 
     /**
      * DOCUMENT ME!
@@ -138,5 +140,13 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
         } else {
             lblInformation.setText("<html>" + text + "</html>");
         }
+    }
+    
+    public void setIcon(Icon icon){
+        lblInformation.setIcon(icon);
+    }
+    
+    public void setTitledBorder(String text){
+        this.setBorder(new TitledBorder(text));
     }
 }
