@@ -28,6 +28,18 @@ public class AdditonalMetaDataBasicInformationPanel extends AbstractBasicInforma
 
     private static final Logger LOG = Logger.getLogger(AdditonalMetaDataBasicInformationPanel.class);
 
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new AdditonalMetaDataBasicInformationPanel object.
+     */
+    public AdditonalMetaDataBasicInformationPanel() {
+        super();
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                AdditonalMetaDataBasicInformationPanel.class,
+                "AdditonalMetaDataBasicInformationVisualPanel.infobox.gerneralInfromation"));
+    }
+
     //~ Methods ----------------------------------------------------------------
 
     @Override
@@ -50,12 +62,5 @@ public class AdditonalMetaDataBasicInformationPanel extends AbstractBasicInforma
     @Override
     protected Taggroups getTypeTaggroup() {
         return Taggroups.META_DATA_TYPE;
-    }
-
-    @Override
-    protected String getGeneralInformation() {
-        return org.openide.util.NbBundle.getMessage(
-                AdditonalMetaDataBasicInformationPanel.class,
-                "AdditonalMetaDataBasicInformationVisualPanel.infobox.gerneralInfromation");
     }
 }

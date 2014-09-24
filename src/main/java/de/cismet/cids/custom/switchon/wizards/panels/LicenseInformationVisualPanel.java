@@ -64,9 +64,6 @@ public class LicenseInformationVisualPanel extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(licenseInformationPanel, gridBagConstraints);
 
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                LicenseInformationVisualPanel.class,
-                "LicenseInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -76,7 +73,7 @@ public class LicenseInformationVisualPanel extends javax.swing.JPanel implements
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
-    }                                                                              // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

@@ -27,8 +27,5 @@ public class AdditonalMetaDataImportDocumentVisualPanel extends BasicImportDocum
      */
     public AdditonalMetaDataImportDocumentVisualPanel() {
         super();
-        setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                AdditonalMetaDataImportDocumentVisualPanel.class,
-                "AdditonalMetaDataImportDocumentVisualPanel.generalInformation"));
     }
 }

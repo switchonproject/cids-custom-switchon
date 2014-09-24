@@ -42,6 +42,9 @@ public class RelationshipsPanel extends GenericAbstractWizardPanel<Relationships
      */
     public RelationshipsPanel() {
         super(RelationshipsVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                RelationshipsVisualPanel.class,
+                "RelationshipsVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------

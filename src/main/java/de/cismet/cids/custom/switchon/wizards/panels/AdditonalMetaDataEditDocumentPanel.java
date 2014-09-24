@@ -50,10 +50,21 @@ public class AdditonalMetaDataEditDocumentPanel
     protected void read(final WizardDescriptor wizard) {
         final CidsBean metaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN);
         // disable the content and content location components if AdditonalMetaDataImportDocumentPanel was already open
-        getComponent().changeAppearanceAsImportDocumentPanelWasOpen((boolean)wizard.getProperty(
-                MetaDataWizardAction.PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED));
+        final boolean panelWasOpen = (boolean)wizard.getProperty(
+                MetaDataWizardAction.PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED);
+        getComponent().changeAppearanceAsImportDocumentPanelWasOpen(panelWasOpen);
+        if (panelWasOpen) {
+            this.setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    AdditonalMetaDataEditDocumentVisualPanel.class,
+                    "AdditonalMetaDataEditDocumentVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasOpen.info"));
+        } else {
+            this.setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    AdditonalMetaDataEditDocumentVisualPanel.class,
+                    "AdditonalMetaDataEditDocumentVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasNotOpen.info"));
+        }
         getComponent().setCidsBean(metaData);
         metaData.addPropertyChangeListener(this);
+        showGeneralInformation();
     }
 
     @Override

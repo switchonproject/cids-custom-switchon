@@ -37,6 +37,9 @@ public class RepresentationsDataImportPanel extends GenericAbstractWizardPanel<R
      */
     public RepresentationsDataImportPanel() {
         super(RepresentationsDataImportVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                RepresentationsDataImportVisualPanel.class,
+                "RepresentationsDataImportVisualPanel.generalInformation"));
     }
 
     //~ Methods ----------------------------------------------------------------

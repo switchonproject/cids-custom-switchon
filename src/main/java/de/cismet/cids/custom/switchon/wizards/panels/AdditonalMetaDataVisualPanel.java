@@ -68,9 +68,6 @@ public class AdditonalMetaDataVisualPanel extends javax.swing.JPanel implements 
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(metaDataPanel, gridBagConstraints);
 
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                AdditonalMetaDataVisualPanel.class,
-                "AdditonalMetaDataVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 100));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -79,7 +76,7 @@ public class AdditonalMetaDataVisualPanel extends javax.swing.JPanel implements 
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
-    }                                                                             // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

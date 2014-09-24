@@ -12,17 +12,14 @@ import org.apache.log4j.Logger;
 import org.openide.WizardDescriptor;
 import org.openide.util.NbBundle;
 
-import java.awt.Component;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
 import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.commons.gui.wizard.AbstractWizardPanel;
 
 /**
  * DOCUMENT ME!
@@ -30,7 +27,9 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TopicCategoryAndKeywordsPanel extends AbstractWizardPanel implements NameProvider, PropertyChangeListener {
+public class TopicCategoryAndKeywordsPanel extends GenericAbstractWizardPanel<TopicCategoryAndKeywordsVisualPanel>
+        implements NameProvider,
+            PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -42,14 +41,13 @@ public class TopicCategoryAndKeywordsPanel extends AbstractWizardPanel implement
      * Creates a new TopicCategoryAndKeywordsPanel object.
      */
     public TopicCategoryAndKeywordsPanel() {
+        super(TopicCategoryAndKeywordsVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                TopicCategoryAndKeywordsVisualPanel.class,
+                "TopicCategoryAndKeywordsVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    @Override
-    protected Component createComponent() {
-        return new TopicCategoryAndKeywordsVisualPanel();
-    }
 
     @Override
     protected void read(final WizardDescriptor wizard) {

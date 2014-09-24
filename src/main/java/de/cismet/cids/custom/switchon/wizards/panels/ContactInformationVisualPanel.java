@@ -129,9 +129,6 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(contactEditor, gridBagConstraints);
 
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                ContactInformationVisualPanel.class,
-                "ContactInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -200,7 +197,6 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
      * @param  evt  DOCUMENT ME!
      */
     private void formFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_formFocusGained
-        infoBoxPanel.showGeneralInformation();
     }                                                                   //GEN-LAST:event_formFocusGained
 
     /**

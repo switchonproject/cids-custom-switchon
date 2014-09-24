@@ -64,9 +64,6 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
             });
         setLayout(new java.awt.GridBagLayout());
 
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                TopicCategoryAndKeywordsVisualPanel.class,
-                "TopicCategoryAndKeywordsVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -81,7 +78,7 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(topicCollectionAdditionalTagsPanel, gridBagConstraints);
-    }                                                                                    // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -89,7 +86,6 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
      * @param  evt  DOCUMENT ME!
      */
     private void formFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_formFocusGained
-        infoBoxPanel.showGeneralInformation();
     }                                                                   //GEN-LAST:event_formFocusGained
 
     @Override

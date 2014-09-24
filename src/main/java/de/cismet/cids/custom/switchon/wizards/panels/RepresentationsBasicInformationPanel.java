@@ -9,8 +9,6 @@ package de.cismet.cids.custom.switchon.wizards.panels;
 
 import org.apache.log4j.Logger;
 
-import java.awt.Component;
-
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 
@@ -28,6 +26,18 @@ public class RepresentationsBasicInformationPanel extends AbstractBasicInformati
 
     private static final Logger LOG = Logger.getLogger(RepresentationsBasicInformationPanel.class);
 
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new RepresentationsBasicInformationPanel object.
+     */
+    public RepresentationsBasicInformationPanel() {
+        super();
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                RepresentationsBasicInformationPanel.class,
+                "RepresentationsBasicInformationVisualPanel.generalInformation"));
+    }
+
     //~ Methods ----------------------------------------------------------------
 
     @Override
@@ -40,13 +50,6 @@ public class RepresentationsBasicInformationPanel extends AbstractBasicInformati
     @Override
     protected Taggroups getTypeTaggroup() {
         return Taggroups.REPRESENTATION_TYPE;
-    }
-
-    @Override
-    protected String getGeneralInformation() {
-        return org.openide.util.NbBundle.getMessage(
-                RepresentationsBasicInformationPanel.class,
-                "RepresentationsBasicInformationVisualPanel.generalInformation");
     }
 
     @Override

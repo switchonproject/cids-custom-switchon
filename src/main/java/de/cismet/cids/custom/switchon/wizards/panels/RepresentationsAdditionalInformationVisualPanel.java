@@ -72,9 +72,6 @@ public class RepresentationsAdditionalInformationVisualPanel extends javax.swing
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
         add(spatialAndTemporalPropertiesPanel, gridBagConstraints);
 
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                RepresentationsAdditionalInformationVisualPanel.class,
-                "RepresentationsAdditionalInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -91,7 +88,7 @@ public class RepresentationsAdditionalInformationVisualPanel extends javax.swing
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weighty = 1.0;
         add(filler1, gridBagConstraints);
-    }                                                                                                // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

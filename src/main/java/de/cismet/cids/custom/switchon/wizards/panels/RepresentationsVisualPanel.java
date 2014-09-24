@@ -70,9 +70,6 @@ public class RepresentationsVisualPanel extends javax.swing.JPanel implements Ci
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(representationsPanel, gridBagConstraints);
 
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                RepresentationsVisualPanel.class,
-                "RepresentationsVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 100));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 100));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -82,7 +79,7 @@ public class RepresentationsVisualPanel extends javax.swing.JPanel implements Ci
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
-    }                                                                           // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

@@ -42,6 +42,9 @@ public class GeographicInformationPanel extends GenericAbstractWizardPanel<Geogr
      */
     public GeographicInformationPanel() {
         super(GeographicInformationVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                GeographicInformationVisualPanel.class,
+                "GeographicInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------

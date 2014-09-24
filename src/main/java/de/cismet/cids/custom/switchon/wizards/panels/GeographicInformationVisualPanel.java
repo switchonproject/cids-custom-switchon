@@ -206,9 +206,6 @@ public class GeographicInformationVisualPanel extends javax.swing.JPanel impleme
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
         add(pnlOtherProperties, gridBagConstraints);
 
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                GeographicInformationVisualPanel.class,
-                "GeographicInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();

@@ -40,6 +40,9 @@ public class LicenseInformationPanel extends GenericAbstractWizardPanel<LicenseI
      */
     public LicenseInformationPanel() {
         super(LicenseInformationVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                LicenseInformationVisualPanel.class,
+                "LicenseInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------

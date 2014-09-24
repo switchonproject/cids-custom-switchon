@@ -82,10 +82,6 @@ public class RelationshipsVisualPanel extends javax.swing.JPanel implements Cids
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(sourceResourceRelationshipPanel, gridBagConstraints);
-
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                RelationshipsVisualPanel.class,
-                "RelationshipsVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -94,7 +90,7 @@ public class RelationshipsVisualPanel extends javax.swing.JPanel implements Cids
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
-    }                                                                         // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

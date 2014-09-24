@@ -97,9 +97,6 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
 
         setLayout(new java.awt.GridBagLayout());
 
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                RepresentationsDataAccessInformationVisualPanel.class,
-                "RepresentationsDataAccessInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -394,14 +391,5 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
      */
     public void changeAppearanceAsImportDocumentPanelWasOpen(final boolean panelWasOpen) {
         txtContentLocation.setEnabled(!panelWasOpen);
-        if (panelWasOpen) {
-            infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                    RepresentationsDataAccessInformationVisualPanel.class,
-                    "RepresentationsDataAccessInformationVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasOpen.info"));
-        } else {
-            infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                    RepresentationsDataAccessInformationVisualPanel.class,
-                    "RepresentationsDataAccessInformationVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasNotOpen.info"));
-        }
     }
 }

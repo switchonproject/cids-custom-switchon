@@ -64,9 +64,6 @@ public class TemporalInformationVisualPanel extends javax.swing.JPanel implement
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(temporalInformationPanel, gridBagConstraints);
 
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                TemporalInformationVisualPanel.class,
-                "TemporalInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -76,7 +73,7 @@ public class TemporalInformationVisualPanel extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
-    }                                                                               // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

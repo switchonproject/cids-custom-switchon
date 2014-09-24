@@ -45,6 +45,9 @@ public class AdditonalMetaDataContactInformationPanel
      */
     public AdditonalMetaDataContactInformationPanel() {
         super(AdditonalMetaDataContactInformationVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                AdditonalMetaDataContactInformationVisualPanel.class,
+                "AdditonalMetaDataContactInformationVisualPanel.generalInformation"));
     }
 
     //~ Methods ----------------------------------------------------------------

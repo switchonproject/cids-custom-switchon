@@ -55,7 +55,6 @@ public abstract class AbstractBasicInformationPanel extends GenericAbstractWizar
     @Override
     protected Component createComponent() {
         final BasicInformationVisualPanel panel = new BasicInformationVisualPanel(getTypeTaggroup());
-        panel.setGeneralInformation(getGeneralInformation());
         return panel;
     }
 
@@ -65,13 +64,6 @@ public abstract class AbstractBasicInformationPanel extends GenericAbstractWizar
      * @return  DOCUMENT ME!
      */
     protected abstract Taggroups getTypeTaggroup();
-
-    /**
-     * The shown general information in the BasicInformationVisualPanel.
-     *
-     * @return  DOCUMENT ME!
-     */
-    protected abstract String getGeneralInformation();
 
     @Override
     protected void read(final WizardDescriptor wizard) {

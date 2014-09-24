@@ -18,9 +18,6 @@
   <SubComponents>
     <Component class="de.cismet.cids.custom.switchon.gui.InfoBoxPanel" name="infoBoxPanel">
       <Properties>
-        <Property name="generalInformation" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/cismet/cids/custom/switchon/wizards/panels/Bundle.properties" key="RepresentationsDataAccessInformationVisualPanel.infoBoxPanel.generalInformation" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[134, 55]"/>
         </Property>

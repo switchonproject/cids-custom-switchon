@@ -38,6 +38,9 @@ public class AdditonalMetaDataImportDocumentPanel
      */
     public AdditonalMetaDataImportDocumentPanel() {
         super(AdditonalMetaDataImportDocumentVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                AdditonalMetaDataImportDocumentVisualPanel.class,
+                "AdditonalMetaDataImportDocumentVisualPanel.generalInformation"));
     }
 
     //~ Methods ----------------------------------------------------------------

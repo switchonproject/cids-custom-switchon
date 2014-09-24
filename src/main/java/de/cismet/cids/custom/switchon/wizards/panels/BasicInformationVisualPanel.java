@@ -91,9 +91,6 @@ public class BasicInformationVisualPanel extends javax.swing.JPanel implements C
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(basicPropertiesPanel, gridBagConstraints);
 
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                BasicInformationVisualPanel.class,
-                "BasicInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -102,7 +99,7 @@ public class BasicInformationVisualPanel extends javax.swing.JPanel implements C
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
-    }                                                                            // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -110,7 +107,6 @@ public class BasicInformationVisualPanel extends javax.swing.JPanel implements C
      * @param  evt  DOCUMENT ME!
      */
     private void formFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_formFocusGained
-        infoBoxPanel.showGeneralInformation();
     }                                                                   //GEN-LAST:event_formFocusGained
 
     @Override
@@ -126,14 +122,5 @@ public class BasicInformationVisualPanel extends javax.swing.JPanel implements C
     @Override
     public void dispose() {
         basicPropertiesPanel.dispose();
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  generalInformation  DOCUMENT ME!
-     */
-    public void setGeneralInformation(final String generalInformation) {
-        infoBoxPanel.setGeneralInformation(generalInformation);
     }
 }

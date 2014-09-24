@@ -45,6 +45,9 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
      */
     public ContactInformationPanel() {
         super(ContactInformationVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                ContactInformationVisualPanel.class,
+                "ContactInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------

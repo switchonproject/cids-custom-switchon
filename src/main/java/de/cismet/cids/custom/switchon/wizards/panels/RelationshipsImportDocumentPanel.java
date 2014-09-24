@@ -40,6 +40,9 @@ public class RelationshipsImportDocumentPanel extends GenericAbstractWizardPanel
      */
     public RelationshipsImportDocumentPanel() {
         super(RelationshipsImportDocumentVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                RelationshipsImportDocumentVisualPanel.class,
+                "RelationshipsImportDocumentVisualPanel.generalInformation"));
     }
 
     //~ Methods ----------------------------------------------------------------

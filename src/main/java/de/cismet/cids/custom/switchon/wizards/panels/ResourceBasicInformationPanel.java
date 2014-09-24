@@ -27,18 +27,23 @@ public class ResourceBasicInformationPanel extends AbstractBasicInformationPanel
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             ResourceBasicInformationPanel.class);
 
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new ResourceBasicInformationPanel object.
+     */
+    public ResourceBasicInformationPanel() {
+        super();
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                ResourceBasicInformationPanel.class,
+                "BasicInformationVisualPanel.infoBoxPanel.generalInformation"));
+    }
+
     //~ Methods ----------------------------------------------------------------
 
     @Override
     protected Taggroups getTypeTaggroup() {
         return Taggroups.RESOURCE_TYPE;
-    }
-
-    @Override
-    protected String getGeneralInformation() {
-        return org.openide.util.NbBundle.getMessage(
-                ResourceBasicInformationPanel.class,
-                "BasicInformationVisualPanel.infoBoxPanel.generalInformation");
     }
 
     @Override

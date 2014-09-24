@@ -56,8 +56,21 @@ public class RepresentationsDataAccessInformationPanel
     protected void read(final WizardDescriptor wizard) {
         final CidsBean representation = (CidsBean)wizard.getProperty(
                 MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
-        getComponent().changeAppearanceAsImportDocumentPanelWasOpen((boolean)wizard.getProperty(
-                MetaDataWizardAction.PROP_RepresentationsDataImportPanel_WAS_OPENED));
+
+        final boolean panelWasOpen = (boolean)wizard.getProperty(
+                MetaDataWizardAction.PROP_RepresentationsDataImportPanel_WAS_OPENED);
+        getComponent().changeAppearanceAsImportDocumentPanelWasOpen(panelWasOpen);
+        if (panelWasOpen) {
+            setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationVisualPanel.class,
+                    "RepresentationsDataAccessInformationVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasOpen.info"));
+        } else {
+            setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationVisualPanel.class,
+                    "RepresentationsDataAccessInformationVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasNotOpen.info"));
+        }
+        showGeneralInformation();
+
         getComponent().setCidsBean(representation);
         representation.addPropertyChangeListener(this);
     }
