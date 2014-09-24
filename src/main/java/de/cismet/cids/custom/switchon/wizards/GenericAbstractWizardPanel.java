@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards;
 
+import org.openide.WizardDescriptor;
+
 import java.awt.Component;
 
 import de.cismet.commons.gui.wizard.AbstractWizardPanel;
@@ -29,6 +31,8 @@ public abstract class GenericAbstractWizardPanel<T extends Component> extends Ab
 
     //~ Instance fields --------------------------------------------------------
 
+    private String generalInformation = "";
+
     private final Class<T> clazz;
 
     //~ Constructors -----------------------------------------------------------
@@ -47,18 +51,45 @@ public abstract class GenericAbstractWizardPanel<T extends Component> extends Ab
 
     @Override
     protected Component createComponent() {
+        Component createdComponent = null;
         try {
-            return clazz.newInstance();
+            createdComponent = clazz.newInstance();
         } catch (InstantiationException ex) {
             LOG.error(ex, ex);
         } catch (IllegalAccessException ex) {
             LOG.error(ex, ex);
         }
-        return null;
+        return createdComponent;
     }
 
     @Override
     public T getComponent() {
+        showGeneralInformation();
         return (T)super.getComponent();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getGeneralInformation() {
+        return generalInformation;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  generalInformation  DOCUMENT ME!
+     */
+    public void setGeneralInformation(final String generalInformation) {
+        this.generalInformation = generalInformation;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void showGeneralInformation() {
+        wizard.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, generalInformation);
     }
 }
