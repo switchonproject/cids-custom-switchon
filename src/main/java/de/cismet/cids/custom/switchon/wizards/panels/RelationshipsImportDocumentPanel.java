@@ -46,6 +46,7 @@ public class RelationshipsImportDocumentPanel extends GenericAbstractWizardPanel
 
     @Override
     protected void read(final WizardDescriptor wizard) {
+        wizard.putProperty(MetaDataWizardAction.PROP_RelationshipsImportDocumentPanel_WAS_OPENED, Boolean.TRUE);
         final CidsBean relationship = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_CREATED_RELATIONSHIP_BEAN);
         final List<CidsBean> metaDatas = relationship.getBeanCollectionProperty("metadata");
         if (metaDatas.isEmpty()) {

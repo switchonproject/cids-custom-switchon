@@ -58,6 +58,9 @@ public class AdditonalMetaDataEditDocumentPanel
 
     @Override
     protected void store(final WizardDescriptor wizard) {
+        final CidsBean metaData = getComponent().getCidsBean();
+        metaData.removePropertyChangeListener(this);
+        getComponent().dispose();
     }
 
     @Override
