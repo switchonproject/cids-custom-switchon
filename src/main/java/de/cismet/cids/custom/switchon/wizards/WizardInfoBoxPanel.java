@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards;
 
+import java.awt.Color;
+
 import de.cismet.cids.custom.switchon.gui.InfoBoxPanel;
 
 /**
@@ -30,5 +32,6 @@ public class WizardInfoBoxPanel extends InfoBoxPanel {
         super();
         setIcon(null);
         setTitledBorder("Completion Guide");
+        setForeground(new Color(51, 51, 51));
     }
 }

@@ -9,6 +9,8 @@ package de.cismet.cids.custom.switchon.gui;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.awt.Color;
+
 import javax.swing.Icon;
 import javax.swing.border.TitledBorder;
 
@@ -115,5 +117,14 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
      */
     public void setTitledBorder(final String text) {
         this.setBorder(new TitledBorder(text));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  color  DOCUMENT ME!
+     */
+    public void setTextColor(final Color color) {
+        lblInformation.setForeground(color);
     }
 }
