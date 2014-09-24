@@ -16,6 +16,7 @@ import java.beans.PropertyChangeListener;
 
 import java.util.List;
 
+import de.cismet.cids.custom.switchon.wizards.AdvancedFinishablePanel;
 import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
@@ -31,12 +32,17 @@ import de.cismet.cids.dynamics.CidsBean;
  */
 public class RelationshipsEditDocumentPanel extends GenericAbstractWizardPanel<AdditonalMetaDataEditDocumentVisualPanel>
         implements NameProvider,
-            PropertyChangeListener {
+            PropertyChangeListener,
+            AdvancedFinishablePanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             RelationshipsEditDocumentPanel.class);
+
+    //~ Instance fields --------------------------------------------------------
+
+    private boolean finishPanel = false;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -96,5 +102,14 @@ public class RelationshipsEditDocumentPanel extends GenericAbstractWizardPanel<A
         final String contentlocation = (String)metaData.getProperty("contentlocation");
 
         return StringUtils.isNotBlank(content) || StringUtils.isNotBlank(contentlocation);
+    }
+    @Override
+    public void setFinishPanel(final boolean finishPanel) {
+        this.finishPanel = finishPanel;
+    }
+
+    @Override
+    public boolean isFinishPanel() {
+        return finishPanel;
     }
 }
