@@ -241,9 +241,19 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         @Override
         protected CidsBean doInBackground() throws Exception {
             try {
-                final CidsBean resource = (CidsBean)wizard.getProperty(
-                        MetaDataWizardAction.PROP_RESOURCE_BEAN);
-                return resource.persist();
+                final CidsBean relationship = (CidsBean)wizard.getProperty(
+                        MetaDataWizardAction.PROP_CREATED_RELATIONSHIP_BEAN);
+
+                CidsBean persistedBean;
+                if (relationship != null) {
+                    persistedBean = relationship.persist();
+                } else {
+                    final CidsBean resource = (CidsBean)wizard.getProperty(
+                            MetaDataWizardAction.PROP_RESOURCE_BEAN);
+                    persistedBean = resource.persist();
+                }
+
+                return persistedBean;
             } catch (Exception ex) {
                 LOG.error("The resource bean could not be persisted.", ex);
             }
