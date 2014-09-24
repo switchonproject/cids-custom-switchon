@@ -7,8 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards;
 
-import Sirius.navigator.connection.SessionManager;
-
 import java.util.UUID;
 import java.util.concurrent.Future;
 
@@ -178,5 +176,29 @@ public class DefaultPropertySetter {
         setDefaultsToMetaDataCidsBean(metadata);
         metadata.setProperty("name", defaultNameMetaData);
         metadata.setProperty("description", defaultDescriptionMetaData);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   relationship  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static CidsBean createNewMetaDataForRelationshipCidsBean(final CidsBean relationship) {
+        final CidsBean metaData;
+        try {
+            metaData = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata");
+            DefaultPropertySetter.setDefaultsToRelationshipMetaDataCidsBean(metaData);
+            metaData.setProperty("name", relationship.toString() + " Meta-Data");
+            metaData.setProperty("description", "Meta-Data of the " + relationship.toString());
+            final CidsBean contact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact");
+            DefaultPropertySetter.setDefaultsToMetaDataContactCidsBean(contact);
+            metaData.setProperty("contact", contact);
+            return metaData;
+        } catch (Exception ex) {
+            DefaultPropertySetter.LOG.error(ex, ex);
+        }
+        return null;
     }
 }

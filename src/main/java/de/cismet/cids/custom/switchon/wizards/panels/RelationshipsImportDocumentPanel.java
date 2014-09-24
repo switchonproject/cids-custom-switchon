@@ -10,7 +10,6 @@ package de.cismet.cids.custom.switchon.wizards.panels;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
-import org.openide.util.Exceptions;
 
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class RelationshipsImportDocumentPanel extends GenericAbstractWizardPanel
         final CidsBean relationship = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_CREATED_RELATIONSHIP_BEAN);
         final List<CidsBean> metaDatas = relationship.getBeanCollectionProperty("metadata");
         if (metaDatas.isEmpty()) {
-            final CidsBean newMetaData = createNewMetaDataCidsBean(relationship);
+            final CidsBean newMetaData = DefaultPropertySetter.createNewMetaDataForRelationshipCidsBean(relationship);
             if (newMetaData != null) {
                 metaDatas.add(newMetaData);
             }
@@ -62,7 +61,6 @@ public class RelationshipsImportDocumentPanel extends GenericAbstractWizardPanel
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        LOG.fatal("RelationshipsImportDocumentPanel.store: Not supported yet.", new Exception()); // NOI18N
     }
 
     @Override
@@ -70,29 +68,5 @@ public class RelationshipsImportDocumentPanel extends GenericAbstractWizardPanel
         return org.openide.util.NbBundle.getMessage(
                 RelationshipsImportDocumentPanel.class,
                 "RelationshipsImportDocumentPanel.name");
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   relationship  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private CidsBean createNewMetaDataCidsBean(final CidsBean relationship) {
-        final CidsBean metaData;
-        try {
-            metaData = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata");
-            DefaultPropertySetter.setDefaultsToRelationshipMetaDataCidsBean(metaData);
-            metaData.setProperty("name", relationship.toString() + " Meta-Data");
-            metaData.setProperty("description", "Meta-Data of the " + relationship.toString());
-            final CidsBean contact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact");
-            DefaultPropertySetter.setDefaultsToMetaDataContactCidsBean(contact);
-            metaData.setProperty("contact", contact);
-            return metaData;
-        } catch (Exception ex) {
-            LOG.error(ex, ex);
-        }
-        return null;
     }
 }
