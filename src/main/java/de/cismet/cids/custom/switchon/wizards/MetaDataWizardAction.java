@@ -98,6 +98,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
     @Override
     public void actionPerformed(final ActionEvent e) {
+        this.setEnabled(false);
         final WizardDescriptor.Iterator iterator = new MetaDataWizardIterator();
         final WizardDescriptor wizard = new WizardDescriptor(iterator);
         ((MetaDataWizardIterator)iterator).initialize(wizard);
@@ -118,6 +119,12 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
                 @Override
                 public void propertyChange(final PropertyChangeEvent evt) {
+                    // enable the action again on cancel, close and finish
+                    if (WizardDescriptor.CANCEL_OPTION.equals(wizard.getValue())
+                                || WizardDescriptor.CLOSED_OPTION.equals(wizard.getValue())
+                                || WizardDescriptor.FINISH_OPTION.equals(wizard.getValue())) {
+                        MetaDataWizardAction.this.setEnabled(true);
+                    }
                     if (evt.getNewValue() != null) {
                         if ("org.openide.WizardDescriptor.FinishAction".equals(
                                         evt.getNewValue().getClass().getCanonicalName())) {
