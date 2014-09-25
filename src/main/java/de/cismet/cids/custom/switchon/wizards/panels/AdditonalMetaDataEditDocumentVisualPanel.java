@@ -7,9 +7,12 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrongUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
+import de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -23,7 +26,9 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
+    Disposable,
+    MarkMandtoryFieldsStrong {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -37,12 +42,12 @@ public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cmbContentType;
     private javax.swing.JComboBox cmbStandard;
-    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
-    private javax.swing.JLabel jLabel1;
+    private de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblContentLocation;
     private javax.swing.JTextField txtContentLocation;
     private javax.swing.JTextArea txtaContent;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -72,7 +77,7 @@ public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaContent = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
+        lblContentLocation = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cmbContentType = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
                 Taggroups.CONTENT_TYPE);
@@ -80,7 +85,8 @@ public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel
                 Taggroups.META_DATA_STANDARD);
         txtContentLocation = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
+        infoBoxPanel = new WizardInfoBoxPanel();
+        ;
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -124,16 +130,16 @@ public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel
         jPanel1.add(jScrollPane1, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel1,
+            lblContentLocation,
             org.openide.util.NbBundle.getMessage(
                 AdditonalMetaDataEditDocumentVisualPanel.class,
-                "AdditonalMetaDataEditDocumentVisualPanel.jLabel1.text")); // NOI18N
+                "AdditonalMetaDataEditDocumentVisualPanel.lblContentLocation.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jPanel1.add(jLabel1, gridBagConstraints);
+        jPanel1.add(lblContentLocation, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel2,
@@ -233,23 +239,19 @@ public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 2.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(jPanel1, gridBagConstraints);
-
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                AdditonalMetaDataEditDocumentVisualPanel.class,
-                "AdditonalMetaDataEditDocumentVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         add(infoBoxPanel, gridBagConstraints);
 
         bindingGroup.bind();
@@ -329,14 +331,10 @@ public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel
     public void changeAppearanceAsImportDocumentPanelWasOpen(final boolean panelWasOpen) {
         txtaContent.setEnabled(!panelWasOpen);
         txtContentLocation.setEnabled(!panelWasOpen);
-        if (panelWasOpen) {
-            infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                    AdditonalMetaDataEditDocumentVisualPanel.class,
-                    "AdditonalMetaDataEditDocumentVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasOpen.info"));
-        } else {
-            infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                    AdditonalMetaDataEditDocumentVisualPanel.class,
-                    "AdditonalMetaDataEditDocumentVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasNotOpen.info"));
-        }
+    }
+
+    @Override
+    public void markMandatoryFieldsStrong() {
+        MarkMandtoryFieldsStrongUtils.markJLabelString(lblContentLocation);
     }
 }

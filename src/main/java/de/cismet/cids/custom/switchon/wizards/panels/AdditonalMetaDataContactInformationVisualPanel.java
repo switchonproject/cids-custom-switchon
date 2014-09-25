@@ -27,8 +27,5 @@ public class AdditonalMetaDataContactInformationVisualPanel extends ContactInfor
      */
     public AdditonalMetaDataContactInformationVisualPanel() {
         super();
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                AdditonalMetaDataContactInformationVisualPanel.class,
-                "AdditonalMetaDataContactInformationVisualPanel.generalInformation"));
     }
 }

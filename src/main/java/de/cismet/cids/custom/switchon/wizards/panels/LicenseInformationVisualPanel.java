@@ -25,7 +25,7 @@ public class LicenseInformationVisualPanel extends javax.swing.JPanel implements
             LicenseInformationVisualPanel.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
+    private de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
     private de.cismet.cids.custom.switchon.objecteditors.LicenseInformationPanel licenseInformationPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -51,32 +51,26 @@ public class LicenseInformationVisualPanel extends javax.swing.JPanel implements
         java.awt.GridBagConstraints gridBagConstraints;
 
         licenseInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.LicenseInformationPanel(true);
-        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
+        infoBoxPanel = new de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel();
 
         setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
         add(licenseInformationPanel, gridBagConstraints);
-
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                LicenseInformationVisualPanel.class,
-                "LicenseInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
-        infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
-        infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         add(infoBoxPanel, gridBagConstraints);
-    }                                                                              // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

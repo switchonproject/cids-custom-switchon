@@ -58,7 +58,7 @@ public class RelationshipsEditDocumentPanel extends GenericAbstractWizardPanel<A
     @Override
     protected void read(final WizardDescriptor wizard) {
         final CidsBean relationship = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_CREATED_RELATIONSHIP_BEAN);
-        final List<CidsBean> metaDatas = relationship.getBeanCollectionProperty("metadata");
+        final List<CidsBean> metaDatas = relationship.getBeanCollectionProperty("metadata");     // NOI18N
         if (metaDatas.isEmpty()) {
             final CidsBean newMetaData = DefaultPropertySetter.createNewMetaDataForRelationshipCidsBean(relationship);
             if (newMetaData != null) {
@@ -66,7 +66,7 @@ public class RelationshipsEditDocumentPanel extends GenericAbstractWizardPanel<A
             }
         }
         if (!metaDatas.isEmpty()) {
-            final CidsBean metaData = relationship.getBeanCollectionProperty("metadata").get(0);
+            final CidsBean metaData = relationship.getBeanCollectionProperty("metadata").get(0); // NOI18N
             // disable the content and content location components if AdditonalMetaDataImportDocumentPanel was already
             // open
             getComponent().changeAppearanceAsImportDocumentPanelWasOpen((boolean)wizard.getProperty(
@@ -87,7 +87,7 @@ public class RelationshipsEditDocumentPanel extends GenericAbstractWizardPanel<A
     public String getName() {
         return org.openide.util.NbBundle.getMessage(
                 RelationshipsEditDocumentPanel.class,
-                "RelationshipsEditDocumentPanel.name");
+                "RelationshipsEditDocumentPanel.name"); // NOI18N
     }
 
     @Override
@@ -98,10 +98,20 @@ public class RelationshipsEditDocumentPanel extends GenericAbstractWizardPanel<A
     @Override
     public boolean isValid() {
         final CidsBean metaData = getComponent().getCidsBean();
-        final String content = (String)metaData.getProperty("content");
-        final String contentlocation = (String)metaData.getProperty("contentlocation");
+        final String content = (String)metaData.getProperty("content");                 // NOI18N
+        final String contentlocation = (String)metaData.getProperty("contentlocation"); // NOI18N
 
-        return StringUtils.isNotBlank(content) || StringUtils.isNotBlank(contentlocation);
+        final boolean isValid = StringUtils.isNotBlank(content) || StringUtils.isNotBlank(contentlocation);
+
+        if (isValid) {
+            showGeneralInformation();
+        } else {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    RelationshipsEditDocumentPanel.class,
+                    "RelationshipsEditDocumentPanel.isValid().missingContent"));
+        }
+
+        return isValid;
     }
     @Override
     public void setFinishPanel(final boolean finishPanel) {

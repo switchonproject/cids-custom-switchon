@@ -56,8 +56,21 @@ public class RepresentationsDataAccessInformationPanel
     protected void read(final WizardDescriptor wizard) {
         final CidsBean representation = (CidsBean)wizard.getProperty(
                 MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
-        getComponent().changeAppearanceAsImportDocumentPanelWasOpen((boolean)wizard.getProperty(
-                MetaDataWizardAction.PROP_RepresentationsDataImportPanel_WAS_OPENED));
+
+        final boolean panelWasOpen = (boolean)wizard.getProperty(
+                MetaDataWizardAction.PROP_RepresentationsDataImportPanel_WAS_OPENED);
+        getComponent().changeAppearanceAsImportDocumentPanelWasOpen(panelWasOpen);
+        if (panelWasOpen) {
+            setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationVisualPanel.class,
+                    "RepresentationsDataAccessInformationVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasOpen.info"));    // NOI18N
+        } else {
+            setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationVisualPanel.class,
+                    "RepresentationsDataAccessInformationVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasNotOpen.info")); // NOI18N
+        }
+        showGeneralInformation();
+
         getComponent().setCidsBean(representation);
         representation.addPropertyChangeListener(this);
     }
@@ -90,7 +103,27 @@ public class RepresentationsDataAccessInformationPanel
         final Object function = representation.getProperty("function");                       // NOI18N
         final Object protocol = representation.getProperty("protocol");                       // NOI18N
 
-        return StringUtils.isNotBlank(contentLocation) && (contentLocation != null) && (contentType != null)
+        if (StringUtils.isBlank(contentLocation)) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationPanel.class,
+                    "RepresentationsDataAccessInformationPanel.isValid().missingContentLocation"));
+        } else if (contentType == null) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationPanel.class,
+                    "RepresentationsDataAccessInformationPanel.isValid().missingType"));
+        } else if (function == null) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationPanel.class,
+                    "RepresentationsDataAccessInformationPanel.isValid().missingFunction"));
+        } else if (protocol == null) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationPanel.class,
+                    "RepresentationsDataAccessInformationPanel.isValid().missingProtocol"));
+        } else {
+            showGeneralInformation();
+        }
+
+        return StringUtils.isNotBlank(contentLocation) && (contentType != null)
                     && (function != null) && (protocol != null);
     }
 

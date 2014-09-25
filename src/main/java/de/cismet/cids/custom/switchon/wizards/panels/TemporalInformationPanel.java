@@ -42,6 +42,9 @@ public class TemporalInformationPanel extends GenericAbstractWizardPanel<Tempora
      */
     public TemporalInformationPanel() {
         super(TemporalInformationVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                TemporalInformationVisualPanel.class,
+                "TemporalInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -74,6 +77,15 @@ public class TemporalInformationPanel extends GenericAbstractWizardPanel<Tempora
     public boolean isValid() {
         final CidsBean resource = getComponent().getCidsBean();
         final Object fromDate = resource.getProperty("fromdate"); // NOI18N
+
+        if (fromDate == null) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    TemporalInformationPanel.class,
+                    "TemporalInformationPanel.isValid().missingFromDate"));
+        } else {
+            showGeneralInformation();
+        }
+
         return fromDate != null;
     }
 }

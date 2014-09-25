@@ -27,8 +27,5 @@ public class RelationshipsImportDocumentVisualPanel extends BasicImportDocumentV
      */
     public RelationshipsImportDocumentVisualPanel() {
         super();
-        setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                RelationshipsImportDocumentVisualPanel.class,
-                "RelationshipsImportDocumentVisualPanel.generalInformation"));
     }
 }

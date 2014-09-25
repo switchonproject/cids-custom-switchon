@@ -98,6 +98,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
     @Override
     public void actionPerformed(final ActionEvent e) {
+        this.setEnabled(false);
         final WizardDescriptor.Iterator iterator = new MetaDataWizardIterator();
         final WizardDescriptor wizard = new WizardDescriptor(iterator);
         ((MetaDataWizardIterator)iterator).initialize(wizard);
@@ -118,21 +119,25 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
                 @Override
                 public void propertyChange(final PropertyChangeEvent evt) {
-                    if (evt.getNewValue() != null) {
-                        if ("org.openide.WizardDescriptor.FinishAction".equals(
-                                        evt.getNewValue().getClass().getCanonicalName())) {
-                            // persist the resource bean, when the wizard finished
-                            new CidsBeanPersistWorker(wizard).execute();
-                        } else if ((evt.getPropertyName() != null)
-                                    && evt.getPropertyName().equals(PROP_CONFIGURATION)) {
-                            // set the defaults based on the chosen profile
-                            if (evt.getNewValue().equals("basic")) {
-                                setBasicDefaults(wizard);
-                            } else if (evt.getNewValue().equals("advanced")) {
-                                setAdvancedDefaults(wizard);
-                            } else if (evt.getNewValue().equals("expert")) {
-                                setExpertDefaults(wizard);
-                            }
+                    // enable the action again on cancel, close and finish
+                    if (WizardDescriptor.CANCEL_OPTION.equals(wizard.getValue())
+                                || WizardDescriptor.CLOSED_OPTION.equals(wizard.getValue())
+                                || WizardDescriptor.FINISH_OPTION.equals(wizard.getValue())) {
+                        MetaDataWizardAction.this.setEnabled(true);
+                    }
+                    if (WizardDescriptor.FINISH_OPTION.equals(wizard.getValue())) {
+                        // persist the resource bean, when the wizard finished
+                        new CidsBeanPersistWorker(wizard).execute();
+                    }
+                    if (PROP_CONFIGURATION.equals(evt.getPropertyName())) {
+                        final Object newValue = evt.getNewValue();
+                        // set the defaults based on the chosen profile
+                        if ("basic".equals(newValue)) {
+                            setBasicDefaults(wizard);
+                        } else if ("advanced".equals(newValue)) {
+                            setAdvancedDefaults(wizard);
+                        } else if ("expert".equals(newValue)) {
+                            setExpertDefaults(wizard);
                         }
                     }
                 }

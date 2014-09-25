@@ -42,6 +42,9 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
      */
     public RepresentationsPanel() {
         super(RepresentationsVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                RepresentationsVisualPanel.class,
+                "RepresentationsVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------

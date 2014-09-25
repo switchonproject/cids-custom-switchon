@@ -14,6 +14,7 @@ import java.awt.event.ItemEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -28,7 +29,8 @@ import de.cismet.cids.dynamics.Disposable;
  */
 public class ContactInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
     Disposable,
-    PropertyChangeListener {
+    PropertyChangeListener,
+    MarkMandtoryFieldsStrong {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -46,7 +48,8 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
     private javax.swing.JButton btnNew;
     private javax.swing.JComboBox cmbContacts;
     private de.cismet.cids.custom.switchon.objecteditors.ContactEditor contactEditor;
-    protected de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
+    protected de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -98,15 +101,16 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        contactEditor = new de.cismet.cids.custom.switchon.objecteditors.ContactEditor();
-        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
-        btnNew = new javax.swing.JButton();
+        infoBoxPanel = new de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel();
+        jPanel1 = new javax.swing.JPanel();
+        btnEdit = new javax.swing.JButton();
         cmbContacts = new QueryComboBox(
                 "select id, organisation as name from contact order by organisation",
                 false,
                 "contact");
         ;
-        btnEdit = new javax.swing.JButton();
+        btnNew = new javax.swing.JButton();
+        contactEditor = new de.cismet.cids.custom.switchon.objecteditors.ContactEditor();
 
         addFocusListener(new java.awt.event.FocusAdapter() {
 
@@ -116,64 +120,16 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
                 }
             });
         setLayout(new java.awt.GridBagLayout());
-
-        contactEditor.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.8;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        add(contactEditor, gridBagConstraints);
-
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                ContactInformationVisualPanel.class,
-                "ContactInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
-        infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
-        infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         add(infoBoxPanel, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            btnNew,
-            org.openide.util.NbBundle.getMessage(
-                ContactInformationVisualPanel.class,
-                "ContactInformationVisualPanel.btnNew.text")); // NOI18N
-        btnNew.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnNewActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        add(btnNew, gridBagConstraints);
-
-        cmbContacts.addItemListener(new java.awt.event.ItemListener() {
-
-                @Override
-                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
-                    cmbContactsItemStateChanged(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 10);
-        add(cmbContacts, gridBagConstraints);
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
             btnEdit,
@@ -191,7 +147,62 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 20);
-        add(btnEdit, gridBagConstraints);
+        jPanel1.add(btnEdit, gridBagConstraints);
+
+        cmbContacts.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    cmbContactsItemStateChanged(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 10);
+        jPanel1.add(cmbContacts, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnNew,
+            org.openide.util.NbBundle.getMessage(
+                ContactInformationVisualPanel.class,
+                "ContactInformationVisualPanel.btnNew.text")); // NOI18N
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnNewActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
+        jPanel1.add(btnNew, gridBagConstraints);
+
+        contactEditor.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.8;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(contactEditor, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.8;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        add(jPanel1, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -200,7 +211,6 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
      * @param  evt  DOCUMENT ME!
      */
     private void formFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_formFocusGained
-        infoBoxPanel.showGeneralInformation();
     }                                                                   //GEN-LAST:event_formFocusGained
 
     /**
@@ -284,5 +294,10 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         model.propertyChange(evt);
+    }
+
+    @Override
+    public void markMandatoryFieldsStrong() {
+        contactEditor.markMandatoryFieldsStrong();
     }
 }

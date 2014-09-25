@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
@@ -17,7 +19,9 @@ import de.cismet.cids.dynamics.Disposable;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TemporalInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class TemporalInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
+    Disposable,
+    MarkMandtoryFieldsStrong {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -25,7 +29,7 @@ public class TemporalInformationVisualPanel extends javax.swing.JPanel implement
             TemporalInformationVisualPanel.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
+    private de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
     private de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel temporalInformationPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -51,32 +55,26 @@ public class TemporalInformationVisualPanel extends javax.swing.JPanel implement
         java.awt.GridBagConstraints gridBagConstraints;
 
         temporalInformationPanel = new de.cismet.cids.custom.switchon.objecteditors.TemporalInformationPanel(true);
-        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
+        infoBoxPanel = new de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel();
 
         setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        add(temporalInformationPanel, gridBagConstraints);
-
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                TemporalInformationVisualPanel.class,
-                "TemporalInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
-        infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
-        infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
+        add(temporalInformationPanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         add(infoBoxPanel, gridBagConstraints);
-    }                                                                               // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
@@ -91,5 +89,10 @@ public class TemporalInformationVisualPanel extends javax.swing.JPanel implement
     @Override
     public void dispose() {
         temporalInformationPanel.dispose();
+    }
+
+    @Override
+    public void markMandatoryFieldsStrong() {
+        temporalInformationPanel.markMandatoryFieldsStrong();
     }
 }

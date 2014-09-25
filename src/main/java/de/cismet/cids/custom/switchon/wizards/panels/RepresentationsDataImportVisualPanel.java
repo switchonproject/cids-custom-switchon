@@ -27,8 +27,5 @@ public class RepresentationsDataImportVisualPanel extends BasicImportDocumentVis
      */
     public RepresentationsDataImportVisualPanel() {
         super();
-        setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                RepresentationsDataImportVisualPanel.class,
-                "RepresentationsDataImportVisualPanel.generalInformation"));
     }
 }

@@ -26,6 +26,18 @@ public class RelationshipsBasicInformationPanel extends AbstractBasicInformation
 
     private static final Logger LOG = Logger.getLogger(RelationshipsBasicInformationPanel.class);
 
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new RelationshipsBasicInformationPanel object.
+     */
+    public RelationshipsBasicInformationPanel() {
+        super();
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                AdditonalMetaDataBasicInformationPanel.class,
+                "RelationshipsBasicInformationPanel.infobox.gerneralInfromation"));
+    }
+
     //~ Methods ----------------------------------------------------------------
 
     @Override
@@ -48,12 +60,5 @@ public class RelationshipsBasicInformationPanel extends AbstractBasicInformation
     @Override
     protected Taggroups getTypeTaggroup() {
         return Taggroups.RELATIONSHIP_TYPE;
-    }
-
-    @Override
-    protected String getGeneralInformation() {
-        return org.openide.util.NbBundle.getMessage(
-                AdditonalMetaDataBasicInformationPanel.class,
-                "RelationshipsBasicInformationPanel.infobox.gerneralInfromation");
     }
 }

@@ -11,15 +11,11 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
-import java.awt.Component;
-
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
 import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.commons.gui.wizard.AbstractWizardPanel;
 
 /**
  * DOCUMENT ME!
@@ -41,6 +37,9 @@ public class RepresentationsAdditionalInformationPanel
      */
     public RepresentationsAdditionalInformationPanel() {
         super(RepresentationsAdditionalInformationVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                RepresentationsAdditionalInformationVisualPanel.class,
+                "RepresentationsAdditionalInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------

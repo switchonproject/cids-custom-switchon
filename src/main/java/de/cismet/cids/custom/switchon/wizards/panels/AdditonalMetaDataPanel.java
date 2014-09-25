@@ -42,6 +42,9 @@ public class AdditonalMetaDataPanel extends GenericAbstractWizardPanel<Additonal
      */
     public AdditonalMetaDataPanel() {
         super(AdditonalMetaDataVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                AdditonalMetaDataVisualPanel.class,
+                "AdditonalMetaDataVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------

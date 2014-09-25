@@ -50,10 +50,21 @@ public class AdditonalMetaDataEditDocumentPanel
     protected void read(final WizardDescriptor wizard) {
         final CidsBean metaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN);
         // disable the content and content location components if AdditonalMetaDataImportDocumentPanel was already open
-        getComponent().changeAppearanceAsImportDocumentPanelWasOpen((boolean)wizard.getProperty(
-                MetaDataWizardAction.PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED));
+        final boolean panelWasOpen = (boolean)wizard.getProperty(
+                MetaDataWizardAction.PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED);
+        getComponent().changeAppearanceAsImportDocumentPanelWasOpen(panelWasOpen);
+        if (panelWasOpen) {
+            this.setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    AdditonalMetaDataEditDocumentVisualPanel.class,
+                    "AdditonalMetaDataEditDocumentVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasOpen.info"));    // NOI18N
+        } else {
+            this.setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    AdditonalMetaDataEditDocumentVisualPanel.class,
+                    "AdditonalMetaDataEditDocumentVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasNotOpen.info")); // NOI18N
+        }
         getComponent().setCidsBean(metaData);
         metaData.addPropertyChangeListener(this);
+        showGeneralInformation();
     }
 
     @Override
@@ -67,7 +78,7 @@ public class AdditonalMetaDataEditDocumentPanel
     public String getName() {
         return org.openide.util.NbBundle.getMessage(
                 AdditonalMetaDataEditDocumentPanel.class,
-                "AdditonalMetaDataEditDocumentPanel.name");
+                "AdditonalMetaDataEditDocumentPanel.name"); // NOI18N
     }
 
     @Override
@@ -78,9 +89,19 @@ public class AdditonalMetaDataEditDocumentPanel
     @Override
     public boolean isValid() {
         final CidsBean metaData = getComponent().getCidsBean();
-        final String content = (String)metaData.getProperty("content");
-        final String contentlocation = (String)metaData.getProperty("contentlocation");
+        final String content = (String)metaData.getProperty("content");                 // NOI18N
+        final String contentlocation = (String)metaData.getProperty("contentlocation"); // NOI18N
 
-        return StringUtils.isNotBlank(content) || StringUtils.isNotBlank(contentlocation);
+        final boolean isValid = StringUtils.isNotBlank(content) || StringUtils.isNotBlank(contentlocation);
+
+        if (isValid) {
+            showGeneralInformation();
+        } else {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    AdditonalMetaDataEditDocumentPanel.class,
+                    "AdditonalMetaDataEditDocumentPanel.isValid().missingContent"));
+        }
+
+        return isValid;
     }
 }

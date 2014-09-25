@@ -12,6 +12,8 @@ import org.openide.util.NbBundle;
 import java.util.UUID;
 
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrongUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
@@ -29,7 +31,9 @@ import de.cismet.cids.editors.FastBindableReferenceCombo;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
+public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBeanStore,
+    Disposable,
+    MarkMandtoryFieldsStrong {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -45,12 +49,12 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
     private javax.swing.JButton btnGenerateUUID;
     private javax.swing.JComboBox cmbLanguage;
     private javax.swing.JComboBox cmbType;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDescription;
     private javax.swing.JLabel lblLanguage;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblType;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtUUID;
     private javax.swing.JTextArea txtaDescription;
@@ -92,9 +96,9 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
+        lblDescription = new javax.swing.JLabel();
+        lblType = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         lblLanguage = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
@@ -110,34 +114,36 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
         setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel1,
-            org.openide.util.NbBundle.getMessage(BasicPropertiesPanel.class, "BasicPropertiesPanel.jLabel1.text")); // NOI18N
+            lblName,
+            org.openide.util.NbBundle.getMessage(BasicPropertiesPanel.class, "BasicPropertiesPanel.lblName.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
-        add(jLabel1, gridBagConstraints);
+        add(lblName, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel2,
-            org.openide.util.NbBundle.getMessage(BasicPropertiesPanel.class, "BasicPropertiesPanel.jLabel2.text")); // NOI18N
+            lblDescription,
+            org.openide.util.NbBundle.getMessage(
+                BasicPropertiesPanel.class,
+                "BasicPropertiesPanel.lblDescription.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        add(jLabel2, gridBagConstraints);
+        add(lblDescription, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel3,
-            org.openide.util.NbBundle.getMessage(BasicPropertiesPanel.class, "BasicPropertiesPanel.jLabel3.text")); // NOI18N
+            lblType,
+            org.openide.util.NbBundle.getMessage(BasicPropertiesPanel.class, "BasicPropertiesPanel.lblType.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        add(jLabel3, gridBagConstraints);
+        add(lblType, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel4,
@@ -439,5 +445,10 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
     @Override
     public void dispose() {
         bindingGroup.unbind();
+    }
+
+    @Override
+    public void markMandatoryFieldsStrong() {
+        MarkMandtoryFieldsStrongUtils.markJLabelsStrong(lblName, lblDescription, lblType);
     }
 }
