@@ -100,31 +100,4 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
             lblInformation.setText("<html>" + text + "</html>");
         }
     }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  icon  DOCUMENT ME!
-     */
-    public void setIcon(final Icon icon) {
-        lblInformation.setIcon(icon);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  text  DOCUMENT ME!
-     */
-    public void setTitledBorder(final String text) {
-        this.setBorder(new TitledBorder(text));
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  color  DOCUMENT ME!
-     */
-    public void setTextColor(final Color color) {
-        lblInformation.setForeground(color);
-    }
 }
