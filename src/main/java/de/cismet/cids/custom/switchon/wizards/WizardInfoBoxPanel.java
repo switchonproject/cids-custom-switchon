@@ -44,29 +44,30 @@ public class WizardInfoBoxPanel extends javax.swing.JPanel implements InfoReceiv
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final java.awt.GridBagConstraints gridBagConstraints;
-
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaInfo = new javax.swing.JTextArea();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(WizardInfoBoxPanel.class, "WizardInfoBoxPanel.border.title"))); // NOI18N
-        setLayout(new java.awt.GridBagLayout());
+        setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                javax.swing.BorderFactory.createTitledBorder(
+                    org.openide.util.NbBundle.getMessage(
+                        WizardInfoBoxPanel.class,
+                        "WizardInfoBoxPanel.border.outsideBorder.title")),
+                javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10))); // NOI18N
+        setMinimumSize(new java.awt.Dimension(380, 95));
+        setPreferredSize(new java.awt.Dimension(380, 95));
+        setLayout(new java.awt.BorderLayout());
 
         jScrollPane1.setBorder(null);
 
+        txtaInfo.setEditable(false);
         txtaInfo.setColumns(20);
         txtaInfo.setLineWrap(true);
-        txtaInfo.setRows(5);
+        txtaInfo.setRows(3);
         txtaInfo.setWrapStyleWord(true);
         txtaInfo.setOpaque(false);
         jScrollPane1.setViewportView(txtaInfo);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        add(jScrollPane1, gridBagConstraints);
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
