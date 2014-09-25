@@ -8,6 +8,7 @@
 package de.cismet.cids.custom.switchon.wizards.panels;
 
 import de.cismet.cids.custom.switchon.utils.Taggroups;
+import de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -69,7 +70,8 @@ public class BasicInformationVisualPanel extends javax.swing.JPanel implements C
         java.awt.GridBagConstraints gridBagConstraints;
 
         basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel(typeTaggroup);
-        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
+        infoBoxPanel = new WizardInfoBoxPanel();
+        ;
 
         addFocusListener(new java.awt.event.FocusAdapter() {
 
@@ -83,21 +85,21 @@ public class BasicInformationVisualPanel extends javax.swing.JPanel implements C
         basicPropertiesPanel.setVisibleGenerateUUID(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 0.7;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(basicPropertiesPanel, gridBagConstraints);
 
         infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
         infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 

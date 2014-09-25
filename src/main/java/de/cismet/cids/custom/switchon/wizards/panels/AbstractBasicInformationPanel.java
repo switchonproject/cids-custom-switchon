@@ -79,9 +79,9 @@ public abstract class AbstractBasicInformationPanel extends GenericAbstractWizar
         getComponent().dispose();
 
         try {
-            final String uuid = (String)cidsBean.getProperty("uuid");
+            final String uuid = (String)cidsBean.getProperty("uuid");       // NOI18N
             if (StringUtils.isBlank(uuid)) {
-                cidsBean.setProperty("uuid", UUID.randomUUID().toString());
+                cidsBean.setProperty("uuid", UUID.randomUUID().toString()); // NOI18N
             }
         } catch (Exception ex) {
             LOG.error(ex, ex);
@@ -91,14 +91,31 @@ public abstract class AbstractBasicInformationPanel extends GenericAbstractWizar
     @Override
     public boolean isValid() {
         final CidsBean resource = getComponent().getCidsBean();
-        final String name = (String)resource.getProperty("name");
-        final String desc = (String)resource.getProperty("description");
-        final CidsBean type = (CidsBean)resource.getProperty("type");
+        final String name = (String)resource.getProperty("name");        // NOI18N
+        final String desc = (String)resource.getProperty("description"); // NOI18N
+        final CidsBean type = (CidsBean)resource.getProperty("type");    // NOI18N
 
         boolean valid = true;
         if (StringUtils.isBlank(name) || StringUtils.isBlank(desc) || (type == null)) {
             valid = false;
         }
+
+        if (StringUtils.isBlank(name)) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    AbstractBasicInformationPanel.class,
+                    "AbstractBasicInformationPanel.isValid().nameMissing"));
+        } else if (StringUtils.isBlank(desc)) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    AbstractBasicInformationPanel.class,
+                    "AbstractBasicInformationPanel.isValid().descriptionMissing"));
+        } else if (type == null) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    AbstractBasicInformationPanel.class,
+                    "AbstractBasicInformationPanel.isValid().typeMissing"));
+        } else {
+            showGeneralInformation();
+        }
+
         return valid;
     }
 

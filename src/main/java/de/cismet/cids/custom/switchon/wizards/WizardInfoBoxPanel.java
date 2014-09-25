@@ -32,6 +32,6 @@ public class WizardInfoBoxPanel extends InfoBoxPanel {
         super();
         setIcon(null);
         setTitledBorder("Completion Guide");
-        setForeground(new Color(51, 51, 51));
+        setTextColor(new Color(51, 51, 51));
     }
 }
