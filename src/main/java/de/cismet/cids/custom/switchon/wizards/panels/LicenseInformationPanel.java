@@ -48,11 +48,6 @@ public class LicenseInformationPanel extends GenericAbstractWizardPanel<LicenseI
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    protected Component createComponent() {
-        return new LicenseInformationVisualPanel();
-    }
-
-    @Override
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
         getComponent().setCidsBean(resource);

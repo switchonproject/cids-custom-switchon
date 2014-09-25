@@ -15,6 +15,8 @@ import java.net.URI;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrongUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
@@ -32,7 +34,7 @@ import de.cismet.tools.EMailComposer;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class ContactEditor extends AbstractEditorShowableInDialog {
+public class ContactEditor extends AbstractEditorShowableInDialog implements MarkMandtoryFieldsStrong {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -47,12 +49,12 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
     private javax.swing.Box.Filler filler1;
     private org.jdesktop.swingx.JXHyperlink hypMail;
     private org.jdesktop.swingx.JXHyperlink hypWebsite;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblOrganisation;
     private javax.swing.JLabel lblRole;
     private javax.swing.JTextField txtContactPerson;
     private javax.swing.JTextField txtEMail;
@@ -132,7 +134,7 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jLabel1 = new javax.swing.JLabel();
+        lblOrganisation = new javax.swing.JLabel();
         txtOrganisation = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -154,15 +156,15 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
         setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel1,
-            org.openide.util.NbBundle.getMessage(ContactEditor.class, "ContactEditor.jLabel1.text")); // NOI18N
+            lblOrganisation,
+            org.openide.util.NbBundle.getMessage(ContactEditor.class, "ContactEditor.lblOrganisation.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
-        add(jLabel1, gridBagConstraints);
+        add(lblOrganisation, gridBagConstraints);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -540,5 +542,10 @@ public class ContactEditor extends AbstractEditorShowableInDialog {
             11,
             1280,
             1024);
+    }
+
+    @Override
+    public void markMandatoryFieldsStrong() {
+        MarkMandtoryFieldsStrongUtils.markJLabelString(lblOrganisation);
     }
 }

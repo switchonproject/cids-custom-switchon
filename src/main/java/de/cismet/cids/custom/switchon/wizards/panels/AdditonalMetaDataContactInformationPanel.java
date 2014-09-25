@@ -57,6 +57,7 @@ public class AdditonalMetaDataContactInformationPanel
         final AdditonalMetaDataContactInformationVisualPanel component =
             (AdditonalMetaDataContactInformationVisualPanel)super.createComponent();
         component.setModel(this);
+        component.markMandatoryFieldsStrong();
         return component;
     }
 

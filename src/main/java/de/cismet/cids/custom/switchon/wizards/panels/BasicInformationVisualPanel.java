@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 import de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel;
 
@@ -20,7 +21,9 @@ import de.cismet.cids.dynamics.Disposable;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class BasicInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
+    Disposable,
+    MarkMandtoryFieldsStrong {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -121,5 +124,10 @@ public class BasicInformationVisualPanel extends javax.swing.JPanel implements C
     @Override
     public void dispose() {
         basicPropertiesPanel.dispose();
+    }
+
+    @Override
+    public void markMandatoryFieldsStrong() {
+        basicPropertiesPanel.markMandatoryFieldsStrong();
     }
 }

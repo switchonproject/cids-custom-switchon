@@ -56,6 +56,7 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
     protected Component createComponent() {
         final ContactInformationVisualPanel component = (ContactInformationVisualPanel)super.createComponent();
         component.setModel(this);
+        component.markMandatoryFieldsStrong();
         return component;
     }
 

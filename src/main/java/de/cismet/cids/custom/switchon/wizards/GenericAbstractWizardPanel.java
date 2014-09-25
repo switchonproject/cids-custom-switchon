@@ -20,6 +20,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
+
 import de.cismet.commons.concurrency.CismetExecutors;
 
 import de.cismet.commons.gui.wizard.AbstractWizardPanel;
@@ -109,6 +111,9 @@ public abstract class GenericAbstractWizardPanel<T extends Component> extends Ab
             LOG.error(ex, ex);
         } catch (IllegalAccessException ex) {
             LOG.error(ex, ex);
+        }
+        if (createdComponent instanceof MarkMandtoryFieldsStrong) {
+            ((MarkMandtoryFieldsStrong)createdComponent).markMandatoryFieldsStrong();
         }
         return createdComponent;
     }

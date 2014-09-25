@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrongUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
@@ -24,7 +26,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  * @version  $Revision$, $Date$
  */
 public class RepresentationsDataAccessInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
-    Disposable {
+    Disposable,
+    MarkMandtoryFieldsStrong {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -42,12 +45,12 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
     private javax.swing.JComboBox cmbProtocol;
     private javax.swing.Box.Filler filler1;
     private de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblApplication;
+    private javax.swing.JLabel lblContentLocation;
+    private javax.swing.JLabel lblContentType;
+    private javax.swing.JLabel lblFunction;
+    private javax.swing.JLabel lblProtocol;
     private javax.swing.JTextField txtContentLocation;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -79,16 +82,16 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
 
         infoBoxPanel = new de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblContentLocation = new javax.swing.JLabel();
         txtContentLocation = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        lblFunction = new javax.swing.JLabel();
         cmbFunction = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.FUNCTION);
-        jLabel4 = new javax.swing.JLabel();
+        lblProtocol = new javax.swing.JLabel();
         cmbProtocol = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.PROTOCOL);
         lblApplication = new javax.swing.JLabel();
         cmbApplication = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
                 Taggroups.APPLICATION_PROFILE);
-        jLabel2 = new javax.swing.JLabel();
+        lblContentType = new javax.swing.JLabel();
         cmbContentType = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
                 Taggroups.CONTENT_TYPE);
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
@@ -111,16 +114,16 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel1,
+            lblContentLocation,
             org.openide.util.NbBundle.getMessage(
                 RepresentationsDataAccessInformationVisualPanel.class,
-                "RepresentationsDataAccessInformationVisualPanel.jLabel1.text")); // NOI18N
+                "RepresentationsDataAccessInformationVisualPanel.lblContentLocation.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
-        jPanel1.add(jLabel1, gridBagConstraints);
+        jPanel1.add(lblContentLocation, gridBagConstraints);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -147,16 +150,16 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
         jPanel1.add(txtContentLocation, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel3,
+            lblFunction,
             org.openide.util.NbBundle.getMessage(
                 RepresentationsDataAccessInformationVisualPanel.class,
-                "RepresentationsDataAccessInformationVisualPanel.jLabel3.text")); // NOI18N
+                "RepresentationsDataAccessInformationVisualPanel.lblFunction.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jPanel1.add(jLabel3, gridBagConstraints);
+        jPanel1.add(lblFunction, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -183,16 +186,16 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
         jPanel1.add(cmbFunction, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel4,
+            lblProtocol,
             org.openide.util.NbBundle.getMessage(
                 RepresentationsDataAccessInformationVisualPanel.class,
-                "RepresentationsDataAccessInformationVisualPanel.jLabel4.text")); // NOI18N
+                "RepresentationsDataAccessInformationVisualPanel.lblProtocol.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jPanel1.add(jLabel4, gridBagConstraints);
+        jPanel1.add(lblProtocol, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -255,16 +258,16 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
         jPanel1.add(cmbApplication, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel2,
+            lblContentType,
             org.openide.util.NbBundle.getMessage(
                 RepresentationsDataAccessInformationVisualPanel.class,
-                "RepresentationsDataAccessInformationVisualPanel.jLabel2.text")); // NOI18N
+                "RepresentationsDataAccessInformationVisualPanel.lblContentType.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jPanel1.add(jLabel2, gridBagConstraints);
+        jPanel1.add(lblContentType, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -388,5 +391,10 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
      */
     public void changeAppearanceAsImportDocumentPanelWasOpen(final boolean panelWasOpen) {
         txtContentLocation.setEnabled(!panelWasOpen);
+    }
+
+    @Override
+    public void markMandatoryFieldsStrong() {
+        MarkMandtoryFieldsStrongUtils.markJLabelsStrong(lblContentLocation, lblContentType, lblFunction, lblProtocol);
     }
 }
