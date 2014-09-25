@@ -82,8 +82,20 @@ public class RelationshipsPanel extends GenericAbstractWizardPanel<Relationships
     @Override
     public boolean isValid() {
         final CidsBean relationship = getComponent().getCidsBean();
-        final CidsBean toresource = (CidsBean)relationship.getProperty("toresource");
-        final List<CidsBean> fromResources = relationship.getBeanCollectionProperty("fromresources");
+        final CidsBean toresource = (CidsBean)relationship.getProperty("toresource");                 // NOI18N
+        final List<CidsBean> fromResources = relationship.getBeanCollectionProperty("fromresources"); // NOI18N
+
+        if (toresource == null) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    RelationshipsPanel.class,
+                    "RelationshipsPanel.isValid().missingToResource"));
+        } else if (fromResources.isEmpty()) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    RelationshipsPanel.class,
+                    "RelationshipsPanel.isValid().missingFromResources"));
+        } else {
+            showGeneralInformation();
+        }
 
         return (toresource != null) && !fromResources.isEmpty();
     }
@@ -98,11 +110,11 @@ public class RelationshipsPanel extends GenericAbstractWizardPanel<Relationships
     private CidsBean createNewRelationshipCidsBean(final WizardDescriptor wizard) {
         CidsBean relationship = null;
         try {
-            relationship = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "relationship");
+            relationship = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "relationship"); // NOI18N
             final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
-            relationship.setProperty("toresource", resource);
+            relationship.setProperty("toresource", resource);                                   // NOI18N
         } catch (Exception ex) {
-            LOG.error("Could not create new Relationship-CidsBean", ex);
+            LOG.error("Could not create new Relationship-CidsBean", ex);                        // NOI18N
         }
         return relationship;
     }

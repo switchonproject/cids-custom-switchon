@@ -56,11 +56,11 @@ public class AdditonalMetaDataEditDocumentPanel
         if (panelWasOpen) {
             this.setGeneralInformation(org.openide.util.NbBundle.getMessage(
                     AdditonalMetaDataEditDocumentVisualPanel.class,
-                    "AdditonalMetaDataEditDocumentVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasOpen.info"));
+                    "AdditonalMetaDataEditDocumentVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasOpen.info"));    // NOI18N
         } else {
             this.setGeneralInformation(org.openide.util.NbBundle.getMessage(
                     AdditonalMetaDataEditDocumentVisualPanel.class,
-                    "AdditonalMetaDataEditDocumentVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasNotOpen.info"));
+                    "AdditonalMetaDataEditDocumentVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasNotOpen.info")); // NOI18N
         }
         getComponent().setCidsBean(metaData);
         metaData.addPropertyChangeListener(this);
@@ -78,7 +78,7 @@ public class AdditonalMetaDataEditDocumentPanel
     public String getName() {
         return org.openide.util.NbBundle.getMessage(
                 AdditonalMetaDataEditDocumentPanel.class,
-                "AdditonalMetaDataEditDocumentPanel.name");
+                "AdditonalMetaDataEditDocumentPanel.name"); // NOI18N
     }
 
     @Override
@@ -89,9 +89,19 @@ public class AdditonalMetaDataEditDocumentPanel
     @Override
     public boolean isValid() {
         final CidsBean metaData = getComponent().getCidsBean();
-        final String content = (String)metaData.getProperty("content");
-        final String contentlocation = (String)metaData.getProperty("contentlocation");
+        final String content = (String)metaData.getProperty("content");                 // NOI18N
+        final String contentlocation = (String)metaData.getProperty("contentlocation"); // NOI18N
 
-        return StringUtils.isNotBlank(content) || StringUtils.isNotBlank(contentlocation);
+        final boolean isValid = StringUtils.isNotBlank(content) || StringUtils.isNotBlank(contentlocation);
+
+        if (isValid) {
+            showGeneralInformation();
+        } else {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    AdditonalMetaDataEditDocumentPanel.class,
+                    "AdditonalMetaDataEditDocumentPanel.isValid().missingContent"));
+        }
+
+        return isValid;
     }
 }

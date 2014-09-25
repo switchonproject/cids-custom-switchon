@@ -47,7 +47,7 @@ public class AdditonalMetaDataContactInformationPanel
         super(AdditonalMetaDataContactInformationVisualPanel.class);
         setGeneralInformation(org.openide.util.NbBundle.getMessage(
                 AdditonalMetaDataContactInformationVisualPanel.class,
-                "AdditonalMetaDataContactInformationVisualPanel.generalInformation"));
+                "AdditonalMetaDataContactInformationVisualPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -78,7 +78,7 @@ public class AdditonalMetaDataContactInformationPanel
     public String getName() {
         return NbBundle.getMessage(
                 AdditonalMetaDataContactInformationPanel.class,
-                "AdditonalMetaDataContactInformationPanel.name");
+                "AdditonalMetaDataContactInformationPanel.name"); // NOI18N
     }
 
     @Override
@@ -89,9 +89,19 @@ public class AdditonalMetaDataContactInformationPanel
     @Override
     public boolean isValid() {
         final CidsBean metadata = getComponent().getCidsBean();
-        final CidsBean contact = (CidsBean)metadata.getProperty("contact");
-        final String organisation = (String)contact.getProperty("organisation");
+        final CidsBean contact = (CidsBean)metadata.getProperty("contact");      // NOI18N
+        final String organisation = (String)contact.getProperty("organisation"); // NOI18N
 
-        return StringUtils.isNotBlank(organisation);
+        final boolean isValid = StringUtils.isNotBlank(organisation);
+
+        if (isValid) {
+            showGeneralInformation();
+        } else {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    AdditonalMetaDataContactInformationPanel.class,
+                    "AdditonalMetaDataContactInformationPanel.isValid().missingOrganisation"));
+        }
+
+        return isValid;
     }
 }

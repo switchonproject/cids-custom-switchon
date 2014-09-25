@@ -103,15 +103,15 @@ public abstract class AbstractBasicInformationPanel extends GenericAbstractWizar
         if (StringUtils.isBlank(name)) {
             showWarning(org.openide.util.NbBundle.getMessage(
                     AbstractBasicInformationPanel.class,
-                    "AbstractBasicInformationPanel.isValid().nameMissing"));
+                    "AbstractBasicInformationPanel.isValid().nameMissing"));        // NOI18N
         } else if (StringUtils.isBlank(desc)) {
             showWarning(org.openide.util.NbBundle.getMessage(
                     AbstractBasicInformationPanel.class,
-                    "AbstractBasicInformationPanel.isValid().descriptionMissing"));
+                    "AbstractBasicInformationPanel.isValid().descriptionMissing")); // NOI18N
         } else if (type == null) {
             showWarning(org.openide.util.NbBundle.getMessage(
                     AbstractBasicInformationPanel.class,
-                    "AbstractBasicInformationPanel.isValid().typeMissing"));
+                    "AbstractBasicInformationPanel.isValid().typeMissing"));        // NOI18N
         } else {
             showGeneralInformation();
         }

@@ -76,7 +76,15 @@ public class TopicCategoryAndKeywordsPanel extends GenericAbstractWizardPanel<To
     @Override
     public boolean isValid() {
         final CidsBean resource = ((TopicCategoryAndKeywordsVisualPanel)getComponent()).getCidsBean();
-        final CidsBean topiccategory = (CidsBean)resource.getProperty("topiccategory");
+        final CidsBean topiccategory = (CidsBean)resource.getProperty("topiccategory"); // NOI18N
+
+        if (topiccategory == null) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    TopicCategoryAndKeywordsPanel.class,
+                    "TopicCategoryAndKeywordsPanel.isValid().missingCategory"));
+        } else {
+            showGeneralInformation();
+        }
 
         return topiccategory != null;
     }
