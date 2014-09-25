@@ -32,7 +32,7 @@ public class BasicInformationVisualPanel extends javax.swing.JPanel implements C
     private Taggroups typeTaggroup;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
-    protected de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
+    protected de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -92,9 +92,6 @@ public class BasicInformationVisualPanel extends javax.swing.JPanel implements C
         gridBagConstraints.weighty = 0.7;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(basicPropertiesPanel, gridBagConstraints);
-
-        infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
-        infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
