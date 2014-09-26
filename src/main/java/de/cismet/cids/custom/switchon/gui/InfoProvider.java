@@ -37,4 +37,11 @@ public interface InfoProvider {
      * @param  infoReceiver  DOCUMENT ME!
      */
     void setInfoReceiver(InfoReceiver infoReceiver);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  error  DOCUMENT ME!
+     */
+    void provideError(String error);
 }

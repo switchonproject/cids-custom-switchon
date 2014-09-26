@@ -9,6 +9,7 @@ package de.cismet.cids.custom.switchon.gui;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
 
 import org.apache.log4j.Logger;
 
@@ -40,7 +41,7 @@ import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateNewGeometryListe
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBeanStore,
+public class GeometryChooserPanel extends InfoProviderJPanel implements CidsBeanStore,
     Disposable,
     FeatureCollectionListener,
     PropertyChangeListener {
@@ -145,6 +146,20 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
         txtCoordinates.setText(org.openide.util.NbBundle.getMessage(
                 GeometryChooserPanel.class,
                 "GeometryChooserPanel.txtCoordinates.text")); // NOI18N
+        txtCoordinates.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    txtCoordinatesActionPerformed(evt);
+                }
+            });
+        txtCoordinates.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusGained(final java.awt.event.FocusEvent evt) {
+                    txtCoordinatesFocusGained(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -281,6 +296,46 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
             });
     } //GEN-LAST:event_cmdRemoveGeometryActionPerformed
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtCoordinatesActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtCoordinatesActionPerformed
+        try {
+            final String[] coords = txtCoordinates.getText().split(",");
+            if (coords.length != 4) {
+                throw new Exception("The text field does not contain four values.");
+            }
+            final double maxY = Double.parseDouble(coords[0]);
+            final double maxX = Double.parseDouble(coords[1]);
+            final double minY = Double.parseDouble(coords[2]);
+            final double minX = Double.parseDouble(coords[3]);
+
+            final Coordinate[] coordinates = new Coordinate[5];
+            coordinates[0] = new Coordinate(minX, maxY);
+            coordinates[1] = new Coordinate(maxX, maxY);
+            coordinates[2] = new Coordinate(maxX, minY);
+            coordinates[3] = new Coordinate(minX, minY);
+            coordinates[4] = new Coordinate(minX, maxY);
+
+            final Geometry rectangle = new GeometryFactory().createPolygon(coordinates);
+            previewMapPanel.setGeometry(rectangle);
+        } catch (Exception ex) {
+            LOG.warn(ex, ex);
+            provideError("The input must be four float values separated by comma. E.g.: 90.0,180.0,-90.0,-180.0");
+        }
+    } //GEN-LAST:event_txtCoordinatesActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtCoordinatesFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtCoordinatesFocusGained
+        provideInformation("Please enter some coordinates manually. E.g.: 90.0,180.0,-90.0,-180.0");
+    }                                                                             //GEN-LAST:event_txtCoordinatesFocusGained
+
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -331,7 +386,7 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
             final Coordinate[] coordinates = geometry.getEnvelope().getCoordinates();
             final Coordinate minXminY = coordinates[0];
             final Coordinate maxXmaxY = coordinates[2];
-            txtCoordinates.setText(minXminY.x + "," + minXminY.y + "," + maxXmaxY.x + "," + maxXmaxY.y);
+            txtCoordinates.setText(minXminY.y + "," + minXminY.x + "," + maxXmaxY.y + "," + maxXmaxY.x);
         } else {
             txtCoordinates.setText("");
         }

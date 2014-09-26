@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards;
 
+import org.openide.WizardDescriptor;
+
 import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 
 /**
@@ -20,6 +22,10 @@ public class WizardInfoBoxPanel extends javax.swing.JPanel implements InfoReceiv
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WizardInfoBoxPanel.class);
+
+    //~ Instance fields --------------------------------------------------------
+
+    private WizardDescriptor wizard;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
@@ -73,5 +79,32 @@ public class WizardInfoBoxPanel extends javax.swing.JPanel implements InfoReceiv
     @Override
     public void setInformation(final String information) {
         txtaInfo.setText(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        if (wizard != null) {
+            wizard.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, error);
+        } else {
+            LOG.warn("No wizard object.", new Exception());
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public WizardDescriptor getWizard() {
+        return wizard;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizard  DOCUMENT ME!
+     */
+    public void setWizard(final WizardDescriptor wizard) {
+        this.wizard = wizard;
     }
 }

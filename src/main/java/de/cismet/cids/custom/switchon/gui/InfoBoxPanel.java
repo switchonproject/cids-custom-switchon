@@ -9,11 +9,6 @@ package de.cismet.cids.custom.switchon.gui;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.awt.Color;
-
-import javax.swing.Icon;
-import javax.swing.border.TitledBorder;
-
 /**
  * A Panel which contains an info box.
  *
@@ -99,5 +94,10 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
         } else {
             lblInformation.setText("<html>" + text + "</html>");
         }
+    }
+
+    @Override
+    public void setError(final String error) {
+        setInformation(error);
     }
 }

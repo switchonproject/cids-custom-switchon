@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 import org.openide.WizardDescriptor;
 import org.openide.util.NbBundle;
 
+import java.awt.Component;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -48,6 +50,11 @@ public class GeographicInformationPanel extends GenericAbstractWizardPanel<Geogr
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    protected Component createComponent() {
+        return new GeographicInformationVisualPanel(wizard);
+    }
 
     @Override
     protected void read(final WizardDescriptor wizard) {
