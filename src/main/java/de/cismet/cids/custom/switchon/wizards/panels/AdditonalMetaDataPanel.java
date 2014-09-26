@@ -17,7 +17,6 @@ import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
-import de.cismet.cids.custom.switchon.wizards.PreviousButtonEnabler;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -28,8 +27,7 @@ import de.cismet.cids.dynamics.CidsBean;
  * @version  $Revision$, $Date$
  */
 public class AdditonalMetaDataPanel extends GenericAbstractWizardPanel<AdditonalMetaDataVisualPanel>
-        implements NameProvider,
-            PreviousButtonEnabler {
+        implements NameProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -118,10 +116,5 @@ public class AdditonalMetaDataPanel extends GenericAbstractWizardPanel<Additonal
     @Override
     public String getName() {
         return org.openide.util.NbBundle.getMessage(AdditonalMetaDataPanel.class, "AdditonalMetaDataPanel.name");
-    }
-
-    @Override
-    public boolean hasPrevious() {
-        return false;
     }
 }
