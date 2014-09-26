@@ -11,8 +11,6 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import org.apache.log4j.Logger;
 
-import org.openide.util.Exceptions;
-
 import java.awt.EventQueue;
 
 import java.beans.PropertyChangeEvent;
@@ -120,6 +118,8 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.spatialcoverage}"),
                 cmbGeometry,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         binding.setConverter(((DefaultCismapGeometryComboBoxEditor)cmbGeometry).getConverter());
         bindingGroup.addBinding(binding);
 
@@ -347,6 +347,7 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
                     throw new RuntimeException("Error when setting geom origin.", ex);
                 }
             }
+            amountOfFeaturesChanged();
             getMap().getFeatureCollection().addFeatureCollectionListener(this);
         }
     }
