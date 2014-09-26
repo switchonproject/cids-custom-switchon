@@ -199,10 +199,6 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
 
     @Override
     public boolean hasPrevious() {
-        final WizardDescriptor.Panel panel = currentPanels[index];
-        if (panel instanceof PreviousButtonEnabler) {
-            return ((PreviousButtonEnabler)panel).hasPrevious();
-        }
         return index > 1;
     }
 
