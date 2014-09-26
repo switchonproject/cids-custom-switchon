@@ -37,12 +37,14 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import de.cismet.cids.custom.switchon.utils.TagUtils;
-import de.cismet.cids.custom.switchon.utils.WebDavHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
 import de.cismet.cismap.commons.util.DnDUtils;
+
+import de.cismet.commons.security.WebDavClient;
+import de.cismet.commons.security.WebDavHelper;
 
 import de.cismet.netutil.Proxy;
 
@@ -84,7 +86,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
     //~ Instance fields --------------------------------------------------------
 
-    private WebDavHelper webDavHelper;
+    private boolean saveInContentAllowed = true;
 
     private CidsBean cidsBean;
 
@@ -133,8 +135,6 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
         new DropTarget(pnlImport, new FileDropListener());
         new DropTarget(txtLocation, new FileDropListener());
-
-        webDavHelper = new WebDavHelper(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD, true);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -313,6 +313,25 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isSaveInContentAllowed() {
+        return saveInContentAllowed;
+    }
+
+    /**
+     * A boolean which enables or disables that the content of the chosen file is saved directly in the database. If
+     * saveInContentAllowed is false, the file will always be uploaded to the WebDav.
+     *
+     * @param  saveInContentAllowed  DOCUMENT ME!
+     */
+    public void setSaveInContentAllowed(final boolean saveInContentAllowed) {
+        this.saveInContentAllowed = saveInContentAllowed;
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -349,8 +368,9 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             final ContentInformation information = new ContentInformation();
             final String contentType = Files.probeContentType(path);
             fetchContentTypeTag(contentType, information);
-            boolean upload = true;
-            if (contentType.startsWith("text")) { // NOI18N
+
+            boolean upload = !saveInContentAllowed;
+            if (upload && contentType.startsWith("text")) { // NOI18N
                 final long size = Files.size(path);
                 upload = size > ONEHUNDRED_KILOBYTES;
             }
@@ -431,10 +451,15 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                     url);
             publish(new ProcessInformation(message, 25));
 
-            webDavHelper.uploadFileToWebDAV(
+            final WebDavClient webdavclient = new WebDavClient(Proxy.fromPreferences(),
+                    WEB_DAV_USER,
+                    WEB_DAV_PASSWORD,
+                    true);
+            WebDavHelper.uploadFileToWebDAV(
                 filename,
                 path.toFile(),
-                BASIC_IMPORT_URL,
+                url,
+                webdavclient,
                 BasicImportDocumentVisualPanel.this);
 
             information.content = null;
