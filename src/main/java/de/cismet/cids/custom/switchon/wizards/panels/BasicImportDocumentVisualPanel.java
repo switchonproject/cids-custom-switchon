@@ -37,12 +37,14 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import de.cismet.cids.custom.switchon.utils.TagUtils;
-import de.cismet.cids.custom.switchon.utils.WebDavHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
 import de.cismet.cismap.commons.util.DnDUtils;
+
+import de.cismet.commons.security.WebDavClient;
+import de.cismet.commons.security.WebDavHelper;
 
 import de.cismet.netutil.Proxy;
 
@@ -84,7 +86,6 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
     //~ Instance fields --------------------------------------------------------
 
-    private WebDavHelper webDavHelper;
 
     private CidsBean cidsBean;
 
@@ -133,8 +134,6 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
         new DropTarget(pnlImport, new FileDropListener());
         new DropTarget(txtLocation, new FileDropListener());
-
-        webDavHelper = new WebDavHelper(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD, true);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -431,10 +430,15 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                     url);
             publish(new ProcessInformation(message, 25));
 
-            webDavHelper.uploadFileToWebDAV(
+            final WebDavClient webdavclient = new WebDavClient(Proxy.fromPreferences(),
+                    WEB_DAV_USER,
+                    WEB_DAV_PASSWORD,
+                    true);
+            WebDavHelper.uploadFileToWebDAV(
                 filename,
                 path.toFile(),
-                BASIC_IMPORT_URL,
+                url,
+                webdavclient,
                 BasicImportDocumentVisualPanel.this);
 
             information.content = null;
