@@ -86,6 +86,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
     //~ Instance fields --------------------------------------------------------
 
+    private boolean saveInContentAllowed = true;
 
     private CidsBean cidsBean;
 
@@ -312,6 +313,25 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isSaveInContentAllowed() {
+        return saveInContentAllowed;
+    }
+
+    /**
+     * A boolean which enables or disables that the content of the chosen file is saved directly in the database. If
+     * saveInContentAllowed is false, the file will always be uploaded to the WebDav.
+     *
+     * @param  saveInContentAllowed  DOCUMENT ME!
+     */
+    public void setSaveInContentAllowed(final boolean saveInContentAllowed) {
+        this.saveInContentAllowed = saveInContentAllowed;
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -348,8 +368,9 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             final ContentInformation information = new ContentInformation();
             final String contentType = Files.probeContentType(path);
             fetchContentTypeTag(contentType, information);
-            boolean upload = true;
-            if (contentType.startsWith("text")) { // NOI18N
+
+            boolean upload = !saveInContentAllowed;
+            if (upload && contentType.startsWith("text")) { // NOI18N
                 final long size = Files.size(path);
                 upload = size > ONEHUNDRED_KILOBYTES;
             }
