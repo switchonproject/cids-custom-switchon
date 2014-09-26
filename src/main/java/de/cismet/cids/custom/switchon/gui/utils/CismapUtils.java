@@ -11,6 +11,8 @@ import Sirius.navigator.plugin.PluginRegistry;
 
 import Sirius.server.middleware.types.MetaObject;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -36,6 +38,8 @@ public class CismapUtils {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final String CISMAP_PLUGIN_NAME = "cismap";
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            CismapUtils.class);
 
     //~ Methods ----------------------------------------------------------------
 
@@ -95,5 +99,25 @@ public class CismapUtils {
      */
     public static CismapPlugin getCismapPlugin() {
         return (CismapPlugin)PluginRegistry.getRegistry().getPlugin(CISMAP_PLUGIN_NAME);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   geometry  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static CidsBean createGeometryBean(final Geometry geometry) {
+        CidsBean newGeom = null;
+        try {
+            newGeom = CidsBean.createNewCidsBeanFromTableName(
+                    "SWITCHON",
+                    "GEOM");
+            newGeom.setProperty("geo_field", geometry);
+        } catch (Exception ex) {
+            LOG.warn(ex, ex);
+        }
+        return newGeom;
     }
 }

@@ -329,4 +329,13 @@ public class PreviewMapPanel extends javax.swing.JPanel implements CidsBeanStore
     public void setGeoFieldPropertyKey(final String geoFieldPropertyKey) {
         this.geoFieldPropertyKey = geoFieldPropertyKey;
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MappingComponent getMappingComponent() {
+        return previewMap;
+    }
 }
