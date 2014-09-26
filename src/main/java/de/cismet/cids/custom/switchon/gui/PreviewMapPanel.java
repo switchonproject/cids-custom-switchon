@@ -57,6 +57,7 @@ public class PreviewMapPanel extends javax.swing.JPanel implements CidsBeanStore
 
     private final StyledFeature previewGeometry = new DefaultStyledFeature();
     private String geoFieldPropertyKey = "";
+    private boolean purePreviewMap = true;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -124,18 +125,20 @@ public class PreviewMapPanel extends javax.swing.JPanel implements CidsBeanStore
                         previewMap.setInteractionMode(MappingComponent.ZOOM);
                         // finally when all configurations are done ...
                         previewMap.unlock();
-                        previewMap.addCustomInputListener("MUTE", new PBasicInputEventHandler() {
+                        if (purePreviewMap) {
+                            previewMap.addCustomInputListener("MUTE", new PBasicInputEventHandler() {
 
-                                @Override
-                                public void mouseClicked(final PInputEvent evt) {
-                                    if (evt.getClickCount() > 1) {
-                                        final CidsBean bean = cidsBean;
-                                        CismapUtils.switchToCismapMap();
-                                        CismapUtils.addBeanGeomAsFeatureToCismapMap(bean, false);
+                                    @Override
+                                    public void mouseClicked(final PInputEvent evt) {
+                                        if (evt.getClickCount() > 1) {
+                                            final CidsBean bean = cidsBean;
+                                            CismapUtils.switchToCismapMap();
+                                            CismapUtils.addBeanGeomAsFeatureToCismapMap(bean, false);
+                                        }
                                     }
-                                }
-                            });
-                        previewMap.setInteractionMode("MUTE");
+                                });
+                            previewMap.setInteractionMode("MUTE");
+                        }
                         previewMap.getFeatureCollection().addFeature(previewGeometry);
                         previewMap.setAnimationDuration(duration);
                     }
@@ -337,5 +340,24 @@ public class PreviewMapPanel extends javax.swing.JPanel implements CidsBeanStore
      */
     public MappingComponent getMappingComponent() {
         return previewMap;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isPurePreviewMap() {
+        return purePreviewMap;
+    }
+
+    /**
+     * The map is only for preview purposes. No further interaction is needed. On double click on the map, a switch the
+     * main Cismap happens.
+     *
+     * @param  purePreviewMap  DOCUMENT ME!
+     */
+    public void setPurePreviewMap(final boolean purePreviewMap) {
+        this.purePreviewMap = purePreviewMap;
     }
 }

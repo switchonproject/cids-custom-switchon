@@ -22,7 +22,7 @@
   <SubComponents>
     <Component class="de.cismet.cids.custom.switchon.gui.PreviewMapPanel" name="previewMapPanel">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="previewMapPanel.setGeoFieldPropertyKey(&quot;spatialcoverage.geo_field&quot;);"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="previewMapPanel.setGeoFieldPropertyKey(&quot;spatialcoverage.geo_field&quot;);&#xa;previewMapPanel.setPurePreviewMap(false);"/>
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

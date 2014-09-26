@@ -111,6 +111,7 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(previewMapPanel, gridBagConstraints);
         previewMapPanel.setGeoFieldPropertyKey("spatialcoverage.geo_field");
+        previewMapPanel.setPurePreviewMap(false);
 
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
