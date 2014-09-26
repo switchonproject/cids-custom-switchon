@@ -110,13 +110,15 @@ public class CismapUtils {
      */
     public static CidsBean createGeometryBean(final Geometry geometry) {
         CidsBean newGeom = null;
-        try {
-            newGeom = CidsBean.createNewCidsBeanFromTableName(
-                    "SWITCHON",
-                    "GEOM");
-            newGeom.setProperty("geo_field", geometry);
-        } catch (Exception ex) {
-            LOG.warn(ex, ex);
+        if (geometry != null) {
+            try {
+                newGeom = CidsBean.createNewCidsBeanFromTableName(
+                        "SWITCHON",
+                        "GEOM");
+                newGeom.setProperty("geo_field", geometry);
+            } catch (Exception ex) {
+                LOG.warn(ex, ex);
+            }
         }
         return newGeom;
     }

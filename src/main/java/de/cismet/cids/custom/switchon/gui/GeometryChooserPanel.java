@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.gui;
 
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 
 import org.apache.log4j.Logger;
@@ -317,6 +318,23 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
      */
     public void setGeometry(final Geometry geometry) {
         previewMapPanel.setGeometry(geometry);
+        showCoordinatesInTextField(geometry);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  geometry  DOCUMENT ME!
+     */
+    private void showCoordinatesInTextField(final Geometry geometry) {
+        if (geometry != null) {
+            final Coordinate[] coordinates = geometry.getEnvelope().getCoordinates();
+            final Coordinate minXminY = coordinates[0];
+            final Coordinate maxXmaxY = coordinates[2];
+            txtCoordinates.setText(minXminY.x + "," + minXminY.y + "," + maxXmaxY.x + "," + maxXmaxY.y);
+        } else {
+            txtCoordinates.setText("");
+        }
     }
 
     @Override
@@ -372,12 +390,13 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
     /**
      * DOCUMENT ME!
      *
-     * @param  geomCidsBean  DOCUMENT ME!
+     * @param  geometry  geomCidsBean DOCUMENT ME!
      */
-    private void setDrawnGeometryToCidsBean(final CidsBean geomCidsBean) {
+    private void setDrawnGeometryToCidsBean(final Geometry geometry) {
         cidsBean.removePropertyChangeListener(this);
         try {
-            cidsBean.setProperty("spatialcoverage", geomCidsBean);
+            cidsBean.setProperty("spatialcoverage", CismapUtils.createGeometryBean(geometry));
+            showCoordinatesInTextField(geometry);
         } catch (Exception ex) {
             LOG.error(ex, ex);
         }
@@ -387,7 +406,7 @@ public class GeometryChooserPanel extends javax.swing.JPanel implements CidsBean
     @Override
     public void featuresAdded(final FeatureCollectionEvent fce) {
         amountOfFeaturesChanged();
-        setDrawnGeometryToCidsBean(CismapUtils.createGeometryBean(getGeometry()));
+        setDrawnGeometryToCidsBean(getGeometry());
     }
 
     @Override
