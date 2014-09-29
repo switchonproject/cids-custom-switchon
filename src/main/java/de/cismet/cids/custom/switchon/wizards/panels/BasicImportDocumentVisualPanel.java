@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -64,6 +65,9 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     private static String WEB_DAV_USER;
     private static String WEB_DAV_PASSWORD;
     private static String BASIC_IMPORT_URL;
+    private static String RESOURCE_TYPE_FOLDER;
+    private static String RESOURCE_TYPE_FOLDER_UNKOWN;
+    private static String TAGGROUP_NOT_SET_FOLDER;
 
     static {
         try {
@@ -74,6 +78,10 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
             WEB_DAV_USER = bundle.getString("user");
             BASIC_IMPORT_URL = bundle.getString("url_basic_import");
+
+            RESOURCE_TYPE_FOLDER = bundle.getString("resourceTypeFolder");
+            RESOURCE_TYPE_FOLDER_UNKOWN = bundle.getString("resourceTypeFolderUnkown");
+            TAGGROUP_NOT_SET_FOLDER = bundle.getString("taggroupNotSetFolder");
         } catch (Exception ex) {
             LOG.error(
                 "Could not read WebDav properties from property file. The umleitungsmechanism for Vermessungrisse will not work", // NOI18N
@@ -81,6 +89,9 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             WEB_DAV_PASSWORD = ""; // NOI18N
             WEB_DAV_USER = ""; // NOI18N
             BASIC_IMPORT_URL = ""; // NOI18N
+            RESOURCE_TYPE_FOLDER = "WP3"; // NOI18N
+            RESOURCE_TYPE_FOLDER_UNKOWN = "default"; // NOI18N
+            TAGGROUP_NOT_SET_FOLDER = "default"; // NOI18N
         }
     }
 
@@ -89,6 +100,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     private boolean saveInContentAllowed = true;
 
     private CidsBean cidsBean;
+    private CidsBean resource;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImport;
@@ -292,6 +304,25 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     public void setCidsBean(final CidsBean cidsBean) {
         this.cidsBean = cidsBean;
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CidsBean getResource() {
+        return resource;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  resource  DOCUMENT ME!
+     */
+    public void setResource(final CidsBean resource) {
+        this.resource = resource;
+    }
+
     /**
      * DOCUMENT ME!
      *
@@ -363,14 +394,14 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             publish(new ProcessInformation(
                     org.openide.util.NbBundle.getMessage(
                         BasicImportDocumentVisualPanel.class,
-                        "BasicImportDocumentVisualPanel.CreateContent.fetchContent"),
+                        "BasicImportDocumentVisualPanel.CreateContent.fetchContent"), // NOI18N
                     0));
             final ContentInformation information = new ContentInformation();
             final String contentType = Files.probeContentType(path);
             fetchContentTypeTag(contentType, information);
 
             boolean upload = true;
-            if (upload && contentType.startsWith("text")) { // NOI18N
+            if (upload && contentType.startsWith("text")) {                       // NOI18N
                 final long size = Files.size(path);
                 upload = size > ONEHUNDRED_KILOBYTES;
             }
@@ -378,7 +409,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 publish(new ProcessInformation(
                         org.openide.util.NbBundle.getMessage(
                             BasicImportDocumentVisualPanel.class,
-                            "BasicImportDocumentVisualPanel.CreateContent.Save"),
+                            "BasicImportDocumentVisualPanel.CreateContent.Save"), // NOI18N
                         25));
                 saveContent(path, information);
             } else {
@@ -387,7 +418,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                     throw new UploadNotSuccessfullException(
                         responseCode,
                         "The upload failed. Http response code is: "
-                                + responseCode);
+                                + responseCode);                                  // NOI18N
                 }
             }
             return information;
@@ -407,7 +438,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 setContentInformationToCidsBean(get());
                 processMessage = org.openide.util.NbBundle.getMessage(
                         BasicImportDocumentVisualPanel.class,
-                        "BasicImportDocumentVisualPanel.CreateContent.finished");
+                        "BasicImportDocumentVisualPanel.CreateContent.finished"); // NOI18N
             } catch (InterruptedException ex) {
                 LOG.error(ex, ex);
                 processMessage = "Upload failed!";
@@ -415,7 +446,8 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 LOG.error(ex, ex);
                 final Throwable cause = ex.getCause();
                 if (cause instanceof UploadNotSuccessfullException) {
-                    processMessage = "Upload failed: " + ((UploadNotSuccessfullException)cause).responseCode;
+                    final int statusCode = ((UploadNotSuccessfullException)cause).responseCode;
+                    processMessage = "Upload failed: " + statusCode + " - " + HttpStatus.getStatusText(statusCode);
                 } else {
                     processMessage = "Upload failed!";
                 }
@@ -459,11 +491,11 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
          */
         private int uploadContent(final Path path, final ContentInformation information) throws Exception {
             final String filename = FilenameUtils.getName(path.toString());
-            final String url = BASIC_IMPORT_URL + filename;
+            final String url = determineUrl(filename);
 
             final String message = java.text.MessageFormat.format(java.util.ResourceBundle.getBundle(
-                        "de/cismet/cids/custom/switchon/wizards/panels/Bundle").getString(
-                        "BasicImportDocumentVisualPanel.CreateContent.uploadTo"),
+                        "de/cismet/cids/custom/switchon/wizards/panels/Bundle").getString( // NOI18N
+                        "BasicImportDocumentVisualPanel.CreateContent.uploadTo"),          // NOI18N
                     url);
             publish(new ProcessInformation(message, 25));
 
@@ -481,6 +513,49 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             information.content = null;
             information.contentLocation = url;
             return responseCode;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   filename  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private String determineUrl(final String filename) {
+            String resourceTypeFolder = RESOURCE_TYPE_FOLDER_UNKOWN;
+            String geographyFolder = TAGGROUP_NOT_SET_FOLDER;
+            String hydrologicalConceptFolder = TAGGROUP_NOT_SET_FOLDER;
+
+            if (resource != null) {
+                final CidsBean resourceType = (CidsBean)resource.getProperty("type");              // NOI18N
+                if (resourceType != null) {
+                    final String resourceTypeName = (String)resourceType.getProperty("name");      // NOI18N
+                    if (resourceTypeName.equals("repurposed data")
+                                || resourceTypeName.equals("experiment result data")               // NOI18N
+                                || resourceTypeName.equals("repurposed experiment result data")) { // NOI18N
+                        resourceTypeFolder = RESOURCE_TYPE_FOLDER;
+                    }
+                }
+
+                final List<CidsBean> tags = resource.getBeanCollectionProperty("tags"); // NOI18N
+
+                final CidsBean geographyTag = TagUtils.returnFirstOccurrenceOfTaggroup(tags, "geography"); // NOI18N
+                if (geographyTag != null) {
+                    geographyFolder = (String)geographyTag.getProperty("name");                            // NOI18N
+                }
+
+                final CidsBean hydrologicalConceptTag = TagUtils.returnFirstOccurrenceOfTaggroup(
+                        tags,
+                        "hydrological concept");                                                    // NOI18N
+                if (hydrologicalConceptTag != null) {
+                    hydrologicalConceptFolder = (String)hydrologicalConceptTag.getProperty("name"); // NOI18N
+                }
+            }
+
+            final String url = BASIC_IMPORT_URL + resourceTypeFolder + "/" + geographyFolder + "/"
+                        + hydrologicalConceptFolder + "/" + filename; // NOI18N //NOI18N
+            return url;
         }
 
         /**

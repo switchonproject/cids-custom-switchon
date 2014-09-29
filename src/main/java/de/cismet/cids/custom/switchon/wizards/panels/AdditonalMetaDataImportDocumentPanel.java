@@ -24,8 +24,8 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditonalMetaDataImportDocumentPanel
-        extends GenericAbstractWizardPanel<AdditonalMetaDataImportDocumentVisualPanel> implements NameProvider {
+public class AdditonalMetaDataImportDocumentPanel extends GenericAbstractWizardPanel<BasicImportDocumentVisualPanel>
+        implements NameProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -37,9 +37,9 @@ public class AdditonalMetaDataImportDocumentPanel
      * Creates a new AdditonalMetaDataImportDocumentPanel object.
      */
     public AdditonalMetaDataImportDocumentPanel() {
-        super(AdditonalMetaDataImportDocumentVisualPanel.class);
+        super(BasicImportDocumentVisualPanel.class);
         setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                AdditonalMetaDataImportDocumentVisualPanel.class,
+                BasicImportDocumentVisualPanel.class,
                 "AdditonalMetaDataImportDocumentVisualPanel.generalInformation"));
     }
 
@@ -50,6 +50,8 @@ public class AdditonalMetaDataImportDocumentPanel
         wizard.putProperty(MetaDataWizardAction.PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED, Boolean.TRUE);
         final CidsBean metaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN);
         getComponent().setCidsBean(metaData);
+        final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+        getComponent().setResource(resource);
     }
 
     @Override

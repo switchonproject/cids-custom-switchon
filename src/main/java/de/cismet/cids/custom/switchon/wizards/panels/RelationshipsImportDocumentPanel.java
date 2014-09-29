@@ -26,7 +26,7 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RelationshipsImportDocumentPanel extends GenericAbstractWizardPanel<RelationshipsImportDocumentVisualPanel>
+public class RelationshipsImportDocumentPanel extends GenericAbstractWizardPanel<BasicImportDocumentVisualPanel>
         implements NameProvider {
 
     //~ Static fields/initializers ---------------------------------------------
@@ -39,9 +39,9 @@ public class RelationshipsImportDocumentPanel extends GenericAbstractWizardPanel
      * Creates a new RelationshipsImportDocumentPanel object.
      */
     public RelationshipsImportDocumentPanel() {
-        super(RelationshipsImportDocumentVisualPanel.class);
+        super(BasicImportDocumentVisualPanel.class);
         setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                RelationshipsImportDocumentVisualPanel.class,
+                BasicImportDocumentVisualPanel.class,
                 "RelationshipsImportDocumentVisualPanel.generalInformation"));
     }
 
@@ -60,6 +60,8 @@ public class RelationshipsImportDocumentPanel extends GenericAbstractWizardPanel
         }
         if (!metaDatas.isEmpty()) {
             getComponent().setCidsBean(metaDatas.get(0));
+            final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+            getComponent().setResource(resource);
         }
     }
 
