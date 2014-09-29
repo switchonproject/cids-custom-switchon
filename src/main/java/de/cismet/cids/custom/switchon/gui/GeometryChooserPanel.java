@@ -382,8 +382,8 @@ public class GeometryChooserPanel extends InfoProviderJPanel implements CidsBean
      * @param  geometry  DOCUMENT ME!
      */
     private void showCoordinatesInTextField(final Geometry geometry) {
-        if (geometry != null) {
-            final Coordinate[] coordinates = geometry.getEnvelope().getCoordinates();
+        if ((geometry != null) && geometry.isRectangle()) {
+            final Coordinate[] coordinates = geometry.getCoordinates();
             final Coordinate minXminY = coordinates[0];
             final Coordinate maxXmaxY = coordinates[2];
             txtCoordinates.setText(minXminY.y + "," + minXminY.x + "," + maxXmaxY.y + "," + maxXmaxY.x);
