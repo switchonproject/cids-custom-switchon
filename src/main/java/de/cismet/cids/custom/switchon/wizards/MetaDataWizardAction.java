@@ -193,6 +193,8 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         final CidsBean resource = (CidsBean)wizard.getProperty(
                 MetaDataWizardAction.PROP_RESOURCE_BEAN);
         DefaultPropertySetter.setDefaultsToResourceCidsBean(resource);
+
+        setStandardMetaData(resource);
     }
 
     /**
@@ -218,7 +220,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
     }
 
     /**
-     * DOCUMENT ME!
+     * Fetches the standard meta data from the database in a SwingWorker. If it does not exist yet it will be created.
      *
      * @param  resource  DOCUMENT ME!
      */

@@ -201,4 +201,20 @@ public class DefaultPropertySetter {
         }
         return null;
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   metadata  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static boolean isStandardMetaData(final CidsBean metadata) {
+        if (metadata != null) {
+            final String name = (String)metadata.getProperty("name");
+            return defaultNameMetaData.equals(name);
+        } else {
+            return false;
+        }
+    }
 }
