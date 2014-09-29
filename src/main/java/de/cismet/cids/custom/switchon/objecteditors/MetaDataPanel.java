@@ -13,9 +13,14 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.RowFilter;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
+import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -165,6 +170,9 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
         add(btnEditMetaData, gridBagConstraints);
 
         tblMetaDatas.setAutoCreateRowSorter(true);
+        tblMetaDatas.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][] {},
+                new String[] {}));
         tblMetaDatas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(tblMetaDatas);
 
@@ -258,6 +266,19 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
                 tblMetaDatas.getColumnModel().getColumn(2).setCellRenderer(new NullCellRenderer());
                 tblMetaDatas.getColumnModel().getColumn(3).setCellRenderer(new NullCellRenderer());
             }
+
+            // set filter to hide standard meta data
+            final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tblMetaDatas.getModel());
+            tblMetaDatas.setRowSorter(sorter);
+
+            sorter.setRowFilter(
+                new RowFilter<TableModel, Integer>() {
+
+                    @Override
+                    public boolean include(final RowFilter.Entry<? extends TableModel, ? extends Integer> entry) {
+                        return !DefaultPropertySetter.isStandardMetaData(metadatas.get(entry.getIdentifier()));
+                    }
+                });
         }
     }
 
