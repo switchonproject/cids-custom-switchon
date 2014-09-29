@@ -11,6 +11,8 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
+import org.openide.util.Exceptions;
+
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
@@ -21,8 +23,10 @@ import java.awt.dnd.DropTargetListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import java.net.URI;
+import java.net.URLEncoder;
 
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -414,7 +418,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 saveContent(path, information);
             } else {
                 final int responseCode = uploadContent(path, information);
-                if (responseCode != 200) {
+                if (!((responseCode == 200) || (responseCode == 201))) {
                     throw new UploadNotSuccessfullException(
                         responseCode,
                         "The upload failed. Http response code is: "
@@ -555,13 +559,18 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 }
             }
 
-            final String urlBase = BASIC_IMPORT_URL + resourceTypeFolder + "/" + geographyFolder + "/"
-                        + hydrologicalConceptFolder + "/"; // NOI18N
+            String urlBase = BASIC_IMPORT_URL + urlEncode(resourceTypeFolder);
+            checkAndCreateFolder(webdavclient, urlBase);
+            urlBase += "/" + urlEncode(geographyFolder);
+            checkAndCreateFolder(webdavclient, urlBase);
+            urlBase += "/" + urlEncode(hydrologicalConceptFolder);
+            checkAndCreateFolder(webdavclient, urlBase);
+            urlBase += "/";
 
-            final String baseName = FilenameUtils.getBaseName(filename);
+            final String baseName = urlEncode(FilenameUtils.getBaseName(filename));
             final String extension = FilenameUtils.getExtension(filename);
 
-            String tmpFileName = filename;
+            String tmpFileName = urlEncode(filename);
             int i = 2;
             while (WebDavHelper.isUrlAccessible(webdavclient, urlBase + tmpFileName)) {
                 tmpFileName = baseName + "(" + i + ")" + "." + extension;
@@ -569,6 +578,24 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             }
 
             return urlBase + tmpFileName;
+        }
+
+        /**
+         * Encodes a URL with the class URLEncoder and the encoding UTF-8. If the encoding is not supported a standard
+         * encoding will be used.
+         *
+         * @param   string  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private String urlEncode(String string) {
+            try {
+                string = URLEncoder.encode(string, "UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+                LOG.error("The encoding UTF-8 is not supported, use standard encoding instead.", ex);
+                string = URLEncoder.encode(string);
+            }
+            return string.replace("+", "%20");
         }
 
         /**
@@ -584,6 +611,22 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             } catch (IOException ex) {
                 LOG.error("Could not read content of:" + path, ex); // NOI18N
                 information.content = "";                           // NOI18N
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  webdavclient  DOCUMENT ME!
+         * @param  urlBase       DOCUMENT ME!
+         */
+        private void checkAndCreateFolder(final WebDavClient webdavclient, final String urlBase) {
+            if (!WebDavHelper.isUrlAccessible(webdavclient, urlBase)) {
+                try {
+                    webdavclient.mkCol(urlBase);
+                } catch (IOException ex) {
+                    LOG.error(ex, ex);
+                }
             }
         }
     }
