@@ -369,20 +369,26 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             final String contentType = Files.probeContentType(path);
             fetchContentTypeTag(contentType, information);
 
-            boolean upload = !saveInContentAllowed;
+            boolean upload = true;
             if (upload && contentType.startsWith("text")) { // NOI18N
                 final long size = Files.size(path);
                 upload = size > ONEHUNDRED_KILOBYTES;
             }
-            if (upload) {
-                uploadContent(path, information);
-            } else {
+            if (saveInContentAllowed && !upload) {
                 publish(new ProcessInformation(
                         org.openide.util.NbBundle.getMessage(
                             BasicImportDocumentVisualPanel.class,
                             "BasicImportDocumentVisualPanel.CreateContent.Save"),
                         25));
                 saveContent(path, information);
+            } else {
+                final int responseCode = uploadContent(path, information);
+                if (responseCode != 200) {
+                    throw new UploadNotSuccessfullException(
+                        responseCode,
+                        "The upload failed. Http response code is: "
+                                + responseCode);
+                }
             }
             return information;
         }
