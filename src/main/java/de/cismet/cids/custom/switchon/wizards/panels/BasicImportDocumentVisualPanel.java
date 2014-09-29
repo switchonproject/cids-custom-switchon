@@ -504,7 +504,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                     WEB_DAV_PASSWORD,
                     true);
             final int responseCode = WebDavHelper.uploadFileToWebDAV(
-                    filename,
+                    "",
                     path.toFile(),
                     url,
                     webdavclient,
