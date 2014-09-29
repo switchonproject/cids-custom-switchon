@@ -396,21 +396,29 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
         @Override
         protected void done() {
+            String processMessage;
             try {
                 setContentInformationToCidsBean(get());
+                processMessage = org.openide.util.NbBundle.getMessage(
+                        BasicImportDocumentVisualPanel.class,
+                        "BasicImportDocumentVisualPanel.CreateContent.finished");
             } catch (InterruptedException ex) {
                 LOG.error(ex, ex);
+                processMessage = "Upload failed!";
             } catch (ExecutionException ex) {
                 LOG.error(ex, ex);
+                final Throwable cause = ex.getCause();
+                if (cause instanceof UploadNotSuccessfullException) {
+                    processMessage = "Upload failed: " + ((UploadNotSuccessfullException)cause).responseCode;
+                } else {
+                    processMessage = "Upload failed!";
+                }
             } catch (Exception ex) {
                 LOG.error(ex, ex);
-            } finally {
-                showProcess(new ProcessInformation(
-                        org.openide.util.NbBundle.getMessage(
-                            BasicImportDocumentVisualPanel.class,
-                            "BasicImportDocumentVisualPanel.CreateContent.finished"),
-                        100));
+                processMessage = "Upload failed!";
             }
+            showProcess(new ProcessInformation(processMessage,
+                    100));
         }
 
         /**
@@ -439,9 +447,11 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
          * @param   path         DOCUMENT ME!
          * @param   information  DOCUMENT ME!
          *
+         * @return  DOCUMENT ME!
+         *
          * @throws  Exception  DOCUMENT ME!
          */
-        private void uploadContent(final Path path, final ContentInformation information) throws Exception {
+        private int uploadContent(final Path path, final ContentInformation information) throws Exception {
             final String filename = FilenameUtils.getName(path.toString());
             final String url = BASIC_IMPORT_URL + filename;
 
@@ -455,15 +465,16 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                     WEB_DAV_USER,
                     WEB_DAV_PASSWORD,
                     true);
-            WebDavHelper.uploadFileToWebDAV(
-                filename,
-                path.toFile(),
-                url,
-                webdavclient,
-                BasicImportDocumentVisualPanel.this);
+            final int responseCode = WebDavHelper.uploadFileToWebDAV(
+                    filename,
+                    path.toFile(),
+                    url,
+                    webdavclient,
+                    BasicImportDocumentVisualPanel.this);
 
             information.content = null;
             information.contentLocation = url;
+            return responseCode;
         }
 
         /**
@@ -482,6 +493,32 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             }
         }
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class UploadNotSuccessfullException extends Exception {
+
+        //~ Instance fields ----------------------------------------------------
+
+        int responseCode;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new UploadNotSuccessfullException object.
+         *
+         * @param  responseCode  DOCUMENT ME!
+         * @param  message       DOCUMENT ME!
+         */
+        public UploadNotSuccessfullException(final int responseCode, final String message) {
+            super(message);
+            this.responseCode = responseCode;
+        }
+    }
+
     /**
      * DOCUMENT ME!
      *
