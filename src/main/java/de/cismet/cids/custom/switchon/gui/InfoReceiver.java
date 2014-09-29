@@ -23,4 +23,11 @@ public interface InfoReceiver {
      * @param  information  DOCUMENT ME!
      */
     void setInformation(String information);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  error  DOCUMENT ME!
+     */
+    void setError(String error);
 }

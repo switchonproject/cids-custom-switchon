@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.openide.WizardDescriptor;
+
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
@@ -52,9 +54,13 @@ public class GeographicInformationVisualPanel extends javax.swing.JPanel impleme
 
     /**
      * Creates new form GeographicInformationVisualPanel.
+     *
+     * @param  wizard  DOCUMENT ME!
      */
-    public GeographicInformationVisualPanel() {
+    public GeographicInformationVisualPanel(final WizardDescriptor wizard) {
         initComponents();
+        geometryChooserPanel.setInfoReceiver(infoBoxPanel);
+        infoBoxPanel.setWizard(wizard);
     }
 
     //~ Methods ----------------------------------------------------------------
