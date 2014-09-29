@@ -490,8 +490,13 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
          * @throws  Exception  DOCUMENT ME!
          */
         private int uploadContent(final Path path, final ContentInformation information) throws Exception {
+            final WebDavClient webdavclient = new WebDavClient(Proxy.fromPreferences(),
+                    WEB_DAV_USER,
+                    WEB_DAV_PASSWORD,
+                    true);
+
             final String filename = FilenameUtils.getName(path.toString());
-            final String url = determineUrl(filename);
+            final String url = determineUrl(webdavclient, filename);
 
             final String message = java.text.MessageFormat.format(java.util.ResourceBundle.getBundle(
                         "de/cismet/cids/custom/switchon/wizards/panels/Bundle").getString( // NOI18N
@@ -499,10 +504,6 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                     url);
             publish(new ProcessInformation(message, 25));
 
-            final WebDavClient webdavclient = new WebDavClient(Proxy.fromPreferences(),
-                    WEB_DAV_USER,
-                    WEB_DAV_PASSWORD,
-                    true);
             final int responseCode = WebDavHelper.uploadFileToWebDAV(
                     "",
                     path.toFile(),
@@ -518,11 +519,12 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         /**
          * DOCUMENT ME!
          *
-         * @param   filename  DOCUMENT ME!
+         * @param   webdavclient  DOCUMENT ME!
+         * @param   filename      DOCUMENT ME!
          *
          * @return  DOCUMENT ME!
          */
-        private String determineUrl(final String filename) {
+        private String determineUrl(final WebDavClient webdavclient, final String filename) {
             String resourceTypeFolder = RESOURCE_TYPE_FOLDER_UNKOWN;
             String geographyFolder = TAGGROUP_NOT_SET_FOLDER;
             String hydrologicalConceptFolder = TAGGROUP_NOT_SET_FOLDER;
@@ -553,9 +555,20 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 }
             }
 
-            final String url = BASIC_IMPORT_URL + resourceTypeFolder + "/" + geographyFolder + "/"
-                        + hydrologicalConceptFolder + "/" + filename; // NOI18N //NOI18N
-            return url;
+            final String urlBase = BASIC_IMPORT_URL + resourceTypeFolder + "/" + geographyFolder + "/"
+                        + hydrologicalConceptFolder + "/"; // NOI18N
+
+            final String baseName = FilenameUtils.getBaseName(filename);
+            final String extension = FilenameUtils.getExtension(filename);
+
+            String tmpFileName = filename;
+            int i = 2;
+            while (WebDavHelper.isUrlAccessible(webdavclient, urlBase + tmpFileName)) {
+                tmpFileName = baseName + "(" + i + ")" + "." + extension;
+                i += 1;
+            }
+
+            return urlBase + tmpFileName;
         }
 
         /**
