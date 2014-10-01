@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import javax.swing.Icon;
@@ -351,7 +352,12 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         } else {
             hypDownload.setVisible(false);
 
-            final String text = functionBundle.getString(function + ".action");
+            String text = "Open in browser";
+            try {
+                text = functionBundle.getString(function + ".action");
+            } catch (MissingResourceException ex) {
+                LOG.warn(ex, ex);
+            }
             hypOpenInBrowser.setText(text);
 
             final String protocol = (String)cidsBean.getProperty("protocol.name");
