@@ -7,8 +7,11 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+
+import org.openide.util.Exceptions;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
@@ -20,8 +23,10 @@ import java.awt.dnd.DropTargetListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import java.net.URI;
+import java.net.URLEncoder;
 
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -64,6 +69,9 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     private static String WEB_DAV_USER;
     private static String WEB_DAV_PASSWORD;
     private static String BASIC_IMPORT_URL;
+    private static String RESOURCE_TYPE_FOLDER;
+    private static String RESOURCE_TYPE_FOLDER_UNKOWN;
+    private static String TAGGROUP_NOT_SET_FOLDER;
 
     static {
         try {
@@ -74,6 +82,10 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
             WEB_DAV_USER = bundle.getString("user");
             BASIC_IMPORT_URL = bundle.getString("url_basic_import");
+
+            RESOURCE_TYPE_FOLDER = bundle.getString("resourceTypeFolder");
+            RESOURCE_TYPE_FOLDER_UNKOWN = bundle.getString("resourceTypeFolderUnkown");
+            TAGGROUP_NOT_SET_FOLDER = bundle.getString("taggroupNotSetFolder");
         } catch (Exception ex) {
             LOG.error(
                 "Could not read WebDav properties from property file. The umleitungsmechanism for Vermessungrisse will not work", // NOI18N
@@ -81,6 +93,9 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             WEB_DAV_PASSWORD = ""; // NOI18N
             WEB_DAV_USER = ""; // NOI18N
             BASIC_IMPORT_URL = ""; // NOI18N
+            RESOURCE_TYPE_FOLDER = "WP3"; // NOI18N
+            RESOURCE_TYPE_FOLDER_UNKOWN = "default"; // NOI18N
+            TAGGROUP_NOT_SET_FOLDER = "default"; // NOI18N
         }
     }
 
@@ -89,6 +104,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     private boolean saveInContentAllowed = true;
 
     private CidsBean cidsBean;
+    private CidsBean resource;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImport;
@@ -292,6 +308,25 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     public void setCidsBean(final CidsBean cidsBean) {
         this.cidsBean = cidsBean;
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CidsBean getResource() {
+        return resource;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  resource  DOCUMENT ME!
+     */
+    public void setResource(final CidsBean resource) {
+        this.resource = resource;
+    }
+
     /**
      * DOCUMENT ME!
      *
@@ -363,26 +398,32 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             publish(new ProcessInformation(
                     org.openide.util.NbBundle.getMessage(
                         BasicImportDocumentVisualPanel.class,
-                        "BasicImportDocumentVisualPanel.CreateContent.fetchContent"),
+                        "BasicImportDocumentVisualPanel.CreateContent.fetchContent"), // NOI18N
                     0));
             final ContentInformation information = new ContentInformation();
             final String contentType = Files.probeContentType(path);
             fetchContentTypeTag(contentType, information);
 
-            boolean upload = !saveInContentAllowed;
-            if (upload && contentType.startsWith("text")) { // NOI18N
+            boolean upload = true;
+            if (upload && contentType.startsWith("text")) {                       // NOI18N
                 final long size = Files.size(path);
                 upload = size > ONEHUNDRED_KILOBYTES;
             }
-            if (upload) {
-                uploadContent(path, information);
-            } else {
+            if (saveInContentAllowed && !upload) {
                 publish(new ProcessInformation(
                         org.openide.util.NbBundle.getMessage(
                             BasicImportDocumentVisualPanel.class,
-                            "BasicImportDocumentVisualPanel.CreateContent.Save"),
+                            "BasicImportDocumentVisualPanel.CreateContent.Save"), // NOI18N
                         25));
                 saveContent(path, information);
+            } else {
+                final int responseCode = uploadContent(path, information);
+                if (!((responseCode == 200) || (responseCode == 201))) {
+                    throw new UploadNotSuccessfullException(
+                        responseCode,
+                        "The upload failed. Http response code is: "
+                                + responseCode);                                  // NOI18N
+                }
             }
             return information;
         }
@@ -396,21 +437,30 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
         @Override
         protected void done() {
+            String processMessage;
             try {
                 setContentInformationToCidsBean(get());
+                processMessage = org.openide.util.NbBundle.getMessage(
+                        BasicImportDocumentVisualPanel.class,
+                        "BasicImportDocumentVisualPanel.CreateContent.finished"); // NOI18N
             } catch (InterruptedException ex) {
                 LOG.error(ex, ex);
+                processMessage = "Upload failed!";
             } catch (ExecutionException ex) {
                 LOG.error(ex, ex);
+                final Throwable cause = ex.getCause();
+                if (cause instanceof UploadNotSuccessfullException) {
+                    final int statusCode = ((UploadNotSuccessfullException)cause).responseCode;
+                    processMessage = "Upload failed: " + statusCode + " - " + HttpStatus.getStatusText(statusCode);
+                } else {
+                    processMessage = "Upload failed!";
+                }
             } catch (Exception ex) {
                 LOG.error(ex, ex);
-            } finally {
-                showProcess(new ProcessInformation(
-                        org.openide.util.NbBundle.getMessage(
-                            BasicImportDocumentVisualPanel.class,
-                            "BasicImportDocumentVisualPanel.CreateContent.finished"),
-                        100));
+                processMessage = "Upload failed!";
             }
+            showProcess(new ProcessInformation(processMessage,
+                    100));
         }
 
         /**
@@ -439,31 +489,113 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
          * @param   path         DOCUMENT ME!
          * @param   information  DOCUMENT ME!
          *
+         * @return  DOCUMENT ME!
+         *
          * @throws  Exception  DOCUMENT ME!
          */
-        private void uploadContent(final Path path, final ContentInformation information) throws Exception {
-            final String filename = FilenameUtils.getName(path.toString());
-            final String url = BASIC_IMPORT_URL + filename;
-
-            final String message = java.text.MessageFormat.format(java.util.ResourceBundle.getBundle(
-                        "de/cismet/cids/custom/switchon/wizards/panels/Bundle").getString(
-                        "BasicImportDocumentVisualPanel.CreateContent.uploadTo"),
-                    url);
-            publish(new ProcessInformation(message, 25));
-
+        private int uploadContent(final Path path, final ContentInformation information) throws Exception {
             final WebDavClient webdavclient = new WebDavClient(Proxy.fromPreferences(),
                     WEB_DAV_USER,
                     WEB_DAV_PASSWORD,
                     true);
-            WebDavHelper.uploadFileToWebDAV(
-                filename,
-                path.toFile(),
-                url,
-                webdavclient,
-                BasicImportDocumentVisualPanel.this);
+
+            final String filename = FilenameUtils.getName(path.toString());
+            final String url = determineUrl(webdavclient, filename);
+
+            final String message = java.text.MessageFormat.format(java.util.ResourceBundle.getBundle(
+                        "de/cismet/cids/custom/switchon/wizards/panels/Bundle").getString( // NOI18N
+                        "BasicImportDocumentVisualPanel.CreateContent.uploadTo"),          // NOI18N
+                    url);
+            publish(new ProcessInformation(message, 25));
+
+            final int responseCode = WebDavHelper.uploadFileToWebDAV(
+                    "",
+                    path.toFile(),
+                    url,
+                    webdavclient,
+                    BasicImportDocumentVisualPanel.this);
 
             information.content = null;
             information.contentLocation = url;
+            return responseCode;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   webdavclient  DOCUMENT ME!
+         * @param   filename      DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private String determineUrl(final WebDavClient webdavclient, final String filename) {
+            String resourceTypeFolder = RESOURCE_TYPE_FOLDER_UNKOWN;
+            String geographyFolder = TAGGROUP_NOT_SET_FOLDER;
+            String hydrologicalConceptFolder = TAGGROUP_NOT_SET_FOLDER;
+
+            if (resource != null) {
+                final CidsBean resourceType = (CidsBean)resource.getProperty("type");              // NOI18N
+                if (resourceType != null) {
+                    final String resourceTypeName = (String)resourceType.getProperty("name");      // NOI18N
+                    if (resourceTypeName.equals("repurposed data")
+                                || resourceTypeName.equals("experiment result data")               // NOI18N
+                                || resourceTypeName.equals("repurposed experiment result data")) { // NOI18N
+                        resourceTypeFolder = RESOURCE_TYPE_FOLDER;
+                    }
+                }
+
+                final List<CidsBean> tags = resource.getBeanCollectionProperty("tags"); // NOI18N
+
+                final CidsBean geographyTag = TagUtils.returnFirstOccurrenceOfTaggroup(tags, "geography"); // NOI18N
+                if (geographyTag != null) {
+                    geographyFolder = (String)geographyTag.getProperty("name");                            // NOI18N
+                }
+
+                final CidsBean hydrologicalConceptTag = TagUtils.returnFirstOccurrenceOfTaggroup(
+                        tags,
+                        "hydrological concept");                                                    // NOI18N
+                if (hydrologicalConceptTag != null) {
+                    hydrologicalConceptFolder = (String)hydrologicalConceptTag.getProperty("name"); // NOI18N
+                }
+            }
+
+            String urlBase = BASIC_IMPORT_URL + urlEncode(resourceTypeFolder);
+            checkAndCreateFolder(webdavclient, urlBase);
+            urlBase += "/" + urlEncode(geographyFolder);
+            checkAndCreateFolder(webdavclient, urlBase);
+            urlBase += "/" + urlEncode(hydrologicalConceptFolder);
+            checkAndCreateFolder(webdavclient, urlBase);
+            urlBase += "/";
+
+            final String baseName = urlEncode(FilenameUtils.getBaseName(filename));
+            final String extension = FilenameUtils.getExtension(filename);
+
+            String tmpFileName = urlEncode(filename);
+            int i = 2;
+            while (WebDavHelper.isUrlAccessible(webdavclient, urlBase + tmpFileName)) {
+                tmpFileName = baseName + "(" + i + ")" + "." + extension;
+                i += 1;
+            }
+
+            return urlBase + tmpFileName;
+        }
+
+        /**
+         * Encodes a URL with the class URLEncoder and the encoding UTF-8. If the encoding is not supported a standard
+         * encoding will be used.
+         *
+         * @param   string  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private String urlEncode(String string) {
+            try {
+                string = URLEncoder.encode(string, "UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+                LOG.error("The encoding UTF-8 is not supported, use standard encoding instead.", ex);
+                string = URLEncoder.encode(string);
+            }
+            return string.replace("+", "%20");
         }
 
         /**
@@ -481,7 +613,49 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 information.content = "";                           // NOI18N
             }
         }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  webdavclient  DOCUMENT ME!
+         * @param  urlBase       DOCUMENT ME!
+         */
+        private void checkAndCreateFolder(final WebDavClient webdavclient, final String urlBase) {
+            if (!WebDavHelper.isUrlAccessible(webdavclient, urlBase)) {
+                try {
+                    webdavclient.mkCol(urlBase);
+                } catch (IOException ex) {
+                    LOG.error(ex, ex);
+                }
+            }
+        }
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class UploadNotSuccessfullException extends Exception {
+
+        //~ Instance fields ----------------------------------------------------
+
+        int responseCode;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new UploadNotSuccessfullException object.
+         *
+         * @param  responseCode  DOCUMENT ME!
+         * @param  message       DOCUMENT ME!
+         */
+        public UploadNotSuccessfullException(final int responseCode, final String message) {
+            super(message);
+            this.responseCode = responseCode;
+        }
+    }
+
     /**
      * DOCUMENT ME!
      *
