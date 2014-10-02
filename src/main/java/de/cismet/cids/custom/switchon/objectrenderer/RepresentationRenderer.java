@@ -103,8 +103,6 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        representationUploadFinishedPanel =
-            new de.cismet.cids.custom.switchon.objectrenderer.RepresentationUploadFinishedPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaDescription = new javax.swing.JTextArea();
@@ -121,20 +119,14 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 0));
+        representationUploadFinishedPanel =
+            new de.cismet.cids.custom.switchon.objectrenderer.RepresentationUploadFinishedPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
-
-        representationUploadFinishedPanel.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 16);
-        add(representationUploadFinishedPanel, gridBagConstraints);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
@@ -213,7 +205,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 5, 10, 10);
@@ -289,10 +281,17 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         jPanel3.add(jPanel2, gridBagConstraints);
+
+        representationUploadFinishedPanel.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 10);
+        jPanel3.add(representationUploadFinishedPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -398,6 +397,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         if ("OGC:WFS".equalsIgnoreCase(protocol) || "OGC:WMS".equalsIgnoreCase(protocol)) {
             hypAddToCismap.setVisible(true);
             lblAddToCismapIcon.setVisible(true);
+            representationUploadFinishedPanel.setVisible(true);
 
             hypAddToCismap.addActionListener(new ActionListener() {
 
@@ -413,6 +413,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         } else {
             hypAddToCismap.setVisible(false);
             lblAddToCismapIcon.setVisible(false);
+            representationUploadFinishedPanel.setVisible(false);
         }
     }
 
