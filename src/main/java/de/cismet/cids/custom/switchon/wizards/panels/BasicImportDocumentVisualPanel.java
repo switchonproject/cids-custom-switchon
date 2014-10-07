@@ -73,12 +73,10 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     private static String RESOURCE_TYPE_FOLDER_UNKOWN;
     private static String TAGGROUP_NOT_SET_FOLDER;
 
-    private static final Future<CidsBean> SHAPEFILE;
-    private static final Future<CidsBean> GEOTIFF;
+    private static final Future<CidsBean> GEOSERVER;
 
     static {
-        SHAPEFILE = TagUtils.fetchFutureTagByName("shapefile");
-        GEOTIFF = TagUtils.fetchFutureTagByName("geotiff");
+        GEOSERVER = TagUtils.fetchFutureTagByName("geoserver");
         try {
             final ResourceBundle bundle = ResourceBundle.getBundle(
                     "de/cismet/cids/custom/switchon/wizards/panels/webdav/WebDav"); // NOI18N
@@ -336,20 +334,16 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         try {
             // remove all publish styles
             final Collection<CidsBean> tags = getCidsBean().getBeanCollectionProperty("tags");
-            tags.remove(GEOTIFF.get());
-            tags.remove(SHAPEFILE.get());
+            tags.remove(GEOSERVER.get());
 
             if (chbPublish.isSelected()) {
                 final String contentType = getCidsBean().getProperty("contenttype").toString();
                 switch (contentType) {
                     case "image/tiff":
-                    case "image/geotiff": {
-                        tags.add(GEOTIFF.get());
-                        break;
-                    }
+                    case "image/geotiff":
                     case "application/zip":
                     case "application/shp": {
-                        tags.add(SHAPEFILE.get());
+                        tags.add(GEOSERVER.get());
                         break;
                     }
                 }
@@ -447,8 +441,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 chbPublish.setSelected(false);
                 // remove all publish styles
                 final Collection<CidsBean> tags = getCidsBean().getBeanCollectionProperty("tags");
-                tags.remove(GEOTIFF.get());
-                tags.remove(SHAPEFILE.get());
+                tags.remove(GEOSERVER.get());
             }
         } catch (InterruptedException ex) {
             LOG.error(ex, ex);
