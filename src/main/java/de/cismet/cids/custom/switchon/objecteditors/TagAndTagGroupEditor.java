@@ -872,7 +872,7 @@ public class TagAndTagGroupEditor extends javax.swing.JPanel implements EditorSa
     }
 
     @Override
-    public HashSet<CidsBean> getPersistedCidsBeans() {
+    public HashSet<CidsBean> getModifiedCidsBeans() {
         return persistedCidsBeans;
     }
 
