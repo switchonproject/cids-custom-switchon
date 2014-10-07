@@ -128,9 +128,11 @@ public class RepresentationUploadFinishedPanel extends javax.swing.JPanel implem
     private void setLabelText() {
         if (representation != null) {
             final CidsBean uploadStatus = (CidsBean)representation.getProperty("uploadstatus");
+            final String uploadMessage = (String)representation.getProperty("uploadmessage");
             if (uploadStatus != null) {
                 lblUpload.setVisible(true);
                 final String status = (String)uploadStatus.getProperty("name");
+                lblUpload.setToolTipText(uploadMessage);
                 switch (status) {
                     case "uploading": {
                         lblUpload.setText("Uploading");
