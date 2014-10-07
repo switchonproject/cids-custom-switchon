@@ -11,8 +11,6 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
-import org.openide.util.Exceptions;
-
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
@@ -33,9 +31,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
@@ -73,7 +73,12 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     private static String RESOURCE_TYPE_FOLDER_UNKOWN;
     private static String TAGGROUP_NOT_SET_FOLDER;
 
+    private static final Future<CidsBean> SHAPEFILE;
+    private static final Future<CidsBean> GEOTIFF;
+
     static {
+        SHAPEFILE = TagUtils.fetchFutureTagByName("shapefile");
+        GEOTIFF = TagUtils.fetchFutureTagByName("geotiff");
         try {
             final ResourceBundle bundle = ResourceBundle.getBundle(
                     "de/cismet/cids/custom/switchon/wizards/panels/webdav/WebDav"); // NOI18N
@@ -108,6 +113,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImport;
+    private javax.swing.JCheckBox chbPublish;
     private de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -168,6 +174,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         txtLocation = new javax.swing.JTextArea();
         lblFileChooser = new javax.swing.JLabel();
         btnImport = new javax.swing.JButton();
+        chbPublish = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         prbStatus = new javax.swing.JProgressBar();
         jPanel3 = new javax.swing.JPanel();
@@ -231,11 +238,32 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlImport.add(btnImport, gridBagConstraints);
 
+        org.openide.awt.Mnemonics.setLocalizedText(
+            chbPublish,
+            org.openide.util.NbBundle.getMessage(
+                BasicImportDocumentVisualPanel.class,
+                "BasicImportDocumentVisualPanel.chbPublish.text")); // NOI18N
+        chbPublish.setEnabled(false);
+        chbPublish.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chbPublishActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        pnlImport.add(chbPublish, gridBagConstraints);
+        chbPublish.setVisible(false);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(pnlImport, gridBagConstraints);
@@ -298,6 +326,40 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         final String pathStr = txtLocation.getText();
         new CreateContent(Paths.get(pathStr)).execute();
     }                                                                             //GEN-LAST:event_btnImportActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void chbPublishActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chbPublishActionPerformed
+        try {
+            // remove all publish styles
+            final Collection<CidsBean> tags = getCidsBean().getBeanCollectionProperty("tags");
+            tags.remove(GEOTIFF.get());
+            tags.remove(SHAPEFILE.get());
+
+            if (chbPublish.isSelected()) {
+                final String contentType = getCidsBean().getProperty("contenttype").toString();
+                switch (contentType) {
+                    case "image/tiff":
+                    case "image/geotiff": {
+                        tags.add(GEOTIFF.get());
+                        break;
+                    }
+                    case "application/zip":
+                    case "application/shp": {
+                        tags.add(SHAPEFILE.get());
+                        break;
+                    }
+                }
+            }
+        } catch (InterruptedException ex) {
+            LOG.error(ex, ex);
+        } catch (ExecutionException ex) {
+            LOG.error(ex, ex);
+        }
+    } //GEN-LAST:event_chbPublishActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -365,6 +427,43 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
      */
     public void setSaveInContentAllowed(final boolean saveInContentAllowed) {
         this.saveInContentAllowed = saveInContentAllowed;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  contentType  DOCUMENT ME!
+     */
+    private void checkUploadToAdvancedDataRepositoryPossible(final String contentType) {
+        try {
+            boolean uploadPossible = false;
+            if ("image/geotiff".equals(contentType) || "application/shp".equals(contentType)
+                        || "image/tiff".equals(contentType) || "application/zip".equals(contentType)) {
+                uploadPossible = true;
+            }
+
+            chbPublish.setEnabled(uploadPossible);
+            if (!uploadPossible) {
+                chbPublish.setSelected(false);
+                // remove all publish styles
+                final Collection<CidsBean> tags = getCidsBean().getBeanCollectionProperty("tags");
+                tags.remove(GEOTIFF.get());
+                tags.remove(SHAPEFILE.get());
+            }
+        } catch (InterruptedException ex) {
+            LOG.error(ex, ex);
+        } catch (ExecutionException ex) {
+            LOG.error(ex, ex);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  visible  DOCUMENT ME!
+     */
+    protected void setCheckboxPublishToAdvancedDataRepositoryVisible(final boolean visible) {
+        chbPublish.setVisible(visible);
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -439,7 +538,9 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         protected void done() {
             String processMessage;
             try {
-                setContentInformationToCidsBean(get());
+                final ContentInformation information = get();
+                setContentInformationToCidsBean(information);
+                checkUploadToAdvancedDataRepositoryPossible(information.contentType.toString());
                 processMessage = org.openide.util.NbBundle.getMessage(
                         BasicImportDocumentVisualPanel.class,
                         "BasicImportDocumentVisualPanel.CreateContent.finished"); // NOI18N

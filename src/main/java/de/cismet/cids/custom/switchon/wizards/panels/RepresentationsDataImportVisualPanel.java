@@ -28,5 +28,6 @@ public class RepresentationsDataImportVisualPanel extends BasicImportDocumentVis
     public RepresentationsDataImportVisualPanel() {
         super();
         setSaveInContentAllowed(false);
+        setCheckboxPublishToAdvancedDataRepositoryVisible(true);
     }
 }
