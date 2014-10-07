@@ -240,7 +240,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
                 metadataEditor).showDialog();
 
             // replace the old cidsBean with the persisted cidsBean
-            final HashSet<CidsBean> persistedCidsBeans = metadataEditor.getPersistedCidsBeans();
+            final HashSet<CidsBean> persistedCidsBeans = metadataEditor.getModifiedCidsBeans();
             if (!persistedCidsBeans.isEmpty()) {
                 // only one cidsBean can be returned
                 metadatas.remove(selectedMetaData);

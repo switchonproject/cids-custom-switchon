@@ -198,6 +198,7 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
 
         final RepresentationEditor representationEditor = new RepresentationEditor();
         representationEditor.setCidsBean(representation);
+        representationEditor.setAvoidPersist(true);
         new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
             representationEditor).showDialog();
 
@@ -231,18 +232,11 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
                         selectedRow));
             final RepresentationEditor representationEditor = new RepresentationEditor();
             representationEditor.setCidsBean(selectedRepresentation);
+            representationEditor.setAvoidPersist(true);
             new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
                 representationEditor).showDialog();
-
-            // replace the old cidsBean with the persisted cidsBean
-            final HashSet<CidsBean> persistedCidsBeans = representationEditor.getPersistedCidsBeans();
-            if (!persistedCidsBeans.isEmpty()) {
-                // only one cidsBean can be returned
-                representations.remove(selectedRepresentation);
-                representations.add(persistedCidsBeans.iterator().next());
-            }
         }
-    } //GEN-LAST:event_btnEditRepresentationActionPerformed
+    }                                                                                         //GEN-LAST:event_btnEditRepresentationActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

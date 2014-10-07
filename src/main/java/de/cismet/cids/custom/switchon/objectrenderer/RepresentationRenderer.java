@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import javax.swing.Icon;
@@ -73,6 +74,8 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
     private javax.swing.JLabel lblAddToCismapIcon;
     private javax.swing.JLabel lblDownloadIcon;
     private javax.swing.JLabel lblUrl;
+    private de.cismet.cids.custom.switchon.objectrenderer.RepresentationUploadFinishedPanel
+        representationUploadFinishedPanel;
     private de.cismet.cids.custom.switchon.objecteditors.SpatialAndTemporalPropertiesPanel
         spatialAndTemporalPropertiesPanel;
     private javax.swing.JTextArea txtaDescription;
@@ -116,6 +119,8 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 0));
+        representationUploadFinishedPanel =
+            new de.cismet.cids.custom.switchon.objectrenderer.RepresentationUploadFinishedPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -133,8 +138,10 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         txtaDescription.setEditable(false);
         txtaDescription.setColumns(20);
         txtaDescription.setLineWrap(true);
-        txtaDescription.setRows(5);
+        txtaDescription.setRows(6);
         txtaDescription.setWrapStyleWord(true);
+        txtaDescription.setMinimumSize(new java.awt.Dimension(220, 91));
+        txtaDescription.setPreferredSize(new java.awt.Dimension(220, 91));
 
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -149,16 +156,15 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(jScrollPane1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -167,7 +173,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         spatialAndTemporalPropertiesPanel.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         add(spatialAndTemporalPropertiesPanel, gridBagConstraints);
@@ -199,7 +205,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 5, 10, 10);
@@ -275,20 +281,27 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         jPanel3.add(jPanel2, gridBagConstraints);
 
+        representationUploadFinishedPanel.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 10);
+        jPanel3.add(representationUploadFinishedPanel, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         add(jPanel3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weighty = 1.0;
         add(filler1, gridBagConstraints);
@@ -308,6 +321,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
             this.cidsBean = cidsBean;
 
             spatialAndTemporalPropertiesPanel.setCidsBean(cidsBean);
+            representationUploadFinishedPanel.setCidsBean(cidsBean);
 
             bindingGroup.bind();
 
@@ -319,6 +333,8 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        spatialAndTemporalPropertiesPanel.dispose();
+        representationUploadFinishedPanel.dispose();
     }
 
     @Override
@@ -351,7 +367,12 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         } else {
             hypDownload.setVisible(false);
 
-            final String text = functionBundle.getString(function + ".action");
+            String text = "Open in browser";
+            try {
+                text = functionBundle.getString(function + ".action");
+            } catch (MissingResourceException ex) {
+                LOG.warn(ex, ex);
+            }
             hypOpenInBrowser.setText(text);
 
             final String protocol = (String)cidsBean.getProperty("protocol.name");
@@ -376,6 +397,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         if ("OGC:WFS".equalsIgnoreCase(protocol) || "OGC:WMS".equalsIgnoreCase(protocol)) {
             hypAddToCismap.setVisible(true);
             lblAddToCismapIcon.setVisible(true);
+            representationUploadFinishedPanel.setVisible(true);
 
             hypAddToCismap.addActionListener(new ActionListener() {
 
@@ -391,6 +413,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
         } else {
             hypAddToCismap.setVisible(false);
             lblAddToCismapIcon.setVisible(false);
+            representationUploadFinishedPanel.setVisible(false);
         }
     }
 
