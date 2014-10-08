@@ -392,9 +392,7 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
      * @param  buttonWasPressed  DOCUMENT ME!
      */
     public void changeAppearanceAsImportButtonWasPressed(final boolean buttonWasPressed) {
-        final boolean contentSet = StringUtils.isNotBlank(txtContentLocation.getText());
-        final boolean enable = !(buttonWasPressed || contentSet);
-        txtContentLocation.setEnabled(enable);
+        txtContentLocation.setEnabled(!buttonWasPressed);
     }
 
     @Override

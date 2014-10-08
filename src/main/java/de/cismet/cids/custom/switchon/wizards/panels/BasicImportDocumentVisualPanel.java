@@ -328,9 +328,6 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     private void btnImportActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnImportActionPerformed
         final String pathStr = txtLocation.getText();
         new CreateContent(Paths.get(pathStr)).execute();
-        if (wizard != null) {
-            wizard.putProperty(wizardPropertyToIndicateIfImportButtonWasPressed, Boolean.TRUE);
-        }
     }                                                                             //GEN-LAST:event_btnImportActionPerformed
 
     /**
@@ -564,6 +561,9 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 processMessage = org.openide.util.NbBundle.getMessage(
                         BasicImportDocumentVisualPanel.class,
                         "BasicImportDocumentVisualPanel.CreateContent.finished"); // NOI18N
+                if (wizard != null) {
+                    wizard.putProperty(wizardPropertyToIndicateIfImportButtonWasPressed, Boolean.TRUE);
+                }
             } catch (InterruptedException ex) {
                 LOG.error(ex, ex);
                 processMessage = "Upload failed!";

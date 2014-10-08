@@ -328,14 +328,11 @@ public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel
     /**
      * DOCUMENT ME!
      *
-     * @param  panelWasOpen  enable DOCUMENT ME!
+     * @param  buttonWasPressed  enable DOCUMENT ME!
      */
-    public void changeAppearanceAsImportButtonWasPressed(final boolean panelWasOpen) {
-        final boolean contentSet = (StringUtils.isNotBlank(txtaContent.getText())
-                        || StringUtils.isNotBlank(txtContentLocation.getText()));
-        final boolean enable = !(panelWasOpen || contentSet);
-        txtaContent.setEnabled(enable);
-        txtContentLocation.setEnabled(enable);
+    public void changeAppearanceAsImportButtonWasPressed(final boolean buttonWasPressed) {
+        txtaContent.setEnabled(!buttonWasPressed);
+        txtContentLocation.setEnabled(!buttonWasPressed);
     }
 
     @Override

@@ -47,9 +47,9 @@ public class AdditonalMetaDataImportDocumentPanel extends GenericAbstractWizardP
 
     @Override
     protected void read(final WizardDescriptor wizard) {
-        wizard.putProperty(
-            MetaDataWizardAction.PROP_AdditonalMetaDataImportDocumentPanel_IMPORT_BUTTON_WAS_PRESSED,
-            Boolean.TRUE);
+        getComponent().setWizard(wizard);
+        getComponent().setWizardPropertyToIndicateIfImportButtonWasPressed(
+            MetaDataWizardAction.PROP_AdditonalMetaDataImportDocumentPanel_IMPORT_BUTTON_WAS_PRESSED);
         final CidsBean metaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN);
         getComponent().setCidsBean(metaData);
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
