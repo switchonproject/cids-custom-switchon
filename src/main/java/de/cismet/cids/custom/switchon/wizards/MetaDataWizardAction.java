@@ -74,7 +74,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         "__prop_AdditonalMetaDataImportDocumentPanel_was_opened__";                                         // NOI18N
 
     public static final String PROP_PROJEKT = "__prop_projekt__"; // NOI18N
-    public static String PROP_RepresentationsDataImportPanel_WAS_OPENED =
+    public static String PROP_RepresentationsDataImportPanel_IMPORT_BUTTON_PRESSED =
         "__prop_RepresentationsDataImportPanel_was_opened__";     // NOI18N
     public static String PROP_RelationshipsImportDocumentPanel_WAS_OPENED =
         "__prop_RelationshipsImportDocumentPanel_was_opened__";   // NOI18N
@@ -108,7 +108,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
         // additional properties
         wizard.putProperty(PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED, Boolean.FALSE);
-        wizard.putProperty(PROP_RepresentationsDataImportPanel_WAS_OPENED, Boolean.FALSE);
+        wizard.putProperty(PROP_RepresentationsDataImportPanel_IMPORT_BUTTON_PRESSED, Boolean.FALSE);
         wizard.putProperty(PROP_RelationshipsImportDocumentPanel_WAS_OPENED, Boolean.FALSE);
 
         // set the subtitle. The String is retrieved from iterator.name()
