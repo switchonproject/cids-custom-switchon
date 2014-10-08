@@ -125,8 +125,12 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                                 || WizardDescriptor.FINISH_OPTION.equals(wizard.getValue())) {
                         MetaDataWizardAction.this.setEnabled(true);
                     }
-                    if (WizardDescriptor.FINISH_OPTION.equals(wizard.getValue())) {
-                        // persist the resource bean, when the wizard finished
+                    // WizardDescriptor.FINISH_OPTION.equals(wizard.getValue()) can not be used, as such an event is
+                    // fired twice
+                    if ((evt.getNewValue() != null)
+                                && "org.openide.WizardDescriptor.FinishAction".equals(
+                                    evt.getNewValue().getClass().getCanonicalName())) {
+                        // persist the resource bean, when the wizard is finished
                         new CidsBeanPersistWorker(wizard).execute();
                     }
                     if (PROP_CONFIGURATION.equals(evt.getPropertyName())) {
