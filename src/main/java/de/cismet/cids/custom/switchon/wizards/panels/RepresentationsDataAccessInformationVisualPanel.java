@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
 import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrongUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
@@ -387,10 +389,10 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
     /**
      * DOCUMENT ME!
      *
-     * @param  panelWasOpen  DOCUMENT ME!
+     * @param  buttonWasPressed  DOCUMENT ME!
      */
-    public void changeAppearanceAsImportDocumentPanelWasOpen(final boolean panelWasOpen) {
-        txtContentLocation.setEnabled(!panelWasOpen);
+    public void changeAppearanceAsImportButtonWasPressed(final boolean buttonWasPressed) {
+        txtContentLocation.setEnabled(!buttonWasPressed);
     }
 
     @Override

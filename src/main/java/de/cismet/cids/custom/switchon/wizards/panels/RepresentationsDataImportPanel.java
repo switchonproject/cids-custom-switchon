@@ -46,7 +46,9 @@ public class RepresentationsDataImportPanel extends GenericAbstractWizardPanel<R
 
     @Override
     protected void read(final WizardDescriptor wizard) {
-        wizard.putProperty(MetaDataWizardAction.PROP_RepresentationsDataImportPanel_WAS_OPENED, Boolean.TRUE);
+        getComponent().setWizard(wizard);
+        getComponent().setWizardPropertyToIndicateIfImportButtonWasPressed(
+            MetaDataWizardAction.PROP_RepresentationsDataImportPanel_IMPORT_BUTTON_PRESSED);
         final CidsBean metaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
         getComponent().setCidsBean(metaData);
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);

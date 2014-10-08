@@ -67,10 +67,10 @@ public class RelationshipsEditDocumentPanel extends GenericAbstractWizardPanel<A
         }
         if (!metaDatas.isEmpty()) {
             final CidsBean metaData = relationship.getBeanCollectionProperty("metadata").get(0); // NOI18N
-            // disable the content and content location components if AdditonalMetaDataImportDocumentPanel was already
+            // disable the content and content location components if RelationshipsImportDocumentPanel was already
             // open
-            getComponent().changeAppearanceAsImportDocumentPanelWasOpen((boolean)wizard.getProperty(
-                    MetaDataWizardAction.PROP_RelationshipsImportDocumentPanel_WAS_OPENED));
+            getComponent().changeAppearanceAsImportButtonWasPressed((boolean)wizard.getProperty(
+                    MetaDataWizardAction.PROP_RelationshipsImportDocumentPanel_IMPORT_BUTTON_WAS_PRESSED));
             getComponent().setCidsBean(metaData);
             metaData.addPropertyChangeListener(this);
         }

@@ -11,6 +11,8 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
+import org.openide.WizardDescriptor;
+
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
@@ -42,6 +44,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import de.cismet.cids.custom.switchon.utils.TagUtils;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -108,6 +111,8 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
     private CidsBean cidsBean;
     private CidsBean resource;
+    private WizardDescriptor wizard;
+    private String wizardPropertyToIndicateIfImportButtonWasPressed;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImport;
@@ -459,6 +464,25 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         chbPublish.setVisible(visible);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizard  DOCUMENT ME!
+     */
+    public void setWizard(final WizardDescriptor wizard) {
+        this.wizard = wizard;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizardPropertyToIndicateIfImportButtonWasPressed  DOCUMENT ME!
+     */
+    public void setWizardPropertyToIndicateIfImportButtonWasPressed(
+            final String wizardPropertyToIndicateIfImportButtonWasPressed) {
+        this.wizardPropertyToIndicateIfImportButtonWasPressed = wizardPropertyToIndicateIfImportButtonWasPressed;
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -537,6 +561,9 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 processMessage = org.openide.util.NbBundle.getMessage(
                         BasicImportDocumentVisualPanel.class,
                         "BasicImportDocumentVisualPanel.CreateContent.finished"); // NOI18N
+                if (wizard != null) {
+                    wizard.putProperty(wizardPropertyToIndicateIfImportButtonWasPressed, Boolean.TRUE);
+                }
             } catch (InterruptedException ex) {
                 LOG.error(ex, ex);
                 processMessage = "Upload failed!";

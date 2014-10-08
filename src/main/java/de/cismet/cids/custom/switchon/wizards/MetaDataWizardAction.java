@@ -70,13 +70,13 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
     public static final String PROP_CONTACT_BEAN = "__prop_contact_bean__";                                 // NOI18N
     public static final String PROP_SELECTED_REPRESENTATION_BEAN = "__prop_selected_representation_bean__"; // NOI18N
     public static final String PROP_SELECTED_METADATA_BEAN = "__prop_selected_metadata_bean__";             // NOI18N
-    public static final String PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED =
+    public static final String PROP_AdditonalMetaDataImportDocumentPanel_IMPORT_BUTTON_WAS_PRESSED =
         "__prop_AdditonalMetaDataImportDocumentPanel_was_opened__";                                         // NOI18N
 
     public static final String PROP_PROJEKT = "__prop_projekt__"; // NOI18N
-    public static String PROP_RepresentationsDataImportPanel_WAS_OPENED =
+    public static String PROP_RepresentationsDataImportPanel_IMPORT_BUTTON_PRESSED =
         "__prop_RepresentationsDataImportPanel_was_opened__";     // NOI18N
-    public static String PROP_RelationshipsImportDocumentPanel_WAS_OPENED =
+    public static String PROP_RelationshipsImportDocumentPanel_IMPORT_BUTTON_WAS_PRESSED =
         "__prop_RelationshipsImportDocumentPanel_was_opened__";   // NOI18N
 
     public static String PROP_CREATED_RELATIONSHIP_BEAN = "__prop_created_relationship__"; // NOI18N
@@ -107,9 +107,9 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         wizard.putProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE);
 
         // additional properties
-        wizard.putProperty(PROP_AdditonalMetaDataImportDocumentPanel_WAS_OPENED, Boolean.FALSE);
-        wizard.putProperty(PROP_RepresentationsDataImportPanel_WAS_OPENED, Boolean.FALSE);
-        wizard.putProperty(PROP_RelationshipsImportDocumentPanel_WAS_OPENED, Boolean.FALSE);
+        wizard.putProperty(PROP_AdditonalMetaDataImportDocumentPanel_IMPORT_BUTTON_WAS_PRESSED, Boolean.FALSE);
+        wizard.putProperty(PROP_RepresentationsDataImportPanel_IMPORT_BUTTON_PRESSED, Boolean.FALSE);
+        wizard.putProperty(PROP_RelationshipsImportDocumentPanel_IMPORT_BUTTON_WAS_PRESSED, Boolean.FALSE);
 
         // set the subtitle. The String is retrieved from iterator.name()
         wizard.setTitleFormat(new MessageFormat("{1}"));

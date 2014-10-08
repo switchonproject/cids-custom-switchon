@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
 import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrongUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
@@ -326,11 +328,11 @@ public class AdditonalMetaDataEditDocumentVisualPanel extends javax.swing.JPanel
     /**
      * DOCUMENT ME!
      *
-     * @param  panelWasOpen  enable DOCUMENT ME!
+     * @param  buttonWasPressed  enable DOCUMENT ME!
      */
-    public void changeAppearanceAsImportDocumentPanelWasOpen(final boolean panelWasOpen) {
-        txtaContent.setEnabled(!panelWasOpen);
-        txtContentLocation.setEnabled(!panelWasOpen);
+    public void changeAppearanceAsImportButtonWasPressed(final boolean buttonWasPressed) {
+        txtaContent.setEnabled(!buttonWasPressed);
+        txtContentLocation.setEnabled(!buttonWasPressed);
     }
 
     @Override

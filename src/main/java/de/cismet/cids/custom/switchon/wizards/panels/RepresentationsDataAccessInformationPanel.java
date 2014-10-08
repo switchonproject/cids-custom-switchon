@@ -57,10 +57,9 @@ public class RepresentationsDataAccessInformationPanel
         final CidsBean representation = (CidsBean)wizard.getProperty(
                 MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
 
-        final boolean panelWasOpen = (boolean)wizard.getProperty(
-                MetaDataWizardAction.PROP_RepresentationsDataImportPanel_WAS_OPENED);
-        getComponent().changeAppearanceAsImportDocumentPanelWasOpen(panelWasOpen);
-        if (panelWasOpen) {
+        final boolean importButtonWasPressed = (boolean)wizard.getProperty(
+                MetaDataWizardAction.PROP_RepresentationsDataImportPanel_IMPORT_BUTTON_PRESSED);
+        if (importButtonWasPressed) {
             setGeneralInformation(org.openide.util.NbBundle.getMessage(
                     RepresentationsDataAccessInformationVisualPanel.class,
                     "RepresentationsDataAccessInformationVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasOpen.info"));    // NOI18N
@@ -70,8 +69,8 @@ public class RepresentationsDataAccessInformationPanel
                     "RepresentationsDataAccessInformationVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasNotOpen.info")); // NOI18N
         }
         showGeneralInformation();
-
         getComponent().setCidsBean(representation);
+        getComponent().changeAppearanceAsImportButtonWasPressed(importButtonWasPressed);
         representation.addPropertyChangeListener(this);
     }
 
