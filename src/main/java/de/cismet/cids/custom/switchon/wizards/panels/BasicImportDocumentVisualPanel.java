@@ -11,6 +11,8 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
+import org.openide.WizardDescriptor;
+
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
@@ -42,6 +44,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import de.cismet.cids.custom.switchon.utils.TagUtils;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -108,6 +111,8 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
     private CidsBean cidsBean;
     private CidsBean resource;
+    private WizardDescriptor wizard;
+    private String wizardPropertyToIndicateIfImportButtonWasPressed;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImport;
@@ -323,6 +328,9 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     private void btnImportActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnImportActionPerformed
         final String pathStr = txtLocation.getText();
         new CreateContent(Paths.get(pathStr)).execute();
+        if (wizard != null) {
+            wizard.putProperty(wizardPropertyToIndicateIfImportButtonWasPressed, Boolean.TRUE);
+        }
     }                                                                             //GEN-LAST:event_btnImportActionPerformed
 
     /**
@@ -457,6 +465,25 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
      */
     protected void setCheckboxPublishToAdvancedDataRepositoryVisible(final boolean visible) {
         chbPublish.setVisible(visible);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizard  DOCUMENT ME!
+     */
+    public void setWizard(final WizardDescriptor wizard) {
+        this.wizard = wizard;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wizardPropertyToIndicateIfImportButtonWasPressed  DOCUMENT ME!
+     */
+    public void setWizardPropertyToIndicateIfImportButtonWasPressed(
+            final String wizardPropertyToIndicateIfImportButtonWasPressed) {
+        this.wizardPropertyToIndicateIfImportButtonWasPressed = wizardPropertyToIndicateIfImportButtonWasPressed;
     }
 
     //~ Inner Classes ----------------------------------------------------------
