@@ -158,7 +158,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
         final Frame parent = StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent());
         final Dialog wizardDialog = DialogDisplayer.getDefault().createDialog(wizard);
-        wizardDialog.setSize(860, 560);
+        wizardDialog.setSize(900, 620);
         wizardDialog.setModal(false);
         if (wizardDialog instanceof JDialog) {
             StaticSwingTools.showDialog(parent, (JDialog)wizardDialog, true);
