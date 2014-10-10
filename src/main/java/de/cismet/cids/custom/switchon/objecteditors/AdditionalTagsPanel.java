@@ -400,6 +400,8 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
 
         final String description = TagUtils.getDescriptionOfTag(cmbTagGroups.getSelectedItem());
         provideInformation(description);
+
+        btnNew.setEnabled(TaggroupUtils.isTaggroupOpen(cmbTagGroups.getSelectedItem().toString()));
     } //GEN-LAST:event_cmbTagGroupsActionPerformed
 
     /**
