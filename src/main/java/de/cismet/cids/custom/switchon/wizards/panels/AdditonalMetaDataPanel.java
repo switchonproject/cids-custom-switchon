@@ -15,6 +15,7 @@ import java.awt.Component;
 
 import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
+import de.cismet.cids.custom.switchon.wizards.LeapOtherPanels;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
@@ -27,7 +28,8 @@ import de.cismet.cids.dynamics.CidsBean;
  * @version  $Revision$, $Date$
  */
 public class AdditonalMetaDataPanel extends GenericAbstractWizardPanel<AdditonalMetaDataVisualPanel>
-        implements NameProvider {
+        implements NameProvider,
+            LeapOtherPanels {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -76,36 +78,18 @@ public class AdditonalMetaDataPanel extends GenericAbstractWizardPanel<Additonal
      */
     @Override
     protected void store(final WizardDescriptor wizard) {
-        // do nothing if the next button was not pressed.
         if (WizardDescriptor.NEXT_OPTION.equals(wizard.getValue())) {
-            CidsBean selectedMetaData = getComponent().getSelectedMetaData();
-            final CidsBean wizMetaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN);
-
-            // the store method is always run twice. Check if it is the second execution.
-            // it is the second execution if:
-            // meta data in the wizard is not null
-            if (wizMetaData != null) {
-                return;
-            }
-
+            // first get PROP_SELECTED_METADATA_BEAN, if that is null, check if no meta data was selected in the GUI
+            CidsBean selectedMetaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN);
             if (selectedMetaData == null) {
-                try {
-                    // no metadata selected, thus create a new metadata and add it to the resource
-                    selectedMetaData = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata"); // NOI18N
-                    DefaultPropertySetter.setDefaultsToMetaDataCidsBean(selectedMetaData);
-
-                    final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
-                    resource.getBeanCollectionProperty("metadata").add(selectedMetaData); // NOI18N
-                } catch (Exception ex) {
-                    LOG.error(ex, ex);
-                    return;
-                }
+                selectedMetaData = getComponent().getSelectedMetaData();
             }
 
             wizard.putProperty(
                 MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN,
                 selectedMetaData);
         }
+        getComponent().dispose();
     }
 
     /**
@@ -116,5 +100,20 @@ public class AdditonalMetaDataPanel extends GenericAbstractWizardPanel<Additonal
     @Override
     public String getName() {
         return org.openide.util.NbBundle.getMessage(AdditonalMetaDataPanel.class, "AdditonalMetaDataPanel.name");
+    }
+
+    @Override
+    public String nextPanelClassSimpleName() {
+        if (wizard.getProperty(
+                        MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN) == null) {
+            return RepresentationsPanel.class.getSimpleName();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String previousPanelClassSimpleName() {
+        return null;
     }
 }

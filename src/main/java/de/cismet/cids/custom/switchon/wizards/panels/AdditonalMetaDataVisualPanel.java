@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import de.cismet.cids.custom.switchon.gui.InfoReceiver;
+import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -116,8 +118,20 @@ public class AdditonalMetaDataVisualPanel extends javax.swing.JPanel implements 
 
                 @Override
                 public void actionPerformed(final ActionEvent e) {
-                    metaDataPanel.clearTableSelection();
-                    wizardDescriptor.doNextClick();
+                    try {
+                        final CidsBean metaData = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata"); // NOI18N
+                        DefaultPropertySetter.setDefaultsToMetaDataCidsBean(metaData);
+
+                        final CidsBean resource = (CidsBean)wizardDescriptor.getProperty(
+                                MetaDataWizardAction.PROP_RESOURCE_BEAN);
+                        resource.getBeanCollectionProperty("metadata").add(metaData); // NOI18N
+                        wizardDescriptor.putProperty(
+                            MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN,
+                            metaData);
+                        wizardDescriptor.doNextClick();
+                    } catch (Exception ex) {
+                        LOG.error(ex, ex);
+                    }
                 }
             });
     }

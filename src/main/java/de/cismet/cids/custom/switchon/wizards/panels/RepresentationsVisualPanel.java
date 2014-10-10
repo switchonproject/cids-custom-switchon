@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 import javax.swing.event.ListSelectionListener;
 
 import de.cismet.cids.custom.switchon.gui.InfoReceiver;
+import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -134,8 +136,22 @@ public class RepresentationsVisualPanel extends javax.swing.JPanel implements Ci
 
                 @Override
                 public void actionPerformed(final ActionEvent e) {
-                    representationsPanel.clearTableSelection();
-                    wizardDescriptor.doNextClick();
+                    try {
+                        final CidsBean representation = CidsBean.createNewCidsBeanFromTableName(
+                                "SWITCHON",
+                                "representation"); // NOI18N
+                        DefaultPropertySetter.setDefaultsToRepresentationCidsBean(representation);
+
+                        final CidsBean resource = (CidsBean)wizardDescriptor.getProperty(
+                                MetaDataWizardAction.PROP_RESOURCE_BEAN);
+                        resource.getBeanCollectionProperty("representation").add(representation); // NOI18N
+                        wizardDescriptor.putProperty(
+                            MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN,
+                            representation);
+                        wizardDescriptor.doNextClick();
+                    } catch (Exception ex) {
+                        LOG.error(ex, ex);
+                    }
                 }
             });
     }
