@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.event.ListSelectionListener;
 
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
@@ -24,7 +26,7 @@ import de.cismet.cids.dynamics.Disposable;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RepresentationsVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class RepresentationsVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable, InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -151,5 +153,15 @@ public class RepresentationsVisualPanel extends javax.swing.JPanel implements Ci
                     wizardDescriptor.doNextClick();
                 }
             });
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
     }
 }

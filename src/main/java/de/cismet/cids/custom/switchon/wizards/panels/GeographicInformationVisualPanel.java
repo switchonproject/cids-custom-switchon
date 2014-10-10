@@ -9,6 +9,7 @@ package de.cismet.cids.custom.switchon.wizards.panels;
 
 import org.openide.WizardDescriptor;
 
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
@@ -25,7 +26,9 @@ import de.cismet.cids.editors.FastBindableReferenceCombo;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class GeographicInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class GeographicInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
+    Disposable,
+    InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -261,5 +264,15 @@ public class GeographicInformationVisualPanel extends javax.swing.JPanel impleme
     public void dispose() {
         bindingGroup.unbind();
         geometryChooserPanel.dispose();
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        setError(error);
     }
 }
