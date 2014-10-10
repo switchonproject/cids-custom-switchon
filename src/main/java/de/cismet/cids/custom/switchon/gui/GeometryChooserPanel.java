@@ -458,6 +458,15 @@ public class GeometryChooserPanel extends InfoProviderJPanel implements CidsBean
         cidsBean.addPropertyChangeListener(this);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  visible  DOCUMENT ME!
+     */
+    public void setVisibleGeometryComboBox(final boolean visible) {
+        cmbGeometry.setVisible(visible);
+    }
+
     @Override
     public void featuresAdded(final FeatureCollectionEvent fce) {
         amountOfFeaturesChanged();

@@ -106,6 +106,7 @@ public class GeographicInformationVisualPanel extends javax.swing.JPanel impleme
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(geometryChooserPanel, gridBagConstraints);
+        geometryChooserPanel.setVisibleGeometryComboBox(false);
 
         pnlOtherProperties.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
