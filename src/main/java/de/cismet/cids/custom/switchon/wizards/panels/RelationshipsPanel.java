@@ -17,6 +17,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
+import de.cismet.cids.custom.switchon.wizards.LeapOtherPanels;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
@@ -29,7 +30,8 @@ import de.cismet.cids.dynamics.CidsBean;
  * @version  $Revision$, $Date$
  */
 public class RelationshipsPanel extends GenericAbstractWizardPanel<RelationshipsVisualPanel> implements NameProvider,
-    PropertyChangeListener {
+    PropertyChangeListener,
+    LeapOtherPanels {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -117,5 +119,15 @@ public class RelationshipsPanel extends GenericAbstractWizardPanel<Relationships
             LOG.error("Could not create new Relationship-CidsBean", ex);                        // NOI18N
         }
         return relationship;
+    }
+
+    @Override
+    public String nextPanelClassSimpleName() {
+        return null;
+    }
+
+    @Override
+    public String previousPanelClassSimpleName() {
+        return RepresentationsPanel.class.getSimpleName();
     }
 }

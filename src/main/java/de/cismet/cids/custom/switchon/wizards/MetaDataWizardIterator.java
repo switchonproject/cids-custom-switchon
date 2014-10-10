@@ -7,10 +7,12 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 
 import java.util.HashMap;
@@ -231,7 +233,19 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
             }
         }
 
-        index++;
+        if ((current() instanceof LeapOtherPanels)) {
+            final WizardDescriptor.Panel nextPanel = allPanelsHashMap.get(((LeapOtherPanels)current())
+                            .nextPanelClassSimpleName());
+            final int indexOfNextPanel = ArrayUtils.indexOf(currentPanels, nextPanel);
+            if (indexOfNextPanel >= 0) {
+                index = indexOfNextPanel;
+            } else {
+                LOG.info("Such a panel does not exists, going to next panel.");
+                index++;
+            }
+        } else {
+            index++;
+        }
 
         wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, index);
     }
@@ -242,7 +256,19 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
             throw new NoSuchElementException();
         }
 
-        index--;
+        if ((current() instanceof LeapOtherPanels)) {
+            final WizardDescriptor.Panel previousPanel = allPanelsHashMap.get(((LeapOtherPanels)current())
+                            .previousPanelClassSimpleName());
+            final int indexOfNextPanel = ArrayUtils.indexOf(currentPanels, previousPanel);
+            if (indexOfNextPanel >= 0) {
+                index = indexOfNextPanel;
+            } else {
+                LOG.info("Such a panel does not exists, going to previous panel.");
+                index--;
+            }
+        } else {
+            index--;
+        }
 
         wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, index);
     }

@@ -13,8 +13,14 @@ import org.openide.WizardDescriptor;
 
 import java.awt.Component;
 
-import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
+import de.cismet.cids.custom.switchon.wizards.LeapOtherPanels;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
@@ -27,7 +33,10 @@ import de.cismet.cids.dynamics.CidsBean;
  * @version  $Revision$, $Date$
  */
 public class RepresentationsPanel extends GenericAbstractWizardPanel<RepresentationsVisualPanel>
-        implements NameProvider {
+        implements NameProvider,
+            LeapOtherPanels,
+            PropertyChangeListener,
+            ListSelectionListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -64,6 +73,8 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
         getComponent().setCidsBean(resource);
+        resource.addPropertyChangeListener(this);
+        getComponent().addTableSelectionListener(this);
         wizard.putProperty(
             MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN,
             null);
@@ -76,41 +87,66 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
      */
     @Override
     protected void store(final WizardDescriptor wizard) {
-        // do nothing if the next button was not pressed.
         if (WizardDescriptor.NEXT_OPTION.equals(wizard.getValue())) {
-            CidsBean selectedRepresentation = getComponent().getSelectedRepresentation();
-            final CidsBean wizMetaData = (CidsBean)wizard.getProperty(
+            // first get PROP_SELECTED_REPRESENTATION_BEAN, if that is null, check if no meta data was selected in the
+            // GUI
+            CidsBean selectedRepresentation = (CidsBean)wizard.getProperty(
                     MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
-
-            // the store method is always run twice. Check if it is the second execution.
-            // it is the second execution if:
-            // representation in the wizard is not null
-            if (wizMetaData != null) {
-                return;
-            }
-
             if (selectedRepresentation == null) {
-                try {
-                    // no representation selected, thus create a new representation and add it to the resource
-                    selectedRepresentation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation"); // NOI18N
-                    DefaultPropertySetter.setDefaultsToRepresentationCidsBean(selectedRepresentation);
-
-                    final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
-                    resource.getBeanCollectionProperty("representation").add(selectedRepresentation); // NOI18N
-                } catch (Exception ex) {
-                    LOG.error(ex, ex);
-                    return;
-                }
+                selectedRepresentation = getComponent().getSelectedRepresentation();
             }
 
             wizard.putProperty(
                 MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN,
                 selectedRepresentation);
         }
+        getComponent().getCidsBean().removePropertyChangeListener(this);
+        getComponent().removeTableSelectionListener(this);
+        getComponent().dispose();
     }
 
     @Override
     public String getName() {
         return org.openide.util.NbBundle.getMessage(RepresentationsPanel.class, "RepresentationsPanel.name");
+    }
+
+    @Override
+    public String nextPanelClassSimpleName() {
+        if (wizard.getProperty(
+                        MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN) == null) {
+            return RelationshipsPanel.class.getSimpleName();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean isValid() {
+        if ("advanced".equals(wizard.getProperty(MetaDataWizardAction.PROP_CONFIGURATION)) // NOI18N
+                    && (wizard.getProperty(
+                            MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN) == null)
+                    && (getComponent().getSelectedRepresentation() == null)) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    RepresentationsPanel.class,
+                    "RepresentationsPanel.isValid().warn"));
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public String previousPanelClassSimpleName() {
+        return AdditonalMetaDataPanel.class.getSimpleName();
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        changeSupport.fireChange();
+    }
+
+    @Override
+    public void valueChanged(final ListSelectionEvent e) {
+        changeSupport.fireChange();
     }
 }
