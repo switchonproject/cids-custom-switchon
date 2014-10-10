@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
@@ -17,7 +19,9 @@ import de.cismet.cids.dynamics.Disposable;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class LicenseInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class LicenseInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
+    Disposable,
+    InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -85,5 +89,15 @@ public class LicenseInformationVisualPanel extends javax.swing.JPanel implements
     @Override
     public void dispose() {
         licenseInformationPanel.dispose();
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
     }
 }

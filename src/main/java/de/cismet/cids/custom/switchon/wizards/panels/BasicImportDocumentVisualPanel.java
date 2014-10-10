@@ -43,8 +43,8 @@ import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
-import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -62,7 +62,7 @@ import de.cismet.netutil.Proxy;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implements CidsBeanStore, InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -481,6 +481,16 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
     public void setWizardPropertyToIndicateIfImportButtonWasPressed(
             final String wizardPropertyToIndicateIfImportButtonWasPressed) {
         this.wizardPropertyToIndicateIfImportButtonWasPressed = wizardPropertyToIndicateIfImportButtonWasPressed;
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
     }
 
     //~ Inner Classes ----------------------------------------------------------

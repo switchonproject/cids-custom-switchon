@@ -12,6 +12,8 @@ import org.openide.WizardDescriptor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
@@ -22,7 +24,9 @@ import de.cismet.cids.dynamics.Disposable;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditonalMetaDataVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class AdditonalMetaDataVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
+    Disposable,
+    InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -131,5 +135,15 @@ public class AdditonalMetaDataVisualPanel extends javax.swing.JPanel implements 
                     wizardDescriptor.doNextClick();
                 }
             });
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
     }
 }

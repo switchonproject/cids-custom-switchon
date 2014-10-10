@@ -14,6 +14,7 @@ import java.awt.event.ItemEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
 
@@ -30,7 +31,8 @@ import de.cismet.cids.dynamics.Disposable;
 public class ContactInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
     Disposable,
     PropertyChangeListener,
-    MarkMandtoryFieldsStrong {
+    MarkMandtoryFieldsStrong,
+    InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -299,5 +301,15 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
     @Override
     public void markMandatoryFieldsStrong() {
         contactEditor.markMandatoryFieldsStrong();
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
     }
 }

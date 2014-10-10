@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 import de.cismet.cids.custom.switchon.objecteditors.SpatialAndTemporalPropertiesPanel;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -20,7 +21,8 @@ import de.cismet.cids.dynamics.Disposable;
  * @version  $Revision$, $Date$
  */
 public class RepresentationsAdditionalInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
-    Disposable {
+    Disposable,
+    InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -100,5 +102,15 @@ public class RepresentationsAdditionalInformationVisualPanel extends javax.swing
     @Override
     public void dispose() {
         spatialAndTemporalPropertiesPanel.dispose();
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
     }
 }

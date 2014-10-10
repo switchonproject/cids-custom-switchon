@@ -20,6 +20,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import de.cismet.cids.custom.switchon.gui.InfoProvider;
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
 
 import de.cismet.commons.concurrency.CismetExecutors;
@@ -35,7 +37,8 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public abstract class GenericAbstractWizardPanel<T extends Component> extends AbstractWizardPanel {
+public abstract class GenericAbstractWizardPanel<T extends Component> extends AbstractWizardPanel
+        implements InfoProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -146,17 +149,10 @@ public abstract class GenericAbstractWizardPanel<T extends Component> extends Ab
     }
 
     /**
-     * The general information must be wrapped inside html and the line break must be explicitely set, as otherwise the
-     * newline will not be shown. This is the case with the openIde version RELEASE701.
+     * DOCUMENT ME!
      */
     public void showGeneralInformation() {
-        String stringToShow = Utilities.wrapString(
-                generalInformation,
-                100,
-                BreakIterator.getWordInstance(),
-                true);
-        stringToShow = "<html>" + stringToShow.replaceAll("\n", "<br>") + "</html>";
-        wizard.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, stringToShow);
+        provideInformation(generalInformation);
     }
 
     /**
@@ -177,6 +173,57 @@ public abstract class GenericAbstractWizardPanel<T extends Component> extends Ab
             } else {
                 showGeneralInformation();
             }
+        }
+    }
+
+    /**
+     * Tries to show the information through a InforReceiver, if no InfoReceiver exists, then the information is shown
+     * in the info field of the wizard. The general information must be wrapped inside html and the line break must be
+     * explicitely set, as otherwise the newline will not be shown. This is the case with the openIde version
+     * RELEASE701.
+     *
+     * @param  information  DOCUMENT ME!
+     */
+    @Override
+    public void provideInformation(final String information) {
+        wizard.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, null);
+        if (getInfoReceiver() != null) {
+            getInfoReceiver().setInformation(information);
+        } else {
+            String stringToShow = Utilities.wrapString(
+                    generalInformation,
+                    100,
+                    BreakIterator.getWordInstance(),
+                    true);
+            stringToShow = "<html>" + stringToShow.replaceAll("\n", "<br>") + "</html>";
+            wizard.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, stringToShow);
+        }
+    }
+
+    /**
+     * Checks if its component is an InfoReceiver, if this is the case the component is returned. Otherwise null is
+     * returned.
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public InfoReceiver getInfoReceiver() {
+        if (getComponent() instanceof InfoReceiver) {
+            return (InfoReceiver)getComponent();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void setInfoReceiver(final InfoReceiver infoReceiver) {
+        LOG.fatal("GenericAbstractWizardPanel.setInfoReceiver: Not supported yet.", new Exception()); // NOI18N
+    }
+
+    @Override
+    public void provideError(final String error) {
+        if (getInfoReceiver() != null) {
+            getInfoReceiver().setError(error);
         }
     }
 }

@@ -7,8 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
-import org.apache.commons.lang.StringUtils;
-
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
 import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrongUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
@@ -29,7 +28,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  */
 public class RepresentationsDataAccessInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
     Disposable,
-    MarkMandtoryFieldsStrong {
+    MarkMandtoryFieldsStrong,
+    InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -398,5 +398,15 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
     @Override
     public void markMandatoryFieldsStrong() {
         MarkMandtoryFieldsStrongUtils.markJLabelsStrong(lblContentLocation, lblContentType, lblFunction, lblProtocol);
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
     }
 }
