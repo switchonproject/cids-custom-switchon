@@ -303,9 +303,9 @@ public class GeometryChooserPanel extends InfoProviderJPanel implements CidsBean
      */
     private void txtCoordinatesActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtCoordinatesActionPerformed
         try {
-            final String[] coords = txtCoordinates.getText().split(",");
+            final String[] coords = txtCoordinates.getText().split(",");               // NOI18N
             if (coords.length != 4) {
-                throw new Exception("The text field does not contain four values.");
+                throw new Exception("The text field does not contain four values.");   // NOI18N
             }
             final double maxY = Double.parseDouble(coords[0]);
             final double maxX = Double.parseDouble(coords[1]);
@@ -323,7 +323,9 @@ public class GeometryChooserPanel extends InfoProviderJPanel implements CidsBean
             previewMapPanel.setGeometry(rectangle);
         } catch (Exception ex) {
             LOG.warn(ex, ex);
-            provideError("The input must be four float values separated by comma. E.g.: 90.0,180.0,-90.0,-180.0");
+            provideError(org.openide.util.NbBundle.getMessage(
+                    GeometryChooserPanel.class,
+                    "GeometryChooserPanel.txtCoordinatesActionPerformed.error"));
         }
     } //GEN-LAST:event_txtCoordinatesActionPerformed
 
@@ -333,7 +335,9 @@ public class GeometryChooserPanel extends InfoProviderJPanel implements CidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void txtCoordinatesFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtCoordinatesFocusGained
-        provideInformation("Please enter some coordinates manually. E.g.: 90.0,180.0,-90.0,-180.0");
+        provideInformation(org.openide.util.NbBundle.getMessage(
+                GeometryChooserPanel.class,
+                "GeometryChooserPanel.txtCoordinatesFocusGained.info"));
     }                                                                             //GEN-LAST:event_txtCoordinatesFocusGained
 
     @Override
@@ -386,9 +390,9 @@ public class GeometryChooserPanel extends InfoProviderJPanel implements CidsBean
             final Coordinate[] coordinates = geometry.getCoordinates();
             final Coordinate minXminY = coordinates[0];
             final Coordinate maxXmaxY = coordinates[2];
-            txtCoordinates.setText(minXminY.y + "," + minXminY.x + "," + maxXmaxY.y + "," + maxXmaxY.x);
+            txtCoordinates.setText(minXminY.y + "," + minXminY.x + "," + maxXmaxY.y + "," + maxXmaxY.x); // NOI18N
         } else {
-            txtCoordinates.setText("");
+            txtCoordinates.setText("");                                                                  // NOI18N
         }
     }
 
@@ -411,14 +415,14 @@ public class GeometryChooserPanel extends InfoProviderJPanel implements CidsBean
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("spatialcoverage")) {
+        if (evt.getPropertyName().equals("spatialcoverage")) {                                           // NOI18N
             getMap().getFeatureCollection().removeFeatureCollectionListener(this);
             if (evt.getOldValue() == null) {
                 try {
-                    final Geometry geoObj = (Geometry)cidsBean.getProperty("spatialcoverage.geo_field");
+                    final Geometry geoObj = (Geometry)cidsBean.getProperty("spatialcoverage.geo_field"); // NOI18N
                     setGeometry(geoObj);
                 } catch (Exception ex) {
-                    throw new RuntimeException("Error when setting geom origin.", ex);
+                    throw new RuntimeException("Error when setting geom origin.", ex);                   // NOI18N
                 }
             }
             amountOfFeaturesChanged();
@@ -450,7 +454,7 @@ public class GeometryChooserPanel extends InfoProviderJPanel implements CidsBean
     private void setDrawnGeometryToCidsBean(final Geometry geometry) {
         cidsBean.removePropertyChangeListener(this);
         try {
-            cidsBean.setProperty("spatialcoverage", CismapUtils.createGeometryBean(geometry));
+            cidsBean.setProperty("spatialcoverage", CismapUtils.createGeometryBean(geometry)); // NOI18N
             showCoordinatesInTextField(geometry);
         } catch (Exception ex) {
             LOG.error(ex, ex);
