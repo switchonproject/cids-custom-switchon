@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import org.jdesktop.beansbinding.Binding;
+
 import org.openide.util.NbBundle;
 
 import java.util.UUID;
@@ -402,25 +404,34 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
 
-            // hide controls for the language, if it the cidsBean has no such property
-            boolean hasPropertyLanguage = false;
-            for (final String property : cidsBean.getPropertyNames()) {
-                if (property.equals("language")) { // NOI18N
-                    hasPropertyLanguage = true;
-                    break;
-                }
-            }
-            lblLanguage.setVisible(hasPropertyLanguage);
-            cmbLanguage.setVisible(hasPropertyLanguage);
-            if (!hasPropertyLanguage) {
-                bindingGroup.removeBinding(bindingGroup.getBinding("bindingLanguage"));
-            }
+            hideLanguageControlsIfNotAvailable();
 
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.cidsBean);
 
             bindingGroup.bind();
+        }
+    }
+
+    /**
+     * Hides the controls for the language, if the cidsBean has no such property.
+     */
+    private void hideLanguageControlsIfNotAvailable() {
+        boolean hasPropertyLanguage = false;
+        for (final String property : cidsBean.getPropertyNames()) {
+            if (property.equals("language")) { // NOI18N
+                hasPropertyLanguage = true;
+                break;
+            }
+        }
+        lblLanguage.setVisible(hasPropertyLanguage);
+        cmbLanguage.setVisible(hasPropertyLanguage);
+        // remove the binding to the language
+        // it must be checked if the binding has already been removed
+        final Binding bindingLanguage = bindingGroup.getBinding("bindingLanguage");
+        if (!hasPropertyLanguage && (bindingLanguage != null)) {
+            bindingGroup.removeBinding(bindingLanguage);
         }
     }
 
