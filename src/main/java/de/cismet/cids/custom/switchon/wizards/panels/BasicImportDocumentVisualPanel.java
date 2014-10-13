@@ -78,6 +78,9 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
 
     private static final Future<CidsBean> GEOSERVER;
 
+    private static CidsBean functionCidsBean;
+    private static CidsBean protocolCidsBean;
+
     static {
         GEOSERVER = TagUtils.fetchFutureTagByName("geoserver");
         try {
@@ -529,6 +532,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             final ContentInformation information = new ContentInformation();
             final String contentType = Files.probeContentType(path);
             fetchContentTypeTag(contentType, information);
+            fetchFunctionAndProtocolTags();
 
             boolean upload = true;
             if (upload && contentType.startsWith("text")) {                       // NOI18N
@@ -568,6 +572,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 final ContentInformation information = get();
                 setContentInformationToCidsBean(information);
                 checkUploadToAdvancedDataRepositoryPossible(information.contentType.toString());
+                setFunctionAndProtocolForRepresentation();
                 processMessage = org.openide.util.NbBundle.getMessage(
                         BasicImportDocumentVisualPanel.class,
                         "BasicImportDocumentVisualPanel.CreateContent.finished"); // NOI18N
@@ -758,6 +763,45 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 } catch (IOException ex) {
                     LOG.error(ex, ex);
                 }
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         */
+        private void setFunctionAndProtocolForRepresentation() {
+            if ("representation".equalsIgnoreCase(cidsBean.getClass().getSimpleName())) {
+                final String contentLocation = (String)cidsBean.getProperty("contentlocation");
+
+                if (contentLocation == null) {
+                    try {
+                        // content is set
+                        cidsBean.setProperty("function", null);
+                        cidsBean.setProperty("protocol", null);
+                    } catch (Exception ex) {
+                        LOG.error(ex, ex);
+                    }
+                } else {
+                    try {
+                        // content is set
+                        cidsBean.setProperty("function", functionCidsBean);
+                        cidsBean.setProperty("protocol", protocolCidsBean);
+                    } catch (Exception ex) {
+                        LOG.error(ex, ex);
+                    }
+                }
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         */
+        private synchronized void fetchFunctionAndProtocolTags() {
+            if (functionCidsBean == null) {
+                functionCidsBean = TagUtils.fetchTagByName("download");
+            }
+            if (protocolCidsBean == null) {
+                protocolCidsBean = TagUtils.fetchTagByName("WWW:DOWNLOAD-1.0-http--download");
             }
         }
     }
