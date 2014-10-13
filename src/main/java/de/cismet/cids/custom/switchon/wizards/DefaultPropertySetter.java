@@ -7,6 +7,9 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards;
 
+import java.sql.Timestamp;
+
+import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.Future;
 
@@ -151,6 +154,7 @@ public class DefaultPropertySetter {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultStandard, metadata, "standard");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultContentType, metadata, "contenttype");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultTypeMetaData, metadata, "type");
+        metadata.setProperty("creationdate", new Timestamp(new Date().getTime()));
     }
 
     /**
