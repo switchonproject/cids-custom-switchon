@@ -46,8 +46,8 @@ public class DefaultPropertySetter {
     private static final Future<CidsBean> defaultTypeRepresentation = TagUtils.fetchFutureTagByName("original data");
     private static final Future<CidsBean> defaultContentType = TagUtils.fetchFutureTagByName(
             "application/octet-stream");
-    private static final Future<CidsBean> defaultFunction = TagUtils.fetchFutureTagByName("download");
-    private static final Future<CidsBean> defaultProtocol = TagUtils.fetchFutureTagByName("WWW:LINK");
+    private static final Future<CidsBean> defaultFunction = TagUtils.fetchFutureTagByName("information");
+    private static final Future<CidsBean> defaultProtocol = TagUtils.fetchFutureTagByName("WWW:LINK-1.0-http--link");
     private static final Future<CidsBean> defaultApplicationprofile = TagUtils.fetchFutureTagByName("Web Browser");
     // meta-data
     private static final Future<CidsBean> defaultStandard = TagUtils.fetchFutureTagByName("none");
