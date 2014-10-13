@@ -13,7 +13,6 @@ import org.openide.WizardDescriptor;
 
 import java.awt.Component;
 
-import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.LeapOtherPanels;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
