@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
@@ -16,6 +17,7 @@ import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JButton;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -78,6 +80,7 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
         wizard.putProperty(
             MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN,
             null);
+        enableFinishButton();
     }
 
     /**
@@ -143,10 +146,33 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         changeSupport.fireChange();
+        enableFinishButton();
     }
 
     @Override
     public void valueChanged(final ListSelectionEvent e) {
         changeSupport.fireChange();
+        enableFinishButton();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void enableFinishButton() {
+        final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+        final boolean enableFinishButton =
+            "advanced".equals(wizard.getProperty(MetaDataWizardAction.PROP_CONFIGURATION))
+                    && !resource.getBeanCollectionProperty("representation").isEmpty();
+        if (enableFinishButton) {
+            for (final Object o : wizard.getOptions()) {
+                if (o instanceof JButton) {
+                    final JButton button = (JButton)o;
+                    if ("Finish".equals(button.getActionCommand())) {
+                        button.setEnabled(true);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
