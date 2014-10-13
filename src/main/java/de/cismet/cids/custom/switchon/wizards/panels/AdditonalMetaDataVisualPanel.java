@@ -108,8 +108,8 @@ public class AdditonalMetaDataVisualPanel extends javax.swing.JPanel implements 
     }
 
     /**
-     * The add button of the metaDataPanel should work like clicking the next button. Although the selection in the
-     * table has to be cleared first, because otherwise the selected metadata will be edited.
+     * The add button of the metaDataPanel creates a new metadata, selects it in the wizard and then Next is clicked
+     * automatically. Thus the newly added meta data cidsBean will be edited.
      *
      * @param  wizardDescriptor  DOCUMENT ME!
      */
