@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
+import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -266,8 +267,9 @@ public class TargetResourceRelationshipPanel extends InfoProviderJPanel implemen
     /**
      * DOCUMENT ME!
      */
-    void makeNonEditable() {
-        LOG.fatal("TargetResourceRelationshipPanel.makeNonEditable: Not supported yet.", new Exception()); // NOI18N
+    public void makeNonEditable() {
+        RendererTools.makeReadOnly(tblToResource);
+        lblTargetResourceDragIcon.setVisible(false);
     }
 
     //~ Inner Classes ----------------------------------------------------------
