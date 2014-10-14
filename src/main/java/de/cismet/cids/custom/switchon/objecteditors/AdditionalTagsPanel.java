@@ -23,6 +23,7 @@ import javax.swing.table.TableRowSorter;
 
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
+import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.TaggroupUtils;
@@ -559,5 +560,17 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
     @Override
     public void dispose() {
         bindingGroup.unbind();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void makeNonEditable() {
+        RendererTools.makeReadOnly(btnAdd);
+        RendererTools.makeReadOnly(btnNew);
+        RendererTools.makeReadOnly(btnRemove);
+        RendererTools.makeReadOnly(cmbTagGroups);
+        RendererTools.makeReadOnly(lstTags);
+        RendererTools.makeReadOnly(tblAssignedTags);
     }
 }

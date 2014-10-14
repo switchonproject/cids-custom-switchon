@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
+import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -261,6 +262,14 @@ public class TargetResourceRelationshipPanel extends InfoProviderJPanel implemen
         super.setEnabled(enabled);
         tblToResource.setEnabled(enabled);
         lblTargetResourceDragIcon.setEnabled(enabled);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void makeNonEditable() {
+        RendererTools.makeReadOnly(tblToResource);
+        lblTargetResourceDragIcon.setVisible(false);
     }
 
     //~ Inner Classes ----------------------------------------------------------

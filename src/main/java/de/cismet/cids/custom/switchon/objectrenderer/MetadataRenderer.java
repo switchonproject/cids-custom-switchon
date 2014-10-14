@@ -10,11 +10,15 @@ package de.cismet.cids.custom.switchon.objectrenderer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 
+import java.awt.Component;
+
 import java.io.StringReader;
 import java.io.StringWriter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import java.util.HashSet;
 
 import javax.swing.ImageIcon;
 
@@ -28,6 +32,7 @@ import javax.xml.transform.stream.StreamSource;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.switchon.gui.utils.ImageGetterUtils;
+import de.cismet.cids.custom.switchon.objecteditors.EditorShowableInDialog;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -43,7 +48,7 @@ import de.cismet.tools.gui.downloadmanager.HttpOrFtpDownload;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRenderer {
+public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRenderer, EditorShowableInDialog {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -362,5 +367,48 @@ public class MetadataRenderer extends javax.swing.JPanel implements CidsBeanRend
      */
     public static String prettyFormat(final String input) {
         return prettyFormat(input, 2);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return      a empty hash set
+     *
+     * @deprecated  Do not use this for a renderer
+     */
+    @Override
+    public HashSet<CidsBean> getNewlyAddedCidsBeans() {
+        LOG.error("This is a renderer, no CidsBeans can be created.", new Exception()); // NOI18N
+        return new HashSet<CidsBean>();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return      a empty hash set
+     *
+     * @deprecated  Do not use this for a renderer
+     */
+    @Override
+    public HashSet<CidsBean> getModifiedCidsBeans() {
+        LOG.error("This is a renderer, no CidsBeans can be edited.", new Exception()); // NOI18N
+        return new HashSet<CidsBean>();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws      Exception  DOCUMENT ME!
+     *
+     * @deprecated  Do not use this for a renderer
+     */
+    @Override
+    public void saveChanges() throws Exception {
+        LOG.error("A renderer can not save changes.", new Exception()); // NOI18N
+    }
+
+    @Override
+    public Component getComponent() {
+        return this;
     }
 }
