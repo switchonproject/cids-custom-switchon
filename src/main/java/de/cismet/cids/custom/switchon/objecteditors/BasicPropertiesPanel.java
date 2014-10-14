@@ -17,6 +17,7 @@ import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
 import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrongUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
+import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
@@ -466,7 +467,12 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
     /**
      * DOCUMENT ME!
      */
-    void makeNonEditable() {
-        LOG.fatal("BasicPropertiesPanel.makeNonEditable: Not supported yet.", new Exception()); // NOI18N
+    public void makeNonEditable() {
+        RendererTools.makeReadOnly(btnGenerateUUID);
+        RendererTools.makeReadOnly(cmbLanguage);
+        RendererTools.makeReadOnly(cmbType);
+        RendererTools.makeReadOnly(txtName);
+        RendererTools.makeReadOnly(txtUUID);
+        RendererTools.makeReadOnly(txtaDescription);
     }
 }
