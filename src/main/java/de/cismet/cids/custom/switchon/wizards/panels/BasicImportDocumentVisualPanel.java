@@ -709,7 +709,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             String tmpFileName = urlEncode(filename);
             int i = 2;
             while (WebDavHelper.isUrlAccessible(webdavclient, urlBase + tmpFileName)) {
-                tmpFileName = baseName + "(" + i + ")" + "." + extension;
+                tmpFileName = baseName + urlEncode("(" + i + ")") + "." + extension;
                 i += 1;
             }
 
