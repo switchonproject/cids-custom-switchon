@@ -20,6 +20,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
+import de.cismet.cids.custom.switchon.objectrenderer.MetadataRenderer;
 import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -50,6 +52,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
     private javax.swing.JButton btnAddMetaData;
     private javax.swing.JButton btnEditMetaData;
     private javax.swing.JButton btnRemoveMetaData;
+    private javax.swing.JButton btnSeeDetails;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblMetaDatas;
     // End of variables declaration//GEN-END:variables
@@ -113,6 +116,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
         btnEditMetaData = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblMetaDatas = new javax.swing.JTable();
+        btnSeeDetails = new javax.swing.JButton();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -179,12 +183,29 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         add(jScrollPane2, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnSeeDetails,
+            org.openide.util.NbBundle.getMessage(MetaDataPanel.class, "MetaDataPanel.btnSeeDetails.text")); // NOI18N
+        btnSeeDetails.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnSeeDetailsActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
+        add(btnSeeDetails, gridBagConstraints);
+        btnSeeDetails.setVisible(false);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -248,6 +269,23 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
             }
         }
     } //GEN-LAST:event_btnEditMetaDataActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnSeeDetailsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnSeeDetailsActionPerformed
+        final int selectedRow = tblMetaDatas.getSelectedRow();
+        if (selectedRow != -1) {
+            final CidsBean selectedMetaData = metadatas.get(tblMetaDatas.convertRowIndexToModel(
+                        selectedRow));
+            final MetadataRenderer metadataRenderer = new MetadataRenderer();
+            metadataRenderer.setCidsBean(selectedMetaData);
+            new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
+                metadataRenderer).showDialog();
+        }
+    }                                                                                 //GEN-LAST:event_btnSeeDetailsActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -362,8 +400,11 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
     /**
      * DOCUMENT ME!
      */
-    void makeNonEditable() {
-        LOG.fatal("MetaDataPanel.makeNonEditable: Not supported yet.", new Exception()); // NOI18N
+    public void makeNonEditable() {
+        btnAddMetaData.setVisible(false);
+        btnEditMetaData.setVisible(false);
+        btnRemoveMetaData.setVisible(false);
+        btnSeeDetails.setVisible(true);
     }
 
     //~ Inner Classes ----------------------------------------------------------
