@@ -263,6 +263,13 @@ public class TargetResourceRelationshipPanel extends InfoProviderJPanel implemen
         lblTargetResourceDragIcon.setEnabled(enabled);
     }
 
+    /**
+     * DOCUMENT ME!
+     */
+    void makeNonEditable() {
+        LOG.fatal("TargetResourceRelationshipPanel.makeNonEditable: Not supported yet.", new Exception()); // NOI18N
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**

@@ -29,6 +29,10 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MetadataEditor.class);
 
+    //~ Instance fields --------------------------------------------------------
+
+    private final boolean editable;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel additionalTagsPanel;
     private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
@@ -48,10 +52,34 @@ public class RelationshipEditor extends AbstractEditorShowableInDialog implement
      * Creates new form RelationshipEditor.
      */
     public RelationshipEditor() {
+        this(true);
+    }
+
+    /**
+     * Creates a new RelationshipEditor object.
+     *
+     * @param  editable  DOCUMENT ME!
+     */
+    public RelationshipEditor(final boolean editable) {
+        this.editable = editable;
         initComponents();
+        makeNonEditable();
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void makeNonEditable() {
+        if (!editable) { // is Renderer
+            basicPropertiesPanel.makeNonEditable();
+            additionalTagsPanel.makeNonEditable();
+            targetResourceRelationshipPanel.makeNonEditable();
+            sourceResourceRelationshipPanel.makeNonEditable();
+            metaDataPanel.makeNonEditable();
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The

@@ -462,4 +462,11 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
     public void markMandatoryFieldsStrong() {
         MarkMandtoryFieldsStrongUtils.markJLabelsStrong(lblName, lblDescription, lblType);
     }
+
+    /**
+     * DOCUMENT ME!
+     */
+    void makeNonEditable() {
+        LOG.fatal("BasicPropertiesPanel.makeNonEditable: Not supported yet.", new Exception()); // NOI18N
+    }
 }

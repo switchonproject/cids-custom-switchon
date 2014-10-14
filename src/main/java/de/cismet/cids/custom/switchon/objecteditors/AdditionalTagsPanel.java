@@ -560,4 +560,11 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
     public void dispose() {
         bindingGroup.unbind();
     }
+
+    /**
+     * DOCUMENT ME!
+     */
+    void makeNonEditable() {
+        LOG.fatal("AdditionalTagsPanel.makeNonEditable: Not supported yet.", new Exception()); // NOI18N
+    }
 }

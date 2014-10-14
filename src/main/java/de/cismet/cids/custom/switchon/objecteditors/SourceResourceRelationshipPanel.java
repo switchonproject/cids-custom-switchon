@@ -270,6 +270,13 @@ public class SourceResourceRelationshipPanel extends InfoProviderJPanel implemen
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
+    void makeNonEditable() {
+        LOG.fatal("SourceResourceRelationshipPanel.makeNonEditable: Not supported yet.", new Exception()); // NOI18N
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**

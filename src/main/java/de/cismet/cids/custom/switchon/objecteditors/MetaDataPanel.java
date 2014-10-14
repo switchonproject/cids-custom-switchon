@@ -359,6 +359,13 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
         tblMetaDatas.clearSelection();
     }
 
+    /**
+     * DOCUMENT ME!
+     */
+    void makeNonEditable() {
+        LOG.fatal("MetaDataPanel.makeNonEditable: Not supported yet.", new Exception()); // NOI18N
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
