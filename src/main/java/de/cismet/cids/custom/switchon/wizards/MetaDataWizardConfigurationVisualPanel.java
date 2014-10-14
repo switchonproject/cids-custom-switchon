@@ -26,7 +26,6 @@ public class MetaDataWizardConfigurationVisualPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton rbtnAdvanced;
     private javax.swing.JRadioButton rbtnBasic;
-    private javax.swing.JRadioButton rbtnCustom;
     private javax.swing.JRadioButton rbtnExpert;
     // End of variables declaration//GEN-END:variables
 
@@ -54,7 +53,8 @@ public class MetaDataWizardConfigurationVisualPanel extends javax.swing.JPanel {
         } else if (rbtnExpert.isSelected()) {
             return "expert";
         } else {
-            return "custom";
+            LOG.error("Should never happen. 'basic' is returned.");
+            return "basic";
         }
     }
 
@@ -96,7 +96,6 @@ public class MetaDataWizardConfigurationVisualPanel extends javax.swing.JPanel {
         rbtnBasic = new javax.swing.JRadioButton();
         rbtnAdvanced = new javax.swing.JRadioButton();
         rbtnExpert = new javax.swing.JRadioButton();
-        rbtnCustom = new javax.swing.JRadioButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
@@ -154,21 +153,6 @@ public class MetaDataWizardConfigurationVisualPanel extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         jPanel1.add(rbtnExpert, gridBagConstraints);
-
-        btngConfiguration.add(rbtnCustom);
-        org.openide.awt.Mnemonics.setLocalizedText(
-            rbtnCustom,
-            org.openide.util.NbBundle.getMessage(
-                MetaDataWizardConfigurationVisualPanel.class,
-                "MetaDataWizardConfigurationVisualPanel.rbtnCustom.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
-        jPanel1.add(rbtnCustom, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

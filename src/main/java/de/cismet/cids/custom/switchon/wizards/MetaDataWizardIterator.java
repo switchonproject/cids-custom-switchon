@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 
 import java.util.HashMap;
@@ -66,7 +65,6 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
     private WizardDescriptor.Panel[] basicSequence;
     private WizardDescriptor.Panel[] advancedSequence;
     private WizardDescriptor.Panel[] expertSequence;
-    private WizardDescriptor.Panel[] customSequence;
 
     //~ Methods ----------------------------------------------------------------
 
@@ -88,7 +86,6 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
         if (allPanels == null) {
             createAllPanelsHashMap(
                 MetaDataWizardConfigurationPanel.class,
-                MetaDataWizardCustomConfigurationPanel.class,
                 ResourceBasicInformationPanel.class,
                 TopicCategoryAndKeywordsPanel.class,
                 ContactInformationPanel.class,
