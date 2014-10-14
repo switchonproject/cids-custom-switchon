@@ -203,7 +203,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
         add(btnSeeDetails, gridBagConstraints);
         btnSeeDetails.setVisible(false);
     } // </editor-fold>//GEN-END:initComponents
