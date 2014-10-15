@@ -78,12 +78,12 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblKeywords;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTopic;
     private de.cismet.cids.custom.switchon.objecteditors.LicenseInformationPanel licenseInformationPanel;
+    private de.cismet.cids.custom.switchon.objectrenderer.LoadRelationshipPanel loadRelationshipPanel;
     private javax.swing.JPanel panTitle;
     private javax.swing.JPanel panTitleString;
     private javax.swing.JPanel pnlContact;
@@ -93,7 +93,9 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private javax.swing.JPanel pnlGeographic;
     private javax.swing.JPanel pnlLicense;
     private javax.swing.JPanel pnlMetaData;
+    private javax.swing.JPanel pnlRelationship;
     private javax.swing.JPanel pnlTemporal;
+    private javax.swing.JTabbedPane tabs;
     private org.jdesktop.swingx.JXTaskPaneContainer taskPaneContainerDataAccess;
     private org.jdesktop.swingx.JXTaskPaneContainer taskPaneContainerMetaData;
     private org.jdesktop.swingx.JXTaskPaneContainer taskPaneDataPreview;
@@ -125,7 +127,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         panTitle = new javax.swing.JPanel();
         panTitleString = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabs = new javax.swing.JTabbedPane();
         pnlDescription = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -155,6 +157,8 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         taskPaneContainerDataAccess = new org.jdesktop.swingx.JXTaskPaneContainer();
         pnlDataPreview = new javax.swing.JPanel();
         taskPaneDataPreview = new org.jdesktop.swingx.JXTaskPaneContainer();
+        pnlRelationship = new javax.swing.JPanel();
+        loadRelationshipPanel = new de.cismet.cids.custom.switchon.objectrenderer.LoadRelationshipPanel();
 
         panTitle.setOpaque(false);
         panTitle.setLayout(new java.awt.BorderLayout());
@@ -180,7 +184,14 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         setOpaque(false);
         setLayout(new java.awt.BorderLayout());
 
-        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.RIGHT);
+        tabs.setTabPlacement(javax.swing.JTabbedPane.RIGHT);
+        tabs.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    tabsStateChanged(evt);
+                }
+            });
 
         pnlDescription.setOpaque(false);
         pnlDescription.setLayout(new java.awt.GridBagLayout());
@@ -282,7 +293,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weighty = 1.0;
         pnlDescription.add(filler1, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+        tabs.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceRenderer.class,
                 "ResourceRenderer.pnlDescription.TabConstraints.tabTitle"),
             null,
@@ -311,7 +322,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weighty = 1.0;
         pnlContact.add(filler2, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+        tabs.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceRenderer.class,
                 "ResourceRenderer.pnlContact.TabConstraints.tabTitle"),
             pnlContact); // NOI18N
@@ -325,7 +336,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlGeographic.add(geographicInformationPanel, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+        tabs.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceRenderer.class,
                 "ResourceRenderer.pnlGeographic.TabConstraints.tabTitle"),
             pnlGeographic); // NOI18N
@@ -339,7 +350,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlTemporal.add(temporalInformationPanel, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+        tabs.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceRenderer.class,
                 "ResourceRenderer.pnlTemporal.TabConstraints.tabTitle"),
             pnlTemporal); // NOI18N
@@ -353,7 +364,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlLicense.add(licenseInformationPanel, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+        tabs.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceRenderer.class,
                 "ResourceRenderer.pnlLicense.TabConstraints.tabTitle"),
             pnlLicense); // NOI18N
@@ -372,7 +383,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlMetaData.add(taskPaneContainerMetaData, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+        tabs.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceRenderer.class,
                 "ResourceRenderer.pnlMetaData.TabConstraints.tabTitle"),
             pnlMetaData); // NOI18N
@@ -391,7 +402,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         pnlDataAccess.add(taskPaneContainerDataAccess, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+        tabs.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceRenderer.class,
                 "ResourceRenderer.pnlDataAccess.TabConstraints.tabTitle"),
             pnlDataAccess); // NOI18N
@@ -409,15 +420,36 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
         gridBagConstraints.weighty = 1.0;
         pnlDataPreview.add(taskPaneDataPreview, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+        tabs.addTab(org.openide.util.NbBundle.getMessage(
                 ResourceRenderer.class,
                 "ResourceRenderer.pnlDataPreview.TabConstraints.tabTitle"),
             pnlDataPreview); // NOI18N
 
-        add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+        pnlRelationship.setLayout(new java.awt.BorderLayout());
+        pnlRelationship.add(loadRelationshipPanel, java.awt.BorderLayout.CENTER);
+
+        tabs.addTab(org.openide.util.NbBundle.getMessage(
+                ResourceRenderer.class,
+                "ResourceRenderer.pnlRelationship.TabConstraints.tabTitle"),
+            pnlRelationship); // NOI18N
+
+        add(tabs, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void tabsStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_tabsStateChanged
+        if (tabs.getSelectedComponent() == pnlRelationship) {
+            if (cidsBean != null) {
+                loadRelationshipPanel.setResourceId(cidsBean.getPrimaryKeyValue());
+            }
+        }
+    }                                                                        //GEN-LAST:event_tabsStateChanged
 
     @Override
     public CidsBean getCidsBean() {
