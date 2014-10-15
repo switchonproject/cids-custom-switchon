@@ -19,7 +19,7 @@ import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.dynamics.CidsBean;
 
 /**
- * DOCUMENT ME!
+ * Set the properties of the cidsbeans created by the wizard.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
