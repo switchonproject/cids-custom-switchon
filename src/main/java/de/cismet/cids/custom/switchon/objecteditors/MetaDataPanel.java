@@ -218,7 +218,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
         try {
             metaData = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata");
         } catch (Exception ex) {
-            LOG.error("Metadata-CidsBean could not be created.");
+            LOG.error("Metadata-CidsBean could not be created.", ex);
             return;
         }
 

@@ -192,7 +192,7 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
         try {
             representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation");
         } catch (Exception ex) {
-            LOG.error("Metadata-CidsBean could not be created.");
+            LOG.error("Metadata-CidsBean could not be created.", ex);
             return;
         }
 
