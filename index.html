@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="stylesheets/pygment_trac.css">
         <script src="javascripts/scale.fix.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
+        <meta name="author" content="Pascal Dihé">
         <!--[if lt IE 9]>
         <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -29,8 +29,8 @@
             </header>
             <section>
                 <h3>
-                    <a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About the SIP Expert GUI</h3>
-
+                    <a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About the SIP Expert GUI
+                </h3>
                 <p> This is the Expert GUI of the Spatial Information Platform of the <a href="http://www.water-switch-on.eu/" title="SWITCH-ON">SWITCH-ON</a> EU FP7 collaborative project.
                     Besides advanced data and meta-data visualisation, search, and manipulation functionalities, 
                     the SIP Expert GUI covers the whole cycle of publishing, binding, finding and repurposing of open data. 
@@ -40,52 +40,79 @@
                     A lightwight HTML5 version of the SIP GUI for finding and binding open data is currently under development.
                 </p>
 
+                
+                <h3>
+                    <a name="running" class="anchor" href="#running"><span class="octicon octicon-link"></span></a>Running the SIP Expert GUI
+                </h3>
+                <p>
+                    The latest relase of the SIP Expert GUI can be started via the following <a href="http://tl-ap001.xtr.deltares.nl/switchonDist_v2/client/switchon/cids-custom-switchon-1.0-SNAPSHOT-starter.jnlp">JNLP Link</a>. 
+                    Please note, that the <a href="http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html" target="_blank">Java Runtime Environment 1.7</a> is required run the SIP.
+                    <br>This video provides instructions on how to run a JNLP file and start Java Webstart Rich Internet Application from the Internet. :</p>
+                <p>
+                    <iframe width="853" height="480" src="//www.youtube.com/embed/GM-t0XAv7jk?rel=0" frameborder="0" allowfullscreen></iframe>
+                </p>
+
+                
+                <!--
                 <h3>
                     <a name="concepts" class="anchor" href="#concepts"><span class="octicon octicon-link"></span></a>SIP Concepts
                 </h3>
-
-                <p>The concepts of the Spatial Information Platform are briefly explained in the <a href="assets/SIP-Concepts.pdf">SIP Concepts</a> presentation.<br>
-                The following video showcases a typical FIND, BIND, TRANSFORM and PUBLISH open data workflow that can be carried out with help of the SIP.</p>
-                <p><iframe width="853" height="480" src="//www.youtube.com/embed/jXEBJq5V1ZU?rel=0" frameborder="0" allowfullscreen></iframe></p>
+                <p>
+                    The concepts of the Spatial Information Platform are briefly explained in the <a href="assets/SIP-Concepts.pdf">SIP Concepts</a> presentation.<br>
+                    The following video showcases a typical <b>find</b>, <b>bind</b>, <b>transform</b> and <b>publish</b> open data workflow that can be carried out with help of the SIP Expert GUI and external Tools available in the SIP catalogue.
+                </p>
+                <p>
+                    <iframe width="853" height="480" src="//www.youtube.com/embed/jXEBJq5V1ZU?rel=0" frameborder="0" allowfullscreen></iframe>
+                </p>
+                -->
+                   
                 
                 <h3>
-                    <a name="status" class="anchor" href="#status"><span class="octicon octicon-link"></span></a>SIP Development Status</h3>
+                    <a name="basic" class="anchor" href="#basic"><span class="octicon octicon-link"></span></a>SIP Expert GUI Basics
+                </h3>
+                <p>
+                    This video showcases the basic functionality and features of the SIP Expert GUI. 
+                    It instructs users how to browse the catalogue, how to show information on objects in the catalogue, how use the powerful geospatial visualisation capabilities of the map component and how to use wizards.
+                </p>
+                <p>
+                    <iframe width="853" height="480" src="//www.youtube.com/embed/sA0o-HvcYJ8?rel=0" frameborder="0" allowfullscreen></iframe>
+                </p>
 
-                <p>The latest implementation of the SIP Expert GUI supports the following <b>find</b> and <b>bind</b> use cases:</p>
+                
+                <h3>
+                    <a name="find-bind-publish" class="anchor" href="#find-bind-publish"><span class="octicon octicon-link"></span></a>Find, Bind and Publish Open Data
+                </h3>
+                <p>
+                    The next video showcases the following <b>find</b>, <b>bind</b> and <b>publish</b> use cases:
+                </p>
                 <ul>
-                    <li>Find Data by Browsing Meta-Data</li>
-                    <li>Find Data by Query on Resource Meta-Data (basic queries)</li>
+                    <li>Find Open Data by Browsing Meta-Data <strong>(find)</strong></li>
+                    <li>Find Open Data by browsing a catalogue of Resources <strong>(find)</strong></li>
                     <li>Assess usefulness of resources by viewing basic Meta-Data</li>
-                    <li>Find Data by Query on Resource Meta-Data (basic queries)</li>
+                    <li>Find Data by queries (temporal, spatial, keywords, ...) on Resource Meta-Data</li>
                     <li>Assess usefulness of resources by viewing Quality and basic Lineage Meta-Data</li>
                     <li>Show a Preview of the Resources</li>
-                    <li>Access Resources Data </li>
-                    <li>View Resource Data in SIP GUI</li>
+                    <li>Access Resources Data by downloading a file <strong>(bind)</strong></li>
+                    <li>Access Resources Data by viewing Resource Data directly in the SIP GUI</li>
                     <li>Edit Resource Meta-Data</li>
-                    <li>Register new Resource Meta-Data</li>
+                    <li>Register new Resource by providing Meta-Data with help of a Basic Meta-Data Wizard <strong>(publish)</strong></li>
                 </ul>
-                <p>The following video showcases the above mentioned use cases:</p>
-                <p><iframe width="960" height="720" src="//www.youtube.com/embed/4bLpJHxWkno?rel=0" frameborder="0" allowfullscreen></iframe></p>
+                <p>
+                    <iframe width="960" height="720" src="//www.youtube.com/embed/4bLpJHxWkno?rel=0" frameborder="0" allowfullscreen></iframe>
+                </p>
 
                 <h3>
-                    <a name="running" class="anchor" href="#running"><span class="octicon octicon-link"></span></a>Running the SIP Expert GUI</h3>
-
-                <p>The latest relase of the SIP Expert GUI can be started via the following <a href="http://tl-ap001.xtr.deltares.nl/switchonDist_v2/client/switchon/cids-custom-switchon-1.0-SNAPSHOT-starter.jnlp">JNLP Link</a>. 
-                    Please note, that the <a href="http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html" target="_blank">Java Runtime Environment 1.7</a> is required run the SIP.
-                <br>The following video provides instructions on how to run a JNLP file:</p>
-                <p><iframe width="853" height="480" src="//www.youtube.com/embed/GM-t0XAv7jk?rel=0" frameborder="0" allowfullscreen></iframe></p>
-
-                <h3>
-                    <a name="problems" class="anchor" href="#problems"><span class="octicon octicon-link"></span></a>Reporting Problems</h3>
-
-                <p>Please report any problems or bugs by using the <a href="https://github.com/switchonproject/cids-custom-switchon/issues">GitHub Issue Tracker</a>.</p>
-          </section>
+                    <a name="problems" class="anchor" href="#problems"><span class="octicon octicon-link"></span></a>Reporting Problems
+                </h3>
+                <p>
+                    Please report any problems or bugs by using the <a href="https://github.com/switchonproject/cids-custom-switchon/issues">GitHub Issue Tracker</a>.
+                </p>
+            </section>
         </div>
         <footer>
             <p>Project maintained by <a href="https://github.com/switchonproject">switchonproject</a></p>
             <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
         </footer>
         <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-
     </body>
 </html>
