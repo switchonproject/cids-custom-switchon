@@ -20,7 +20,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.objectrenderer.MetadataRenderer;
 import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 
@@ -218,7 +217,7 @@ public class MetaDataPanel extends javax.swing.JPanel implements CidsBeanStore, 
         try {
             metaData = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata");
         } catch (Exception ex) {
-            LOG.error("Metadata-CidsBean could not be created.");
+            LOG.error("Metadata-CidsBean could not be created.", ex);
             return;
         }
 

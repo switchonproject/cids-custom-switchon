@@ -19,7 +19,7 @@ import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.dynamics.CidsBean;
 
 /**
- * DOCUMENT ME!
+ * Set the properties of the cidsbeans created by the wizard.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
@@ -28,7 +28,7 @@ public class DefaultPropertySetter {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             DefaultPropertySetter.class);
     // resource
     private static final Future<CidsBean> defaultTypeResource = TagUtils.fetchFutureTagByName("external data");

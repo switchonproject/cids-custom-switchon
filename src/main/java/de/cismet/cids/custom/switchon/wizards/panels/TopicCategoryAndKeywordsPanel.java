@@ -53,14 +53,14 @@ public class TopicCategoryAndKeywordsPanel extends GenericAbstractWizardPanel<To
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
         resource.addPropertyChangeListener(this);
-        ((TopicCategoryAndKeywordsVisualPanel)getComponent()).setCidsBean(resource);
+        getComponent().setCidsBean(resource);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        final CidsBean resource = ((TopicCategoryAndKeywordsVisualPanel)getComponent()).getCidsBean();
+        final CidsBean resource = getComponent().getCidsBean();
         resource.removePropertyChangeListener(this);
-        ((TopicCategoryAndKeywordsVisualPanel)getComponent()).dispose();
+        getComponent().dispose();
     }
 
     @Override
@@ -75,7 +75,7 @@ public class TopicCategoryAndKeywordsPanel extends GenericAbstractWizardPanel<To
 
     @Override
     public boolean isValid() {
-        final CidsBean resource = ((TopicCategoryAndKeywordsVisualPanel)getComponent()).getCidsBean();
+        final CidsBean resource = getComponent().getCidsBean();
         final CidsBean topiccategory = (CidsBean)resource.getProperty("topiccategory"); // NOI18N
 
         if (topiccategory == null) {

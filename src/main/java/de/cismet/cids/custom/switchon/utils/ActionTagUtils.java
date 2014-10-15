@@ -22,7 +22,7 @@ public class ActionTagUtils {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final transient Logger LOG = Logger.getLogger(ActionTagUtils.class);
+    private static final Logger LOG = Logger.getLogger(ActionTagUtils.class);
 
     //~ Methods ----------------------------------------------------------------
 

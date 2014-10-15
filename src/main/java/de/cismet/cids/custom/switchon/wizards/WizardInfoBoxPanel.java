@@ -12,7 +12,7 @@ import org.openide.WizardDescriptor;
 import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 
 /**
- * DOCUMENT ME!
+ * An {@code InfoReceiver} used in the wizard to explain the functionality of a panel to the user.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$

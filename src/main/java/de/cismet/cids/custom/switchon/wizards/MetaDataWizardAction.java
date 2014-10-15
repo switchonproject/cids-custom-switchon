@@ -52,8 +52,8 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.tools.gui.StaticSwingTools;
 
 /**
- * A wizard which creates a new Resource CidsBean with its sub-cidsBeans. The wizard has four configurations Basic,
- * Advanced, Expert and Custom.
+ * A wizard which creates a new Resource CidsBean with its sub-cidsBeans. The wizard has three configurations Basic,
+ * Advanced and Expert.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$

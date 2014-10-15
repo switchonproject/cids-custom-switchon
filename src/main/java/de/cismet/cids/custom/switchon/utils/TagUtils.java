@@ -34,7 +34,7 @@ public class TagUtils {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TagUtils.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TagUtils.class);
     private static final ExecutorService executor = CismetExecutors.newCachedThreadPool();
 
     //~ Methods ----------------------------------------------------------------

@@ -7,7 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;

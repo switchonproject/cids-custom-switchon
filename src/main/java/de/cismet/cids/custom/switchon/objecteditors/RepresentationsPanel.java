@@ -9,7 +9,6 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import java.awt.event.ActionListener;
 
-import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -192,7 +191,7 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
         try {
             representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation");
         } catch (Exception ex) {
-            LOG.error("Metadata-CidsBean could not be created.");
+            LOG.error("Metadata-CidsBean could not be created.", ex);
             return;
         }
 
