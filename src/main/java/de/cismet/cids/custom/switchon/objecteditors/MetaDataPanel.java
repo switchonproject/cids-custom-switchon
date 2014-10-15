@@ -20,7 +20,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.objectrenderer.MetadataRenderer;
 import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
 

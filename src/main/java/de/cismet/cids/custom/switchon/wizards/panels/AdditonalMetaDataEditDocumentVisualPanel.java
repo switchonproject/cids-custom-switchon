@@ -7,8 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
-import org.apache.commons.lang.StringUtils;
-
 import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
 import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrongUtils;

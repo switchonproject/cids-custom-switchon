@@ -12,8 +12,6 @@ import org.apache.log4j.Logger;
 import org.openide.WizardDescriptor;
 import org.openide.util.NbBundle;
 
-import java.awt.Component;
-
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;

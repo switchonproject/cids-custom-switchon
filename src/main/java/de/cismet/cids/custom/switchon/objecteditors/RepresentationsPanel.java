@@ -9,7 +9,6 @@ package de.cismet.cids.custom.switchon.objecteditors;
 
 import java.awt.event.ActionListener;
 
-import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.JButton;
