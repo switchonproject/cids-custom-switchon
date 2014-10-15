@@ -282,8 +282,8 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
         } else {
             size = this.getSize();
         }
-        final double scalex = (double)size.getWidth() / bi.getWidth(null);
-        final double scaley = (double)size.getHeight() / bi.getHeight(null);
+        final double scalex = size.getWidth() / bi.getWidth(null);
+        final double scaley = size.getHeight() / bi.getHeight(null);
         final double scale = Math.min(scalex, scaley);
         if (scale <= 1d) {
             return bi.getScaledInstance((int)(bi.getWidth(null) * scale) - insetX,
