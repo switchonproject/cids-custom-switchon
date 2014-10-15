@@ -38,7 +38,7 @@ import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 
 /**
- * DOCUMENT ME!
+ * Panel which contains a mapping component.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$

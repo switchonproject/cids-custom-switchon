@@ -8,7 +8,7 @@
 package de.cismet.cids.custom.switchon.gui;
 
 /**
- * An {@InfoReceiver} receives information from an {@InfoProvider} and shows it to the user.
+ * An {@link InfoReceiver} receives information from an {@link InfoProvider} and shows it to the user.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$

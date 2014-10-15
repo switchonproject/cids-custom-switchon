@@ -8,7 +8,8 @@
 package de.cismet.cids.custom.switchon.wizards;
 
 /**
- * WizardDescriptor.Panel can implement this to return a name to the wizard iterator. The name will be shown in the wizard as title.
+ * WizardDescriptor.Panel can implement this to return a name to the wizard iterator. The name will be shown in the
+ * wizard as title.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$

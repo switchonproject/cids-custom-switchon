@@ -10,7 +10,7 @@ package de.cismet.cids.custom.switchon.wizards;
 import org.openide.WizardDescriptor;
 
 /**
- * A Wizard Panel implements this can be set as finish panel
+ * A Wizard Panel implements this can be set as finish panel.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
