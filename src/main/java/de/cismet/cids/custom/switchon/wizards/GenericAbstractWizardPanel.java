@@ -42,7 +42,7 @@ public abstract class GenericAbstractWizardPanel<T extends Component> extends Ab
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             GenericAbstractWizardPanel.class);
 
     private static final ExecutorService executorService = CismetExecutors.newFixedThreadPool(5);

@@ -28,7 +28,7 @@ public class DefaultPropertySetter {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             DefaultPropertySetter.class);
     // resource
     private static final Future<CidsBean> defaultTypeResource = TagUtils.fetchFutureTagByName("external data");
