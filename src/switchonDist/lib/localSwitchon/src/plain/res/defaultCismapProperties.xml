@@ -7,30 +7,6 @@
             <!-- domain = name of domainserver, cidsClass = name of class in domain -->
             <searchClass domain="SWITCHON" cidsClass="resource"/>
         </searchTopic>
-        <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
-        <searchTopic name="Areas" description="Search for available areas" key="cmdAreas" icon="/de/cismet/cids/custom/switchon/area_16.png" selected="false">
-            <!-- arbitrary number of searchClass -->
-            <!-- domain = name of domainserver, cidsClass = name of class in domain -->
-            <searchClass domain="SWITCHON" cidsClass="named_area"/>
-        </searchTopic>
-        <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
-        <searchTopic name="Monitor stations" description="Search for available monitor stations" key="cmdMonitorStations" icon="/de/cismet/cids/custom/switchon/monitor_16.png" selected="true">
-            <!-- arbitrary number of searchClass -->
-            <!-- domain = name of domainserver, cidsClass = name of class in domain -->
-            <searchClass domain="SWITCHON" cidsClass="monitorstation"/>
-        </searchTopic>
-        <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
-        <searchTopic name="IDF curves" description="Search for available IDF curves" key="cmdIdfCurves" icon="/de/cismet/cids/custom/switchon/idf_16.png" selected="false">
-            <!-- arbitrary number of searchClass -->
-            <!-- domain = name of domainserver, cidsClass = name of class in domain -->
-            <searchClass domain="SWITCHON" cidsClass="idf_curve"/>
-        </searchTopic>
-        <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
-        <searchTopic name="Rain events" description="Search for available Rain events" key="cmdRainEvents" icon="/de/cismet/cids/custom/switchon/thunder_storm_16.png" selected="false">
-            <!-- arbitrary number of searchClass -->
-            <!-- domain = name of domainserver, cidsClass = name of class in domain -->
-            <searchClass domain="SWITCHON" cidsClass="rainevent"/>
-        </searchTopic>
     </metaSearch>
     <cismapOverviewComponentPreferences srs="EPSG:4326">
         <overviewExtent>
@@ -69,7 +45,34 @@
 	<printing/>
     </cismapMappingPreferences>
 
-    <cismapActiveLayerConfiguration/>
+    <cismapActiveLayerConfiguration>
+        <Layers>
+            <WMSServiceLayer name="World Map" visible="true" enabled="true" translucency="1.0" bgColor="0xF0F0F0" imageFormat="image/png" exceptionFormat="application/vnd.ogc.se_xml">
+                <capabilities type="OGC" active="false"><![CDATA[http://www2.demis.nl/wms/wms.ashx?Service=WMS&WMS=WorldMap&Version=1.1.0&Request=GetCapabilities]]>
+                </capabilities>
+                <wmsLayer name="Bathymetry" enabled="true" info="false" />
+                <wmsLayer name="Countries" enabled="true" info="false" />
+                <wmsLayer name="Topography" enabled="true" info="false" />
+                <wmsLayer name="Hillshading" enabled="true" info="false" />
+                <wmsLayer name="Builtup areas" enabled="true" info="false" />
+                <wmsLayer name="Coastlines" enabled="true" info="false" />
+                <wmsLayer name="Waterbodies" enabled="true" info="false" />
+                <wmsLayer name="Inundated" enabled="true" info="false" />
+                <wmsLayer name="Rivers" enabled="true" info="false" />
+                <wmsLayer name="Streams" enabled="true" info="false" />
+                <wmsLayer name="Railroads" enabled="true" info="false" />
+                <wmsLayer name="Highways" enabled="true" info="false" />
+                <wmsLayer name="Roads" enabled="true" info="false" />
+                <wmsLayer name="Trails" enabled="true" info="false" />
+                <wmsLayer name="Borders" enabled="true" info="false" />
+                <wmsLayer name="Cities" enabled="true" info="false" />
+                <wmsLayer name="Settlements" enabled="true" info="false" />
+                <wmsLayer name="Spot elevations" enabled="true" info="false" />
+                <wmsLayer name="Airports" enabled="true" info="false" />
+                <wmsLayer name="Ocean features" enabled="true" info="false" />
+            </WMSServiceLayer>
+        </Layers>
+    </cismapActiveLayerConfiguration>
     <cismapPluginSelectedSearchClasses/>
     <cismapPluginUIPreferences>
         <help_url><![CDATA[http://water-switch-on.eu/]]></help_url>

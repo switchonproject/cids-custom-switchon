@@ -56,6 +56,8 @@ import de.cismet.commons.security.WebDavHelper;
 
 import de.cismet.netutil.Proxy;
 
+import de.cismet.tools.PasswordEncrypter;
+
 /**
  * DOCUMENT ME!
  *
@@ -87,7 +89,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             final ResourceBundle bundle = ResourceBundle.getBundle(
                     "de/cismet/cids/custom/switchon/wizards/panels/webdav/WebDav"); // NOI18N
             final String pass = bundle.getString("password");
-            WEB_DAV_PASSWORD = pass;
+            WEB_DAV_PASSWORD = String.valueOf(PasswordEncrypter.decrypt(pass.toCharArray(), true));
 
             WEB_DAV_USER = bundle.getString("user");
             BASIC_IMPORT_URL = bundle.getString("url_basic_import");
@@ -535,7 +537,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             fetchFunctionAndProtocolTags();
 
             boolean upload = true;
-            if (upload && contentType.startsWith("text")) {                       // NOI18N
+            if (upload && (contentType != null) && contentType.startsWith("text")) { // NOI18N
                 final long size = Files.size(path);
                 upload = size > ONEHUNDRED_KILOBYTES;
             }
@@ -543,7 +545,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 publish(new ProcessInformation(
                         org.openide.util.NbBundle.getMessage(
                             BasicImportDocumentVisualPanel.class,
-                            "BasicImportDocumentVisualPanel.CreateContent.Save"), // NOI18N
+                            "BasicImportDocumentVisualPanel.CreateContent.Save"),    // NOI18N
                         25));
                 saveContent(path, information);
             } else {
@@ -551,8 +553,8 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 if (!((responseCode == 200) || (responseCode == 201))) {
                     throw new UploadNotSuccessfullException(
                         responseCode,
-                        "The upload failed. Http response code is: "
-                                + responseCode);                                  // NOI18N
+                        "The upload failed. Http response code is: "                 // NOI18N
+                                + responseCode);
                 }
             }
             return information;
@@ -571,7 +573,8 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             try {
                 final ContentInformation information = get();
                 setContentInformationToCidsBean(information);
-                checkUploadToAdvancedDataRepositoryPossible(information.contentType.toString());
+                checkUploadToAdvancedDataRepositoryPossible((information.contentType == null)
+                        ? "" : information.contentType.toString());
                 setFunctionAndProtocolForRepresentation();
                 processMessage = org.openide.util.NbBundle.getMessage(
                         BasicImportDocumentVisualPanel.class,
