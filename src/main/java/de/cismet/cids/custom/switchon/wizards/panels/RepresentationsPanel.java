@@ -125,13 +125,7 @@ public class RepresentationsPanel extends GenericAbstractWizardPanel<Representat
     @Override
     public boolean isValid() {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
-        if ("advanced".equals(wizard.getProperty(MetaDataWizardAction.PROP_CONFIGURATION))
-                    && (getComponent().getSelectedRepresentation() == null)) {
-            showWarning(org.openide.util.NbBundle.getMessage(
-                    RepresentationsPanel.class,
-                    "RepresentationsPanel.isValid().advancedProfileNoneSelected"));
-            return false;
-        } else if (resource.getBeanCollectionProperty("representation").isEmpty()) {
+        if (resource.getBeanCollectionProperty("representation").isEmpty()) {
             showWarning(org.openide.util.NbBundle.getMessage(
                     RepresentationsPanel.class,
                     "RepresentationsPanel.isValid().warn"));
