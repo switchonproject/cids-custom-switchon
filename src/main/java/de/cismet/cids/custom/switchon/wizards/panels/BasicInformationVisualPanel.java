@@ -7,10 +7,14 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
+import de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 /**
  * DOCUMENT ME!
@@ -18,24 +22,43 @@ import de.cismet.cids.dynamics.CidsBeanStore;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel implements CidsBeanStore {
+public class BasicInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
+    Disposable,
+    MarkMandtoryFieldsStrong,
+    InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            BasicResourcePropertiesVisualPanel.class);
+            BasicInformationVisualPanel.class);
 
+    //~ Instance fields --------------------------------------------------------
+
+    private Taggroups typeTaggroup;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
-    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
+    protected de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel basicPropertiesPanel;
+    protected de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form BasicResourcePropertiesVisualPanel.
+     *
+     * @deprecated  Constructor for Netbeans
      */
-    public BasicResourcePropertiesVisualPanel() {
+    public BasicInformationVisualPanel() {
+        this(Taggroups.META_DATA_TYPE);
+        LOG.warn("Do not use this constructor, it is only there for the Netbeans GUI editor.", new Exception());
+    }
+
+    /**
+     * Creates new form BasicResourcePropertiesVisualPanel.
+     *
+     * @param  typeTaggroup  DOCUMENT ME!
+     */
+    public BasicInformationVisualPanel(final Taggroups typeTaggroup) {
+        this.typeTaggroup = typeTaggroup;
         initComponents();
         basicPropertiesPanel.setInfoReceiver(infoBoxPanel);
     }
@@ -51,9 +74,9 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel(
-                Taggroups.RESOURCE_TYPE);
-        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
+        basicPropertiesPanel = new de.cismet.cids.custom.switchon.objecteditors.BasicPropertiesPanel(typeTaggroup);
+        infoBoxPanel = new WizardInfoBoxPanel();
+        ;
 
         addFocusListener(new java.awt.event.FocusAdapter() {
 
@@ -67,26 +90,20 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
         basicPropertiesPanel.setVisibleGenerateUUID(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 0.7;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(basicPropertiesPanel, gridBagConstraints);
-
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                BasicResourcePropertiesVisualPanel.class,
-                "BasicResourcePropertiesVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
-        infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
-        infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(infoBoxPanel, gridBagConstraints);
-    }                                                                                   // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -94,7 +111,6 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
      * @param  evt  DOCUMENT ME!
      */
     private void formFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_formFocusGained
-        infoBoxPanel.showGeneralInformation();
     }                                                                   //GEN-LAST:event_formFocusGained
 
     @Override
@@ -105,5 +121,25 @@ public class BasicResourcePropertiesVisualPanel extends javax.swing.JPanel imple
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         basicPropertiesPanel.setCidsBean(cidsBean);
+    }
+
+    @Override
+    public void dispose() {
+        basicPropertiesPanel.dispose();
+    }
+
+    @Override
+    public void markMandatoryFieldsStrong() {
+        basicPropertiesPanel.markMandatoryFieldsStrong();
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
     }
 }

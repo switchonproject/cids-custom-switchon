@@ -44,4 +44,11 @@ public class InfoProviderJPanel extends JPanel implements InfoProvider {
     public void setInfoReceiver(final InfoReceiver infoReceiver) {
         this.infoReceiver = infoReceiver;
     }
+
+    @Override
+    public void provideError(final String error) {
+        if (infoReceiver != null) {
+            infoReceiver.setError(error);
+        }
+    }
 }

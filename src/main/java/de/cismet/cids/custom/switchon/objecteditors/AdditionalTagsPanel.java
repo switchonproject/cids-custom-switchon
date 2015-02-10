@@ -23,6 +23,7 @@ import javax.swing.table.TableRowSorter;
 
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
+import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.TaggroupUtils;
@@ -30,6 +31,7 @@ import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -41,7 +43,7 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanStore {
+public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -399,6 +401,8 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
 
         final String description = TagUtils.getDescriptionOfTag(cmbTagGroups.getSelectedItem());
         provideInformation(description);
+
+        btnNew.setEnabled(TaggroupUtils.isTaggroupOpen(cmbTagGroups.getSelectedItem().toString()));
     } //GEN-LAST:event_cmbTagGroupsActionPerformed
 
     /**
@@ -551,5 +555,22 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
      */
     public void setAssignedTags(final List<CidsBean> assignedTags) {
         this.assignedTags = assignedTags;
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void makeNonEditable() {
+        RendererTools.makeReadOnly(btnAdd);
+        RendererTools.makeReadOnly(btnNew);
+        RendererTools.makeReadOnly(btnRemove);
+        RendererTools.makeReadOnly(cmbTagGroups);
+        RendererTools.makeReadOnly(lstTags);
+        RendererTools.makeReadOnly(tblAssignedTags);
     }
 }

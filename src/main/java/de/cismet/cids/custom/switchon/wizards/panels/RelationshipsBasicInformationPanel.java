@@ -9,13 +9,10 @@ package de.cismet.cids.custom.switchon.wizards.panels;
 
 import org.apache.log4j.Logger;
 
-import org.openide.WizardDescriptor;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 
-import java.awt.Component;
-
-import de.cismet.cids.custom.switchon.wizards.NameProvider;
-
-import de.cismet.commons.gui.wizard.AbstractWizardPanel;
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -23,7 +20,7 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RelationshipsBasicInformationPanel extends AbstractWizardPanel implements NameProvider {
+public class RelationshipsBasicInformationPanel extends AbstractBasicInformationPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -35,29 +32,33 @@ public class RelationshipsBasicInformationPanel extends AbstractWizardPanel impl
      * Creates a new RelationshipsBasicInformationPanel object.
      */
     public RelationshipsBasicInformationPanel() {
+        super();
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                AdditonalMetaDataBasicInformationPanel.class,
+                "RelationshipsBasicInformationPanel.infobox.gerneralInfromation"));
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    @Override
-    protected Component createComponent() {
-        return new RelationshipsBasicInformationVisualPanel();
-    }
-
-    @Override
-    protected void read(final WizardDescriptor wizard) {
-        LOG.fatal("RelationshipsBasicInformationPanel.read: Not supported yet.", new Exception()); // NOI18N
-    }
-
-    @Override
-    protected void store(final WizardDescriptor wizard) {
-        LOG.fatal("RelationshipsBasicInformationPanel.store: Not supported yet.", new Exception()); // NOI18N
-    }
 
     @Override
     public String getName() {
         return org.openide.util.NbBundle.getMessage(
                 RelationshipsBasicInformationPanel.class,
                 "RelationshipsBasicInformationPanel.name");
+    }
+
+    @Override
+    public CidsBean getCidsBean() {
+        return (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_CREATED_RELATIONSHIP_BEAN);
+    }
+
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        wizard.putProperty(MetaDataWizardAction.PROP_CREATED_RELATIONSHIP_BEAN, cidsBean);
+    }
+
+    @Override
+    protected Taggroups getTypeTaggroup() {
+        return Taggroups.RELATIONSHIP_TYPE;
     }
 }

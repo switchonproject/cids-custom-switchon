@@ -12,8 +12,6 @@ import org.apache.log4j.Logger;
 import org.openide.WizardDescriptor;
 import org.openide.util.NbBundle;
 
-import java.awt.Component;
-
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
@@ -40,14 +38,12 @@ public class LicenseInformationPanel extends GenericAbstractWizardPanel<LicenseI
      */
     public LicenseInformationPanel() {
         super(LicenseInformationVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                LicenseInformationVisualPanel.class,
+                "LicenseInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    @Override
-    protected Component createComponent() {
-        return new LicenseInformationVisualPanel();
-    }
 
     @Override
     protected void read(final WizardDescriptor wizard) {

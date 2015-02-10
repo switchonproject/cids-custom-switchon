@@ -12,6 +12,8 @@ import java.awt.event.FocusEvent;
 
 import de.cismet.cids.custom.switchon.gui.ISO8601JXDatePicker;
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrongUtils;
 import de.cismet.cids.custom.switchon.gui.TimestampToDateConverter;
 import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 
@@ -25,7 +27,9 @@ import de.cismet.cids.dynamics.Disposable;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TemporalInformationPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
+public class TemporalInformationPanel extends InfoProviderJPanel implements CidsBeanStore,
+    Disposable,
+    MarkMandtoryFieldsStrong {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -48,10 +52,10 @@ public class TemporalInformationPanel extends InfoProviderJPanel implements Cids
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblStartDate;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -137,7 +141,7 @@ public class TemporalInformationPanel extends InfoProviderJPanel implements Cids
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        lblStartDate = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         dpStartDate = new ISO8601JXDatePicker();
         ;
@@ -172,16 +176,16 @@ public class TemporalInformationPanel extends InfoProviderJPanel implements Cids
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel4,
+            lblStartDate,
             org.openide.util.NbBundle.getMessage(
                 TemporalInformationPanel.class,
-                "TemporalInformationPanel.jLabel4.text")); // NOI18N
+                "TemporalInformationPanel.lblStartDate.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
-        jPanel1.add(jLabel4, gridBagConstraints);
+        jPanel1.add(lblStartDate, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel5,
@@ -372,5 +376,10 @@ public class TemporalInformationPanel extends InfoProviderJPanel implements Cids
     @Override
     public void dispose() {
         bindingGroup.unbind();
+    }
+
+    @Override
+    public void markMandatoryFieldsStrong() {
+        MarkMandtoryFieldsStrongUtils.markJLabelString(lblStartDate);
     }
 }

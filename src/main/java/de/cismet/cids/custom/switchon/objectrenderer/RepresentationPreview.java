@@ -14,8 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 
 import java.io.IOException;
@@ -35,7 +33,6 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
@@ -285,8 +282,8 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
         } else {
             size = this.getSize();
         }
-        final double scalex = (double)size.getWidth() / bi.getWidth(null);
-        final double scaley = (double)size.getHeight() / bi.getHeight(null);
+        final double scalex = size.getWidth() / bi.getWidth(null);
+        final double scaley = size.getHeight() / bi.getHeight(null);
         final double scale = Math.min(scalex, scaley);
         if (scale <= 1d) {
             return bi.getScaledInstance((int)(bi.getWidth(null) * scale) - insetX,

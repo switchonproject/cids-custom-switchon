@@ -18,7 +18,6 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import org.apache.commons.lang.StringUtils;
 
-import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 
 import java.awt.GridBagConstraints;

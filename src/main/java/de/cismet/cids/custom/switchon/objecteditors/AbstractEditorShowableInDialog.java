@@ -37,9 +37,10 @@ public abstract class AbstractEditorShowableInDialog extends InfoProviderJPanel 
     //~ Instance fields --------------------------------------------------------
 
     protected HashSet<CidsBean> newlyAddedCidsBeans = new HashSet<CidsBean>();
-    protected HashSet<CidsBean> persistedCidsBeans = new HashSet<CidsBean>();
+    protected HashSet<CidsBean> modifiedCidsBeans = new HashSet<CidsBean>();
 
     protected CidsBean cidsBean;
+    private boolean avoidPersist = false;
 
     //~ Methods ----------------------------------------------------------------
 
@@ -67,14 +68,17 @@ public abstract class AbstractEditorShowableInDialog extends InfoProviderJPanel 
     }
 
     @Override
-    public HashSet<CidsBean> getPersistedCidsBeans() {
-        return persistedCidsBeans;
+    public HashSet<CidsBean> getModifiedCidsBeans() {
+        return modifiedCidsBeans;
     }
 
     @Override
     public void saveChanges() throws Exception {
-        final CidsBean newCidsBean = cidsBean.persist();
-        persistedCidsBeans.add(newCidsBean);
+        CidsBean newCidsBean = cidsBean;
+        if (!avoidPersist) {
+            newCidsBean = cidsBean.persist();
+        }
+        modifiedCidsBeans.add(newCidsBean);
         if (cidsBean.getMetaObject().getStatus() == MetaObject.NEW) {
             newlyAddedCidsBeans.add(newCidsBean);
         }
@@ -83,5 +87,23 @@ public abstract class AbstractEditorShowableInDialog extends InfoProviderJPanel 
     @Override
     public Component getComponent() {
         return this;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isAvoidPersist() {
+        return avoidPersist;
+    }
+
+    /**
+     * The persist of the CidsBean can be avoided in the saveChanges() method.
+     *
+     * @param  avoidPersist  DOCUMENT ME!
+     */
+    public void setAvoidPersist(final boolean avoidPersist) {
+        this.avoidPersist = avoidPersist;
     }
 }

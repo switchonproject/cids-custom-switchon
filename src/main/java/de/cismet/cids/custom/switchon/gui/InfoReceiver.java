@@ -8,7 +8,7 @@
 package de.cismet.cids.custom.switchon.gui;
 
 /**
- * DOCUMENT ME!
+ * An {@link InfoReceiver} receives information from an {@link InfoProvider} and shows it to the user.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
@@ -18,9 +18,16 @@ public interface InfoReceiver {
     //~ Methods ----------------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * Show an information to the user.
      *
      * @param  information  DOCUMENT ME!
      */
     void setInformation(String information);
+
+    /**
+     * Show an error to the user.
+     *
+     * @param  error  DOCUMENT ME!
+     */
+    void setError(String error);
 }

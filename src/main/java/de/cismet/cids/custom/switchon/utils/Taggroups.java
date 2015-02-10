@@ -24,7 +24,8 @@ public enum Taggroups {
     KEYWORDS_OPEN("keywords - open"), LANGUAGE("language"), LOCATION("location"),
     META_DATA_STANDARD("meta-data standard"), META_DATA_TYPE("meta-data type"), PROTOCOL("protocol"),
     RELATIONSHIP_TYPE("relationship type"), REPRESENTATION_TYPE("representation type"), ROLE("role"), SRID("srid"),
-    TOPIC_CATEGORY("topic category"), CONFORMITY("conformity"), RESOURCE_TYPE("resource type");
+    TOPIC_CATEGORY("topic category"), CONFORMITY("conformity"), RESOURCE_TYPE("resource type"),
+    PUBLISH_TYPE("publish type");
 
     //~ Instance fields --------------------------------------------------------
 

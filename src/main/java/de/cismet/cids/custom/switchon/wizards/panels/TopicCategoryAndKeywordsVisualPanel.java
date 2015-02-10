@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.dynamics.Disposable;
@@ -17,7 +19,9 @@ import de.cismet.cids.dynamics.Disposable;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
+    Disposable,
+    InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -25,7 +29,7 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
             TopicCategoryAndKeywordsVisualPanel.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
+    private de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
     private de.cismet.cids.custom.switchon.objecteditors.TopicCollectionAdditionalTagsPanel
         topicCollectionAdditionalTagsPanel;
         // End of variables declaration//GEN-END:variables
@@ -51,7 +55,7 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
+        infoBoxPanel = new de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel();
         topicCollectionAdditionalTagsPanel =
             new de.cismet.cids.custom.switchon.objecteditors.TopicCollectionAdditionalTagsPanel();
 
@@ -63,25 +67,21 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
                 }
             });
         setLayout(new java.awt.GridBagLayout());
-
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                TopicCategoryAndKeywordsVisualPanel.class,
-                "TopicCategoryAndKeywordsVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
-        infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
-        infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        add(infoBoxPanel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
-        add(infoBoxPanel, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
         add(topicCollectionAdditionalTagsPanel, gridBagConstraints);
-    }                                                                                    // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -89,7 +89,6 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
      * @param  evt  DOCUMENT ME!
      */
     private void formFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_formFocusGained
-        infoBoxPanel.showGeneralInformation();
     }                                                                   //GEN-LAST:event_formFocusGained
 
     @Override
@@ -105,5 +104,15 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
     @Override
     public void dispose() {
         topicCollectionAdditionalTagsPanel.dispose();
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
     }
 }

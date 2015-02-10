@@ -9,13 +9,10 @@ package de.cismet.cids.custom.switchon.wizards.panels;
 
 import org.apache.log4j.Logger;
 
-import org.openide.WizardDescriptor;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 
-import java.awt.Component;
-
-import de.cismet.cids.custom.switchon.wizards.NameProvider;
-
-import de.cismet.commons.gui.wizard.AbstractWizardPanel;
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -23,7 +20,7 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RepresentationsBasicInformationPanel extends AbstractWizardPanel implements NameProvider {
+public class RepresentationsBasicInformationPanel extends AbstractBasicInformationPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -35,29 +32,33 @@ public class RepresentationsBasicInformationPanel extends AbstractWizardPanel im
      * Creates a new RepresentationsBasicInformationPanel object.
      */
     public RepresentationsBasicInformationPanel() {
+        super();
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                RepresentationsBasicInformationPanel.class,
+                "RepresentationsBasicInformationVisualPanel.generalInformation"));
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    @Override
-    protected Component createComponent() {
-        return new RepresentationsBasicInformationVisualPanel();
-    }
-
-    @Override
-    protected void read(final WizardDescriptor wizard) {
-        LOG.fatal("RepresentationsBasicInformationPanel.read: Not supported yet.", new Exception()); // NOI18N
-    }
-
-    @Override
-    protected void store(final WizardDescriptor wizard) {
-        LOG.fatal("RepresentationsBasicInformationPanel.store: Not supported yet.", new Exception()); // NOI18N
-    }
 
     @Override
     public String getName() {
         return org.openide.util.NbBundle.getMessage(
                 RepresentationsBasicInformationPanel.class,
                 "RepresentationsBasicInformationPanel.name");
+    }
+
+    @Override
+    protected Taggroups getTypeTaggroup() {
+        return Taggroups.REPRESENTATION_TYPE;
+    }
+
+    @Override
+    public CidsBean getCidsBean() {
+        return (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
+    }
+
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        wizard.putProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN, cidsBean);
     }
 }

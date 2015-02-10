@@ -13,6 +13,7 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -33,7 +34,7 @@ public class TagUtils {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TagUtils.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TagUtils.class);
     private static final ExecutorService executor = CismetExecutors.newCachedThreadPool();
 
     //~ Methods ----------------------------------------------------------------
@@ -104,5 +105,24 @@ public class TagUtils {
             LOG.error(ex, ex);
             return null;
         }
+    }
+
+    /**
+     * Iterates through a list of tags and returns the first tag whose taggroup equals the taggroup in the parameter.
+     *
+     * @param   tags      DOCUMENT ME!
+     * @param   taggroup  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static CidsBean returnFirstOccurrenceOfTaggroup(final List<CidsBean> tags, final String taggroup) {
+        for (final CidsBean tag : tags) {
+            final CidsBean taggroupBean = (CidsBean)tag.getProperty("taggroup");
+            final String taggroupName = (String)taggroupBean.getProperty("name");
+            if (taggroupName.equals(taggroup)) {
+                return tag;
+            }
+        }
+        return null;
     }
 }

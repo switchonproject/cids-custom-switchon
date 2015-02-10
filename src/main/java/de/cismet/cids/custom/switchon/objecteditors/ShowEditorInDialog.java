@@ -204,10 +204,10 @@ public class ShowEditorInDialog extends javax.swing.JDialog {
      *
      * @param       modal  DOCUMENT ME!
      *
-     * @deprecated  DOCUMENT ME!
+     * @deprecated  Do not use this method use, the class NonModalShowEditorInDialog instead.
      */
     @Override
     public void setModal(final boolean modal) {
-        super.setModal(modal); // To change body of generated methods, choose Tools | Templates.
+        super.setModal(modal);
     }
 }

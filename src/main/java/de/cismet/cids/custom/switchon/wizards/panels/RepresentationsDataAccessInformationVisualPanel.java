@@ -7,6 +7,9 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrongUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
@@ -24,7 +27,9 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  * @version  $Revision$, $Date$
  */
 public class RepresentationsDataAccessInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
-    Disposable {
+    Disposable,
+    MarkMandtoryFieldsStrong,
+    InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -41,13 +46,13 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
     private javax.swing.JComboBox cmbFunction;
     private javax.swing.JComboBox cmbProtocol;
     private javax.swing.Box.Filler filler1;
-    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblApplication;
+    private javax.swing.JLabel lblContentLocation;
+    private javax.swing.JLabel lblContentType;
+    private javax.swing.JLabel lblFunction;
+    private javax.swing.JLabel lblProtocol;
     private javax.swing.JTextField txtContentLocation;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -77,18 +82,18 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
+        infoBoxPanel = new de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblContentLocation = new javax.swing.JLabel();
         txtContentLocation = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        lblFunction = new javax.swing.JLabel();
         cmbFunction = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.FUNCTION);
-        jLabel4 = new javax.swing.JLabel();
+        lblProtocol = new javax.swing.JLabel();
         cmbProtocol = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.PROTOCOL);
         lblApplication = new javax.swing.JLabel();
         cmbApplication = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
                 Taggroups.APPLICATION_PROFILE);
-        jLabel2 = new javax.swing.JLabel();
+        lblContentType = new javax.swing.JLabel();
         cmbContentType = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(
                 Taggroups.CONTENT_TYPE);
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
@@ -96,18 +101,12 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
                 new java.awt.Dimension(0, 32767));
 
         setLayout(new java.awt.GridBagLayout());
-
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                RepresentationsDataAccessInformationVisualPanel.class,
-                "RepresentationsDataAccessInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
-        infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
-        infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         add(infoBoxPanel, gridBagConstraints);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -117,16 +116,16 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel1,
+            lblContentLocation,
             org.openide.util.NbBundle.getMessage(
                 RepresentationsDataAccessInformationVisualPanel.class,
-                "RepresentationsDataAccessInformationVisualPanel.jLabel1.text")); // NOI18N
+                "RepresentationsDataAccessInformationVisualPanel.lblContentLocation.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
-        jPanel1.add(jLabel1, gridBagConstraints);
+        jPanel1.add(lblContentLocation, gridBagConstraints);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -153,16 +152,16 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
         jPanel1.add(txtContentLocation, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel3,
+            lblFunction,
             org.openide.util.NbBundle.getMessage(
                 RepresentationsDataAccessInformationVisualPanel.class,
-                "RepresentationsDataAccessInformationVisualPanel.jLabel3.text")); // NOI18N
+                "RepresentationsDataAccessInformationVisualPanel.lblFunction.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jPanel1.add(jLabel3, gridBagConstraints);
+        jPanel1.add(lblFunction, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -181,7 +180,7 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -189,16 +188,16 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
         jPanel1.add(cmbFunction, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel4,
+            lblProtocol,
             org.openide.util.NbBundle.getMessage(
                 RepresentationsDataAccessInformationVisualPanel.class,
-                "RepresentationsDataAccessInformationVisualPanel.jLabel4.text")); // NOI18N
+                "RepresentationsDataAccessInformationVisualPanel.lblProtocol.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jPanel1.add(jLabel4, gridBagConstraints);
+        jPanel1.add(lblProtocol, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -217,7 +216,7 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -231,7 +230,7 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
                 "RepresentationsDataAccessInformationVisualPanel.lblApplication.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
         jPanel1.add(lblApplication, gridBagConstraints);
@@ -253,7 +252,7 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -261,16 +260,16 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
         jPanel1.add(cmbApplication, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel2,
+            lblContentType,
             org.openide.util.NbBundle.getMessage(
                 RepresentationsDataAccessInformationVisualPanel.class,
-                "RepresentationsDataAccessInformationVisualPanel.jLabel2.text")); // NOI18N
+                "RepresentationsDataAccessInformationVisualPanel.lblContentType.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jPanel1.add(jLabel2, gridBagConstraints);
+        jPanel1.add(lblContentType, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -298,17 +297,17 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 1;
         gridBagConstraints.ipady = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(jPanel1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weighty = 1.0;
         add(filler1, gridBagConstraints);
@@ -373,15 +372,41 @@ public class RepresentationsDataAccessInformationVisualPanel extends javax.swing
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
-        this.representation = cidsBean;
-        DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
-            bindingGroup,
-            this.representation);
-        bindingGroup.bind();
+        if (cidsBean != null) {
+            this.representation = cidsBean;
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                this.representation);
+            bindingGroup.bind();
+        }
     }
 
     @Override
     public void dispose() {
         bindingGroup.bind();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  buttonWasPressed  DOCUMENT ME!
+     */
+    public void changeAppearanceAsImportButtonWasPressed(final boolean buttonWasPressed) {
+        txtContentLocation.setEnabled(!buttonWasPressed);
+    }
+
+    @Override
+    public void markMandatoryFieldsStrong() {
+        MarkMandtoryFieldsStrongUtils.markJLabelsStrong(lblContentLocation, lblContentType, lblFunction, lblProtocol);
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
     }
 }

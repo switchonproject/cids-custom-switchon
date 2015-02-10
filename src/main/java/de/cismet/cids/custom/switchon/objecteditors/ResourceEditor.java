@@ -789,8 +789,8 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         dialog.setTitle(contactEditor.getTitle());
         dialog.showDialog();
 
-        // contactEditor.getPersistedCidsBeans().size() should be 0 or 1
-        for (final CidsBean persistedContact : contactEditor.getPersistedCidsBeans()) {
+        // contactEditor.getModifiedCidsBeans().size() should be 0 or 1
+        for (final CidsBean persistedContact : contactEditor.getModifiedCidsBeans()) {
             try {
                 cidsBean.setProperty("contact", persistedContact);
             } catch (Exception ex) {
@@ -853,6 +853,8 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
         topicCollectionAdditionalTagsPanel.dispose();
         geometryChooserPanel.dispose();
         temporalInformationPanel.dispose();
+        metaDataPanel.dispose();
+        basicPropertiesPanel.dispose();
     }
 
     @Override
@@ -915,9 +917,16 @@ public class ResourceEditor extends javax.swing.JPanel implements CidsBeanRender
             final Collection searchResults = SessionManager.getConnection()
                         .customServerSearch(SessionManager.getSession().getUser(), relationshipSearchStatement);
             if ((searchResults != null) && !searchResults.isEmpty()) {
-                final ArrayList firstColumnObject = (ArrayList)searchResults.toArray(new Object[1])[0];
-                final Object firstRowObject = firstColumnObject.get(0);
-                return ((MetaObject)firstRowObject).getBean();
+                final Object firstRowObject = searchResults.toArray(new Object[1])[0];
+                if (firstRowObject instanceof MetaObject) {
+                    return ((MetaObject)firstRowObject).getBean();
+                } else if (firstRowObject instanceof ArrayList) {
+                    final ArrayList firstColumnObject = (ArrayList)searchResults.toArray(new Object[1])[0];
+                    final Object firstRow = firstColumnObject.get(0);
+                    return ((MetaObject)firstRow).getBean();
+                } else {
+                    return null;
+                }
             }
             return null;
         }

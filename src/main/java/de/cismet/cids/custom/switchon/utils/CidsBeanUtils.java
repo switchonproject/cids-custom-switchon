@@ -26,7 +26,7 @@ public class CidsBeanUtils {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CidsBeanUtils.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CidsBeanUtils.class);
     private static final ExecutorService executor = CismetExecutors.newCachedThreadPool();
 
     //~ Methods ----------------------------------------------------------------

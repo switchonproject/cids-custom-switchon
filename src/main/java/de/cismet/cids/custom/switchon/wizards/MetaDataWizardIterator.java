@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
@@ -23,7 +24,6 @@ import de.cismet.cids.custom.switchon.wizards.panels.AdditonalMetaDataContactInf
 import de.cismet.cids.custom.switchon.wizards.panels.AdditonalMetaDataEditDocumentPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.AdditonalMetaDataImportDocumentPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.AdditonalMetaDataPanel;
-import de.cismet.cids.custom.switchon.wizards.panels.BasicResourcePropertiesPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.ContactInformationPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.GeographicInformationPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.LicenseInformationPanel;
@@ -36,6 +36,7 @@ import de.cismet.cids.custom.switchon.wizards.panels.RepresentationsBasicInforma
 import de.cismet.cids.custom.switchon.wizards.panels.RepresentationsDataAccessInformationPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.RepresentationsDataImportPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.RepresentationsPanel;
+import de.cismet.cids.custom.switchon.wizards.panels.ResourceBasicInformationPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.TemporalInformationPanel;
 import de.cismet.cids.custom.switchon.wizards.panels.TopicCategoryAndKeywordsPanel;
 
@@ -64,7 +65,6 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
     private WizardDescriptor.Panel[] basicSequence;
     private WizardDescriptor.Panel[] advancedSequence;
     private WizardDescriptor.Panel[] expertSequence;
-    private WizardDescriptor.Panel[] customSequence;
 
     //~ Methods ----------------------------------------------------------------
 
@@ -86,8 +86,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
         if (allPanels == null) {
             createAllPanelsHashMap(
                 MetaDataWizardConfigurationPanel.class,
-                MetaDataWizardCustomConfigurationPanel.class,
-                BasicResourcePropertiesPanel.class,
+                ResourceBasicInformationPanel.class,
                 TopicCategoryAndKeywordsPanel.class,
                 ContactInformationPanel.class,
                 GeographicInformationPanel.class,
@@ -112,7 +111,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
 
             basicSequence = createSequenceForClasses(
                     MetaDataWizardConfigurationPanel.class,
-                    BasicResourcePropertiesPanel.class,
+                    ResourceBasicInformationPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
                     ContactInformationPanel.class,
                     GeographicInformationPanel.class,
@@ -121,7 +120,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     RepresentationsDataAccessInformationPanel.class);
             advancedSequence = createSequenceForClasses(
                     MetaDataWizardConfigurationPanel.class,
-                    BasicResourcePropertiesPanel.class,
+                    ResourceBasicInformationPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
                     ContactInformationPanel.class,
                     GeographicInformationPanel.class,
@@ -135,10 +134,11 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     RepresentationsPanel.class,
                     RepresentationsBasicInformationPanel.class,
                     RepresentationsAdditionalInformationPanel.class,
+                    RepresentationsDataImportPanel.class,
                     RepresentationsDataAccessInformationPanel.class);
             expertSequence = createSequenceForClasses(
                     MetaDataWizardConfigurationPanel.class,
-                    BasicResourcePropertiesPanel.class,
+                    ResourceBasicInformationPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
                     ContactInformationPanel.class,
                     GeographicInformationPanel.class,
@@ -218,17 +218,31 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                 case "advanced": {
                     currentPanels = advancedSequence;
                     wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_DATA, createSubtitlesForCurrentPanels());
+                    setFinishPanel(currentPanels[currentPanels.length - 1]);
                     break;
                 }
                 case "expert": {
                     currentPanels = expertSequence;
                     wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_DATA, createSubtitlesForCurrentPanels());
+                    setFinishPanel(currentPanels[currentPanels.length - 1]);
                     break;
                 }
             }
         }
 
-        index++;
+        if ((current() instanceof LeapOtherPanels)) {
+            final WizardDescriptor.Panel nextPanel = allPanelsHashMap.get(((LeapOtherPanels)current())
+                            .nextPanelClassSimpleName());
+            final int indexOfNextPanel = ArrayUtils.indexOf(currentPanels, nextPanel);
+            if (indexOfNextPanel >= 0) {
+                index = indexOfNextPanel;
+            } else {
+                LOG.info("Such a panel does not exists, going to next panel.");
+                index++;
+            }
+        } else {
+            index++;
+        }
 
         wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, index);
     }
@@ -239,7 +253,19 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
             throw new NoSuchElementException();
         }
 
-        index--;
+        if ((current() instanceof LeapOtherPanels)) {
+            final WizardDescriptor.Panel previousPanel = allPanelsHashMap.get(((LeapOtherPanels)current())
+                            .previousPanelClassSimpleName());
+            final int indexOfNextPanel = ArrayUtils.indexOf(currentPanels, previousPanel);
+            if (indexOfNextPanel >= 0) {
+                index = indexOfNextPanel;
+            } else {
+                LOG.info("Such a panel does not exists, going to previous panel.");
+                index--;
+            }
+        } else {
+            index--;
+        }
 
         wizardDesc.putProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, index);
     }
@@ -330,8 +356,10 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
      * @param  panel  DOCUMENT ME!
      */
     private void setFinishPanel(final WizardDescriptor.Panel panel) {
-        if (panel instanceof RepresentationsDataAccessInformationPanel) {
-            ((RepresentationsDataAccessInformationPanel)panel).setFinishPanel(true);
+        if (panel instanceof AdvancedFinishablePanel) {
+            ((AdvancedFinishablePanel)panel).setFinishPanel(true);
+        } else {
+            LOG.warn(panel.getClass().getSimpleName() + " is not an AdvancedFinishablePanel", null);
         }
     }
 }

@@ -7,7 +7,16 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.openide.WizardDescriptor;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.event.ListSelectionListener;
+
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
+import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -19,7 +28,7 @@ import de.cismet.cids.dynamics.Disposable;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RepresentationsVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class RepresentationsVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable, InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -27,7 +36,7 @@ public class RepresentationsVisualPanel extends javax.swing.JPanel implements Ci
             RepresentationsVisualPanel.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
+    private de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
     private de.cismet.cids.custom.switchon.objecteditors.RepresentationsPanel representationsPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -52,32 +61,28 @@ public class RepresentationsVisualPanel extends javax.swing.JPanel implements Ci
         java.awt.GridBagConstraints gridBagConstraints;
 
         representationsPanel = new de.cismet.cids.custom.switchon.objecteditors.RepresentationsPanel();
-        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
+        infoBoxPanel = new de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel();
 
         setLayout(new java.awt.GridBagLayout());
+
+        representationsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(representationsPanel, gridBagConstraints);
-
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                RepresentationsVisualPanel.class,
-                "RepresentationsVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
-        infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 100));
-        infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 100));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         add(infoBoxPanel, gridBagConstraints);
-    }                                                                           // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
@@ -118,5 +123,61 @@ public class RepresentationsVisualPanel extends javax.swing.JPanel implements Ci
      */
     public void removeTableSelectionListener(final ListSelectionListener listener) {
         representationsPanel.removeTableSelectionListener(listener);
+    }
+
+    /**
+     * The add button of the metaDataPanel should work like clicking the next button. Although the selection in the
+     * table has to be cleared first, because otherwise the selected representation will be edited.
+     *
+     * @param  wizardDescriptor  DOCUMENT ME!
+     */
+    public void addButtonShouldSimulateNextButton(final WizardDescriptor wizardDescriptor) {
+        representationsPanel.replaceActionListenerOfAddButton(new ActionListener() {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    try {
+                        final CidsBean representation = CidsBean.createNewCidsBeanFromTableName(
+                                "SWITCHON",
+                                "representation"); // NOI18N
+                        DefaultPropertySetter.setDefaultsToRepresentationCidsBean(representation);
+
+                        final CidsBean resource = (CidsBean)wizardDescriptor.getProperty(
+                                MetaDataWizardAction.PROP_RESOURCE_BEAN);
+                        resource.getBeanCollectionProperty("representation").add(representation); // NOI18N
+                        wizardDescriptor.putProperty(
+                            MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN,
+                            representation);
+                        wizardDescriptor.doNextClick();
+                    } catch (Exception ex) {
+                        LOG.error(ex, ex);
+                    }
+                }
+            });
+    }
+
+    /**
+     * The edit button of the metaDataPanel should work exactly like clicking the next button.
+     *
+     * @param  wizardDescriptor  DOCUMENT ME!
+     */
+    public void editButtonShouldSimulateNextButton(final WizardDescriptor wizardDescriptor) {
+        representationsPanel.replaceActionListenerOfEditButton(new ActionListener() {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    wizardDescriptor.doNextClick();
+                }
+            });
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
     }
 }

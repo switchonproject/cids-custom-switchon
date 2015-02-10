@@ -23,8 +23,6 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
 
     //~ Instance fields --------------------------------------------------------
 
-    private String generalInformation = "";
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblInformation;
     // End of variables declaration//GEN-END:variables
@@ -51,13 +49,6 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
 
         lblInformation = new javax.swing.JLabel();
 
-        addMouseListener(new java.awt.event.MouseAdapter() {
-
-                @Override
-                public void mouseClicked(final java.awt.event.MouseEvent evt) {
-                    formMouseClicked(evt);
-                }
-            });
         setLayout(new java.awt.GridBagLayout());
 
         lblInformation.setForeground(new java.awt.Color(16, 76, 116));
@@ -77,15 +68,6 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
     /**
      * DOCUMENT ME!
      *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void formMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_formMouseClicked
-        showGeneralInformation();
-    }                                                                    //GEN-LAST:event_formMouseClicked
-
-    /**
-     * DOCUMENT ME!
-     *
      * @return  DOCUMENT ME!
      */
     public String getInformation() {
@@ -97,34 +79,8 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
         if (StringUtils.isNotBlank(information)) {
             setLabelText(information);
         } else {
-            showGeneralInformation();
+            setLabelText("");
         }
-    }
-
-    /**
-     * Shows the general information.
-     */
-    public void showGeneralInformation() {
-        setLabelText(generalInformation);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public String getGeneralInformation() {
-        return generalInformation;
-    }
-
-    /**
-     * Set some general information, this is shown if no other information is available.
-     *
-     * @param  generalInformation  DOCUMENT ME!
-     */
-    public void setGeneralInformation(final String generalInformation) {
-        this.generalInformation = generalInformation;
-        this.setInformation(generalInformation);
     }
 
     /**
@@ -138,5 +94,10 @@ public class InfoBoxPanel extends javax.swing.JPanel implements InfoReceiver {
         } else {
             lblInformation.setText("<html>" + text + "</html>");
         }
+    }
+
+    @Override
+    public void setError(final String error) {
+        setInformation(error);
     }
 }

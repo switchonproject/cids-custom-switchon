@@ -15,7 +15,7 @@ import org.openide.WizardDescriptor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
+import de.cismet.cids.custom.switchon.wizards.AdvancedFinishablePanel;
 import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
 import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
@@ -31,7 +31,7 @@ import de.cismet.cids.dynamics.CidsBean;
 public class RepresentationsDataAccessInformationPanel
         extends GenericAbstractWizardPanel<RepresentationsDataAccessInformationVisualPanel> implements NameProvider,
         PropertyChangeListener,
-        WizardDescriptor.FinishablePanel {
+        AdvancedFinishablePanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -54,23 +54,23 @@ public class RepresentationsDataAccessInformationPanel
 
     @Override
     protected void read(final WizardDescriptor wizard) {
-        // check if a representation was selected previously
-        CidsBean representation = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
-        if (representation == null) {
-            try {
-                // no representation selected, thus create a new representation and add it to the resource
-                representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation"); // NOI18N
-                DefaultPropertySetter.setDefaultsToRepresentationCidsBean(representation);
-                final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
-                resource.getBeanCollectionProperty("representation").add(representation);               // NOI18N
-                DefaultPropertySetter.setDefaultsToRepresentationCidsBeanDerivedByResource(representation, resource);
-            } catch (Exception ex) {
-                LOG.error(ex, ex);
-                return;
-            }
-        }
+        final CidsBean representation = (CidsBean)wizard.getProperty(
+                MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
 
+        final boolean importButtonWasPressed = (boolean)wizard.getProperty(
+                MetaDataWizardAction.PROP_RepresentationsDataImportPanel_IMPORT_BUTTON_PRESSED);
+        if (importButtonWasPressed) {
+            setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationVisualPanel.class,
+                    "RepresentationsDataAccessInformationVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasOpen.info"));    // NOI18N
+        } else {
+            setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationVisualPanel.class,
+                    "RepresentationsDataAccessInformationVisualPanel.changeAppearanceAsImportDocumentPanelWasOpen().panelWasNotOpen.info")); // NOI18N
+        }
+        showGeneralInformation();
         getComponent().setCidsBean(representation);
+        getComponent().changeAppearanceAsImportButtonWasPressed(importButtonWasPressed);
         representation.addPropertyChangeListener(this);
     }
 
@@ -86,7 +86,7 @@ public class RepresentationsDataAccessInformationPanel
     public String getName() {
         return org.openide.util.NbBundle.getMessage(
                 RepresentationsDataAccessInformationPanel.class,
-                "RepresentationsDataAccessInformationPanel.name");
+                "RepresentationsDataAccessInformationPanel.name"); // NOI18N
     }
 
     @Override
@@ -102,7 +102,27 @@ public class RepresentationsDataAccessInformationPanel
         final Object function = representation.getProperty("function");                       // NOI18N
         final Object protocol = representation.getProperty("protocol");                       // NOI18N
 
-        return StringUtils.isNotBlank(contentLocation) && (contentLocation != null) && (contentType != null)
+        if (StringUtils.isBlank(contentLocation)) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationPanel.class,
+                    "RepresentationsDataAccessInformationPanel.isValid().missingContentLocation"));
+        } else if (contentType == null) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationPanel.class,
+                    "RepresentationsDataAccessInformationPanel.isValid().missingType"));
+        } else if (function == null) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationPanel.class,
+                    "RepresentationsDataAccessInformationPanel.isValid().missingFunction"));
+        } else if (protocol == null) {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    RepresentationsDataAccessInformationPanel.class,
+                    "RepresentationsDataAccessInformationPanel.isValid().missingProtocol"));
+        } else {
+            showGeneralInformation();
+        }
+
+        return StringUtils.isNotBlank(contentLocation) && (contentType != null)
                     && (function != null) && (protocol != null);
     }
 
@@ -111,11 +131,7 @@ public class RepresentationsDataAccessInformationPanel
         return finishPanel;
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  finishPanel  DOCUMENT ME!
-     */
+    @Override
     public void setFinishPanel(final boolean finishPanel) {
         this.finishPanel = finishPanel;
     }
