@@ -109,10 +109,6 @@ public class RepresentationEditor extends AbstractEditorShowableInDialog impleme
         btnNewApplication = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
-        taggroups.add(Taggroups.GEOGRAPHY);
-        taggroups.add(Taggroups.HYDROLOGICAL_CONCEPT);
-        taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
-        taggroups.add(Taggroups.KEYWORDS_OPEN);
         taggroups.add(Taggroups.PUBLISH_TYPE);
         additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups);
         spatialAndTemporalPropertiesPanel = new SpatialAndTemporalPropertiesPanel(true);

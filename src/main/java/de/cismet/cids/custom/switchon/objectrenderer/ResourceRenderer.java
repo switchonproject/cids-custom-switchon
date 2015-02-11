@@ -496,6 +496,7 @@ public class ResourceRenderer extends javax.swing.JPanel implements CidsBeanRend
     private void generateListWithKeywords() {
         final List<CidsBean> keywords = filterTagsOfResource(cidsBean, Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
         keywords.addAll(filterTagsOfResource(cidsBean, Taggroups.KEYWORDS_OPEN));
+        keywords.addAll(filterTagsOfResource(cidsBean, Taggroups.KEYWORDS_CUASHI));
         Collections.sort(keywords, new Comparator<CidsBean>() {
 
                 @Override
