@@ -78,7 +78,7 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
         btnNewCollection = new javax.swing.JButton();
         final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
         taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
-        taggroups.add(Taggroups.KEYWORDS_CUASHI);
+        taggroups.add(Taggroups.KEYWORDS_CUAHSI);
         taggroups.add(Taggroups.KEYWORDS_OPEN);
         additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups);
 
