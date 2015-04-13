@@ -330,17 +330,17 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnImportActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnImportActionPerformed
+    private void btnImportActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
         final String pathStr = txtLocation.getText();
         new CreateContent(Paths.get(pathStr)).execute();
-    }                                                                             //GEN-LAST:event_btnImportActionPerformed
+    }//GEN-LAST:event_btnImportActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chbPublishActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chbPublishActionPerformed
+    private void chbPublishActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbPublishActionPerformed
         try {
             // remove all publish styles
             final Collection<CidsBean> tags = getCidsBean().getBeanCollectionProperty("tags");
@@ -363,7 +363,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
         } catch (ExecutionException ex) {
             LOG.error(ex, ex);
         }
-    } //GEN-LAST:event_chbPublishActionPerformed
+    }//GEN-LAST:event_chbPublishActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -718,7 +718,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 checkAndCreateFolder(webdavclient, urlBase);
             }
 
-            urlBase += urlBase.endsWith("/") ? "/" : "";
+            urlBase += urlBase.endsWith("/") ? "" : "/" ;
 
             final String baseName = urlEncode(FilenameUtils.getBaseName(filename));
             final String extension = FilenameUtils.getExtension(filename);
