@@ -210,11 +210,21 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
         showWait(false);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public CidsBean getCidsBean() {
         return representation;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cidsBean  DOCUMENT ME!
+     */
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         representation = cidsBean;
@@ -295,6 +305,11 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
     @Override
     public void componentResized(final ComponentEvent e) {
         if (!timer.isRunning()) {
@@ -303,16 +318,31 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
     @Override
     public void componentMoved(final ComponentEvent e) {
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
     @Override
     public void componentShown(final ComponentEvent e) {
         timer.setInitialDelay(0);
         timer.start();
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
     @Override
     public void componentHidden(final ComponentEvent e) {
     }

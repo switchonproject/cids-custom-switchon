@@ -99,7 +99,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
             TAGGROUP_NOT_SET_FOLDER = bundle.getString("taggroupNotSetFolder");
         } catch (Exception ex) {
             LOG.error(
-                "Could not read WebDav properties from property file. The umleitungsmechanism for Vermessungrisse will not work", // NOI18N
+                "Could not read WebDav properties from property file", // NOI18N
                 ex);
             WEB_DAV_PASSWORD = ""; // NOI18N
             WEB_DAV_USER = ""; // NOI18N
@@ -549,8 +549,13 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                         25));
                 saveContent(path, information);
             } else {
+                publish(new ProcessInformation(
+                        org.openide.util.NbBundle.getMessage(
+                            BasicImportDocumentVisualPanel.class,
+                            "BasicImportDocumentVisualPanel.CreateContent.Upload"),  // NOI18N
+                        25));
                 final int responseCode = uploadContent(path, information);
-                if (!((responseCode == 200) || (responseCode == 201))) {
+                if ((responseCode < 200) || (responseCode >= 300)) {
                     throw new UploadNotSuccessfullException(
                         responseCode,
                         "The upload failed. Http response code is: "                 // NOI18N
@@ -645,7 +650,7 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                         "de/cismet/cids/custom/switchon/wizards/panels/Bundle").getString( // NOI18N
                         "BasicImportDocumentVisualPanel.CreateContent.uploadTo"),          // NOI18N
                     url);
-            publish(new ProcessInformation(message, 25));
+            publish(new ProcessInformation(message, 50));
 
             final int responseCode = WebDavHelper.uploadFileToWebDAV(
                     "",
@@ -669,8 +674,8 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
          */
         private String determineUrl(final WebDavClient webdavclient, final String filename) {
             String resourceTypeFolder = RESOURCE_TYPE_FOLDER_UNKOWN;
-            String geographyFolder = TAGGROUP_NOT_SET_FOLDER;
-            String hydrologicalConceptFolder = TAGGROUP_NOT_SET_FOLDER;
+            String geographyFolder = "";
+            String hydrologicalConceptFolder = "";
 
             if (resource != null) {
                 final CidsBean resourceType = (CidsBean)resource.getProperty("type");              // NOI18N
@@ -698,13 +703,22 @@ public class BasicImportDocumentVisualPanel extends javax.swing.JPanel implement
                 }
             }
 
-            String urlBase = BASIC_IMPORT_URL + urlEncode(resourceTypeFolder);
+            String urlBase = BASIC_IMPORT_URL.endsWith("/") ? (BASIC_IMPORT_URL + urlEncode(resourceTypeFolder))
+                                                            : (BASIC_IMPORT_URL + '/' + urlEncode(resourceTypeFolder));
+
             checkAndCreateFolder(webdavclient, urlBase);
-            urlBase += "/" + urlEncode(geographyFolder);
-            checkAndCreateFolder(webdavclient, urlBase);
-            urlBase += "/" + urlEncode(hydrologicalConceptFolder);
-            checkAndCreateFolder(webdavclient, urlBase);
-            urlBase += "/";
+
+            if ((geographyFolder != null) && (geographyFolder.length() > 0)) {
+                urlBase += "/" + urlEncode(geographyFolder);
+                checkAndCreateFolder(webdavclient, urlBase);
+            }
+
+            if ((hydrologicalConceptFolder != null) && (hydrologicalConceptFolder.length() > 0)) {
+                urlBase += "/" + urlEncode(hydrologicalConceptFolder);
+                checkAndCreateFolder(webdavclient, urlBase);
+            }
+
+            urlBase += urlBase.endsWith("/") ? "/" : "";
 
             final String baseName = urlEncode(FilenameUtils.getBaseName(filename));
             final String extension = FilenameUtils.getExtension(filename);
