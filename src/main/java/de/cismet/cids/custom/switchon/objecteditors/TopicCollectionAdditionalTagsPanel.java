@@ -191,9 +191,9 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
             additionalTagsPanel.setCidsBean(cidsBean);
             bindingGroup.bind();
             
-            if (cmbTopic.getSelectedIndex() < 0) {
-                cmbTopic.setSelectedItem(this.getDefaultTopicCategory());
-            }
+//            if (cmbTopic.getSelectedIndex() < 0) {
+//                cmbTopic.setSelectedItem(this.getDefaultTopicCategory());
+//            }
         }
     }
 
