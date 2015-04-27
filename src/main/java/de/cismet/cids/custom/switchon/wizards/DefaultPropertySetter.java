@@ -56,6 +56,9 @@ public class DefaultPropertySetter {
     private static final Future<CidsBean> defaultTopicCategory = 
             TagUtils.fetchFutureTagByNameAndTaggroup("inlandWaters", 
                     Taggroups.TOPIC_CATEGORY.getValue());
+    private static final Future<CidsBean> defaultCollection = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("SWITCH-ON - Open Data", 
+                    Taggroups.COLLECTION.getValue());
 
     // Contact
     private static final Future<CidsBean> defaultRoleResource = 
@@ -128,6 +131,7 @@ public class DefaultPropertySetter {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultAccessLimitations, resource, "accesslimitations");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultConformity, resource, "conformity");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultTopicCategory, resource, "topiccategory");
+        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultCollection, resource, "collection");
     }
     
     public static void setDefaultDatesToResourceCidsBean(final CidsBean resource) throws Exception {

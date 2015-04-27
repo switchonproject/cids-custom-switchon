@@ -90,7 +90,11 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
             } catch (Exception ex) {
                 LOG.error(ex, ex);
             }
+        } else if (cmbContacts.getSelectedIndex() == -1){
+            //FIXME: does not work ....
+            //cmbContacts.setSelectedItem(contact);
         }
+        
         contactEditor.setCidsBean(contact);
     }
 
@@ -212,15 +216,15 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void formFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_formFocusGained
-    }                                                                   //GEN-LAST:event_formFocusGained
+    private void formFocusGained(final java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+    }//GEN-LAST:event_formFocusGained
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnNewActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewActionPerformed
+    private void btnNewActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         if (newlyCreatedContact == null) {
             try {
                 newlyCreatedContact = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "contact");
@@ -231,14 +235,14 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
                 LOG.error(ex, ex);
             }
         }
-    }                                                                          //GEN-LAST:event_btnNewActionPerformed
+    }//GEN-LAST:event_btnNewActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmbContactsItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cmbContactsItemStateChanged
+    private void cmbContactsItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbContactsItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             final Object selectedContact = cmbContacts.getSelectedItem();
             CidsBean selectContactBean = null;
@@ -256,16 +260,16 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
             contactEditor.setCidsBean(selectContactBean);
             contactEditor.setEnabled(selectContactBean == newlyCreatedContact);
         }
-    }                                                                              //GEN-LAST:event_cmbContactsItemStateChanged
+    }//GEN-LAST:event_cmbContactsItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnEditActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnEditActionPerformed
+    private void btnEditActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         contactEditor.setEnabled(true);
-    }                                                                           //GEN-LAST:event_btnEditActionPerformed
+    }//GEN-LAST:event_btnEditActionPerformed
 
     @Override
     public void dispose() {
