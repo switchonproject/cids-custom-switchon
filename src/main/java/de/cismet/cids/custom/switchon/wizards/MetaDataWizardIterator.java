@@ -113,7 +113,7 @@ public final class MetaDataWizardIterator implements WizardDescriptor.Iterator {
                     MetaDataWizardConfigurationPanel.class,
                     ResourceBasicInformationPanel.class,
                     TopicCategoryAndKeywordsPanel.class,
-                    ContactInformationPanel.class,
+                    /*ContactInformationPanel.class,*/
                     GeographicInformationPanel.class,
                     /*TemporalInformationPanel.class,*/
                     LicenseInformationPanel.class,

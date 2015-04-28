@@ -88,8 +88,8 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void formFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_formFocusGained
-    }                                                                   //GEN-LAST:event_formFocusGained
+    private void formFocusGained(final java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+    }//GEN-LAST:event_formFocusGained
 
     @Override
     public CidsBean getCidsBean() {
@@ -114,5 +114,9 @@ public class TopicCategoryAndKeywordsVisualPanel extends javax.swing.JPanel impl
     @Override
     public void setError(final String error) {
         infoBoxPanel.setError(error);
+    }
+    
+    public void setReadOnly(final boolean readOnly) {
+        this.topicCollectionAdditionalTagsPanel.setReadOnly(readOnly);
     }
 }

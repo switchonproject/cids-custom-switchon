@@ -50,6 +50,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.tools.gui.StaticSwingTools;
+import java.util.List;
 
 /**
  * A wizard which creates a new Resource CidsBean with its sub-cidsBeans. The wizard has three configurations Basic,
@@ -210,7 +211,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         final CidsBean resource = (CidsBean)wizard.getProperty(
                 MetaDataWizardAction.PROP_RESOURCE_BEAN);
         DefaultPropertySetter.setDefaultsToResourceCidsBean(resource);
-
+        
         try {
             DefaultPropertySetter.setDefaultDatesToResourceCidsBean(resource);
             
@@ -232,6 +233,16 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
      */
     private void setStandardMetaData(final CidsBean resource) {
         new StandardMetaDataFetcher(resource).execute();
+    }
+
+    private void setStandardContact(final CidsBean resource) throws Exception {
+         if(resource.getBeanCollectionProperty("metadata") != null && resource.getBeanCollectionProperty("metadata").size() == 1)
+         {
+             CidsBean standardMetaData = resource.getBeanCollectionProperty("metadata").get(0);
+             resource.setProperty("contact", standardMetaData.getProperty("contact"));
+         } else {
+             LOG.warn("could not set default contact information");
+         }          
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -268,10 +279,26 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
                 CidsBean persistedBean;
                 if (relationship != null) {
+                    LOG.info("saving new relationship object '"+relationship.getProperty("name")+"'");
                     persistedBean = relationship.persist();
                 } else {
                     final CidsBean resource = (CidsBean)wizard.getProperty(
                             MetaDataWizardAction.PROP_RESOURCE_BEAN);
+                    
+                    // set basic representation information
+                    if(wizard.getProperty(MetaDataWizardAction.PROP_CONFIGURATION).equals("basic"))
+                    {
+                        final List<CidsBean> representations = resource.getBeanCollectionProperty("representation");
+                        if(representations != null && representations.size() == 1) {
+                            CidsBean representation = representations.get(0);
+                            DefaultPropertySetter.setDefaultsToRepresentationCidsBeanDerivedByResource(
+                                representation, resource);
+                        } else {
+                            LOG.warn("could not set default representation information of resource");
+                        } 
+                    }
+                    
+                    LOG.info("saving new resource '"+resource.getProperty("name")+"'");
                     persistedBean = resource.persist();
                 }
 
@@ -354,6 +381,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                 LOG.error("Error while fetching standard meta object. Creating new meta object instead.", ex);
             }
             if (standardMetaObject == null) {
+                LOG.warn("Error while fetching standard meta object. Creating new meta object instead.");
                 standardMetaObject = createNewStandardMetaData();
             }
             CidsBean switchOnContact = null;
@@ -363,6 +391,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                 LOG.error("Error while fetching switchon contact. Creating new meta object instead.", ex);
             }
             if (switchOnContact == null) {
+                LOG.warn("Error while fetching standard contact object. Creating new contact object instead.");
                 switchOnContact = createNewSwitchOnContact();
             }
 
@@ -383,11 +412,13 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
             query += "FROM " + MB_MC.getTableName();
             query += " WHERE name ilike '" + DefaultPropertySetter.defaultNameMetaData + "' limit 1";
 
+            LOG.debug("fetching default meta-data '"+DefaultPropertySetter.defaultNameMetaData+"' with query: \n"+ query);
             final MetaObject[] mos = SessionManager.getProxy()
                         .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
             if (mos.length >= 1) {
                 return mos[0].getBean();
             } else {
+                LOG.error("no default meta-data information found in meta-data repository for query: \n" + query);
                 return null;
             }
         }
@@ -419,12 +450,13 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
             query += " WHERE name ilike '" + DefaultPropertySetter.defaultNameMetaDataContact + "'";
             query += " AND organisation ilike '" + DefaultPropertySetter.defaultOrganisationMetaDataContact + "'";
             query += " limit 1";
-
+            LOG.debug("fetching default contact '"+DefaultPropertySetter.defaultNameMetaDataContact+"' with query: \n"+ query);
             final MetaObject[] mos = SessionManager.getProxy()
                         .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
             if (mos.length >= 1) {
                 return mos[0].getBean();
             } else {
+                LOG.error("no default contact information found in meta-data repository for query: \n" + query);
                 return null;
             }
         }
@@ -447,9 +479,12 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
             try {
                 final CidsBean standardMetaObject = get();
                 resource.getBeanCollectionProperty("metadata").add(standardMetaObject);
+                setStandardContact(resource);
             } catch (InterruptedException ex) {
                 LOG.error(ex, ex);
             } catch (ExecutionException ex) {
+                LOG.error(ex, ex);
+            } catch (Exception ex) {
                 LOG.error(ex, ex);
             }
         }

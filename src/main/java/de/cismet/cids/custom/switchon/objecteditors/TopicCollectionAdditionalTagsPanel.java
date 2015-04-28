@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
+import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
@@ -218,5 +219,10 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
             LOG.warn("could not select default topic 'inlandWaters', number of topics: " + cmbTopic.getModel().getSize());
             return null;
         }
+    }
+    
+    public void setReadOnly(final boolean readOnly) {
+        this.btnNewCollection.setEnabled(!readOnly);
+        this.additionalTagsPanel.setReadOnly(readOnly);
     }
 }

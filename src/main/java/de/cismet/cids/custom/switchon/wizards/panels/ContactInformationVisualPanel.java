@@ -76,8 +76,10 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
     public void setCidsBean(final CidsBean cidsBean) {
         resource = cidsBean;
         CidsBean contact = (CidsBean)resource.getProperty("contact");
+        Object selectedObject = cmbContacts.getSelectedItem();
+        
         if (contact == null) {
-            final Object selectedObject = cmbContacts.getSelectedItem();
+            
             if (selectedObject instanceof MetaObject) {
                 contact = ((MetaObject)selectedObject).getBean();
             } else if (selectedObject instanceof CidsBean) {
@@ -90,11 +92,26 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
             } catch (Exception ex) {
                 LOG.error(ex, ex);
             }
-        } else if (cmbContacts.getSelectedIndex() == -1){
-            //FIXME: does not work ....
-            //cmbContacts.setSelectedItem(contact);
-        }
-        
+        } else {
+            if (!(selectedObject instanceof MetaObject && ((MetaObject)selectedObject).getBean().equals(contact)) &&
+                   !(selectedObject instanceof CidsBean && selectedObject.equals(contact))) {
+                
+                boolean found = false;
+                for (int i = 0; i < cmbContacts.getModel().getSize(); i++) {
+                    selectedObject = cmbContacts.getModel().getElementAt(i);
+                    if((selectedObject instanceof MetaObject && ((MetaObject)selectedObject).getBean().equals(contact)) || 
+                            (selectedObject instanceof CidsBean && selectedObject.equals(contact))) {
+                        cmbContacts.setSelectedItem(selectedObject);
+                        found = true;
+                        break;
+                    }  
+                }
+                if (!found) {
+                    LOG.debug("could not find contact '"+contact.getProperty("name") 
+                            + "' in combo box ["+cmbContacts.getModel().getSize()+"]");
+                }
+            } 
+        }        
         contactEditor.setCidsBean(contact);
     }
 
@@ -258,7 +275,8 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
                 LOG.error(ex, ex);
             }
             contactEditor.setCidsBean(selectContactBean);
-            contactEditor.setEnabled(selectContactBean == newlyCreatedContact);
+            contactEditor.setEnabled((selectContactBean == newlyCreatedContact));
+            this.btnEdit.setEnabled((selectContactBean == newlyCreatedContact));
         }
     }//GEN-LAST:event_cmbContactsItemStateChanged
 
@@ -315,5 +333,11 @@ public class ContactInformationVisualPanel extends javax.swing.JPanel implements
     @Override
     public void setError(final String error) {
         infoBoxPanel.setError(error);
+    }
+    
+    public void setReadOnly(final boolean readOnly) {
+        this.btnEdit.setEnabled(!readOnly);
+        this.btnNew.setEnabled(!readOnly);
+        this.contactEditor.setEnabled(!readOnly);
     }
 }

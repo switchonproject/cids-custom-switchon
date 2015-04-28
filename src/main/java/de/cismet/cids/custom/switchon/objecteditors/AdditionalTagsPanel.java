@@ -574,4 +574,8 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
         RendererTools.makeReadOnly(lstTags);
         RendererTools.makeReadOnly(tblAssignedTags);
     }
+    
+    public void setReadOnly(final boolean readOnly) {
+        this.btnNew.setEnabled(!readOnly);
+    }
 }
