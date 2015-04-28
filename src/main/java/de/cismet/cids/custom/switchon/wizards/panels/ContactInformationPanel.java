@@ -64,7 +64,8 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
         resource.addPropertyChangeListener(this);
-        getComponent().setCidsBean(resource);
+        getComponent().setReadOnly(wizard.getProperty(MetaDataWizardAction.PROP_CONFIGURATION).equals("basic"));
+        getComponent().setCidsBean(resource); 
     }
 
     @Override

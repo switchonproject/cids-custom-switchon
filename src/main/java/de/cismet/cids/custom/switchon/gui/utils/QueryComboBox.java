@@ -35,7 +35,7 @@ public class QueryComboBox extends JComboBox {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QueryComboBox.class);
-
+    
     //~ Instance fields --------------------------------------------------------
 
     private final boolean nullable;
@@ -116,6 +116,7 @@ public class QueryComboBox extends JComboBox {
             if (nullable) {
                 model.addElement(null);
             }
+            LOG.debug(lwmos + "tags found for '" + metaClassName + "'");
             for (final MetaObject mo : lwmos) {
                 model.addElement(mo);
             }

@@ -53,6 +53,7 @@ public class TopicCategoryAndKeywordsPanel extends GenericAbstractWizardPanel<To
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
         resource.addPropertyChangeListener(this);
+        getComponent().setReadOnly(wizard.getProperty(MetaDataWizardAction.PROP_CONFIGURATION).equals("basic"));
         getComponent().setCidsBean(resource);
     }
 

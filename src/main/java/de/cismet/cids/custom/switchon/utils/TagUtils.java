@@ -28,6 +28,7 @@ import de.cismet.commons.concurrency.CismetExecutors;
  * DOCUMENT ME!
  *
  * @author   Gilles Baatz
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class TagUtils {
@@ -80,6 +81,17 @@ public class TagUtils {
                 });
         return futureTag;
     }
+    
+    public static Future<CidsBean> fetchFutureTagByNameAndTaggroup(final String tagName, final String taggroupName) {
+        final Future<CidsBean> futureTag = executor.submit(new Callable<CidsBean>() {
+
+                    @Override
+                    public CidsBean call() throws Exception {
+                        return fetchTagByNameAndTaggroup(tagName, taggroupName);
+                    }
+                });
+        return futureTag;
+    }
 
     /**
      * Fetches a tag by its name, if no tag is available or something goes wrong, then null will be returned.
@@ -99,6 +111,41 @@ public class TagUtils {
             if ((metaObjects != null) && (metaObjects.length == 1)) {
                 return metaObjects[0].getBean();
             } else {
+                return null;
+            }
+        } catch (ConnectionException ex) {
+            LOG.error(ex, ex);
+            return null;
+        }
+    }
+    
+    public static CidsBean fetchTagByNameAndTaggroup(final String tagName, final String taggroupName) {
+        try {
+            final MetaClass tagClass = ClassCacheMultiple.getMetaClass("SWITCHON", "tag");
+            final MetaClass taggroupClass = ClassCacheMultiple.getMetaClass("SWITCHON", "taggroup");
+            
+            if(taggroupClass != null)
+            {
+                String query = "SELECT " + tagClass.getID() + ", " + tagClass.getPrimaryKey() + " ";
+                query += "FROM " + tagClass.getTableName();
+                query += " WHERE "+tagClass.getTableName()+".name ilike '" + tagName + "' AND ";
+                query += " tag.taggroup = (";
+                query += "SELECT "+ taggroupClass.getPrimaryKey() + " ";
+                query += "FROM " + taggroupClass.getTableName();
+                query += " WHERE "+taggroupClass.getTableName()+".name ilike '" + taggroupName + "' limit 1)";
+                query += " limit 1";
+                LOG.debug("retrieving tag '"+tagName+"' for taggroup'"+taggroupName+"' with query: \n"+ query);
+                final MetaObject[] metaObjects = SessionManager.getProxy()
+                            .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
+                if ((metaObjects != null) && (metaObjects.length == 1)) {
+                    return metaObjects[0].getBean();
+                } else {
+                    LOG.warn("could not find tag '"+tagName+"' for taggroup'"+taggroupName+"'");
+                    return null;
+                }
+            }
+            else {
+                LOG.error("taggroup '" + taggroupName + "' for tag '" + tagName + "' not found!");
                 return null;
             }
         } catch (ConnectionException ex) {

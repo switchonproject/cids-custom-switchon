@@ -15,6 +15,7 @@ import java.util.concurrent.Future;
 
 import de.cismet.cids.custom.switchon.utils.CidsBeanUtils;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
+import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -31,39 +32,88 @@ public class DefaultPropertySetter {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             DefaultPropertySetter.class);
     // resource
-    private static final Future<CidsBean> defaultTypeResource = TagUtils.fetchFutureTagByName("external data");
-    private static final Future<CidsBean> defaultLanguage = TagUtils.fetchFutureTagByName("eng");
-    private static final Future<CidsBean> defaultSrid = TagUtils.fetchFutureTagByName("EPSG:4326"); // NOI18N
-    private static final Future<CidsBean> defaultLocation = TagUtils.fetchFutureTagByName("World"); // NOI18N
-    private static final Future<CidsBean> defaultAccessConditions = TagUtils.fetchFutureTagByName(
-            "other");
-    private static final Future<CidsBean> defaultAccessLimitations = TagUtils.fetchFutureTagByName("No limitation");
-    private static final Future<CidsBean> defaultConformity = TagUtils.fetchFutureTagByName("Not evaluated");
+    private static final Future<CidsBean> defaultTypeResource = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("external data", 
+                    Taggroups.RESOURCE_TYPE.getValue());
+    private static final Future<CidsBean> defaultLanguage = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("eng", 
+                    Taggroups.LANGUAGE.getValue());
+    private static final Future<CidsBean> defaultSrid = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("EPSG:4326", 
+                    Taggroups.SRID.getValue()); // NOI18N
+    private static final Future<CidsBean> defaultLocation = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("World", 
+                    Taggroups.LOCATION.getValue()); // NOI18N
+    private static final Future<CidsBean> defaultAccessConditions = 
+            TagUtils.fetchFutureTagByNameAndTaggroup(
+            "other", Taggroups.ACCESS_CONDITIONS.getValue());
+    private static final Future<CidsBean> defaultAccessLimitations = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("No limitation", 
+                    Taggroups.ACCESS_LIMITATIONS.getValue());
+    private static final Future<CidsBean> defaultConformity = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("Not evaluated", 
+                    Taggroups.CONFORMITY.getValue());
+    private static final Future<CidsBean> defaultTopicCategory = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("inlandWaters", 
+                    Taggroups.TOPIC_CATEGORY.getValue());
+    private static final Future<CidsBean> defaultCollection = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("SWITCH-ON - Open Data", 
+                    Taggroups.COLLECTION.getValue());
+
     // Contact
-    private static final Future<CidsBean> defaultRoleResource = TagUtils.fetchFutureTagByName("resourceProvider");
-    private static final Future<CidsBean> defaultRoleMetaData = TagUtils.fetchFutureTagByName("pointOfContact");
+    private static final Future<CidsBean> defaultRoleResource = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("resourceProvider", 
+                    Taggroups.ROLE.getValue());
+    private static final Future<CidsBean> defaultRoleMetaData = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("pointOfContact", 
+                    Taggroups.ROLE.getValue());
+    
     // Representation
-    private static final Future<CidsBean> defaultTypeRepresentation = TagUtils.fetchFutureTagByName("original data");
-    private static final Future<CidsBean> defaultContentType = TagUtils.fetchFutureTagByName(
-            "application/octet-stream");
-    private static final Future<CidsBean> defaultFunction = TagUtils.fetchFutureTagByName("information");
-    private static final Future<CidsBean> defaultProtocol = TagUtils.fetchFutureTagByName("WWW:LINK-1.0-http--link");
-    private static final Future<CidsBean> defaultApplicationprofile = TagUtils.fetchFutureTagByName("Web Browser");
+    private static final Future<CidsBean> defaultTypeRepresentation = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("original data", 
+                    Taggroups.REPRESENTATION_TYPE.getValue());
+    private static final Future<CidsBean> defaultContentType = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("application/octet-stream", 
+                    Taggroups.CONTENT_TYPE.getValue());
+    private static final Future<CidsBean> defaultFunction = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("download", 
+                    Taggroups.FUNCTION.getValue());
+    private static final Future<CidsBean> defaultProtocol = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("WWW:LINK-1.0-http--link", 
+                    Taggroups.PROTOCOL.getValue());
+    private static final Future<CidsBean> defaultApplicationprofile = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("Web Browser", 
+                    Taggroups.APPLICATION_PROFILE.getValue());
+    
     // meta-data
-    private static final Future<CidsBean> defaultStandard = TagUtils.fetchFutureTagByName("none");
-    private static final Future<CidsBean> defaultTypeMetaData = TagUtils.fetchFutureTagByName("basic meta-data");
-    private static Future relationshipMetaDataType = TagUtils.fetchFutureTagByName("relationship meta-data");
-    private static final Future defaultMetaDataStandard = TagUtils.fetchFutureTagByName("SWITCH-ON SIM");
-    public static final String defaultNameMetaData = "Autogenerated SWITCH-ON Basic Meta-Data";
+    private static final Future<CidsBean> defaultStandard = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("none", 
+                    Taggroups.META_DATA_STANDARD.getValue());
+    private static final Future<CidsBean> defaultTypeMetaData = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("basic meta-data", 
+                    Taggroups.META_DATA_TYPE.getValue());
+    private static final Future relationshipMetaDataType = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("relationship meta-data", 
+                    Taggroups.META_DATA_TYPE.getValue());
+    private static final Future defaultMetaDataStandard = 
+            TagUtils.fetchFutureTagByNameAndTaggroup("SWITCH-ON SIM", 
+                    Taggroups.META_DATA_STANDARD.getValue());
+    public static final String defaultNameMetaData = 
+            "Autogenerated SWITCH-ON Basic Meta-Data";
     private static final String defaultDescriptionMetaData =
         "Basic Meta-Data record created, derived or imported by the SWITCH-ON project according to the SWITCH-ON Standard Information Model (SIM) for Meta-Data for the SWITCH-ON Spatial Information Platform (SIP).";
-    // meta-data-contact
+    
+// meta-data-contact
     private static final String defaultDescriptionMetaDataContact =
         "Sharing Water-related Information to Tackle Changes in the Hydrosphere – for Operational Needs (SWITCH-ON).";
-    public static final String defaultOrganisationMetaDataContact = "SWITCH-ON";
-    public static final String defaultNameMetaDataContact = defaultOrganisationMetaDataContact;
-    private static final Future<CidsBean> defaultRoleMetaDataContact = TagUtils.fetchFutureTagByName("pointOfContact");
-    private static final String defaultURLMetaDataContact = "http://www.water-switch-on.eu/";
+    public static final String defaultOrganisationMetaDataContact = 
+            "SWITCH-ON";
+    public static final String defaultNameMetaDataContact = 
+            defaultOrganisationMetaDataContact;
+    private static final Future<CidsBean> defaultRoleMetaDataContact = 
+            TagUtils.fetchFutureTagByName("pointOfContact");
+    private static final String defaultURLMetaDataContact = 
+            "http://www.water-switch-on.eu/";
 
     //~ Methods ----------------------------------------------------------------
 
@@ -80,7 +130,17 @@ public class DefaultPropertySetter {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultAccessConditions, resource, "accessconditions");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultAccessLimitations, resource, "accesslimitations");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultConformity, resource, "conformity");
+        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultTopicCategory, resource, "topiccategory");
+        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultCollection, resource, "collection");
     }
+    
+    public static void setDefaultDatesToResourceCidsBean(final CidsBean resource) throws Exception {
+        resource.setProperty("fromdate", new Timestamp(new Date().getTime()));
+        resource.setProperty("publicationdate", new Timestamp(new Date().getTime()));
+        resource.setProperty("publicationdate", new Timestamp(new Date().getTime()));
+    }
+            
+
 
     /**
      * DOCUMENT ME!
@@ -140,6 +200,7 @@ public class DefaultPropertySetter {
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultContentType, representation, "contenttype");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultFunction, representation, "function");
         CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultProtocol, representation, "protocol");
+        CidsBeanUtils.setPropertyFromFutureIfStillEmpty(defaultApplicationprofile, representation, "applicationprofile");
     }
 
     /**
