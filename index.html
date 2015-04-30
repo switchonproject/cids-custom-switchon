@@ -174,12 +174,35 @@
                 </h4>
                 <p>
                     The <strong><a href="assets/Meta-Data-Wizard-Tutorial.pdf" title="Meta-Data Wizard Tutorial" target="_blank">Meta-Data Wizard Tutorial</a></strong> 
-                    shows you how to register a new Resource in SIP by providing basic Meta-Data about the Resource.
+                    shows you how to register a new open data resource in the SIP by providing basic <strong>meta-data</strong> about the resource. 
+                    An important prerequisite for the resource registration process is that the actual resource <strong>data</strong> is accessible online (e.g. available in <a target="_blank" href="https://repos.deltares.nl/repos/SWITCH-ON/">SWITCH-ON Subversion Repository</a>) and URI to the data is known.
+                    For more information on how to upload <strong>data</strong>, please refer to the <a href="https://repos.deltares.nl/repos/SWITCH-ON/Data/SwitchOn_SubversionTutorial_v2.pdf" target="_blank" title="SWITCH-ON Subversion Tutorial">SWITCH-ON Subversion Tutorial</a> of the <a href="http://www.water-switch-on.eu/lab.html" target="_blank">Virtual Water-Science Laboratory</a>.
+                </p>
+<!--                <p>
+                    <img src="images/meta-data-publish-workflow.png" alt="Meta-Data Publish Workflow"/>
+                </p>
+-->
+                <p>
+                    Meta-Data provides information about data and thus allows the correct discovery, identification and interpretation of data for a given purpose. The main purpose of meta-data in SWITCH-ON is to find, bind, transform and publish open data (Open Data Repurpose Pattern). 
+                    In SWITCH-ON, meta-data is defined by the <a href="https://switchonproject.github.io/cids-custom-switchon-server/assets/D2_6_FINAL_270614.pdf">Standard Information Model for Meta-Data</a>. It is based on an ISO 19115 meta-data profile (meta-data standard recommended by the INSPIRE directive) and thus also compatible with external catalogues like <a target="_blank" href="http://geossregistries.info/" title="GEOSS Component and Service Registry (CSR)">GEOSS</a>.<br/>
+                    The <strong>Basic Meta Data Profile</strong> of the Meta-Data Wizard asks only for <strong>minimal</strong> set of meta-data that makes the data find- and bind-able in the SIP. 
+                    To ensure compliance with the ISO standard, the Meta-Data Wizard automatically provides additional default values, unless they are explicitely provided by the user, e.g. in the <strong>Advanced</strong> or <strong>Expert</strong> Meta-Data Profiles.<br/><br/>
+                    The minimal meta-data sets includes</p>
+                <ul>
+                    <li>Resource <i>name</i> and <i>description</i></li>
+                    <li>(CUASHI) <i>keywords</i></li>
+                    <li><i>spatial extent</i></li>
+                    <li><i>access conditions</i> and <i>license information</i></li>
+                    <li><i>resource location</i> (URI)</li>
+                </ul>
+                <p>
+                    The following video shows how to register a new Resource in SIP with help of the Basic Meta-Data Profile of the Meta-Data Wizard.  
+                    For detailed instructions, please refer to the <a href="assets/Meta-Data-Wizard-Tutorial.pdf" title="Meta-Data Wizard Tutorial" target="_blank">Tutorial Document</a>.
                 </p>
                 <p>
                     <img src="assets/Meta-Data-Wizard-Tutorial.gif" width="1025" height="630" alt="Meta-Data-Wizard-Tutorial"/>
                 </p>
-                 
+
                 <h4>
                     How to start the SIP Expert GUI
                 </h4>
