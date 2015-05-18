@@ -81,7 +81,15 @@ public class TagUtils {
                 });
         return futureTag;
     }
-    
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   tagName       DOCUMENT ME!
+     * @param   taggroupName  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public static Future<CidsBean> fetchFutureTagByNameAndTaggroup(final String tagName, final String taggroupName) {
         final Future<CidsBean> futureTag = executor.submit(new Callable<CidsBean>() {
 
@@ -118,33 +126,42 @@ public class TagUtils {
             return null;
         }
     }
-    
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   tagName       DOCUMENT ME!
+     * @param   taggroupName  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public static CidsBean fetchTagByNameAndTaggroup(final String tagName, final String taggroupName) {
         try {
             final MetaClass tagClass = ClassCacheMultiple.getMetaClass("SWITCHON", "tag");
             final MetaClass taggroupClass = ClassCacheMultiple.getMetaClass("SWITCHON", "taggroup");
-            
-            if(taggroupClass != null)
-            {
+
+            if (taggroupClass != null) {
                 String query = "SELECT " + tagClass.getID() + ", " + tagClass.getPrimaryKey() + " ";
                 query += "FROM " + tagClass.getTableName();
-                query += " WHERE "+tagClass.getTableName()+".name ilike '" + tagName + "' AND ";
+                query += " WHERE " + tagClass.getTableName() + ".name ilike '" + tagName + "' AND ";
                 query += " tag.taggroup = (";
-                query += "SELECT "+ taggroupClass.getPrimaryKey() + " ";
+                query += "SELECT " + taggroupClass.getPrimaryKey() + " ";
                 query += "FROM " + taggroupClass.getTableName();
-                query += " WHERE "+taggroupClass.getTableName()+".name ilike '" + taggroupName + "' limit 1)";
+                query += " WHERE " + taggroupClass.getTableName() + ".name ilike '" + taggroupName + "' limit 1)";
                 query += " limit 1";
-                LOG.debug("retrieving tag '"+tagName+"' for taggroup'"+taggroupName+"' with query: \n"+ query);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("retrieving tag '" + tagName + "' for taggroup'" + taggroupName + "' with query: \n"
+                                + query);
+                }
                 final MetaObject[] metaObjects = SessionManager.getProxy()
                             .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
                 if ((metaObjects != null) && (metaObjects.length == 1)) {
                     return metaObjects[0].getBean();
                 } else {
-                    LOG.warn("could not find tag '"+tagName+"' for taggroup'"+taggroupName+"'");
+                    LOG.warn("could not find tag '" + tagName + "' for taggroup'" + taggroupName + "'");
                     return null;
                 }
-            }
-            else {
+            } else {
                 LOG.error("taggroup '" + taggroupName + "' for tag '" + tagName + "' not found!");
                 return null;
             }

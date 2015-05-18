@@ -122,7 +122,9 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
         }
 
         tagGroupQuery += " ORDER BY t.name";
-        LOG.debug("tagGroupQuery created: " + tagGroupQuery);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("tagGroupQuery created: " + tagGroupQuery);
+        }
         this.tagGroupQuery = tagGroupQuery;
         NbBundle.setBranding(branding);
         initComponents();
@@ -383,28 +385,28 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+    private void btnAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddActionPerformed
         final List<LightweightMetaObject> selectedTags = lstTags.getSelectedValuesList();
 
         final List<CidsBean> tags = cidsBean.getBeanCollectionProperty("tags");
         for (final LightweightMetaObject tag : selectedTags) {
             tags.add(tag.getBean());
         }
-    }//GEN-LAST:event_btnAddActionPerformed
+    } //GEN-LAST:event_btnAddActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmbTagGroupsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTagGroupsActionPerformed
+    private void cmbTagGroupsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmbTagGroupsActionPerformed
         changeListModelToSelectedTaggroup();
 
         final String description = TagUtils.getDescriptionOfTag(cmbTagGroups.getSelectedItem());
         provideInformation(description);
 
         btnNew.setEnabled(TaggroupUtils.isTaggroupOpen(cmbTagGroups.getSelectedItem().toString()));
-    }//GEN-LAST:event_cmbTagGroupsActionPerformed
+    } //GEN-LAST:event_cmbTagGroupsActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -428,7 +430,7 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemoveActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+    private void btnRemoveActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemoveActionPerformed
         final List<CidsBean> selectedTags = new ArrayList<CidsBean>(tblAssignedTags.getSelectedRowCount());
 
         for (final int viewIndex : tblAssignedTags.getSelectedRows()) {
@@ -437,14 +439,14 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
         }
 
         assignedTags.removeAll(selectedTags);
-    }//GEN-LAST:event_btnRemoveActionPerformed
+    } //GEN-LAST:event_btnRemoveActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnNewActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+    private void btnNewActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewActionPerformed
         try {
             final CidsBean selectedTaggroup = ((MetaObject)cmbTagGroups.getSelectedItem()).getBean();
             final SimpleTagEditor simpleTagEditor = new SimpleTagEditor(selectedTaggroup);
@@ -459,7 +461,7 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
         } catch (Exception ex) {
             LOG.error("Could not create new tag-CidsBean", ex);
         }
-    }//GEN-LAST:event_btnNewActionPerformed
+    } //GEN-LAST:event_btnNewActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -481,10 +483,10 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstTagsValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstTagsValueChanged
+    private void lstTagsValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstTagsValueChanged
         final String description = TagUtils.getDescriptionOfTag(lstTags.getSelectedValue());
         provideInformation(description);
-    }//GEN-LAST:event_lstTagsValueChanged
+    }                                                                                  //GEN-LAST:event_lstTagsValueChanged
 
     @Override
     public CidsBean getCidsBean() {
@@ -574,7 +576,12 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
         RendererTools.makeReadOnly(lstTags);
         RendererTools.makeReadOnly(tblAssignedTags);
     }
-    
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
     public void setReadOnly(final boolean readOnly) {
         this.btnNew.setEnabled(!readOnly);
     }
