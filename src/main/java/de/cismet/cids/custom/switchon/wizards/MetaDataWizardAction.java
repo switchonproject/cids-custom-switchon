@@ -39,6 +39,7 @@ import java.util.logging.Level;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -133,7 +134,22 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                                 && "org.openide.WizardDescriptor.FinishAction".equals(
                                     evt.getNewValue().getClass().getCanonicalName())) {
                         // persist the resource bean, when the wizard is finished
-                        new CidsBeanPersistWorker(wizard).execute();
+                        final WaitDialog waitDialog = new WaitDialog(
+                                JFrame.getFrames()[0],
+                                true,
+                                "Please wait while the Resource is saved",
+                                new javax.swing.ImageIcon(getClass().getResource("/images/3floppy_unmount.png")));
+
+                        new CidsBeanPersistWorker(wizard, waitDialog).execute();
+                        final Frame parent = StaticSwingTools.getParentFrame(
+                                CismapBroker.getInstance().getMappingComponent());
+                        if (waitDialog instanceof JDialog) {
+                            StaticSwingTools.showDialog(parent, (JDialog)waitDialog, true);
+                        } else {
+                            waitDialog.setLocationRelativeTo(parent);
+                            waitDialog.setVisible(true);
+                        }
+                        waitDialog.toFront();
                     }
                     if (PROP_CONFIGURATION.equals(evt.getPropertyName())) {
                         final Object newValue = evt.getNewValue();
@@ -264,17 +280,20 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
         //~ Instance fields ----------------------------------------------------
 
-        WizardDescriptor wizard;
+        final WizardDescriptor wizard;
+        final WaitDialog waitDialog;
 
         //~ Constructors -------------------------------------------------------
 
         /**
          * Creates a new CidsBeanPersistWorker object.
          *
-         * @param  wizard  DOCUMENT ME!
+         * @param  wizard      DOCUMENT ME!
+         * @param  waitDialog  DOCUMENT ME!
          */
-        public CidsBeanPersistWorker(final WizardDescriptor wizard) {
+        public CidsBeanPersistWorker(final WizardDescriptor wizard, final WaitDialog waitDialog) {
             this.wizard = wizard;
+            this.waitDialog = waitDialog;
         }
 
         //~ Methods ------------------------------------------------------------
@@ -313,6 +332,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                 return persistedBean;
             } catch (Exception ex) {
                 LOG.error("The resource bean could not be persisted.", ex);
+                waitDialog.dispose();
             }
             return null;
         }
@@ -337,6 +357,8 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                     LOG.error("Error while refreshing the tree", ex); // NOI18N
                 } catch (RuntimeException ex) {
                     LOG.error("Error while refreshing the tree", ex); // NOI18N
+                } finally {
+                    waitDialog.dispose();
                 }
             } catch (Exception ex) {
                 LOG.warn(ex, ex);
@@ -349,6 +371,8 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
                         Level.SEVERE,
                         null);
                 JXErrorPane.showDialog(ComponentRegistry.getRegistry().getMainWindow(), info);
+            } finally {
+                waitDialog.dispose();
             }
         }
     }

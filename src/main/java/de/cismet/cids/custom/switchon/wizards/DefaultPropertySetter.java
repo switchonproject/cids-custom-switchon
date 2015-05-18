@@ -33,7 +33,7 @@ public class DefaultPropertySetter {
             DefaultPropertySetter.class);
     // resource
     private static final Future<CidsBean> defaultTypeResource = TagUtils.fetchFutureTagByNameAndTaggroup(
-            "external data",
+            "repurposed data",
             Taggroups.RESOURCE_TYPE.getValue());
     private static final Future<CidsBean> defaultLanguage = TagUtils.fetchFutureTagByNameAndTaggroup(
             "eng",
