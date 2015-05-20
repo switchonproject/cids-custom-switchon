@@ -63,7 +63,11 @@ public class GRDCStationTUWienImport {
     //~ Methods ----------------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * Imports TU Wien GRDC re-purposed Station meta-data into the SWITCH-ON Meta-Data Repository. Creates a new
+     * resource for each re-purposed station dataset or updates existing resources. Requires a template bean to copy the
+     * shared properties (keywords, etc.).
+     *
+     * <p>TODO: create relationship object to the general GRDC Resource</p>
      *
      * @param  args  DOCUMENT ME!
      */
@@ -120,7 +124,7 @@ public class GRDCStationTUWienImport {
             while (it.hasNext()) {
                 i++;
                 CidsBean resourceBean = null;
-                final CidsBean representationBean = GRDCStationImport.cloneCidsBean(representationTemplate, false);
+                CidsBean representationBean = null;
                 final Map<String, String> rowAsMap = it.next();
                 final String stationName = rowAsMap.get("Station_Location") + " (" + rowAsMap.get("ID") + ')';
 
@@ -137,11 +141,20 @@ public class GRDCStationTUWienImport {
                         LOG.warn("GRDC Station '" + stationName
                                     + "', does already exist, updating station");
                         resourceBean = metaObjects[0].getBean();
+
+                        if ((resourceBean.getBeanCollectionProperty("representation") != null)
+                                    && !resourceBean.getBeanCollectionProperty("representation").isEmpty()) {
+                            representationBean = resourceBean.getBeanCollectionProperty("representation").get(0);
+                            resourceBean.getBeanCollectionProperty("representation").clear();
+                        } else {
+                            representationBean = GRDCStationImport.cloneCidsBean(representationTemplate, false);
+                        }
                     } else {
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("GRDC Station '" + stationName + "' not found, creating new station");
                         }
                         resourceBean = GRDCStationImport.cloneCidsBean(resourceTemplate, false);
+                        representationBean = GRDCStationImport.cloneCidsBean(representationTemplate, false);
                     }
                 } catch (Exception ex) {
                     LOG.error("could not search for GRDC Station '" + stationName + "'", ex);
@@ -149,6 +162,10 @@ public class GRDCStationTUWienImport {
 
                 if (resourceBean == null) {
                     resourceBean = GRDCStationImport.cloneCidsBean(resourceTemplate, false);
+                }
+
+                if (representationBean == null) {
+                    representationBean = GRDCStationImport.cloneCidsBean(representationTemplate, false);
                 }
 
                 // resourceBean.getMetaObject().setStatus(MetaObject.NEW);
@@ -249,6 +266,7 @@ public class GRDCStationTUWienImport {
                 }
 
                 try {
+                    // TODO: replace with real storage URL!
                     final URL contentLocation = new URL("https://repos.deltares.nl/repos/SWITCH-ON/Data/import/"
                                     + rowAsMap.get("ID") + ".peak");
                     representationBean.setProperty("contentlocation", contentLocation.toString());
