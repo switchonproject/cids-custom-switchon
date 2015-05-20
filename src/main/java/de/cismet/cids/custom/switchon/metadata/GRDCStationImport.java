@@ -78,6 +78,7 @@ public class GRDCStationImport {
             LOG.info("server connection created");
 
             final MetaClass resourceClass = ClassCacheMultiple.getMetaClass("SWITCHON", "resource");
+            // final MetaClass representationClass = ClassCacheMultiple.getMetaClass("SWITCHON", "representation");
 
             final int objectId = -1; // 7222;
             final int classId = resourceClass.getId();
@@ -108,43 +109,42 @@ public class GRDCStationImport {
 
             while (it.hasNext()) {
                 i++;
+                CidsBean templateResource = null;
                 final Map<String, String> rowAsMap = it.next();
-                LOG.info("processing GRDC Station #" + i + " '" + rowAsMap.get("grdc_no")
-                            + " " + rowAsMap.get("station") + "'");
-                System.out.println("processing GRDC Station #" + i + " '" + rowAsMap.get("grdc_no")
-                            + " " + rowAsMap.get("station") + "'");
+                final String stationName = rowAsMap.get("station") + '(' + rowAsMap.get("grdc_no") + ')';
 
-                CidsBean templateBean = null;
+                LOG.info("processing GRDC Station #" + i + " '" + stationName + "'");
+                System.out.println("processing GRDC Station #" + i + " '" + stationName + "'");
 
                 try {
                     String query = "SELECT " + resourceClass.getID() + ", " + resourceClass.getPrimaryKey() + " ";
                     query += "FROM " + resourceClass.getTableName();
-                    query += " WHERE name ilike '" + rowAsMap.get("station") + "' limit 1";
+                    query += " WHERE name ilike '" + stationName.replaceAll("'", "''") + "' limit 1";
                     final MetaObject[] metaObjects = SessionManager.getProxy()
                                 .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
                     if ((metaObjects != null) && (metaObjects.length == 1)) {
-                        LOG.warn("GRDC Station '" + rowAsMap.get("station")
+                        LOG.warn("GRDC Station '" + stationName
                                     + "', does already exist, updating station");
-                        templateBean = metaObjects[0].getBean();
+                        templateResource = metaObjects[0].getBean();
                     } else {
                         if (LOG.isDebugEnabled()) {
-                            LOG.debug("GRDC Station '" + rowAsMap.get("station") + "' not found, creating new station");
+                            LOG.debug("GRDC Station '" + stationName + "' not found, creating new station");
                         }
-                        templateBean = cloneCidsBean(cidsBean, false);
+                        templateResource = cloneCidsBean(cidsBean, false);
                     }
                 } catch (Exception ex) {
-                    LOG.error("could not search for GRDC Station '" + rowAsMap.get("station") + "'", ex);
+                    LOG.error("could not search for GRDC Station '" + stationName + "'", ex);
                 }
 
-                if (templateBean == null) {
-                    templateBean = cloneCidsBean(cidsBean, false);
+                if (templateResource == null) {
+                    templateResource = cloneCidsBean(cidsBean, false);
                 }
 
-                // templateBean.getMetaObject().setStatus(MetaObject.NEW);
-                // templateBean.setProperty("id", -1);
-                templateBean.setProperty("name", rowAsMap.get("station"));
+                // templateResource.getMetaObject().setStatus(MetaObject.NEW);
+                // templateResource.setProperty("id", -1);
+                templateResource.setProperty("name", stationName);
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("name: " + templateBean.getProperty("name"));
+                    LOG.debug("name: " + templateResource.getProperty("name"));
                 }
 
                 final StringBuilder description = new StringBuilder();
@@ -200,15 +200,15 @@ public class GRDCStationImport {
                         .append(rowAsMap.get("t_yrs"))
                         .append('\n');
 
-                templateBean.setProperty("description", description.toString());
+                templateResource.setProperty("description", description.toString());
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("description: " + templateBean.getProperty("description"));
+                    LOG.debug("description: " + templateResource.getProperty("description"));
                 }
 
                 final UUID uuid = UUID.randomUUID();
-                templateBean.setProperty("uuid", uuid.toString());
+                templateResource.setProperty("uuid", uuid.toString());
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("uuid: " + templateBean.getProperty("uuid"));
+                    LOG.debug("uuid: " + templateResource.getProperty("uuid"));
                 }
 
                 Timestamp date;
@@ -219,9 +219,9 @@ public class GRDCStationImport {
                     dateString = rowAsMap.get("t_start");
                     dateProperty = "fromdate";
                     date = new Timestamp(yearDateformat.parse(dateString).getTime());
-                    templateBean.setProperty(dateProperty, date);
+                    templateResource.setProperty(dateProperty, date);
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug(dateProperty + ": " + templateBean.getProperty(dateProperty));
+                        LOG.debug(dateProperty + ": " + templateResource.getProperty(dateProperty));
                     }
                 } catch (Exception ex) {
                     LOG.error("could not set data property '" + dateProperty
@@ -232,9 +232,9 @@ public class GRDCStationImport {
                     dateString = rowAsMap.get("t_end");
                     dateProperty = "todate";
                     date = new Timestamp(yearDateformat.parse(dateString).getTime());
-                    templateBean.setProperty(dateProperty, date);
+                    templateResource.setProperty(dateProperty, date);
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug(dateProperty + ": " + templateBean.getProperty(dateProperty));
+                        LOG.debug(dateProperty + ": " + templateResource.getProperty(dateProperty));
                     }
                 } catch (Exception ex) {
                     LOG.error("could not set data property '" + dateProperty
@@ -245,9 +245,9 @@ public class GRDCStationImport {
                     dateString = rowAsMap.get("f_import");
                     dateProperty = "creationdate";
                     date = new Timestamp(dateformat.parse(dateString).getTime());
-                    templateBean.setProperty(dateProperty, date);
+                    templateResource.setProperty(dateProperty, date);
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug(dateProperty + ": " + templateBean.getProperty(dateProperty));
+                        LOG.debug(dateProperty + ": " + templateResource.getProperty(dateProperty));
                     }
                 } catch (Exception ex) {
                     LOG.error("could not set data property '" + dateProperty
@@ -258,18 +258,18 @@ public class GRDCStationImport {
                     dateString = rowAsMap.get("l_import");
                     dateProperty = "lastmodificationdate";
                     date = new Timestamp(dateformat.parse(dateString).getTime());
-                    templateBean.setProperty(dateProperty, date);
+                    templateResource.setProperty(dateProperty, date);
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug(dateProperty + ": " + templateBean.getProperty(dateProperty));
+                        LOG.debug(dateProperty + ": " + templateResource.getProperty(dateProperty));
                     }
                 } catch (Exception ex) {
                     LOG.error("could not set data property '" + dateProperty
                                 + "' to '" + dateString + "'", ex);
                 }
 
-                templateBean.setProperty("publicationdate", new Timestamp(System.currentTimeMillis()));
+                templateResource.setProperty("publicationdate", new Timestamp(System.currentTimeMillis()));
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("publicationdate: " + templateBean.getProperty("publicationdate"));
+                    LOG.debug("publicationdate: " + templateResource.getProperty("publicationdate"));
                 }
 
                 try {
@@ -280,10 +280,11 @@ public class GRDCStationImport {
                     final Geometry geometry = geometryFactory.createPoint(coordinate);
                     geometry.setSRID(4326);
                     final CidsBean geometryBean = CismapUtils.createGeometryBean(geometry);
-                    templateBean.setProperty("spatialcoverage", geometryBean);
+                    templateResource.setProperty("spatialcoverage", geometryBean);
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("spatialcoverage: "
-                                    + ((CidsBean)templateBean.getProperty("spatialcoverage")).getProperty("geo_field"));
+                                    + ((CidsBean)templateResource.getProperty("spatialcoverage")).getProperty(
+                                        "geo_field"));
                     }
                 } catch (Exception ex) {
                     LOG.fatal("could not set spatial coverage "
@@ -293,9 +294,9 @@ public class GRDCStationImport {
                     continue;
                 }
 
-                templateBean.persist();
-                LOG.info("GRDC Station #" + i + " '" + rowAsMap.get("grdc_no")
-                            + " " + rowAsMap.get("station") + "' successfully imported into Meta-Data Repository");
+                templateResource.persist();
+                LOG.info("GRDC Station #" + i + " '" + stationName
+                            + "' successfully imported into Meta-Data Repository");
             }
 
             LOG.info(i + " GRDC Stations processed");
