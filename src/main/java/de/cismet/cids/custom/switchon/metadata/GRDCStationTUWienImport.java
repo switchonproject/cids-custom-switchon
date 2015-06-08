@@ -49,9 +49,9 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
- * DOCUMENT ME!
+ * Import BfG GRDC Data as single Stations form postprocessed GRDC Meta-Data XSLX File.
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class GRDCStationTUWienImport {
@@ -82,14 +82,37 @@ public class GRDCStationTUWienImport {
 
             final MetaClass resourceClass = ClassCacheMultiple.getMetaClass("SWITCHON", "resource");
             // final MetaClass representationClass = ClassCacheMultiple.getMetaClass("SWITCHON", "representation");
+            final MetaClass relationshipClass = ClassCacheMultiple.getMetaClass("SWITCHON", "relationship");
 
             // id of template object (Station 6242500)
             // select id from "public".resource where name = 'WIEN-NUSSDORF (6242500)';
-            final int objectId = 15894;
-            final int classId = resourceClass.getId();
+            final int resourceTemplateObjectId = 7223;
+            final int resourceTemplateClassId = resourceClass.getId();
+            final int tagClassId = ClassCacheMultiple.getMetaClass("SWITCHON", "tag").getId();
             final CidsBean resourceTemplate = SessionManager.getProxy()
-                        .getMetaObject(objectId + "@" + classId + "@SWITCHON")
+                        .getMetaObject(resourceTemplateObjectId + "@" + resourceTemplateClassId + "@SWITCHON")
                         .getBean();
+
+            // id of the GRDC root resource object
+// final int grdcObjectId = 7222;
+// final CidsBean grdcResource = SessionManager.getProxy()
+// .getMetaObject(grdcObjectId + "@" + resourceTemplateClassId + "@SWITCHON")
+// .getBean();
+            final MetaObject[] grdMetaObjects = SessionManager.getProxy()
+                        .getMetaObjectByQuery(
+                            SessionManager.getSession().getUser(),
+                            "select "
+                            + resourceTemplateClassId
+                            + " as class_id, id as object_id from resource where resource.name ilike '%global runoff database%' order by id limit 1");
+            final CidsBean grdcResource = grdMetaObjects[0].getBean();
+
+            final MetaObject[] repurposedTagMetaObjects = SessionManager.getProxy()
+                        .getMetaObjectByQuery(
+                            SessionManager.getSession().getUser(),
+                            "select "
+                            + tagClassId
+                            + " as class_id, id as object_id from tag where tag.name = 'repurposed' order by id limit 1");
+            final CidsBean repurposedTag = repurposedTagMetaObjects[0].getBean();
 
             if ((resourceTemplate.getBeanCollectionProperty("representation") == null)
                         || resourceTemplate.getBeanCollectionProperty("representation").isEmpty()) {
@@ -125,8 +148,10 @@ public class GRDCStationTUWienImport {
                 i++;
                 CidsBean resourceBean = null;
                 CidsBean representationBean = null;
+                final CidsBean relationshipBean = relationshipClass.getEmptyInstance().getBean();
                 final Map<String, String> rowAsMap = it.next();
-                final String stationName = rowAsMap.get("Station_Location") + " (" + rowAsMap.get("ID") + ')';
+                final String stationId = rowAsMap.get("ID");
+                final String stationName = rowAsMap.get("Station_Location") + " (" + stationId + ')';
 
                 LOG.info("processing TU Wien GRDC Station #" + i + " '" + stationName + "'");
                 System.out.println("processing TU Wien GRDC Station #" + i + " '" + stationName + "'");
@@ -168,6 +193,7 @@ public class GRDCStationTUWienImport {
                     representationBean = GRDCStationImport.cloneCidsBean(representationTemplate, false);
                 }
 
+                // RESOURCE ----------------------------------------------------
                 // resourceBean.getMetaObject().setStatus(MetaObject.NEW);
                 // resourceBean.setProperty("id", -1);
                 resourceBean.setProperty("name", stationName);
@@ -175,20 +201,20 @@ public class GRDCStationTUWienImport {
                     LOG.debug("name: " + resourceBean.getProperty("name"));
                 }
 
-                final StringBuilder description = new StringBuilder();
+                final StringBuilder resourceDescription = new StringBuilder();
 
-                description.append("Flood peak data for GRDC Station ")
+                resourceDescription.append("GRDC Station ")
                         .append(stationName)
                         .append(' ')
                         .append(" at river ")
                         .append(rowAsMap.get("River_Name"))
                         .append(" in country ")
                         .append(rowAsMap.get("Country"))
-                        .append("covering ")
+                        .append(" covering ")
                         .append(rowAsMap.get("Catchment_Area (km2)"))
                         .append("km² catchment area.");
 
-                resourceBean.setProperty("description", description.toString());
+                resourceBean.setProperty("description", resourceDescription.toString());
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("description: " + resourceBean.getProperty("description"));
                 }
@@ -265,10 +291,21 @@ public class GRDCStationTUWienImport {
                     continue;
                 }
 
+                // REPRESENTATION ----------------------------------------------
+                representationBean.setProperty("name", "Flood Peak Data (" + stationId + ")");
+                representationBean.setProperty(
+                    "description",
+                    "The data in the .peak "
+                            + "file shows the date of the start of a flood event, the end "
+                            + "of the event, the date of maximum flood discharge, maximum "
+                            + "discharge and some index representing the volume of water.");
+
                 try {
                     // TODO: replace with real storage URL!
-                    final URL contentLocation = new URL("https://repos.deltares.nl/repos/SWITCH-ON/Data/import/"
-                                    + rowAsMap.get("ID") + ".peak");
+                    final URL contentLocation = new URL(
+                            "https://repos.deltares.nl/repos/SWITCH-ON/Data/WP3/Repurposed/Flood_Experiment1_PeakFiles/"
+                                    + rowAsMap.get("ID")
+                                    + ".peak");
                     representationBean.setProperty("contentlocation", contentLocation.toString());
                     resourceBean.getBeanCollectionProperty("representation").add(representationBean);
                 } catch (Exception ex) {
@@ -276,9 +313,27 @@ public class GRDCStationTUWienImport {
                     continue;
                 }
 
-                resourceBean.persist();
+                // save the new resource
+                resourceBean = resourceBean.persist();
+
+                // RELATIONSHP -------------------------------------------------
+                // establish the relationship
+                relationshipBean.setProperty("name", "Flood Peak Data from GRDC Station " + stationId);
+                relationshipBean.setProperty(
+                    "description",
+                    "Flood peak data for GRDC Station "
+                            + stationName
+                            + " has been derived from the Global Runoff Data Centre's Global Runoff Data Base (GRDB) by the institute of hydraulic engineering and water resources management of the technical university of vienna.");
+                relationshipBean.setProperty("type", repurposedTag);
+                relationshipBean.setProperty("uuid", UUID.randomUUID());
+
+                relationshipBean.getBeanCollectionProperty("fromresources").add(grdcResource);
+                relationshipBean.setProperty("toresource", resourceBean);
+
+                relationshipBean.persist();
+
                 LOG.info("TU Wien GRDC Station #" + i + " '" + stationName
-                            + "' successfully imported into Meta-Data Repository");
+                            + "' successfully imported into Meta-Data Repository.");
             }
 
             LOG.info(i + " TU Wien GRDC Stations processed");

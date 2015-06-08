@@ -50,7 +50,7 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
- * DOCUMENT ME!
+ * Import BfG GRDC Data as single Stations form postprocessed GRDC Meta-Data XSLX File.
  *
  * @author   pd
  * @version  $Revision$, $Date$
