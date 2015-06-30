@@ -16,6 +16,9 @@ import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.newuser.User;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -48,7 +51,7 @@ public final class RESTfulConnectionTester {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final transient Logger LOG = Logger.getLogger(MethodHandles.lookup().lookupClass());
-    private static final String baseDir = "f:/git_work/cids-custom-switchon/src/switchonDist/client/switchon/";
+    private static final String baseDir = "d:/work/cids-custom-switchon/src/switchonDist/client/switchon/";
 
     //~ Instance fields --------------------------------------------------------
 
@@ -201,7 +204,9 @@ public final class RESTfulConnectionTester {
         long endTime;
         final int[] metaObjectIds;
         final MetaObject[] metaObjects;
-        final int max = 400;
+        final int start = 25;
+        final int max = 800;
+        final HttpClient httpclient = new HttpClient();
 
         metaObjects = legacyRestConnection.getAllLightweightMetaObjectsForClass(classId, user, new String[] {});
         metaObjectIds = new int[metaObjects.length];
@@ -209,8 +214,8 @@ public final class RESTfulConnectionTester {
             metaObjectIds[i] = metaObjects[i].getId();
         }
 
-        System.out.println("----------------------------------------------------");
-        System.out.println("get Lightweight Meta Objects Performance Tests");
+//        System.out.println("----------------------------------------------------");
+//        System.out.println("get Lightweight Meta Objects Performance Tests");
 
 //        startTime = System.currentTimeMillis();
 //        metaObjects = legacyRestConnection.getAllLightweightMetaObjectsForClass(classId, user, new String[] {});
@@ -266,17 +271,33 @@ public final class RESTfulConnectionTester {
 //                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)) + String.format(" (%d ms)", endTime));
 //        }
 
-        for (int i = 25; i <= max; i *= 2) {
+        for (int i = start; i <= max; i *= 2) {
             System.out.println("----------------------------------------------------");
-            System.out.println("get " + i + " Meta Objects by Id Performance Tests");
+            System.out.println("get " + i + " Meta Objects Performance Tests");
 
             startTime = System.currentTimeMillis();
             for (int j = 0; j < i; j++) {
-                legacyRestConnection.getMetaObject(user, metaObjectIds[j], classId, domain);
                 System.out.print('.');
+                legacyRestConnection.getMetaObject(user, metaObjectIds[j], classId, domain);
             }
             endTime = System.currentTimeMillis() - startTime;
-            System.out.println("\nLEGACY REST CONNECTION get " + metaObjects.length + " Meta Objects (single calls): "
+            System.out.println("\nLEGACY REST CONNECTION get " + i + " Meta Objects (single calls): "
+                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime))
+                        + String.format(" (%d ms)", endTime));
+
+            startTime = System.currentTimeMillis();
+            for (int j = 0; j < i; j++) {
+                System.out.print('.');
+                final HttpMethod method = new GetMethod("http://localhost:8891/SWITCHON.resource/" + metaObjectIds[j]);
+                method.setQueryString("role=all&limit=" + i);
+                method.setRequestHeader("Authorization", "Basic YWRtaW5AU1dJVENIT046Y2lzbWV0");
+                httpclient.executeMethod(method);
+                method.getResponseBody();
+                method.releaseConnection();
+            }
+            endTime = System.currentTimeMillis() - startTime;
+            System.out.println("\nPLAIN HTTP CONNECTION (DUMMY DATABASE CORE) get " + i
+                        + " Meta Objects (single calls): "
                         + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime))
                         + String.format(" (%d ms)", endTime));
 
@@ -286,18 +307,33 @@ public final class RESTfulConnectionTester {
                 System.out.print('.');
             }
             endTime = System.currentTimeMillis() - startTime;
-            System.out.println("\nPURE REST CONNECTION (DUMMY DATABASE CORE) get " + metaObjects.length
+            System.out.println("\nPURE REST CONNECTION (DUMMY DATABASE CORE) get " + i
                         + " Meta Objects (single calls): "
                         + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime))
                         + String.format(" (%d ms)", endTime));
 
             startTime = System.currentTimeMillis();
             for (int j = 0; j < i; j++) {
-                pureRestLegacyCoreConnection.getMetaObject(user, metaObjectIds[j], classId, domain);
                 System.out.print('.');
+                final HttpMethod method = new GetMethod("http://localhost:8890/SWITCHON.resource/" + metaObjectIds[j]);
+                method.setQueryString("role=all&limit=" + i);
+                method.setRequestHeader("Authorization", "Basic YWRtaW5AU1dJVENIT046Y2lzbWV0");
+                httpclient.executeMethod(method);
+                method.getResponseBody();
+                method.releaseConnection();
             }
             endTime = System.currentTimeMillis() - startTime;
-            System.out.println("\nPURE REST CONNECTION (LEGACY CORE) get " + metaObjects.length
+            System.out.println("\nPLAIN HTTP CONNECTION (LEGACY CORE) get " + i + " Meta Objects (single calls): "
+                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime))
+                        + String.format(" (%d ms)", endTime));
+
+            startTime = System.currentTimeMillis();
+            for (int j = 0; j < i; j++) {
+                System.out.print('.');
+                pureRestLegacyCoreConnection.getMetaObject(user, metaObjectIds[j], classId, domain);
+            }
+            endTime = System.currentTimeMillis() - startTime;
+            System.out.println("\nPURE REST CONNECTION (LEGACY CORE) get " + i
                         + " Meta Objects (single calls): "
                         + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime))
                         + String.format(" (%d ms)", endTime));
@@ -317,7 +353,7 @@ public final class RESTfulConnectionTester {
             final RESTfulConnectionTester connectionTester = new RESTfulConnectionTester();
 
             // has to called only once!
-            connectionTester.initDbCore();
+            // connectionTester.initDbCore();
 
             connectionTester.performanceTest();
 
