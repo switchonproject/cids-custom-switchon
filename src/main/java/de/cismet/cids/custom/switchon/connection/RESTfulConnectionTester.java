@@ -17,6 +17,7 @@ import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.newuser.User;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import org.openide.util.Exceptions;
 
@@ -26,6 +27,7 @@ import java.net.URI;
 
 import java.rmi.RemoteException;
 
+import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.core.UriBuilder;
@@ -34,8 +36,6 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.server.CallServerService;
 import de.cismet.cids.server.ws.rest.RESTfulInterfaceConnector;
-
-import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 
 /**
  * DOCUMENT ME!
@@ -48,6 +48,7 @@ public final class RESTfulConnectionTester {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final transient Logger LOG = Logger.getLogger(MethodHandles.lookup().lookupClass());
+    private static final String baseDir = "f:/git_work/cids-custom-switchon/src/switchonDist/client/switchon/";
 
     //~ Instance fields --------------------------------------------------------
 
@@ -70,9 +71,12 @@ public final class RESTfulConnectionTester {
     private RESTfulConnectionTester() throws Exception {
         PropertyManager.getManager()
                 .configure(
-                    "d:/work/cids-custom-switchon/src/switchonDist/client/switchon/config/navigator.cfg",
-                    "d:/work/cids-custom-switchon/src/switchonDist/client/switchon",
-                    "d:/work/cids-custom-switchon/src/switchonDist/client/switchon/plugins",
+                    baseDir
+                    + "config/navigator.cfg",
+                    baseDir
+                    + "switchon",
+                    baseDir
+                    + "plugins",
                     null,
                     null);
 
@@ -123,20 +127,37 @@ public final class RESTfulConnectionTester {
                 classId,
                 user,
                 new String[] {});
-        LOG.info(metaObjects.length + " resources found.");
-        System.out.println("Initilaizing Dummy Database Core with " + metaObjects.length + " Meta Objects");
+        LOG.info(metaObjects.length + " MetaObject found by legacy core.");
+
+        final MetaObject[] existingMetaObjects = pureRestDatabaseCoreConnection.getAllLightweightMetaObjectsForClass(
+                classId,
+                user,
+                new String[] {});
+
+        LOG.info(existingMetaObjects.length + "MetaObject found by database core.");
+        final HashSet<Integer> metaObjectIds = new HashSet<Integer>();
+        for (final MetaObject lwMetaObject : existingMetaObjects) {
+            metaObjectIds.add(lwMetaObject.getId());
+        }
+
+        System.out.println("Initializing Dummy Database Core with "
+                    + (metaObjects.length - existingMetaObjects.length) + " Meta Objects");
         final long startTime = System.currentTimeMillis();
         for (final MetaObject lwMetaObject : metaObjects) {
             if (LOG.isDebugEnabled()) {
-                // LOG.debug("saving meta object '" + metaObject.getName() + "'");
+                LOG.debug("saving meta object '" + lwMetaObject.getName() + "'");
             }
-            final MetaObject metaObject = legacyRestConnection.getMetaObject(
-                    user,
-                    lwMetaObject.getID(),
-                    classId,
-                    domain);
-            pureRestDatabaseCoreConnection.insertMetaObject(user, metaObject, metaObject.getDomain());
-            System.out.print('.');
+
+            final int metaObjectId = lwMetaObject.getID();
+            if (!metaObjectIds.contains(metaObjectId)) {
+                final MetaObject metaObject = legacyRestConnection.getMetaObject(
+                        user,
+                        metaObjectId,
+                        classId,
+                        domain);
+                pureRestDatabaseCoreConnection.insertMetaObject(user, metaObject, metaObject.getDomain());
+                System.out.print('.');
+            }
         }
         final long endTime = System.currentTimeMillis() - startTime;
         System.out.println("\nInitialization of Dummy Database Core with " + metaObjects.length + " Meta Objects: "
@@ -161,7 +182,7 @@ public final class RESTfulConnectionTester {
             LOG.info("creating REST connection to service '" + callServerURI + "'");
             return new RESTfulInterfaceConnector(callServerURI.toString(), null, null);
         } catch (Exception ex) {
-            final String message = "could n ot build restServerURL '" + restServerURL + "': "
+            final String message = "could not build restServerURL '" + restServerURL + "': "
                         + ex.getMessage();
             LOG.error(message, ex);
             throw new ConnectionException(message, ex);
@@ -287,12 +308,14 @@ public final class RESTfulConnectionTester {
      * @param  args  DOCUMENT ME!
      */
     public static void main(final String[] args) {
+        PropertyConfigurator.configure(baseDir + "config/log4j.debug.properties");
+
         try {
-            Log4JQuickConfig.configure4LumbermillOnLocalhost();
+            // Log4JQuickConfig.configure4LumbermillOnLocalhost();
             final RESTfulConnectionTester connectionTester = new RESTfulConnectionTester();
 
             // has to called only once!
-            // connectionTester.initDbCore();
+            connectionTester.initDbCore();
 
             connectionTester.performanceTest();
 
