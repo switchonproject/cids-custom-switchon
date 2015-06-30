@@ -105,6 +105,7 @@ public final class RESTfulConnectionTester {
             "Administratoren",
             "admin",
             "cismet");
+        PropertyConfigurator.configure(baseDir + "config/log4j.debug.properties");
 
         legacyRestConnection = SessionManager.getProxy().getCallServerService();
     }
@@ -140,14 +141,8 @@ public final class RESTfulConnectionTester {
             metaObjectIds.add(lwMetaObject.getId());
         }
 
-        System.out.println("Initializing Dummy Database Core with "
-                    + (metaObjects.length - existingMetaObjects.length) + " Meta Objects");
         final long startTime = System.currentTimeMillis();
         for (final MetaObject lwMetaObject : metaObjects) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("saving meta object '" + lwMetaObject.getName() + "'");
-            }
-
             final int metaObjectId = lwMetaObject.getID();
             if (!metaObjectIds.contains(metaObjectId)) {
                 final MetaObject metaObject = legacyRestConnection.getMetaObject(
@@ -160,8 +155,10 @@ public final class RESTfulConnectionTester {
             }
         }
         final long endTime = System.currentTimeMillis() - startTime;
-        System.out.println("\nInitialization of Dummy Database Core with " + metaObjects.length + " Meta Objects: "
-                    + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)));
+        System.out.println("\nInitialization of Dummy Database Core with "
+                    + (metaObjects.length - existingMetaObjects.length) + " Meta Objects: "
+                    + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime))
+                    + String.format(" (%d ms)", endTime) + String.format(" (%d ms)", endTime));
     }
 
     /**
@@ -203,71 +200,73 @@ public final class RESTfulConnectionTester {
         long startTime;
         long endTime;
         final int[] metaObjectIds;
-        MetaObject[] metaObjects;
+        final MetaObject[] metaObjects;
+        final int max = 400;
 
-        System.out.println("----------------------------------------------------");
-        System.out.println("get Lightweight Meta Objects Performance Tests");
-
-        startTime = System.currentTimeMillis();
         metaObjects = legacyRestConnection.getAllLightweightMetaObjectsForClass(classId, user, new String[] {});
-        endTime = System.currentTimeMillis() - startTime;
-        System.out.println("LEGACY REST CONNECTION get " + metaObjects.length + " Lightweight Meta Objects: "
-                    + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)));
-
         metaObjectIds = new int[metaObjects.length];
         for (int i = 0; i < metaObjects.length; i++) {
             metaObjectIds[i] = metaObjects[i].getId();
         }
 
-        startTime = System.currentTimeMillis();
-        metaObjects = pureRestDatabaseCoreConnection.getAllLightweightMetaObjectsForClass(
-                classId,
-                user,
-                new String[] {});
-        endTime = System.currentTimeMillis() - startTime;
-        System.out.println("PURE REST CONNECTION (DUMMY DATABASE CORE) get " + metaObjects.length
-                    + " Lightweight Meta Objects: "
-                    + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)));
+        System.out.println("----------------------------------------------------");
+        System.out.println("get Lightweight Meta Objects Performance Tests");
 
-        startTime = System.currentTimeMillis();
-        metaObjects = pureRestLegacyCoreConnection.getAllLightweightMetaObjectsForClass(
-                classId,
-                user,
-                new String[] {});
-        endTime = System.currentTimeMillis() - startTime;
-        System.out.println("PURE REST CONNECTION (LEGACY CORE) get " + metaObjects.length
-                    + " Lightweight Meta Objects: "
-                    + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)));
+//        startTime = System.currentTimeMillis();
+//        metaObjects = legacyRestConnection.getAllLightweightMetaObjectsForClass(classId, user, new String[] {});
+//        endTime = System.currentTimeMillis() - startTime;
+//        System.out.println("LEGACY REST CONNECTION get " + metaObjects.length + " Lightweight Meta Objects: "
+//                    + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)) + String.format(" (%d ms)", endTime));
+//
+//        startTime = System.currentTimeMillis();
+//        metaObjects = pureRestDatabaseCoreConnection.getAllLightweightMetaObjectsForClass(
+//                classId,
+//                user,
+//                new String[] {});
+//        endTime = System.currentTimeMillis() - startTime;
+//        System.out.println("PURE REST CONNECTION (DUMMY DATABASE CORE) get " + metaObjects.length
+//                    + " Lightweight Meta Objects: "
+//                    + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)) + String.format(" (%d ms)", endTime));
+//
+//        startTime = System.currentTimeMillis();
+//        metaObjects = pureRestLegacyCoreConnection.getAllLightweightMetaObjectsForClass(
+//                classId,
+//                user,
+//                new String[] {});
+//        endTime = System.currentTimeMillis() - startTime;
+//        System.out.println("PURE REST CONNECTION (LEGACY CORE) get " + metaObjects.length
+//                    + " Lightweight Meta Objects: "
+//                    + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)) + String.format(" (%d ms)", endTime));
+//
+//        for (int i = 25; i <= max; i *= 2) {
+//            System.out.println("----------------------------------------------------");
+//            System.out.println("get Meta Objects by Query Performance Tests: "
+//                        + i + " Meta Objects");
+//
+//            final String query = moQuery + " LIMIT " + i;
+//
+//            startTime = System.currentTimeMillis();
+//            metaObjects = legacyRestConnection.getMetaObject(user, query, "SWITCHON");
+//            endTime = System.currentTimeMillis() - startTime;
+//            System.out.println("LEGACY REST CONNECTION get " + metaObjects.length + " Meta Objects by Query: "
+//                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)) + String.format(" (%d ms)", endTime));
+//
+//            startTime = System.currentTimeMillis();
+//            metaObjects = pureRestDatabaseCoreConnection.getMetaObject(user, query, "SWITCHON");
+//            endTime = System.currentTimeMillis() - startTime;
+//            System.out.println("PURE REST CONNECTION (DUMMY DATABASE CORE) get " + metaObjects.length
+//                        + " Meta Objects by Query: "
+//                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)) + String.format(" (%d ms)", endTime));
+//
+//            startTime = System.currentTimeMillis();
+//            metaObjects = pureRestLegacyCoreConnection.getMetaObject(user, query, "SWITCHON");
+//            endTime = System.currentTimeMillis() - startTime;
+//            System.out.println("PURE REST CONNECTION (LEGACY CORE) get " + metaObjects.length
+//                        + " Meta Objects by Query: "
+//                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)) + String.format(" (%d ms)", endTime));
+//        }
 
-        for (int i = 25; i <= 200; i *= 2) {
-            System.out.println("----------------------------------------------------");
-            System.out.println("get Meta Objects by Query Performance Tests: "
-                        + i + " Meta Objects");
-
-            final String query = moQuery + " LIMIT " + i;
-
-            startTime = System.currentTimeMillis();
-            metaObjects = legacyRestConnection.getMetaObject(user, query, "SWITCHON");
-            endTime = System.currentTimeMillis() - startTime;
-            System.out.println("LEGACY REST CONNECTION get " + metaObjects.length + " Meta Objects by Query: "
-                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)));
-
-            startTime = System.currentTimeMillis();
-            metaObjects = pureRestDatabaseCoreConnection.getMetaObject(user, query, "SWITCHON");
-            endTime = System.currentTimeMillis() - startTime;
-            System.out.println("PURE REST CONNECTION (DUMMY DATABASE CORE) get " + metaObjects.length
-                        + " Meta Objects by Query: "
-                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)));
-
-            startTime = System.currentTimeMillis();
-            metaObjects = pureRestLegacyCoreConnection.getMetaObject(user, query, "SWITCHON");
-            endTime = System.currentTimeMillis() - startTime;
-            System.out.println("PURE REST CONNECTION (LEGACY CORE) get " + metaObjects.length
-                        + " Meta Objects by Query: "
-                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)));
-        }
-
-        for (int i = 25; i <= 200; i *= 2) {
+        for (int i = 25; i <= max; i *= 2) {
             System.out.println("----------------------------------------------------");
             System.out.println("get " + i + " Meta Objects by Id Performance Tests");
 
@@ -278,7 +277,8 @@ public final class RESTfulConnectionTester {
             }
             endTime = System.currentTimeMillis() - startTime;
             System.out.println("\nLEGACY REST CONNECTION get " + metaObjects.length + " Meta Objects (single calls): "
-                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)));
+                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime))
+                        + String.format(" (%d ms)", endTime));
 
             startTime = System.currentTimeMillis();
             for (int j = 0; j < i; j++) {
@@ -288,7 +288,8 @@ public final class RESTfulConnectionTester {
             endTime = System.currentTimeMillis() - startTime;
             System.out.println("\nPURE REST CONNECTION (DUMMY DATABASE CORE) get " + metaObjects.length
                         + " Meta Objects (single calls): "
-                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)));
+                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime))
+                        + String.format(" (%d ms)", endTime));
 
             startTime = System.currentTimeMillis();
             for (int j = 0; j < i; j++) {
@@ -298,7 +299,8 @@ public final class RESTfulConnectionTester {
             endTime = System.currentTimeMillis() - startTime;
             System.out.println("\nPURE REST CONNECTION (LEGACY CORE) get " + metaObjects.length
                         + " Meta Objects (single calls): "
-                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime)));
+                        + String.format("%d sec", TimeUnit.MILLISECONDS.toSeconds(endTime))
+                        + String.format(" (%d ms)", endTime));
         }
     }
 
