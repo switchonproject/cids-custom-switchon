@@ -148,10 +148,10 @@ public class GRDCStationTUWienImport {
                 i++;
                 CidsBean resourceBean = null;
                 CidsBean representationBean = null;
-                final CidsBean relationshipBean = relationshipClass.getEmptyInstance().getBean();
                 final Map<String, String> rowAsMap = it.next();
                 final String stationId = rowAsMap.get("ID");
                 final String stationName = rowAsMap.get("Station_Location") + " (" + stationId + ") Peak Flow";
+                boolean isUpdate = false;
 
                 LOG.info("processing TU Wien GRDC Station #" + i + " '" + stationName + "'");
                 System.out.println("processing TU Wien GRDC Station #" + i + " '" + stationName + "'");
@@ -159,13 +159,19 @@ public class GRDCStationTUWienImport {
                 try {
                     String query = "SELECT " + resourceClass.getID() + ", " + resourceClass.getPrimaryKey() + " ";
                     query += "FROM " + resourceClass.getTableName();
-                    query += " WHERE name ilike '%" + stationName.replaceAll("'", "''") + "%' limit 1";
+                    query += " WHERE name ilike '" + stationName.replaceAll("'", "''") + "' limit 1";
                     final MetaObject[] metaObjects = SessionManager.getProxy()
                                 .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
-                    if ((metaObjects != null) && (metaObjects.length == 1)) {
-                        LOG.warn("GRDC Station '" + stationName
+                    if ((metaObjects != null) && (metaObjects.length > 0)) {
+                        LOG.info("GRDC Station '" + stationName
                                     + "', does already exist, updating station");
                         resourceBean = metaObjects[0].getBean();
+                        isUpdate = true;
+
+                        if (metaObjects.length > 1) {
+                            LOG.warn(metaObjects.length + " entries for GRDC Station '" + stationName
+                                        + "', do already exist, updating only the first station!");
+                        }
 
                         if ((resourceBean.getBeanCollectionProperty("representation") != null)
                                     && !resourceBean.getBeanCollectionProperty("representation").isEmpty()) {
@@ -318,19 +324,23 @@ public class GRDCStationTUWienImport {
 
                 // RELATIONSHP -------------------------------------------------
                 // establish the relationship
-                relationshipBean.setProperty("name", "Flood Peak Data from GRDC Station " + stationId);
-                relationshipBean.setProperty(
-                    "description",
-                    "Flood peak data for GRDC Station "
-                            + stationName
-                            + " has been derived from the Global Runoff Data Centre's Global Runoff Data Base (GRDB) by the institute of hydraulic engineering and water resources management of the technical university of vienna.");
-                relationshipBean.setProperty("type", repurposedTag);
-                relationshipBean.setProperty("uuid", UUID.randomUUID());
+                if (!isUpdate) {
+                    final CidsBean relationshipBean = relationshipClass.getEmptyInstance().getBean();
 
-                relationshipBean.getBeanCollectionProperty("fromresources").add(grdcResource);
-                relationshipBean.setProperty("toresource", resourceBean);
+                    relationshipBean.setProperty("name", "Flood Peak Data from GRDC Station " + stationId);
+                    relationshipBean.setProperty(
+                        "description",
+                        "Flood peak data for GRDC Station "
+                                + stationName
+                                + " has been derived from the Global Runoff Data Centre's Global Runoff Data Base (GRDB) by the institute of hydraulic engineering and water resources management of the technical university of vienna.");
+                    relationshipBean.setProperty("type", repurposedTag);
+                    relationshipBean.setProperty("uuid", UUID.randomUUID());
 
-                relationshipBean.persist();
+                    relationshipBean.getBeanCollectionProperty("fromresources").add(grdcResource);
+                    relationshipBean.setProperty("toresource", resourceBean);
+
+                    relationshipBean.persist();
+                }
 
                 LOG.info("TU Wien GRDC Station #" + i + " '" + stationName
                             + "' successfully imported into Meta-Data Repository.");
