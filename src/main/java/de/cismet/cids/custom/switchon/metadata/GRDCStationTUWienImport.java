@@ -150,11 +150,12 @@ public class GRDCStationTUWienImport {
                 CidsBean representationBean = null;
                 final Map<String, String> rowAsMap = it.next();
                 final String stationId = rowAsMap.get("ID");
-                final String stationName = rowAsMap.get("Station_Location") + " (" + stationId + ") Peak Flow";
+                final String stationName = rowAsMap.get("Station_Location") + " (" + stationId + ")";
+                final String stationTitle = stationName + " Peak Flow";
                 boolean isUpdate = false;
 
-                LOG.info("processing TU Wien GRDC Station #" + i + " '" + stationName + "'");
-                System.out.println("processing TU Wien GRDC Station #" + i + " '" + stationName + "'");
+                LOG.info("processing TU Wien GRDC Station #" + i + " '" + stationTitle + "'");
+                System.out.println("processing TU Wien GRDC Station #" + i + " '" + stationTitle + "'");
 
                 try {
                     String query = "SELECT " + resourceClass.getID() + ", " + resourceClass.getPrimaryKey() + " ";
@@ -163,13 +164,13 @@ public class GRDCStationTUWienImport {
                     final MetaObject[] metaObjects = SessionManager.getProxy()
                                 .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
                     if ((metaObjects != null) && (metaObjects.length > 0)) {
-                        LOG.info("GRDC Station '" + stationName
+                        LOG.info("GRDC Station '" + stationTitle
                                     + "', does already exist, updating station");
                         resourceBean = metaObjects[0].getBean();
                         isUpdate = true;
 
                         if (metaObjects.length > 1) {
-                            LOG.warn(metaObjects.length + " entries for GRDC Station '" + stationName
+                            LOG.warn(metaObjects.length + " entries for GRDC Station '" + stationTitle
                                         + "', do already exist, updating only the first station!");
                         }
 
@@ -182,13 +183,13 @@ public class GRDCStationTUWienImport {
                         }
                     } else {
                         if (LOG.isDebugEnabled()) {
-                            LOG.debug("GRDC Station '" + stationName + "' not found, creating new station");
+                            LOG.debug("GRDC Station '" + stationTitle + "' not found, creating new station");
                         }
                         resourceBean = GRDCStationImport.cloneCidsBean(resourceTemplate, false);
                         representationBean = GRDCStationImport.cloneCidsBean(representationTemplate, false);
                     }
                 } catch (Exception ex) {
-                    LOG.error("could not search for GRDC Station '" + stationName + "'", ex);
+                    LOG.error("could not search for GRDC Station '" + stationTitle + "'", ex);
                 }
 
                 if (resourceBean == null) {
@@ -202,7 +203,7 @@ public class GRDCStationTUWienImport {
                 // RESOURCE ----------------------------------------------------
                 // resourceBean.getMetaObject().setStatus(MetaObject.NEW);
                 // resourceBean.setProperty("id", -1);
-                resourceBean.setProperty("name", stationName);
+                resourceBean.setProperty("name", stationTitle);
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("name: " + resourceBean.getProperty("name"));
                 }
@@ -210,7 +211,7 @@ public class GRDCStationTUWienImport {
                 final StringBuilder resourceDescription = new StringBuilder();
 
                 resourceDescription.append("Monthly peak flows at GRDC Station ")
-                        .append(stationName)
+                        .append(stationTitle)
                         .append(' ')
                         .append(" at river ")
                         .append(rowAsMap.get("River_Name"))
@@ -318,7 +319,7 @@ public class GRDCStationTUWienImport {
                     representationBean.setProperty("contentlocation", contentLocation.toString());
                     resourceBean.getBeanCollectionProperty("representation").add(representationBean);
                 } catch (Exception ex) {
-                    LOG.error("could not set content location for TU Wien GRDC Station '" + stationName + "'", ex);
+                    LOG.error("could not set content location for TU Wien GRDC Station '" + stationTitle + "'", ex);
                     continue;
                 }
 
@@ -334,7 +335,7 @@ public class GRDCStationTUWienImport {
                     relationshipBean.setProperty(
                         "description",
                         "Flood peak data for GRDC Station "
-                                + stationName
+                                + stationTitle
                                 + " has been derived from the Global Runoff Data Centre's Global Runoff Data Base (GRDB) by the institute of hydraulic engineering and water resources management of the technical university of vienna.");
                     relationshipBean.setProperty("type", repurposedTag);
                     relationshipBean.setProperty("uuid", UUID.randomUUID());
@@ -345,7 +346,7 @@ public class GRDCStationTUWienImport {
                     relationshipBean.persist();
                 }
 
-                LOG.info("TU Wien GRDC Station #" + i + " '" + stationName
+                LOG.info("TU Wien GRDC Station #" + i + " '" + stationTitle
                             + "' successfully imported into Meta-Data Repository.");
             }
 
