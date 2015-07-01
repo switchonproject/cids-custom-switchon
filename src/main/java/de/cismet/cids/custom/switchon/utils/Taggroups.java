@@ -21,11 +21,11 @@ public enum Taggroups {
     APPLICATION_PROFILE("application profile"), CATCHMENTS("catchments"), COLLECTION("collection"),
     CONTENT_TYPE("content type"), FUNCTION("function"), GEOGRAPHY("geography"),
     HYDROLOGICAL_CONCEPT("hydrological concept"), KEYWORDS_INSPIRE_THEMES_1_0("keywords - INSPIRE themes 1.0"),
-    KEYWORDS_OPEN("keywords - open"), KEYWORDS_CUAHSI("keywords - CUAHSI"), LANGUAGE("language"), LOCATION("location"),
-    META_DATA_STANDARD("meta-data standard"), META_DATA_TYPE("meta-data type"), PROTOCOL("protocol"),
-    RELATIONSHIP_TYPE("relationship type"), REPRESENTATION_TYPE("representation type"), ROLE("role"), SRID("srid"),
-    TOPIC_CATEGORY("topic category"), CONFORMITY("conformity"), RESOURCE_TYPE("resource type"),
-    PUBLISH_TYPE("publish type");
+    KEYWORDS_OPEN("keywords - open"), KEYWORDS_XCUAHSI("keywords - X-CUAHSI"), LANGUAGE("language"),
+    LOCATION("location"), META_DATA_STANDARD("meta-data standard"), META_DATA_TYPE("meta-data type"),
+    PROTOCOL("protocol"), RELATIONSHIP_TYPE("relationship type"), REPRESENTATION_TYPE("representation type"),
+    ROLE("role"), SRID("srid"), TOPIC_CATEGORY("topic category"), CONFORMITY("conformity"),
+    RESOURCE_TYPE("resource type"), PUBLISH_TYPE("publish type");
 
     //~ Instance fields --------------------------------------------------------
 
