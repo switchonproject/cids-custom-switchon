@@ -159,7 +159,7 @@ public class GRDCStationTUWienImport {
                 try {
                     String query = "SELECT " + resourceClass.getID() + ", " + resourceClass.getPrimaryKey() + " ";
                     query += "FROM " + resourceClass.getTableName();
-                    query += " WHERE name ilike '" + stationName.replaceAll("'", "''") + "' limit 1";
+                    query += " WHERE name ilike '%" + stationName.replaceAll("'", "''") + "%' limit 1";
                     final MetaObject[] metaObjects = SessionManager.getProxy()
                                 .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
                     if ((metaObjects != null) && (metaObjects.length > 0)) {
@@ -275,6 +275,9 @@ public class GRDCStationTUWienImport {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("publicationdate: " + resourceBean.getProperty("publicationdate"));
                 }
+
+                // remove license text
+                resourceBean.setProperty("licensestatement", null);
 
                 try {
                     final double lat = numberFormat.parse(rowAsMap.get("LAT")).doubleValue();
