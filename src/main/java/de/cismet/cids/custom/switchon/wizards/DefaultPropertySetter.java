@@ -48,7 +48,7 @@ public class DefaultPropertySetter {
             "other",
             Taggroups.ACCESS_CONDITIONS.getValue());
     private static final Future<CidsBean> defaultAccessLimitations = TagUtils.fetchFutureTagByNameAndTaggroup(
-            "No limitation",
+            "limitation not listed",
             Taggroups.ACCESS_LIMITATIONS.getValue());
     private static final Future<CidsBean> defaultConformity = TagUtils.fetchFutureTagByNameAndTaggroup(
             "Not evaluated",

@@ -170,6 +170,12 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
         ;
         cmbTagGroups = new QueryComboBox(tagGroupQuery, false, "Taggroup");
         ;
+        // ugly and dirty hack to select the X-CUAHSI Keyword group
+        if (this.cmbTagGroups.getModel().getSize() > 1) {
+            this.cmbTagGroups.setSelectedIndex(
+                this.cmbTagGroups.getModel().getSize()
+                        - 1);
+        }
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -473,7 +479,10 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
         if (rowIndexView >= 0) {
             final int rowIndexModel = tblAssignedTags.convertRowIndexToModel(rowIndexView);
 
-            final String description = TagUtils.getDescriptionOfTag(assignedTags.get(rowIndexModel));
+            String description = TagUtils.getDescriptionOfTag(assignedTags.get(rowIndexModel));
+            if ((description == null) || description.isEmpty() || description.equals("n/a")) {
+                description = TagUtils.getDescriptionOfTag(cmbTagGroups.getSelectedItem());
+            }
             provideInformation(description);
         }
     }
@@ -484,7 +493,10 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
      * @param  evt  DOCUMENT ME!
      */
     private void lstTagsValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstTagsValueChanged
-        final String description = TagUtils.getDescriptionOfTag(lstTags.getSelectedValue());
+        String description = TagUtils.getDescriptionOfTag(lstTags.getSelectedValue());
+        if ((description == null) || description.isEmpty() || description.equals("n/a")) {
+            description = TagUtils.getDescriptionOfTag(cmbTagGroups.getSelectedItem());
+        }
         provideInformation(description);
     }                                                                                  //GEN-LAST:event_lstTagsValueChanged
 

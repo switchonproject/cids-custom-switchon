@@ -100,6 +100,7 @@
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new QueryComboBox(tagGroupQuery, false, &quot;Taggroup&quot;);&#xa;"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="// ugly and dirty hack to select the X-CUAHSI Keyword group&#xd;&#xa;if(this.cmbTagGroups.getModel().getSize() &gt; 1) {&#xd;&#xa;&#xd;&#xa;this.cmbTagGroups.setSelectedIndex(&#xd;&#xa;this.cmbTagGroups.getModel().getSize()-1);&#xd;&#xa;}"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
