@@ -148,24 +148,31 @@ public class GRDCStationTUWienImport {
                 i++;
                 CidsBean resourceBean = null;
                 CidsBean representationBean = null;
-                final CidsBean relationshipBean = relationshipClass.getEmptyInstance().getBean();
                 final Map<String, String> rowAsMap = it.next();
                 final String stationId = rowAsMap.get("ID");
-                final String stationName = rowAsMap.get("Station_Location") + " (" + stationId + ')';
+                final String stationName = rowAsMap.get("Station_Location") + " (" + stationId + ")";
+                final String stationTitle = stationName + " Peak Flow";
+                boolean isUpdate = false;
 
-                LOG.info("processing TU Wien GRDC Station #" + i + " '" + stationName + "'");
-                System.out.println("processing TU Wien GRDC Station #" + i + " '" + stationName + "'");
+                LOG.info("processing TU Wien GRDC Station #" + i + " '" + stationTitle + "'");
+                System.out.println("processing TU Wien GRDC Station #" + i + " '" + stationTitle + "'");
 
                 try {
                     String query = "SELECT " + resourceClass.getID() + ", " + resourceClass.getPrimaryKey() + " ";
                     query += "FROM " + resourceClass.getTableName();
-                    query += " WHERE name ilike '" + stationName.replaceAll("'", "''") + "' limit 1";
+                    query += " WHERE name ilike '%" + stationName.replaceAll("'", "''") + "%' limit 1";
                     final MetaObject[] metaObjects = SessionManager.getProxy()
                                 .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
-                    if ((metaObjects != null) && (metaObjects.length == 1)) {
-                        LOG.warn("GRDC Station '" + stationName
+                    if ((metaObjects != null) && (metaObjects.length > 0)) {
+                        LOG.info("GRDC Station '" + stationTitle
                                     + "', does already exist, updating station");
                         resourceBean = metaObjects[0].getBean();
+                        isUpdate = true;
+
+                        if (metaObjects.length > 1) {
+                            LOG.warn(metaObjects.length + " entries for GRDC Station '" + stationTitle
+                                        + "', do already exist, updating only the first station!");
+                        }
 
                         if ((resourceBean.getBeanCollectionProperty("representation") != null)
                                     && !resourceBean.getBeanCollectionProperty("representation").isEmpty()) {
@@ -176,13 +183,13 @@ public class GRDCStationTUWienImport {
                         }
                     } else {
                         if (LOG.isDebugEnabled()) {
-                            LOG.debug("GRDC Station '" + stationName + "' not found, creating new station");
+                            LOG.debug("GRDC Station '" + stationTitle + "' not found, creating new station");
                         }
                         resourceBean = GRDCStationImport.cloneCidsBean(resourceTemplate, false);
                         representationBean = GRDCStationImport.cloneCidsBean(representationTemplate, false);
                     }
                 } catch (Exception ex) {
-                    LOG.error("could not search for GRDC Station '" + stationName + "'", ex);
+                    LOG.error("could not search for GRDC Station '" + stationTitle + "'", ex);
                 }
 
                 if (resourceBean == null) {
@@ -196,15 +203,15 @@ public class GRDCStationTUWienImport {
                 // RESOURCE ----------------------------------------------------
                 // resourceBean.getMetaObject().setStatus(MetaObject.NEW);
                 // resourceBean.setProperty("id", -1);
-                resourceBean.setProperty("name", stationName);
+                resourceBean.setProperty("name", stationTitle);
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("name: " + resourceBean.getProperty("name"));
                 }
 
                 final StringBuilder resourceDescription = new StringBuilder();
 
-                resourceDescription.append("GRDC Station ")
-                        .append(stationName)
+                resourceDescription.append("Monthly peak flows at GRDC Station ")
+                        .append(stationTitle)
                         .append(' ')
                         .append(" at river ")
                         .append(rowAsMap.get("River_Name"))
@@ -270,6 +277,9 @@ public class GRDCStationTUWienImport {
                     LOG.debug("publicationdate: " + resourceBean.getProperty("publicationdate"));
                 }
 
+                // remove license text
+                resourceBean.setProperty("licensestatement", null);
+
                 try {
                     final double lat = numberFormat.parse(rowAsMap.get("LAT")).doubleValue();
                     final double lng = numberFormat.parse(rowAsMap.get("LON")).doubleValue();
@@ -309,7 +319,7 @@ public class GRDCStationTUWienImport {
                     representationBean.setProperty("contentlocation", contentLocation.toString());
                     resourceBean.getBeanCollectionProperty("representation").add(representationBean);
                 } catch (Exception ex) {
-                    LOG.error("could not set content location for TU Wien GRDC Station '" + stationName + "'", ex);
+                    LOG.error("could not set content location for TU Wien GRDC Station '" + stationTitle + "'", ex);
                     continue;
                 }
 
@@ -318,21 +328,25 @@ public class GRDCStationTUWienImport {
 
                 // RELATIONSHP -------------------------------------------------
                 // establish the relationship
-                relationshipBean.setProperty("name", "Flood Peak Data from GRDC Station " + stationId);
-                relationshipBean.setProperty(
-                    "description",
-                    "Flood peak data for GRDC Station "
-                            + stationName
-                            + " has been derived from the Global Runoff Data Centre's Global Runoff Data Base (GRDB) by the institute of hydraulic engineering and water resources management of the technical university of vienna.");
-                relationshipBean.setProperty("type", repurposedTag);
-                relationshipBean.setProperty("uuid", UUID.randomUUID());
+                if (!isUpdate) {
+                    final CidsBean relationshipBean = relationshipClass.getEmptyInstance().getBean();
 
-                relationshipBean.getBeanCollectionProperty("fromresources").add(grdcResource);
-                relationshipBean.setProperty("toresource", resourceBean);
+                    relationshipBean.setProperty("name", "Flood Peak Data from GRDC Station " + stationId);
+                    relationshipBean.setProperty(
+                        "description",
+                        "Flood peak data for GRDC Station "
+                                + stationTitle
+                                + " has been derived from the Global Runoff Data Centre's Global Runoff Data Base (GRDB) by the institute of hydraulic engineering and water resources management of the technical university of vienna.");
+                    relationshipBean.setProperty("type", repurposedTag);
+                    relationshipBean.setProperty("uuid", UUID.randomUUID());
 
-                relationshipBean.persist();
+                    relationshipBean.getBeanCollectionProperty("fromresources").add(grdcResource);
+                    relationshipBean.setProperty("toresource", resourceBean);
 
-                LOG.info("TU Wien GRDC Station #" + i + " '" + stationName
+                    relationshipBean.persist();
+                }
+
+                LOG.info("TU Wien GRDC Station #" + i + " '" + stationTitle
                             + "' successfully imported into Meta-Data Repository.");
             }
 
