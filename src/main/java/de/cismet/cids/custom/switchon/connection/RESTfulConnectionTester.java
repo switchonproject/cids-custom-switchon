@@ -39,6 +39,7 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.server.CallServerService;
 import de.cismet.cids.server.ws.rest.RESTfulInterfaceConnector;
+import de.cismet.cids.server.ws.rest.RESTfulSerialInterfaceConnector;
 
 /**
  * DOCUMENT ME!
@@ -63,6 +64,7 @@ public final class RESTfulConnectionTester {
                 + "FROM resource r, cs_class c "
                 + "WHERE c.name = 'resource' ORDER by r.name";
     private final String domain = "SWITCHON";
+    private final String host = "http://192.168.100.15";
 
     //~ Constructors -----------------------------------------------------------
 
@@ -85,15 +87,15 @@ public final class RESTfulConnectionTester {
 
         final ConnectionInfo connectionInfo = PropertyManager.getManager().getConnectionInfo();
 
-        pureRestLegacyCoreConnection = this.initConnection("http://localhost/", 8890);
-        user = pureRestLegacyCoreConnection.getUser(
-                connectionInfo.getUsergroupDomain(),
-                connectionInfo.getUsergroup(),
-                connectionInfo.getUserDomain(),
-                connectionInfo.getUsername(),
-                connectionInfo.getPassword());
+        pureRestLegacyCoreConnection = this.initConnection(host, 8890);
+        pureRestLegacyCoreConnection.getUser(
+            connectionInfo.getUsergroupDomain(),
+            connectionInfo.getUsergroup(),
+            connectionInfo.getUserDomain(),
+            connectionInfo.getUsername(),
+            connectionInfo.getPassword());
 
-        pureRestDatabaseCoreConnection = this.initConnection("http://localhost/", 8891);
+        pureRestDatabaseCoreConnection = this.initConnection(host, 8891);
         // neded to authenticate user in connector
         pureRestDatabaseCoreConnection.getUser(
             connectionInfo.getUsergroupDomain(),
@@ -110,7 +112,13 @@ public final class RESTfulConnectionTester {
             "cismet");
         PropertyConfigurator.configure(baseDir + "config/log4j.debug.properties");
 
-        legacyRestConnection = SessionManager.getProxy().getCallServerService();
+        legacyRestConnection = this.initSerialConnection(host + "/callserver/binary", 9986);
+        user = legacyRestConnection.getUser(
+                connectionInfo.getUsergroupDomain(),
+                connectionInfo.getUsergroup(),
+                connectionInfo.getUserDomain(),
+                connectionInfo.getUsername(),
+                connectionInfo.getPassword());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -154,7 +162,7 @@ public final class RESTfulConnectionTester {
                         classId,
                         domain);
                 pureRestDatabaseCoreConnection.insertMetaObject(user, metaObject, metaObject.getDomain());
-                System.out.print('.');
+                // System.out.print('.');
             }
         }
         final long endTime = System.currentTimeMillis() - startTime;
@@ -192,6 +200,31 @@ public final class RESTfulConnectionTester {
     /**
      * DOCUMENT ME!
      *
+     * @param   restServerURL  DOCUMENT ME!
+     * @param   port           DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ConnectionException  DOCUMENT ME!
+     */
+    private RESTfulSerialInterfaceConnector initSerialConnection(final String restServerURL, final int port)
+            throws ConnectionException {
+        try {
+            final UriBuilder uriBuilder = UriBuilder.fromUri(restServerURL);
+            final URI callServerURI = uriBuilder.port(port).build();
+            LOG.info("creating REST connection to service '" + callServerURI + "'");
+            return new RESTfulSerialInterfaceConnector(callServerURI.toString(), null, null);
+        } catch (Exception ex) {
+            final String message = "could not build restServerURL '" + restServerURL + "': "
+                        + ex.getMessage();
+            LOG.error(message, ex);
+            throw new ConnectionException(message, ex);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @throws  Exception  DOCUMENT ME!
      */
     private void performanceTest() throws Exception {
@@ -205,7 +238,7 @@ public final class RESTfulConnectionTester {
         final int[] metaObjectIds;
         final MetaObject[] metaObjects;
         final int start = 25;
-        final int max = 800;
+        final int max = 100;
         final HttpClient httpclient = new HttpClient();
 
         metaObjects = legacyRestConnection.getAllLightweightMetaObjectsForClass(classId, user, new String[] {});
@@ -277,7 +310,7 @@ public final class RESTfulConnectionTester {
 
             startTime = System.currentTimeMillis();
             for (int j = 0; j < i; j++) {
-                System.out.print('.');
+                // System.out.print('.');
                 legacyRestConnection.getMetaObject(user, metaObjectIds[j], classId, domain);
             }
             endTime = System.currentTimeMillis() - startTime;
@@ -287,8 +320,8 @@ public final class RESTfulConnectionTester {
 
             startTime = System.currentTimeMillis();
             for (int j = 0; j < i; j++) {
-                System.out.print('.');
-                final HttpMethod method = new GetMethod("http://localhost:8891/SWITCHON.resource/" + metaObjectIds[j]);
+                // System.out.print('.');
+                final HttpMethod method = new GetMethod(host + ":8891/SWITCHON.resource/" + metaObjectIds[j]);
                 method.setQueryString("role=all&limit=" + i);
                 method.setRequestHeader("Authorization", "Basic YWRtaW5AU1dJVENIT046Y2lzbWV0");
                 httpclient.executeMethod(method);
@@ -304,7 +337,7 @@ public final class RESTfulConnectionTester {
             startTime = System.currentTimeMillis();
             for (int j = 0; j < i; j++) {
                 pureRestDatabaseCoreConnection.getMetaObject(user, metaObjectIds[j], classId, domain);
-                System.out.print('.');
+                // System.out.print('.');
             }
             endTime = System.currentTimeMillis() - startTime;
             System.out.println("\nPURE REST CONNECTION (DUMMY DATABASE CORE) get " + i
@@ -314,8 +347,8 @@ public final class RESTfulConnectionTester {
 
             startTime = System.currentTimeMillis();
             for (int j = 0; j < i; j++) {
-                System.out.print('.');
-                final HttpMethod method = new GetMethod("http://localhost:8890/SWITCHON.resource/" + metaObjectIds[j]);
+                // System.out.print('.');
+                final HttpMethod method = new GetMethod(host + ":8890/SWITCHON.resource/" + metaObjectIds[j]);
                 method.setQueryString("role=all&limit=" + i);
                 method.setRequestHeader("Authorization", "Basic YWRtaW5AU1dJVENIT046Y2lzbWV0");
                 httpclient.executeMethod(method);
@@ -329,7 +362,7 @@ public final class RESTfulConnectionTester {
 
             startTime = System.currentTimeMillis();
             for (int j = 0; j < i; j++) {
-                System.out.print('.');
+                // System.out.print('.');
                 pureRestLegacyCoreConnection.getMetaObject(user, metaObjectIds[j], classId, domain);
             }
             endTime = System.currentTimeMillis() - startTime;
