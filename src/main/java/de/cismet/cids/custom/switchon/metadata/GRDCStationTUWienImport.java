@@ -151,7 +151,7 @@ public class GRDCStationTUWienImport {
                 final CidsBean relationshipBean = relationshipClass.getEmptyInstance().getBean();
                 final Map<String, String> rowAsMap = it.next();
                 final String stationId = rowAsMap.get("ID");
-                final String stationName = rowAsMap.get("Station_Location") + " (" + stationId + ')';
+                final String stationName = rowAsMap.get("Station_Location") + " (" + stationId + ") Peak Flow";
 
                 LOG.info("processing TU Wien GRDC Station #" + i + " '" + stationName + "'");
                 System.out.println("processing TU Wien GRDC Station #" + i + " '" + stationName + "'");
@@ -159,7 +159,7 @@ public class GRDCStationTUWienImport {
                 try {
                     String query = "SELECT " + resourceClass.getID() + ", " + resourceClass.getPrimaryKey() + " ";
                     query += "FROM " + resourceClass.getTableName();
-                    query += " WHERE name ilike '" + stationName.replaceAll("'", "''") + "' limit 1";
+                    query += " WHERE name ilike '%" + stationName.replaceAll("'", "''") + "%' limit 1";
                     final MetaObject[] metaObjects = SessionManager.getProxy()
                                 .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
                     if ((metaObjects != null) && (metaObjects.length == 1)) {
@@ -203,7 +203,7 @@ public class GRDCStationTUWienImport {
 
                 final StringBuilder resourceDescription = new StringBuilder();
 
-                resourceDescription.append("GRDC Station ")
+                resourceDescription.append("Monthly peak flows at GRDC Station ")
                         .append(stationName)
                         .append(' ')
                         .append(" at river ")
