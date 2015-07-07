@@ -9,6 +9,7 @@ package de.cismet.cids.custom.switchon.wizards;
 
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
+import Sirius.navigator.exception.ExceptionManager;
 import Sirius.navigator.types.treenode.RootTreeNode;
 import Sirius.navigator.ui.ComponentRegistry;
 
@@ -333,6 +334,15 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
             } catch (Exception ex) {
                 LOG.error("The resource bean could not be persisted.", ex);
                 waitDialog.dispose();
+                ExceptionManager.getManager()
+                        .showExceptionDialog(
+                            ExceptionManager.ERROR,
+                            "Error in Meta-Data Wizard",
+                            "<html><strong>Could not save resource in Meta-Data Repository:</<strong><br>"
+                            + "<p><i>"
+                            + ex.getMessage()
+                            + "</i></p>",
+                            ex);
             }
             return null;
         }

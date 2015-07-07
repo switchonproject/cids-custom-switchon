@@ -33,7 +33,7 @@ public class DefaultPropertySetter {
             DefaultPropertySetter.class);
     // resource
     private static final Future<CidsBean> defaultTypeResource = TagUtils.fetchFutureTagByNameAndTaggroup(
-            "repurposed data",
+            "external data",
             Taggroups.RESOURCE_TYPE.getValue());
     private static final Future<CidsBean> defaultLanguage = TagUtils.fetchFutureTagByNameAndTaggroup(
             "eng",
@@ -57,7 +57,7 @@ public class DefaultPropertySetter {
             "inlandWaters",
             Taggroups.TOPIC_CATEGORY.getValue());
     private static final Future<CidsBean> defaultCollection = TagUtils.fetchFutureTagByNameAndTaggroup(
-            "SWITCH-ON - Open Data",
+            "UNCATEGORIZED",
             Taggroups.COLLECTION.getValue());
 
     // Contact
