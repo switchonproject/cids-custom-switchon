@@ -231,7 +231,8 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
         DefaultPropertySetter.setDefaultsToResourceCidsBean(resource);
 
         try {
-            DefaultPropertySetter.setDefaultDatesToResourceCidsBean(resource);
+            // don't set default dates, they may be wrong!
+            // DefaultPropertySetter.setDefaultDatesToResourceCidsBean(resource);
 
             final CidsBean representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation");
             DefaultPropertySetter.setDefaultsToRepresentationCidsBean(representation);

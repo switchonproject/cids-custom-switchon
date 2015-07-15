@@ -104,10 +104,11 @@ public class DefaultPropertySetter {
 
 // meta-data-contact
     private static final String defaultDescriptionMetaDataContact =
-        "Sharing Water-related Information to Tackle Changes in the Hydrosphere – for Operational Needs (SWITCH-ON).";
-    public static final String defaultOrganisationMetaDataContact = "SWITCH-ON";
+        "The SWITCH-ON (Sharing Water-related Information to Tackle Changes in the Hydrosphere – for Operational Needs) project prepared the Meta-Data Record of this dataset and made it available in the SWITCH-ON Spatial Information Platform Spatial Information Platform (SIP).";
+    public static final String defaultOrganisationMetaDataContact = "SWITCH-ON (Meta-Data Provider)";
     public static final String defaultNameMetaDataContact = defaultOrganisationMetaDataContact;
-    private static final Future<CidsBean> defaultRoleMetaDataContact = TagUtils.fetchFutureTagByName("pointOfContact");
+    private static final Future<CidsBean> defaultRoleMetaDataContact = TagUtils.fetchFutureTagByName(
+            "metadataProvider");
     private static final String defaultURLMetaDataContact = "http://www.water-switch-on.eu/";
 
     //~ Methods ----------------------------------------------------------------
@@ -132,13 +133,14 @@ public class DefaultPropertySetter {
     /**
      * DOCUMENT ME!
      *
-     * @param   resource  DOCUMENT ME!
+     * @param       resource  DOCUMENT ME!
      *
-     * @throws  Exception  DOCUMENT ME!
+     * @throws      Exception  DOCUMENT ME!
+     *
+     * @deprecated  DOCUMENT ME!
      */
     public static void setDefaultDatesToResourceCidsBean(final CidsBean resource) throws Exception {
         resource.setProperty("fromdate", new Timestamp(new Date().getTime()));
-        resource.setProperty("publicationdate", new Timestamp(new Date().getTime()));
         resource.setProperty("publicationdate", new Timestamp(new Date().getTime()));
     }
 
