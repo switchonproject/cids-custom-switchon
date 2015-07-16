@@ -47,8 +47,8 @@ public class TRMMImport {
 
     private static final Logger LOG = Logger.getLogger(TRMMImport.class);
 
-    private static final int resourceTemplateObjectId = 8969; // 8970;
-    private static final String csvFile = "GLDAS.csv";        // "TRMM.csv";
+    private static final int resourceTemplateObjectId = 10480; // 8969;
+    private static final String csvFile = "TRMM.csv";          // "GLDAS.csv";
 
     //~ Methods ----------------------------------------------------------------
 
