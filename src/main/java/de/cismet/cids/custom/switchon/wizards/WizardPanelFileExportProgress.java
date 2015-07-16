@@ -5,28 +5,31 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.switchon.data.io;
+package de.cismet.cids.custom.switchon.wizards;
+
+import Sirius.navigator.connection.SessionManager;
 
 import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 import org.openide.util.Cancellable;
-import org.openide.util.NbBundle;
 
 import java.awt.Component;
 import java.awt.EventQueue;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import java.util.concurrent.Future;
 
 import de.cismet.cids.custom.switchon.AbstractWizardPanel;
-import de.cismet.cids.custom.switchon.IDFCurve;
 import de.cismet.cids.custom.switchon.StatusPanel;
 import de.cismet.cids.custom.switchon.concurrent.SwitchonConcurrency;
-import de.cismet.cids.custom.switchon.converter.IDFConverter;
+
+import de.cismet.cids.server.actions.ServerActionParameter;
 
 /**
  * DOCUMENT ME!
@@ -34,11 +37,11 @@ import de.cismet.cids.custom.switchon.converter.IDFConverter;
  * @author   martin.scholl@cismet.de
  * @version  $Revision$, $Date$
  */
-public final class IDFExportWizardPanelConvert extends AbstractWizardPanel implements Cancellable {
+public final class WizardPanelFileExportProgress extends AbstractWizardPanel implements Cancellable {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final transient Logger LOG = Logger.getLogger(IDFExportWizardPanelConvert.class);
+    private static final transient Logger LOG = Logger.getLogger(WizardPanelFileExportProgress.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -51,7 +54,7 @@ public final class IDFExportWizardPanelConvert extends AbstractWizardPanel imple
     /**
      * Creates a new TimeSeriesExportWizardPanelConvert object.
      */
-    public IDFExportWizardPanelConvert() {
+    public WizardPanelFileExportProgress() {
         this.lock = new Object();
     }
 
@@ -59,63 +62,53 @@ public final class IDFExportWizardPanelConvert extends AbstractWizardPanel imple
 
     @Override
     protected Component createComponent() {
-        return new StatusPanel(NbBundle.getMessage(
-                    IDFExportWizardPanelConvert.class,
-                    "IDFExportWizardPanelConvert.createComponent().statusPanel.name")); // NOI18N
+        return new StatusPanel("CSV Export"); // NOI18N
     }
 
     @Override
     protected void read(final WizardDescriptor wizard) {
         synchronized (lock) {
             final File exportFile = (File)wizard.getProperty(WizardPanelFileExport.PROP_EXPORT_FILE);
-            final IDFConverter idfConverter = (IDFConverter)wizard.getProperty(
-                    AbstractConverterChoosePanelCtrl.PROP_CONVERTER);
-            final IDFCurve idfCurve = (IDFCurve)wizard.getProperty(IDFExportWizardAction.PROP_IDF_CURVE);
-
             assert exportFile != null : "export file must not be null"; // NOI18N
-            assert idfConverter != null : "converter must not be null"; // NOI18N
-            assert idfCurve != null : "idf curve must not be null";     // NOI18N
 
             exportTask = SwitchonConcurrency.getSwitchonGeneralPurposePool().submit(new Runnable() {
 
                         @Override
                         public void run() {
                             try {
-                                setStatusEDT(
-                                    true,
-                                    NbBundle.getMessage(
-                                        IDFExportWizardPanelConvert.class,
-                                        "IDFExportWizardPanelConvert.read(WizardDescriptor).exportTask.status.exporting")); // NOI18N
+                                setStatusEDT(true,
+                                    "Exporting content of Meta-Data Repository\n to CSV"); // NOI18N
 
-                                final InputStream is = idfConverter.convertBackward(idfCurve);
+                                LOG.info("Exporting Meta-Data Repository to file '" + exportFile + "'");
                                 final FileOutputStream fos = new FileOutputStream(exportFile);
 
-                                final byte[] buff = new byte[8192];
-                                int read;
-                                while ((read = is.read(buff)) > 0) {
-                                    fos.write(buff, 0, read);
+                                final ServerActionParameter zipParameter = new ServerActionParameter("zip", true);
+                                final Object zipFile = SessionManager.getProxy()
+                                            .executeTask("csvExportAction", "SWITCHON", null, zipParameter);
+
+                                if (byte[].class.isAssignableFrom(zipFile.getClass())
+                                            || Byte[].class.isAssignableFrom(zipFile.getClass())) {
+                                    LOG.info("Meta-Data Repository successfully exported to file '" + exportFile + "'");
+                                    fos.write((byte[])zipFile);
+                                    fos.close();
+                                    setStatusEDT(false,
+                                        "Meta-Data Repository successfully\n exported to CSV"); // NOI18N
+                                } else {
+                                    final String message = "cannot convert zip object '"
+                                                + zipFile.getClass() + "' to byte[]!";
+                                    throw new Exception(message);
                                 }
-
-                                is.close();
-                                fos.close();
-
-                                setStatusEDT(
-                                    false,
-                                    NbBundle.getMessage(
-                                        IDFExportWizardPanelConvert.class,
-                                        "IDFExportWizardPanelConvert.read(WizardDescriptor).exportTask.status.exportSuccessful")); // NOI18N
 
                                 synchronized (lock) {
-                                    IDFExportWizardPanelConvert.this.exportTask = null;
+                                    WizardPanelFileExportProgress.this.exportTask = null;
                                 }
                             } catch (final Throwable ex) {
-                                LOG.error("cannot export timeseries", ex);                                                     // NOI18N
+                                LOG.error("Could not export Meta-Data Repository to CSV: "
+                                            + ex.getMessage(), ex); // NOI18N
                                 setStatusEDT(
                                     false,
-                                    NbBundle.getMessage(
-                                        IDFExportWizardPanelConvert.class,
-                                        "IDFExportWizardPanelConvert.read(WizardDescriptor).exportTask.status.exportingError", // NOI18N
-                                        ex.getMessage()));
+                                    "Could not export Meta-Data Repository to CSV:\n "
+                                            + ex.getMessage());
 
                                 if (ex instanceof Error) {
                                     throw (Error)ex;

@@ -190,7 +190,7 @@ public class MetaDataWizardAction extends AbstractAction implements CidsClientTo
 
     @Override
     public String getSorterString() {
-        return "Dokument Import Wizard";
+        return "Meta-Data Wizard";
     }
 
     @Override

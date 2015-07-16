@@ -5,7 +5,7 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.switchon.data.io;
+package de.cismet.cids.custom.switchon.wizards;
 
 import org.openide.WizardDescriptor;
 import org.openide.util.NbBundle;
