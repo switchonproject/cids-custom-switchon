@@ -5,7 +5,7 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.switchon.data.io;
+package de.cismet.cids.custom.switchon.wizards;
 
 import org.openide.util.NbBundle;
 import org.openide.util.WeakListeners;
@@ -133,6 +133,7 @@ public class VisualPanelFileExport extends javax.swing.JPanel {
         @Override
         public void actionPerformed(final ActionEvent e) {
             final JFileChooser chooser = new JFileChooser(model.getExportFile());
+            chooser.setFileFilter(new ZipFilter());
             final int answer = chooser.showSaveDialog(VisualPanelFileExport.this);
 
             if (JFileChooser.APPROVE_OPTION == answer) {
@@ -163,6 +164,26 @@ public class VisualPanelFileExport extends javax.swing.JPanel {
         @Override
         public void changedUpdate(final DocumentEvent e) {
             model.setExportFile(new File(txtExportFile.getText()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private final class ZipFilter extends javax.swing.filechooser.FileFilter {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public boolean accept(final File file) {
+            final String filename = file.getName();
+            return file.isDirectory() || filename.endsWith(".zip");
+        }
+        @Override
+        public String getDescription() {
+            return "Zipped CSV File";
         }
     }
 }

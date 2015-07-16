@@ -22,7 +22,7 @@
     <Component class="javax.swing.JLabel" name="lblExportFile">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/cismet/cids/custom/switchon/data/io/Bundle.properties" key="VisualPanelFileExport.lblExportFile.text" replaceFormat="NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/cismet/cids/custom/switchon/wizards/Bundle.properties" key="VisualPanelFileExport.lblExportFile.text" replaceFormat="NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Constraints>
@@ -34,7 +34,7 @@
     <Component class="javax.swing.JTextField" name="txtExportFile">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/cismet/cids/custom/switchon/data/io/Bundle.properties" key="VisualPanelFileExport.txtExportFile.text" replaceFormat="NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/cismet/cids/custom/switchon/wizards/Bundle.properties" key="VisualPanelFileExport.txtExportFile.text" replaceFormat="NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Constraints>
@@ -46,7 +46,7 @@
     <Component class="javax.swing.JButton" name="btnChooseFile">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/cismet/cids/custom/switchon/data/io/Bundle.properties" key="VisualPanelFileExport.btnChooseFile.text" replaceFormat="NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/cismet/cids/custom/switchon/wizards/Bundle.properties" key="VisualPanelFileExport.btnChooseFile.text" replaceFormat="NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Constraints>

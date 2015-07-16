@@ -5,7 +5,7 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.switchon.data.io;
+package de.cismet.cids.custom.switchon.wizards;
 
 import Sirius.navigator.ui.ComponentRegistry;
 
@@ -22,19 +22,24 @@ import java.awt.event.ActionEvent;
 
 import java.text.MessageFormat;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
-import de.cismet.cids.custom.switchon.IDFCurve;
+import de.cismet.cids.navigator.utils.CidsClientToolbarItem;
 
-import de.cismet.cids.utils.abstracts.AbstractCidsBeanAction;
+import static javax.swing.Action.NAME;
+import static javax.swing.Action.SHORT_DESCRIPTION;
+import static javax.swing.Action.SMALL_ICON;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public final class IDFExportWizardAction extends AbstractCidsBeanAction {
+@org.openide.util.lookup.ServiceProvider(service = CidsClientToolbarItem.class)
+public final class CsvExportWizardAction extends AbstractAction implements CidsClientToolbarItem {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -44,19 +49,17 @@ public final class IDFExportWizardAction extends AbstractCidsBeanAction {
 
     private transient WizardDescriptor.Panel[] panels;
 
-    private transient IDFCurve idfCurve;
-
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new RainfallDownscalingWizardAction object.
      */
-    public IDFExportWizardAction() {
-        super("", ImageUtilities.loadImageIcon("de/cismet/cids/custom/switchon/data/io/idf_export.png", false)); // NOI18N
-
-        putValue(
-            Action.SHORT_DESCRIPTION,
-            NbBundle.getMessage(IDFExportWizardAction.class, "IDFExportWizardAction.shortDescription")); // NOI18N
+    public CsvExportWizardAction() {
+        putValue(SHORT_DESCRIPTION, "Open CSV Export Wizard");
+        final ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource(
+                    "/de/cismet/cids/custom/switchon/wizards/table_export.png"));
+        putValue(SMALL_ICON, icon);
+        putValue(NAME, "Open CSV Export Wizard");
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -72,8 +75,7 @@ public final class IDFExportWizardAction extends AbstractCidsBeanAction {
         if (panels == null) {
             panels = new WizardDescriptor.Panel[] {
                     new WizardPanelFileExport(),
-                    new IDFImportWizardPanelChooseConverter(),
-                    new IDFExportWizardPanelConvert()
+                    new WizardPanelFileExportProgress()
                 };
 
             final String[] steps = new String[panels.length];
@@ -112,37 +114,13 @@ public final class IDFExportWizardAction extends AbstractCidsBeanAction {
     /**
      * DOCUMENT ME!
      *
-     * @return  DOCUMENT ME!
-     */
-    public IDFCurve getIdfCurve() {
-        return idfCurve;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  curve  DOCUMENT ME!
-     */
-    public void setIdfCurve(final IDFCurve curve) {
-        this.idfCurve = curve;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @param  e  DOCUMENT ME!
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
         final WizardDescriptor wizard = new WizardDescriptor(getPanels());
-        wizard.setTitleFormat(new MessageFormat("{0}"));                             // NOI18N
-        wizard.setTitle(NbBundle.getMessage(
-                IDFExportWizardAction.class,
-                "IDFExportWizardAction.actionPerformed(ActionEvent).wizard.title")); // NOI18N
-
-        assert idfCurve != null : "idfCurve is null"; // NOI18N
-
-        wizard.putProperty(PROP_IDF_CURVE, idfCurve);
+        wizard.setTitleFormat(new MessageFormat("{0}")); // NOI18N
+        wizard.setTitle("CSV Export");                   // NOI18N
 
         final Dialog dialog = DialogDisplayer.getDefault().createDialog(wizard);
         dialog.pack();
@@ -157,5 +135,15 @@ public final class IDFExportWizardAction extends AbstractCidsBeanAction {
                 }
             }
         }
+    }
+
+    @Override
+    public String getSorterString() {
+        return "CSV Export Wizard";
+    }
+
+    @Override
+    public boolean isVisible() {
+        return true;
     }
 }
