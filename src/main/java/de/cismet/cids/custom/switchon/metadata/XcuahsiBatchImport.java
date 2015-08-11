@@ -8,6 +8,7 @@
 package de.cismet.cids.custom.switchon.metadata;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -155,11 +156,20 @@ public final class XcuahsiBatchImport {
             final List<CidsBean> keywords = this.findTags(keywordsString);
             final int keywordsSize = keywords.size();
 
-            String query = "SELECT " + resourceClass.getID() + ", " + resourceClass.getPrimaryKey() + " ";
-            query += "FROM " + resourceClass.getTableName();
-            query += " WHERE name ilike '%" + resourceName.replaceAll("'", "''") + "%' limit 1";
-            final MetaObject[] metaObjects = SessionManager.getProxy()
-                        .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
+            MetaObject[] metaObjects = this.getResourceByName(resourceName);
+
+            if ((metaObjects == null) || (metaObjects.length == 0)) {
+                final String message = "resource with name '" + resourceName + "' in '" + csvFile
+                            + "' not found in Meta-Data Repository!";
+                LOG.warn(message);
+
+                final String resourceLink = rowAsMap.get(RESOURCE_URI);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("trying to find Resource #" + i + " '" + resourceName + "' by URI '"
+                                + resourceLink + "'");
+                }
+                metaObjects = this.getResourceByLink(resourceLink);
+            }
 
             if ((metaObjects != null) && (metaObjects.length > 0)) {
                 if (metaObjects.length > 1) {
@@ -207,7 +217,7 @@ public final class XcuahsiBatchImport {
             } else {
                 final String message = "resource with name '" + resourceName + "' in '" + csvFile
                             + "' not found in Meta-Data Repository!";
-                LOG.warn(message);
+                LOG.error(message);
                 missingResources.add(resourceName);
                 // throw new Exception();
             }
@@ -274,6 +284,42 @@ public final class XcuahsiBatchImport {
     /**
      * DOCUMENT ME!
      *
+     * @param   resourceName  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ConnectionException  DOCUMENT ME!
+     */
+    private MetaObject[] getResourceByName(final String resourceName) throws ConnectionException {
+        String query = "SELECT " + resourceClass.getID() + ", " + resourceClass.getPrimaryKey() + " ";
+        query += "FROM " + resourceClass.getTableName();
+        query += " WHERE name ilike '" + resourceName.replaceAll("'", "''") + "'";
+        return SessionManager.getProxy().getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   link  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ConnectionException  DOCUMENT ME!
+     */
+    private MetaObject[] getResourceByLink(final String link) throws ConnectionException {
+        String query = "SELECT " + resourceClass.getID() + ", " + resourceClass.getPrimaryKey() + " ";
+        query += "FROM " + resourceClass.getTableName();
+        query +=
+            "INNER JOIN jt_resource_representation ON jt_resource_representation.resource_reference = resource.id\n";
+        query += "INNER JOIN representation ON jt_resource_representation.representationid = representation.id\n";
+        query += "WHERE representation.contentlocation = '" + link + "';";
+
+        return SessionManager.getProxy().getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  args  DOCUMENT ME!
      */
     public static void main(final String[] args) {
@@ -284,7 +330,6 @@ public final class XcuahsiBatchImport {
         p.put("log4j.appender.File.layout", "org.apache.log4j.SimpleLayout");
         p.put("log4j.appender.File.append", "false");                  // NOI18N
         p.put("log4j.logger.de.cismet", "ERROR, File");                // NOI18N
-        p.put("log4j.logger.de.cismet", "ALL, Remote");
 
         p.put("log4j.appender.Remote", "org.apache.log4j.net.SocketAppender"); // NOI18N
         p.put("log4j.appender.Remote.remoteHost", "localhost");                // NOI18N
@@ -308,15 +353,16 @@ public final class XcuahsiBatchImport {
 
         try {
             for (final String csvFile : csvFiles) {
-                xcuahsiBatchImport.importXcuahiKeywords(csvFile);
+                xcuahsiBatchImport.collectMissingTags(csvFile);
+                // xcuahsiBatchImport.importXcuahiKeywords(csvFile);
 
                 System.out.println(csvFile + " ----------------------------------------");
-                System.out.println(csvFile + "MISSING KEYWORDS: ");
+                System.out.println("MISSING KEYWORDS: ");
                 for (final String missingKeyword : xcuahsiBatchImport.missingKeywords) {
                     System.out.println(missingKeyword);
                 }
 
-                System.out.println(csvFile + "MISSING RESOURCES: ");
+                System.out.println("MISSING RESOURCES: ");
                 for (final String missingResource : xcuahsiBatchImport.missingResources) {
                     System.out.println(missingResource);
                 }
