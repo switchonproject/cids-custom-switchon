@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -55,6 +56,9 @@ public final class XcuahsiBatchImport {
     private static final String RESOURCE_URI = "link";
 
     //~ Instance fields --------------------------------------------------------
+
+    long keywordsFound = 0;
+    long keywordsAdded = 0;
 
     private final HashMap<String, CidsBean> tagMap = new HashMap<String, CidsBean>();
     private final boolean dryRun;
@@ -147,6 +151,7 @@ public final class XcuahsiBatchImport {
         int i = 0;
         while (it.hasNext()) {
             i++;
+            boolean fromUrl = false;
             final Map<String, String> rowAsMap = it.next();
             final String resourceName = rowAsMap.get(RESOURCE_NAME);
             LOG.info("processing Resource #" + i + " '" + resourceName + "'");
@@ -155,11 +160,12 @@ public final class XcuahsiBatchImport {
             final String keywordsString = rowAsMap.get(RESOURCE_KEYWORDS);
             final List<CidsBean> keywords = this.findTags(keywordsString);
             final int keywordsSize = keywords.size();
+            this.keywordsFound += keywordsSize;
 
             MetaObject[] metaObjects = this.getResourceByName(resourceName);
 
             if ((metaObjects == null) || (metaObjects.length == 0)) {
-                final String message = "resource with name '" + resourceName + "' in '" + csvFile
+                final String message = "resource #" + i + " with name '" + resourceName + "' in '" + csvFile
                             + "' not found in Meta-Data Repository!";
                 LOG.warn(message);
 
@@ -169,42 +175,55 @@ public final class XcuahsiBatchImport {
                                 + resourceLink + "'");
                 }
                 metaObjects = this.getResourceByLink(resourceLink);
+                fromUrl = true;
             }
 
             if ((metaObjects != null) && (metaObjects.length > 0)) {
                 if (metaObjects.length > 1) {
                     for (final MetaObject metaObject : metaObjects) {
-                        LOG.error("duplicate name for object " + metaObject.getId()
+                        LOG.error("duplicate name for resource #" + i + " '" + metaObject.getId()
                                     + ": " + metaObject.getAttributeByFieldName("name").getValue());
                     }
 
-                    final String message = "name '" + resourceName + "' in '" + csvFile
+                    final String message = "name '" + resourceName + "' of resource #" + i + " in '" + csvFile
                                 + "' is not unique in Meta-Data Repository: " + metaObjects.length;
                     LOG.error(message);
                     // throw new Exception(message);
                 }
 
                 final CidsBean resourceBean = metaObjects[0].getBean();
+                if (fromUrl) {
+                    LOG.warn("name '" + resourceName + "' of resource #" + i
+                                + " in CSV file '" + csvFile + "' does not match name '"
+                                + resourceBean.getProperty("name").toString()
+                                + "' of resource #" + resourceBean.getProperty("id").toString()
+                                + "in Meta-Data Repository.");
+                }
+
                 final Collection<CidsBean> tags = resourceBean.getBeanCollectionProperty("tags");
                 for (final CidsBean tagBean : tags) {
-                    for (final CidsBean keywordBean : keywords) {
+                    final ListIterator<CidsBean> keywordsIerator = keywords.listIterator();
+                    while (keywordsIerator.hasNext()) {
+                        final CidsBean keywordBean = keywordsIerator.next();
                         if ((tagBean.getProperty("name").toString().equalsIgnoreCase(
                                             keywordBean.getProperty("name").toString()))
                                     && (((CidsBean)tagBean.getProperty("taggroup")).getProperty("name").toString()
                                         .equalsIgnoreCase(
                                             ((CidsBean)keywordBean.getProperty("taggroup")).getProperty("name")
                                                 .toString()))) {
-                            keywords.remove(keywordBean);
+                            keywordsIerator.remove();
                         }
                     }
                 }
+
+                this.keywordsAdded += keywords.size();
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("adding " + keywords.size() + " of " + keywordsSize
                                 + " X-CUAHSI Keywords to Resource #" + i + " '" + resourceName + "'");
                 }
-                resourceBean.addCollectionElements("tags", keywords);
 
                 if (!this.dryRun && !keywords.isEmpty()) {
+                    resourceBean.addCollectionElements("tags", keywords);
                     resourceBean.persist();
                     LOG.info("Resource #" + i + " '" + resourceName
                                 + "' successfully imported into Meta-Data Repository.");
@@ -307,11 +326,12 @@ public final class XcuahsiBatchImport {
      * @throws  ConnectionException  DOCUMENT ME!
      */
     private MetaObject[] getResourceByLink(final String link) throws ConnectionException {
-        String query = "SELECT " + resourceClass.getID() + ", " + resourceClass.getPrimaryKey() + " ";
+        String query = "SELECT " + resourceClass.getID() + ", "
+                    + resourceClass.getTableName() + "." + resourceClass.getPrimaryKey() + " ";
         query += "FROM " + resourceClass.getTableName();
         query +=
-            "INNER JOIN jt_resource_representation ON jt_resource_representation.resource_reference = resource.id\n";
-        query += "INNER JOIN representation ON jt_resource_representation.representationid = representation.id\n";
+            " INNER JOIN jt_resource_representation ON jt_resource_representation.resource_reference = resource.id ";
+        query += "INNER JOIN representation ON jt_resource_representation.representationid = representation.id ";
         query += "WHERE representation.contentlocation = '" + link + "';";
 
         return SessionManager.getProxy().getMetaObjectByQuery(SessionManager.getSession().getUser(), query, "SWITCHON");
@@ -329,7 +349,7 @@ public final class XcuahsiBatchImport {
         p.put("log4j.appender.File.file", "switchon.log.txt");         // NOI18N
         p.put("log4j.appender.File.layout", "org.apache.log4j.SimpleLayout");
         p.put("log4j.appender.File.append", "false");                  // NOI18N
-        p.put("log4j.logger.de.cismet", "ERROR, File");                // NOI18N
+        p.put("log4j.rootLogger", "ERROR,File");                       // NOI18N
 
         p.put("log4j.appender.Remote", "org.apache.log4j.net.SocketAppender"); // NOI18N
         p.put("log4j.appender.Remote.remoteHost", "localhost");                // NOI18N
@@ -353,10 +373,12 @@ public final class XcuahsiBatchImport {
 
         try {
             for (final String csvFile : csvFiles) {
-                xcuahsiBatchImport.collectMissingTags(csvFile);
-                // xcuahsiBatchImport.importXcuahiKeywords(csvFile);
+                // xcuahsiBatchImport.collectMissingTags(csvFile);
+                xcuahsiBatchImport.importXcuahiKeywords(csvFile);
 
                 System.out.println(csvFile + " ----------------------------------------");
+                System.out.println("KEYWORDS IN CSV FILE: " + xcuahsiBatchImport.keywordsFound);
+                System.out.println("KEYWORDS ADDED TO RESOURCE: " + xcuahsiBatchImport.keywordsAdded);
                 System.out.println("MISSING KEYWORDS: ");
                 for (final String missingKeyword : xcuahsiBatchImport.missingKeywords) {
                     System.out.println(missingKeyword);
@@ -367,6 +389,8 @@ public final class XcuahsiBatchImport {
                     System.out.println(missingResource);
                 }
 
+                xcuahsiBatchImport.keywordsFound = 0;
+                xcuahsiBatchImport.keywordsAdded = 0;
                 xcuahsiBatchImport.missingKeywords.clear();
                 xcuahsiBatchImport.missingResources.clear();
             }
