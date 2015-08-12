@@ -5,11 +5,6 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.cismet.cids.custom.switchon.metadata;
 
 import Sirius.navigator.connection.SessionManager;
@@ -36,7 +31,7 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
- * DOCUMENT ME!
+ * Import TRMM Resources.
  *
  * @author   pd
  * @version  $Revision$, $Date$
