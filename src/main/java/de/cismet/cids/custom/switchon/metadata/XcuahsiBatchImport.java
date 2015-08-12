@@ -20,6 +20,8 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 import org.apache.log4j.Logger;
 
+import java.io.File;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -48,7 +50,7 @@ public final class XcuahsiBatchImport {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final Logger LOG = Logger.getLogger(TRMMImport.class);
+    private static final Logger LOG = Logger.getLogger(XcuahsiBatchImport.class);
     private static final String TAGGROUP = "keywords - X-CUAHSI";
     private static final String TAGGROUP_SEPARATOR = ";";
     private static final String RESOURCE_NAME = "title";
@@ -153,7 +155,7 @@ public final class XcuahsiBatchImport {
             i++;
             boolean fromUrl = false;
             final Map<String, String> rowAsMap = it.next();
-            final String resourceName = rowAsMap.get(RESOURCE_NAME);
+            final String resourceName = rowAsMap.get(RESOURCE_NAME).trim();
             LOG.info("processing Resource #" + i + " '" + resourceName + "'");
             // System.out.println("processing Resource #" + i + " '" + resourceName + "'");
 
@@ -169,7 +171,7 @@ public final class XcuahsiBatchImport {
                             + "' not found in Meta-Data Repository!";
                 LOG.warn(message);
 
-                final String resourceLink = rowAsMap.get(RESOURCE_URI);
+                final String resourceLink = rowAsMap.get(RESOURCE_URI).trim();
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("trying to find Resource #" + i + " '" + resourceName + "' by URI '"
                                 + resourceLink + "'");
@@ -181,8 +183,9 @@ public final class XcuahsiBatchImport {
             if ((metaObjects != null) && (metaObjects.length > 0)) {
                 if (metaObjects.length > 1) {
                     for (final MetaObject metaObject : metaObjects) {
-                        LOG.error("duplicate name for resource #" + i + " '" + metaObject.getId()
-                                    + ": " + metaObject.getAttributeByFieldName("name").getValue());
+                        LOG.warn("duplicate name for resource #" + i + " '" + metaObject.getId()
+                                    + ": " + metaObject.getAttributeByFieldName("name").getValue()
+                                    + " in '" + csvFile + "'");
                     }
 
                     final String message = "name '" + resourceName + "' of resource #" + i + " in '" + csvFile
@@ -191,46 +194,49 @@ public final class XcuahsiBatchImport {
                     // throw new Exception(message);
                 }
 
-                final CidsBean resourceBean = metaObjects[0].getBean();
-                if (fromUrl) {
-                    LOG.warn("name '" + resourceName + "' of resource #" + i
-                                + " in CSV file '" + csvFile + "' does not match name '"
-                                + resourceBean.getProperty("name").toString()
-                                + "' of resource #" + resourceBean.getProperty("id").toString()
-                                + "in Meta-Data Repository.");
-                }
+                for (final MetaObject metaObject : metaObjects) {
+                    final CidsBean resourceBean = metaObject.getBean();
+                    if (fromUrl) {
+                        LOG.warn("name '" + resourceName + "' of resource #" + i
+                                    + " in CSV file '" + csvFile + "' does not match name '"
+                                    + resourceBean.getProperty("name").toString()
+                                    + "' of resource #" + resourceBean.getProperty("id").toString()
+                                    + " in Meta-Data Repository: "
+                                    + resourceBean.getProperty("name").toString().equalsIgnoreCase(resourceName));
+                    }
 
-                final Collection<CidsBean> tags = resourceBean.getBeanCollectionProperty("tags");
-                for (final CidsBean tagBean : tags) {
-                    final ListIterator<CidsBean> keywordsIerator = keywords.listIterator();
-                    while (keywordsIerator.hasNext()) {
-                        final CidsBean keywordBean = keywordsIerator.next();
-                        if ((tagBean.getProperty("name").toString().equalsIgnoreCase(
-                                            keywordBean.getProperty("name").toString()))
-                                    && (((CidsBean)tagBean.getProperty("taggroup")).getProperty("name").toString()
-                                        .equalsIgnoreCase(
-                                            ((CidsBean)keywordBean.getProperty("taggroup")).getProperty("name")
-                                                .toString()))) {
-                            keywordsIerator.remove();
+                    final Collection<CidsBean> tags = resourceBean.getBeanCollectionProperty("tags");
+                    for (final CidsBean tagBean : tags) {
+                        final ListIterator<CidsBean> keywordsIerator = keywords.listIterator();
+                        while (keywordsIerator.hasNext()) {
+                            final CidsBean keywordBean = keywordsIerator.next();
+                            if ((tagBean.getProperty("name").toString().equalsIgnoreCase(
+                                                keywordBean.getProperty("name").toString()))
+                                        && (((CidsBean)tagBean.getProperty("taggroup")).getProperty("name").toString()
+                                            .equalsIgnoreCase(
+                                                ((CidsBean)keywordBean.getProperty("taggroup")).getProperty("name")
+                                                    .toString()))) {
+                                keywordsIerator.remove();
+                            }
                         }
                     }
-                }
 
-                this.keywordsAdded += keywords.size();
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("adding " + keywords.size() + " of " + keywordsSize
-                                + " X-CUAHSI Keywords to Resource #" + i + " '" + resourceName + "'");
-                }
-
-                if (!this.dryRun && !keywords.isEmpty()) {
-                    resourceBean.addCollectionElements("tags", keywords);
-                    resourceBean.persist();
-                    LOG.info("Resource #" + i + " '" + resourceName
-                                + "' successfully imported into Meta-Data Repository.");
-                } else {
+                    this.keywordsAdded += keywords.size();
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug("Resource #" + i + " '" + resourceName
-                                    + "' not updated, no new keywords added.");
+                        LOG.debug("adding " + keywords.size() + " of " + keywordsSize
+                                    + " X-CUAHSI Keywords to Resource #" + i + " '" + resourceName + "'");
+                    }
+
+                    if (!this.dryRun && !keywords.isEmpty()) {
+                        resourceBean.addCollectionElements("tags", keywords);
+                        resourceBean.persist();
+                        LOG.info("Resource #" + i + " '" + resourceName
+                                    + "' successfully imported into Meta-Data Repository.");
+                    } else {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Resource #" + i + " '" + resourceName
+                                        + "' not updated, no new keywords added.");
+                        }
                     }
                 }
             } else {
@@ -343,19 +349,23 @@ public final class XcuahsiBatchImport {
      * @param  args  DOCUMENT ME!
      */
     public static void main(final String[] args) {
+        final String logfile = System.getProperty("user.home") + File.separator
+                    + XcuahsiBatchImport.class.getSimpleName() + ".log.txt";
+        System.out.println("Logfile: " + logfile);
         final Properties p = new Properties();
 
         p.put("log4j.appender.File", "org.apache.log4j.FileAppender"); // NOI18N
-        p.put("log4j.appender.File.file", "switchon.log.txt");         // NOI18N
+        p.put("log4j.appender.File.file", logfile);                    // NOI18N
         p.put("log4j.appender.File.layout", "org.apache.log4j.SimpleLayout");
         p.put("log4j.appender.File.append", "false");                  // NOI18N
-        p.put("log4j.rootLogger", "ERROR,File");                       // NOI18N
+        // p.put("log4j.rootLogger", "WARN,File");                       // NOI18N
+        p.put("log4j.logger.de.cismet.cids.custom.switchon.metadata", "ERROR,File");
 
-        p.put("log4j.appender.Remote", "org.apache.log4j.net.SocketAppender"); // NOI18N
-        p.put("log4j.appender.Remote.remoteHost", "localhost");                // NOI18N
-        p.put("log4j.appender.Remote.port", "4445");                           // NOI18N
-        p.put("log4j.appender.Remote.locationInfo", "true");                   // NOI18N
-        p.put("log4j.rootLogger", "ALL,Remote");                               // NOI18N
+//        p.put("log4j.appender.Remote", "org.apache.log4j.net.SocketAppender"); // NOI18N
+//        p.put("log4j.appender.Remote.remoteHost", "localhost");                // NOI18N
+//        p.put("log4j.appender.Remote.port", "4445");                           // NOI18N
+//        p.put("log4j.appender.Remote.locationInfo", "true");                   // NOI18N
+//        p.put("log4j.rootLogger", "ALL,Remote");                               // NOI18N
 
         org.apache.log4j.PropertyConfigurator.configure(p);
 
