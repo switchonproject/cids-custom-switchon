@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="chrome=1">
-        <meta name="date" content="2015-05-01T00:00:00+02:00"/>  
+        <meta name="date" content="2016-03-15T00:00:00+02:00"/>  
         <title>SIP Expert Catalogue and Data Management GUI</title>
 
         <link rel="stylesheet" href="stylesheets/styles.css">
@@ -74,8 +74,7 @@
                     <a name="architecture" class="anchor" href="#architecture"><span class="octicon octicon-link"></span></a>Software Architecture
                 </h3>
                 <p> 
-                    According to the architecture of the SIP introduced in D2.1 “Spatial Information Platform and Application Programming Interface” 
-                    (D2.1, 2014), the GUI layer of the SIP architecture contains several user interface and user interaction components for expert 
+                    According to the architecture of the SIP the GUI layer of the SIP architecture contains several user interface and user interaction components for expert 
                     and external users. The general concepts of the Spatial Information Platform are briefly explained in the 
                     <a href="assets/SIP-Concepts.pdf" title="General Concepts of the Spatial Information Platform" target="_blank">SIP Concepts</a> presentation.<br>
                 </p>
@@ -86,10 +85,8 @@
                     The <a href="https://switchonproject.github.io/sip-html5/" title="Published Catalogue Access GUIs">Published Catalogue Access GUIs</a> are web-based internet applications that provide easy access to water-related open-data 
                     and thus are the entry points for external users to results of the SWITCH-ON project. Standard web technologies 
                     like HTML5 and JavaScript are used for their implementation so users only need a web browser to access these GUIs. 
-                    Published Catalogue GUIs are developed from scratch and are scheduled for D2.2 “Spatial Information Platform and 
-                    Application Programming Interface final version”. However, external users can already interact with the SIP 
-                    via the Expert Catalogue and Data Management GUIs or their own <a href="http://tl-ap001.xtr.deltares.nl/cswclient/" title="SWITCH-ON Simple CSW Client" target="_blank">Third-Party Catalogue GUIs</a> that connect to the 
-                    standards-based <a href="http://tl-ap001.xtr.deltares.nl/demo_csw" target="_blank" title="SWITCH-ON OGC CSW">Published Catalogue Access APIs</a> of the SIP. 
+                    Furthermore, external users can interact with the SIP via their own <a href="http://www.water-switch-on.eu/cswclient/" title="SWITCH-ON Simple CSW Client" target="_blank">Third-Party Catalogue GUIs</a> that connect to the 
+                    standards-based <a href="http://tl-243.xtr.deltares.nl/csw" target="_blank" title="SWITCH-ON OGC CSW">Published Catalogue Access APIs</a> of the SIP. 
                 </p>
                 <p>
                     The Expert Catalogue and Data Management GUIs cover besides advanced data and meta-data visualisation, 
@@ -102,7 +99,7 @@
                     <a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Technical Documentation
                 </h3>
                 <p>
-                    Currently, the following technical documentation regarding the SIP Expert GUI is available:
+                    The following technical documentation regarding the SIP Expert GUI is available:
                 <ul>
                     <li>
                         <strong><a href="assets/SIP-Expert-GUI-Generic-Use-Cases-and-Requirements.pdf" title="SIP Expert GUI Generic Use Cases and Requirements" target="_blank">SIP Expert GUI Generic Use Cases and Requirements</a></strong><br>
@@ -122,7 +119,7 @@
                         <strong><a href="https://github.com/switchonproject/cids-custom-switchon/wiki/Developer-Documentation" title="Developer Documentation" target="_blank">Developer Documentation</a></strong><br>
                         The Developer Documentation wiki of the SIP Expert Catalogue and Data Management GUI (cids-custom-switchon) 
                         contains useful information for developers of the SIP as well as for individuals involved in the 
-                        installation and maintenance of the SIP instances on cismet and deltares servers. 
+                        installation and maintenance of the SIP instances. 
                     </li>                                         
                 </ul>
                 <p>
@@ -141,24 +138,10 @@
                     <a name="running" class="anchor" href="#running"><span class="octicon octicon-link"></span></a>Running the SIP Expert GUI
                 </h3>
                 <p>
-                    The latest release of the SIP Expert GUI can be started via the following <strong><a href="http://tl-ap001.xtr.deltares.nl/current/client/switchon/cids-custom-switchon-1.0-SNAPSHOT-starter.jnlp">JNLP Link</a></strong>. 
+                    The latest release of the SIP Expert GUI can be started via the following <strong><a href="http://www.water-switch-on.eu/switchonDist_v3/client/switchon/cids-custom-switchon-1.0-SNAPSHOT-starter.jnlp">JNLP Link</a></strong>. 
                     Please note, that the <a href="http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html" target="_blank" rel="nofollow">Java Runtime Environment 1.7</a> is required run the SIP.
                     The minimal system requirements for running the SIP Expert GUI besides the presence of a Java Runtime Environment are a PC with at least 2 GB of RAM.
                 </p>
-
-                <!--
-                <h3>
-                    <a name="concepts" class="anchor" href="#concepts"><span class="octicon octicon-link"></span></a>SIP Concepts
-                </h3>
-                <p>
-                    The concepts of the Spatial Information Platform are briefly explained in the <a href="assets/SIP-Concepts.pdf">SIP Concepts</a> presentation.<br>
-                    The following video showcases a typical <b>find</b>, <b>bind</b>, <b>transform</b> and <b>publish</b> open data workflow that can be carried out with help of the SIP Expert GUI and external Tools available in the SIP catalogue.
-                </p>
-                <p>
-                    <iframe width="853" height="480" src="//www.youtube.com/embed/jXEBJq5V1ZU?rel=0" frameborder="0" allowfullscreen></iframe>
-                </p>
-                -->
-
 
                 <h3>
                     <a name="tutorials" class="anchor" href="#tutorials"><span class="octicon octicon-link"></span></a>Interactive User Guides and Tutorials
@@ -170,18 +153,15 @@
                     functionalities.
                 </p>
                 <h4>
-                    How register new Resources in the SIP
+                    <a name="meta-data-wizard" class="anchor" href="#meta-data-wizard"><span class="octicon octicon-link"></span></a>How register new Resources in the SIP
                 </h4>
                 <p>
                     The <strong><a href="assets/Meta-Data-Wizard-Tutorial.pdf" title="Meta-Data Wizard Tutorial" target="_blank">Meta-Data Wizard Tutorial</a></strong> 
-                    shows you how to register a new open data resource in the SIP by providing basic <strong>meta-data</strong> about the resource. 
-                    An important prerequisite for the resource registration process is that the actual resource <strong>data</strong> is accessible online (e.g. available in <a target="_blank" href="https://repos.deltares.nl/repos/SWITCH-ON/">SWITCH-ON Subversion Repository</a>) and URI to the data is known.
+                    shows you how to register a new open data resource in the SIP by providing basic <strong>meta-data</strong> about the resource with help of the <strong>Meta-Data Wizard</strong> 
+                    of the SIP Expert GUI. An important prerequisite for the resource registration process is that the actual resource <strong>data</strong> is accessible online (e.g. available in <a target="_blank" href="https://repos.deltares.nl/repos/SWITCH-ON/">SWITCH-ON Subversion Repository</a>) and URI to the data is known.
                     For more information on how to upload <strong>data</strong>, please refer to the <a href="https://repos.deltares.nl/repos/SWITCH-ON/Data/SwitchOn_SubversionTutorial_v2.pdf" target="_blank" title="SWITCH-ON Subversion Tutorial">SWITCH-ON Subversion Tutorial</a> of the <a href="http://www.water-switch-on.eu/lab.html" target="_blank">Virtual Water-Science Laboratory</a>.
                 </p>
-<!--                <p>
-                    <img src="images/meta-data-publish-workflow.png" alt="Meta-Data Publish Workflow"/>
-                </p>
--->
+
                 <p>
                     Meta-Data provides information about data and thus allows the correct discovery, identification and interpretation of data for a given purpose. The main purpose of meta-data in SWITCH-ON is to find, bind, transform and publish open data (Open Data Repurpose Pattern). 
                     In SWITCH-ON, meta-data is defined by the <a href="https://switchonproject.github.io/cids-custom-switchon-server/assets/D2_6_FINAL_270614.pdf">Standard Information Model for Meta-Data</a>. It is based on an ISO 19115 meta-data profile (meta-data standard recommended by the INSPIRE directive) and thus also compatible with external catalogues like <a target="_blank" href="http://geossregistries.info/" title="GEOSS Component and Service Registry (CSR)">GEOSS</a>.<br/>
@@ -257,7 +237,7 @@
         </div>
         <footer>
             <p>Project maintained by <a href="https://github.com/switchonproject">switchonproject</a></p>
-            <!--<p>Software developed by <a href="http://www.cismet.de">cismet GmbH</a></p>-->
+            <p>Software developed by <a href="http://www.cismet.de">cismet GmbH</a></p>
             <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>   
         </footer>
         <!--[if !IE]><script>fixScale(document);</script><![endif]-->
