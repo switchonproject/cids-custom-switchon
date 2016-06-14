@@ -48,7 +48,7 @@ public class JXListBugFixes extends JXList {
      * Selects the specified object from the list, taking into account sorting and filtering.
      *
      * @param  anObject      the object to select
-     * @param  shouldScroll {@code true} if the list should scroll to display the selected object, if one exists;
+     * @param  shouldScroll  {@code true} if the list should scroll to display the selected object, if one exists;
      *                       otherwise {@code false}
      */
     @Override
