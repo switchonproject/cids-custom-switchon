@@ -394,7 +394,7 @@ public class RepresentationRenderer extends javax.swing.JPanel implements CidsBe
      */
     private void setHyperlinkAddToCismap() {
         final String protocol = (String)cidsBean.getProperty("protocol.name");
-        if (protocol.startsWith("OGC:WFS") || protocol.startsWith("OGC:WMS")) {
+        if ((protocol != null) && (protocol.startsWith("OGC:WFS") || protocol.startsWith("OGC:WMS"))) {
             hypAddToCismap.setVisible(true);
             lblAddToCismapIcon.setVisible(true);
             representationUploadFinishedPanel.setVisible(true);
