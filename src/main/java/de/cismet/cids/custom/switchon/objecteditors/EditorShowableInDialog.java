@@ -32,11 +32,11 @@ public interface EditorShowableInDialog {
     HashSet<CidsBean> getNewlyAddedCidsBeans();
 
     /**
-     * Get a set of the CidsBeans which were persisted in the editor-dialog.
+     * Get a set of the CidsBeans which were modified in the editor-dialog.
      *
      * @return  DOCUMENT ME!
      */
-    HashSet<CidsBean> getPersistedCidsBeans();
+    HashSet<CidsBean> getModifiedCidsBeans();
 
     /**
      * Saves the modified cidsBeans. The newly added/modified cidsbeans will be persisted and the new cidsbeans will be

@@ -12,11 +12,11 @@ import org.apache.log4j.Logger;
 import org.openide.WizardDescriptor;
 import org.openide.util.NbBundle;
 
-import java.awt.Component;
-
+import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
-import de.cismet.commons.gui.wizard.AbstractWizardPanel;
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -24,7 +24,8 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditonalMetaDataImportDocumentPanel extends AbstractWizardPanel implements NameProvider {
+public class AdditonalMetaDataImportDocumentPanel extends GenericAbstractWizardPanel<BasicImportDocumentVisualPanel>
+        implements NameProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -36,23 +37,27 @@ public class AdditonalMetaDataImportDocumentPanel extends AbstractWizardPanel im
      * Creates a new AdditonalMetaDataImportDocumentPanel object.
      */
     public AdditonalMetaDataImportDocumentPanel() {
+        super(BasicImportDocumentVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                BasicImportDocumentVisualPanel.class,
+                "AdditonalMetaDataImportDocumentVisualPanel.generalInformation"));
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    protected Component createComponent() {
-        return new AdditonalMetaDataImportDocumentVisualPanel();
-    }
-
-    @Override
     protected void read(final WizardDescriptor wizard) {
-        LOG.fatal("AdditonalMetaDataImportDocumentPanel.read: Not supported yet.", new Exception()); // NOI18N
+        getComponent().setWizard(wizard);
+        getComponent().setWizardPropertyToIndicateIfImportButtonWasPressed(
+            MetaDataWizardAction.PROP_AdditonalMetaDataImportDocumentPanel_IMPORT_BUTTON_WAS_PRESSED);
+        final CidsBean metaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN);
+        getComponent().setCidsBean(metaData);
+        final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+        getComponent().setResource(resource);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        LOG.fatal("AdditonalMetaDataImportDocumentPanel.store: Not supported yet.", new Exception()); // NOI18N
     }
 
     @Override

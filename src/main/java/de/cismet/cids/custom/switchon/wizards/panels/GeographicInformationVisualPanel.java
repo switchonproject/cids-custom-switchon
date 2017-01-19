@@ -7,6 +7,9 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.openide.WizardDescriptor;
+
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
@@ -23,7 +26,9 @@ import de.cismet.cids.editors.FastBindableReferenceCombo;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class GeographicInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable {
+public class GeographicInformationVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
+    Disposable,
+    InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -41,7 +46,7 @@ public class GeographicInformationVisualPanel extends javax.swing.JPanel impleme
     private de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction createNewLocation;
     private javax.swing.Box.Filler filler1;
     private de.cismet.cids.custom.switchon.gui.GeometryChooserPanel geometryChooserPanel;
-    private de.cismet.cids.custom.switchon.gui.InfoBoxPanel infoBoxPanel;
+    private de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel pnlOtherProperties;
@@ -52,9 +57,13 @@ public class GeographicInformationVisualPanel extends javax.swing.JPanel impleme
 
     /**
      * Creates new form GeographicInformationVisualPanel.
+     *
+     * @param  wizard  DOCUMENT ME!
      */
-    public GeographicInformationVisualPanel() {
+    public GeographicInformationVisualPanel(final WizardDescriptor wizard) {
         initComponents();
+        geometryChooserPanel.setInfoReceiver(infoBoxPanel);
+        infoBoxPanel.setWizard(wizard);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -70,7 +79,6 @@ public class GeographicInformationVisualPanel extends javax.swing.JPanel impleme
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         createNewLocation = new de.cismet.cids.custom.switchon.gui.utils.CreateNewTagAction();
-        geometryChooserPanel = new de.cismet.cids.custom.switchon.gui.GeometryChooserPanel();
         pnlOtherProperties = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         cmbSrid = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.SRID);
@@ -80,23 +88,8 @@ public class GeographicInformationVisualPanel extends javax.swing.JPanel impleme
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 32767));
-        infoBoxPanel = new de.cismet.cids.custom.switchon.gui.InfoBoxPanel();
-
-        setLayout(new java.awt.GridBagLayout());
-
-        geometryChooserPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    GeographicInformationVisualPanel.class,
-                    "GeographicInformationVisualPanel.geometryChooserPanel.border.title"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.6;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        add(geometryChooserPanel, gridBagConstraints);
+        geometryChooserPanel = new de.cismet.cids.custom.switchon.gui.GeometryChooserPanel();
+        infoBoxPanel = new de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel();
 
         pnlOtherProperties.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
@@ -196,28 +189,29 @@ public class GeographicInformationVisualPanel extends javax.swing.JPanel impleme
         gridBagConstraints.weighty = 1.0;
         pnlOtherProperties.add(filler1, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.4;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
-        add(pnlOtherProperties, gridBagConstraints);
+        setLayout(new java.awt.GridBagLayout());
 
-        infoBoxPanel.setGeneralInformation(org.openide.util.NbBundle.getMessage(
-                GeographicInformationVisualPanel.class,
-                "GeographicInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
-        infoBoxPanel.setMinimumSize(new java.awt.Dimension(134, 55));
-        infoBoxPanel.setPreferredSize(new java.awt.Dimension(748, 55));
+        geometryChooserPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    GeographicInformationVisualPanel.class,
+                    "GeographicInformationVisualPanel.geometryChooserPanel.border.title"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.6;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        add(geometryChooserPanel, gridBagConstraints);
+        geometryChooserPanel.setVisibleGeometryComboBox(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         add(infoBoxPanel, gridBagConstraints);
 
         bindingGroup.bind();
@@ -261,5 +255,15 @@ public class GeographicInformationVisualPanel extends javax.swing.JPanel impleme
     public void dispose() {
         bindingGroup.unbind();
         geometryChooserPanel.dispose();
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        setError(error);
     }
 }

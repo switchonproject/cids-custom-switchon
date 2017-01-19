@@ -7,15 +7,23 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
+import org.jdesktop.beansbinding.Binding;
+
+import org.openide.util.NbBundle;
+
 import java.util.UUID;
 
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrong;
+import de.cismet.cids.custom.switchon.gui.MarkMandtoryFieldsStrongUtils;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
+import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.FastBindableReferenceCombo;
@@ -26,7 +34,9 @@ import de.cismet.cids.editors.FastBindableReferenceCombo;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBeanStore {
+public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBeanStore,
+    Disposable,
+    MarkMandtoryFieldsStrong {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -35,18 +45,19 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
-    private Taggroups typeTaggroup;
+    private final Taggroups typeTaggroup;
+    private final String branding;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerateUUID;
     private javax.swing.JComboBox cmbLanguage;
     private javax.swing.JComboBox cmbType;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDescription;
     private javax.swing.JLabel lblLanguage;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblType;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtUUID;
     private javax.swing.JTextArea txtaDescription;
@@ -62,7 +73,7 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
      */
     public BasicPropertiesPanel() {
         this(Taggroups.META_DATA_TYPE);
-        LOG.warn("Do not use this constructor, it is only there for the Netbeans GUI editor.", new Exception());
+        LOG.warn("Do not use this constructor, it is only there for the Netbeans GUI editor.", new Exception()); // NOI18N
     }
 
     /**
@@ -72,6 +83,7 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
      */
     public BasicPropertiesPanel(final Taggroups typeTaggroup) {
         this.typeTaggroup = typeTaggroup;
+        branding = typeTaggroup.getValue().replaceAll("\\W", "");
         initComponents();
     }
 
@@ -87,9 +99,9 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
+        lblDescription = new javax.swing.JLabel();
+        lblType = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         lblLanguage = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
@@ -105,34 +117,36 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
         setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel1,
-            org.openide.util.NbBundle.getMessage(BasicPropertiesPanel.class, "BasicPropertiesPanel.jLabel1.text")); // NOI18N
+            lblName,
+            org.openide.util.NbBundle.getMessage(BasicPropertiesPanel.class, "BasicPropertiesPanel.lblName.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
-        add(jLabel1, gridBagConstraints);
+        add(lblName, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel2,
-            org.openide.util.NbBundle.getMessage(BasicPropertiesPanel.class, "BasicPropertiesPanel.jLabel2.text")); // NOI18N
+            lblDescription,
+            org.openide.util.NbBundle.getMessage(
+                BasicPropertiesPanel.class,
+                "BasicPropertiesPanel.lblDescription.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        add(jLabel2, gridBagConstraints);
+        add(lblDescription, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel3,
-            org.openide.util.NbBundle.getMessage(BasicPropertiesPanel.class, "BasicPropertiesPanel.jLabel3.text")); // NOI18N
+            lblType,
+            org.openide.util.NbBundle.getMessage(BasicPropertiesPanel.class, "BasicPropertiesPanel.lblType.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        add(jLabel3, gridBagConstraints);
+        add(lblType, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel4,
@@ -286,7 +300,8 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.language}"),
                 cmbLanguage,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
+                "bindingLanguage");
         bindingGroup.addBinding(binding);
 
         cmbLanguage.addActionListener(new java.awt.event.ActionListener() {
@@ -325,7 +340,11 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void txtNameFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtNameFocusGained
-        provideInformation("Please enter the name of the resource.");
+        NbBundle.setBranding(branding);
+        provideInformation(org.openide.util.NbBundle.getMessage(
+                BasicPropertiesPanel.class,
+                "BasicPropertiesPanel.txtNameFocusGained().info"));
+        NbBundle.setBranding(null);
     }                                                                      //GEN-LAST:event_txtNameFocusGained
 
     /**
@@ -334,7 +353,11 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void txtaDescriptionFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtaDescriptionFocusGained
-        provideInformation("Please provide a comprehensive description of the resource");
+        NbBundle.setBranding(branding);
+        provideInformation(org.openide.util.NbBundle.getMessage(
+                BasicPropertiesPanel.class,
+                "BasicPropertiesPanel.txtaDescriptionFocusGained().info"));
+        NbBundle.setBranding(null);
     }                                                                              //GEN-LAST:event_txtaDescriptionFocusGained
 
     /**
@@ -353,8 +376,12 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void txtUUIDFocusGained(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtUUIDFocusGained
+        NbBundle.setBranding(branding);
         provideInformation(
-            "Please enter a unique id of the resource. If the field is left blank, a uuid will be automatically genenrated.");
+            org.openide.util.NbBundle.getMessage(
+                BasicPropertiesPanel.class,
+                "BasicPropertiesPanel.txtUUIDFocusGained().info"));
+        NbBundle.setBranding(null);
     }                                                                      //GEN-LAST:event_txtUUIDFocusGained
 
     /**
@@ -377,22 +404,35 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
+
+            hideLanguageControlsIfNotAvailable();
+
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.cidsBean);
 
-            // hide controls for the language, if it the cidsBean has no such property
-            boolean hasPropertyLanguage = false;
-            for (final String property : cidsBean.getPropertyNames()) {
-                if (property.equals("language")) {
-                    hasPropertyLanguage = true;
-                    break;
-                }
-            }
-            lblLanguage.setVisible(hasPropertyLanguage);
-            cmbLanguage.setVisible(hasPropertyLanguage);
-
             bindingGroup.bind();
+        }
+    }
+
+    /**
+     * Hides the controls for the language, if the cidsBean has no such property.
+     */
+    private void hideLanguageControlsIfNotAvailable() {
+        boolean hasPropertyLanguage = false;
+        for (final String property : cidsBean.getPropertyNames()) {
+            if (property.equals("language")) { // NOI18N
+                hasPropertyLanguage = true;
+                break;
+            }
+        }
+        lblLanguage.setVisible(hasPropertyLanguage);
+        cmbLanguage.setVisible(hasPropertyLanguage);
+        // remove the binding to the language
+        // it must be checked if the binding has already been removed
+        final Binding bindingLanguage = bindingGroup.getBinding("bindingLanguage");
+        if (!hasPropertyLanguage && (bindingLanguage != null)) {
+            bindingGroup.removeBinding(bindingLanguage);
         }
     }
 
@@ -412,5 +452,27 @@ public class BasicPropertiesPanel extends InfoProviderJPanel implements CidsBean
      */
     public boolean isVisibleGenerateUUID() {
         return btnGenerateUUID.isVisible();
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
+    }
+
+    @Override
+    public void markMandatoryFieldsStrong() {
+        MarkMandtoryFieldsStrongUtils.markJLabelsStrong(lblName, lblDescription, lblType);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void makeNonEditable() {
+        RendererTools.makeReadOnly(btnGenerateUUID);
+        RendererTools.makeReadOnly(cmbLanguage);
+        RendererTools.makeReadOnly(cmbType);
+        RendererTools.makeReadOnly(txtName);
+        RendererTools.makeReadOnly(txtUUID);
+        RendererTools.makeReadOnly(txtaDescription);
     }
 }

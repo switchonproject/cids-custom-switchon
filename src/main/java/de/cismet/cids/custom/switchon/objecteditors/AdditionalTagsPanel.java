@@ -23,6 +23,7 @@ import javax.swing.table.TableRowSorter;
 
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.utils.QueryComboBox;
+import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.gui.utils.TagsJList;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.TaggroupUtils;
@@ -30,6 +31,7 @@ import de.cismet.cids.custom.switchon.utils.Taggroups;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -41,7 +43,7 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanStore {
+public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanStore, Disposable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -120,6 +122,9 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
         }
 
         tagGroupQuery += " ORDER BY t.name";
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("tagGroupQuery created: " + tagGroupQuery);
+        }
         this.tagGroupQuery = tagGroupQuery;
         NbBundle.setBranding(branding);
         initComponents();
@@ -165,6 +170,12 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
         ;
         cmbTagGroups = new QueryComboBox(tagGroupQuery, false, "Taggroup");
         ;
+        // ugly and dirty hack to select the X-CUAHSI Keyword group
+        if (this.cmbTagGroups.getModel().getSize() > 1) {
+            this.cmbTagGroups.setSelectedIndex(
+                this.cmbTagGroups.getModel().getSize()
+                        - 1);
+        }
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -399,6 +410,8 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
 
         final String description = TagUtils.getDescriptionOfTag(cmbTagGroups.getSelectedItem());
         provideInformation(description);
+
+        btnNew.setEnabled(TaggroupUtils.isTaggroupOpen(cmbTagGroups.getSelectedItem().toString()));
     } //GEN-LAST:event_cmbTagGroupsActionPerformed
 
     /**
@@ -466,7 +479,10 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
         if (rowIndexView >= 0) {
             final int rowIndexModel = tblAssignedTags.convertRowIndexToModel(rowIndexView);
 
-            final String description = TagUtils.getDescriptionOfTag(assignedTags.get(rowIndexModel));
+            String description = TagUtils.getDescriptionOfTag(assignedTags.get(rowIndexModel));
+            if ((description == null) || description.isEmpty() || description.equals("n/a")) {
+                description = TagUtils.getDescriptionOfTag(cmbTagGroups.getSelectedItem());
+            }
             provideInformation(description);
         }
     }
@@ -477,7 +493,10 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
      * @param  evt  DOCUMENT ME!
      */
     private void lstTagsValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstTagsValueChanged
-        final String description = TagUtils.getDescriptionOfTag(lstTags.getSelectedValue());
+        String description = TagUtils.getDescriptionOfTag(lstTags.getSelectedValue());
+        if ((description == null) || description.isEmpty() || description.equals("n/a")) {
+            description = TagUtils.getDescriptionOfTag(cmbTagGroups.getSelectedItem());
+        }
         provideInformation(description);
     }                                                                                  //GEN-LAST:event_lstTagsValueChanged
 
@@ -551,5 +570,31 @@ public class AdditionalTagsPanel extends InfoProviderJPanel implements CidsBeanS
      */
     public void setAssignedTags(final List<CidsBean> assignedTags) {
         this.assignedTags = assignedTags;
+    }
+
+    @Override
+    public void dispose() {
+        bindingGroup.unbind();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void makeNonEditable() {
+        RendererTools.makeReadOnly(btnAdd);
+        RendererTools.makeReadOnly(btnNew);
+        RendererTools.makeReadOnly(btnRemove);
+        RendererTools.makeReadOnly(cmbTagGroups);
+        RendererTools.makeReadOnly(lstTags);
+        RendererTools.makeReadOnly(tblAssignedTags);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        this.btnNew.setEnabled(!readOnly);
     }
 }

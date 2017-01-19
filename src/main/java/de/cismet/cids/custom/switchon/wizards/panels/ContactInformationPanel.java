@@ -45,6 +45,9 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
      */
     public ContactInformationPanel() {
         super(ContactInformationVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                ContactInformationVisualPanel.class,
+                "ContactInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -53,6 +56,7 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
     protected Component createComponent() {
         final ContactInformationVisualPanel component = (ContactInformationVisualPanel)super.createComponent();
         component.setModel(this);
+        component.markMandatoryFieldsStrong();
         return component;
     }
 
@@ -60,6 +64,7 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
     protected void read(final WizardDescriptor wizard) {
         final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
         resource.addPropertyChangeListener(this);
+        getComponent().setReadOnly(wizard.getProperty(MetaDataWizardAction.PROP_CONFIGURATION).equals("basic"));
         getComponent().setCidsBean(resource);
     }
 
@@ -83,9 +88,19 @@ public class ContactInformationPanel extends GenericAbstractWizardPanel<ContactI
     @Override
     public boolean isValid() {
         final CidsBean resource = getComponent().getCidsBean();
-        final CidsBean contact = (CidsBean)resource.getProperty("contact");
-        final String organisation = (String)contact.getProperty("organisation");
+        final CidsBean contact = (CidsBean)resource.getProperty("contact");      // NOI18N
+        final String organisation = (String)contact.getProperty("organisation"); // NOI18N
 
-        return StringUtils.isNotBlank(organisation);
+        final boolean isValid = StringUtils.isNotBlank(organisation);
+
+        if (isValid) {
+            showGeneralInformation();
+        } else {
+            showWarning(org.openide.util.NbBundle.getMessage(
+                    ContactInformationPanel.class,
+                    "ContactInformationPanel.isValid().missingOrganisation"));
+        }
+
+        return isValid;
     }
 }

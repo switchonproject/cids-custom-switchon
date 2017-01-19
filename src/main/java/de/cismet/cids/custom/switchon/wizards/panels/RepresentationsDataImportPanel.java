@@ -11,11 +11,11 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
-import java.awt.Component;
-
+import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
-import de.cismet.commons.gui.wizard.AbstractWizardPanel;
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -23,7 +23,8 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RepresentationsDataImportPanel extends AbstractWizardPanel implements NameProvider {
+public class RepresentationsDataImportPanel extends GenericAbstractWizardPanel<RepresentationsDataImportVisualPanel>
+        implements NameProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -35,23 +36,27 @@ public class RepresentationsDataImportPanel extends AbstractWizardPanel implemen
      * Creates a new RepresentationsDataImportPanel object.
      */
     public RepresentationsDataImportPanel() {
+        super(RepresentationsDataImportVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                RepresentationsDataImportVisualPanel.class,
+                "RepresentationsDataImportVisualPanel.generalInformation"));
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    protected Component createComponent() {
-        return new RepresentationsDataImportVisualPanel();
-    }
-
-    @Override
     protected void read(final WizardDescriptor wizard) {
-        LOG.fatal("RepresentationsDataImportPanel.read: Not supported yet.", new Exception()); // NOI18N
+        getComponent().setWizard(wizard);
+        getComponent().setWizardPropertyToIndicateIfImportButtonWasPressed(
+            MetaDataWizardAction.PROP_RepresentationsDataImportPanel_IMPORT_BUTTON_PRESSED);
+        final CidsBean metaData = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
+        getComponent().setCidsBean(metaData);
+        final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_RESOURCE_BEAN);
+        getComponent().setResource(resource);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        LOG.fatal("RepresentationsDataImportPanel.store: Not supported yet.", new Exception()); // NOI18N
     }
 
     @Override

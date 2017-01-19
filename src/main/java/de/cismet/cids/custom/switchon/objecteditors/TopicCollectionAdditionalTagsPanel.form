@@ -24,7 +24,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Topic Category">
+            <TitledBorder title="INSPIRE Topic Category">
               <ResourceString PropertyName="titleX" bundle="de/cismet/cids/custom/switchon/objecteditors/Bundle.properties" key="TopicCollectionAdditionalTagsPanel.pnlTopicCategory.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </TitledBorder>
           </Border>
@@ -112,7 +112,7 @@
     <Component class="de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel" name="additionalTagsPanel">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups)"/>
-        <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="ArrayList&lt;Taggroups&gt; taggroups = new ArrayList&lt;Taggroups&gt;();&#xa;taggroups.add(Taggroups.GEOGRAPHY);&#xa;taggroups.add(Taggroups.HYDROLOGICAL_CONCEPT);&#xa;taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);&#xa;taggroups.add(Taggroups.KEYWORDS_OPEN);"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="ArrayList&lt;Taggroups&gt; taggroups = new ArrayList&lt;Taggroups&gt;();&#xa;taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);&#xa;taggroups.add(Taggroups.KEYWORDS_XCUAHSI);&#xa;&#xa;"/>
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

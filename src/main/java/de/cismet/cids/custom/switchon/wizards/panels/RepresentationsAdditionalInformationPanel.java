@@ -11,11 +11,11 @@ import org.apache.log4j.Logger;
 
 import org.openide.WizardDescriptor;
 
-import java.awt.Component;
-
+import de.cismet.cids.custom.switchon.wizards.GenericAbstractWizardPanel;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
 import de.cismet.cids.custom.switchon.wizards.NameProvider;
 
-import de.cismet.commons.gui.wizard.AbstractWizardPanel;
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -23,7 +23,8 @@ import de.cismet.commons.gui.wizard.AbstractWizardPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RepresentationsAdditionalInformationPanel extends AbstractWizardPanel implements NameProvider {
+public class RepresentationsAdditionalInformationPanel
+        extends GenericAbstractWizardPanel<RepresentationsAdditionalInformationVisualPanel> implements NameProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -35,23 +36,22 @@ public class RepresentationsAdditionalInformationPanel extends AbstractWizardPan
      * Creates a new RepresentationsAdditionalInformationPanel object.
      */
     public RepresentationsAdditionalInformationPanel() {
+        super(RepresentationsAdditionalInformationVisualPanel.class);
+        setGeneralInformation(org.openide.util.NbBundle.getMessage(
+                RepresentationsAdditionalInformationVisualPanel.class,
+                "RepresentationsAdditionalInformationVisualPanel.infoBoxPanel.generalInformation")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    protected Component createComponent() {
-        return new RepresentationsAdditionalInformationVisualPanel();
-    }
-
-    @Override
     protected void read(final WizardDescriptor wizard) {
-        LOG.fatal("RepresentationsAdditionalInformationPanel.read: Not supported yet.", new Exception()); // NOI18N
+        final CidsBean resource = (CidsBean)wizard.getProperty(MetaDataWizardAction.PROP_SELECTED_REPRESENTATION_BEAN);
+        getComponent().setCidsBean(resource);
     }
 
     @Override
     protected void store(final WizardDescriptor wizard) {
-        LOG.fatal("RepresentationsAdditionalInformationPanel.store: Not supported yet.", new Exception()); // NOI18N
     }
 
     @Override

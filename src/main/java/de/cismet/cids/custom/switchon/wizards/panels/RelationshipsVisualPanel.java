@@ -7,18 +7,36 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
+
+import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
+
 /**
  * DOCUMENT ME!
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class RelationshipsVisualPanel extends javax.swing.JPanel {
+public class RelationshipsVisualPanel extends javax.swing.JPanel implements CidsBeanStore, Disposable, InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             RelationshipsVisualPanel.class);
+
+    //~ Instance fields --------------------------------------------------------
+
+    private CidsBean cidsBean;
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
+    private de.cismet.cids.custom.switchon.objecteditors.SourceResourceRelationshipPanel
+        sourceResourceRelationshipPanel;
+    private de.cismet.cids.custom.switchon.objecteditors.TargetResourceRelationshipPanel
+        targetResourceRelationshipPanel;
+        // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -27,6 +45,8 @@ public class RelationshipsVisualPanel extends javax.swing.JPanel {
      */
     public RelationshipsVisualPanel() {
         initComponents();
+        sourceResourceRelationshipPanel.setInfoReceiver(infoBoxPanel);
+        targetResourceRelationshipPanel.setInfoReceiver(infoBoxPanel);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -38,15 +58,76 @@ public class RelationshipsVisualPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 300, Short.MAX_VALUE));
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        targetResourceRelationshipPanel =
+            new de.cismet.cids.custom.switchon.objecteditors.TargetResourceRelationshipPanel();
+        sourceResourceRelationshipPanel =
+            new de.cismet.cids.custom.switchon.objecteditors.SourceResourceRelationshipPanel();
+        infoBoxPanel = new de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel();
+
+        setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        add(targetResourceRelationshipPanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        add(sourceResourceRelationshipPanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        add(infoBoxPanel, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+    @Override
+    public CidsBean getCidsBean() {
+        return cidsBean;
+    }
 
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        this.cidsBean = cidsBean;
+        sourceResourceRelationshipPanel.setCidsBean(cidsBean);
+        targetResourceRelationshipPanel.setCidsBean(cidsBean);
+    }
+
+    @Override
+    public void dispose() {
+        sourceResourceRelationshipPanel.dispose();
+        targetResourceRelationshipPanel.dispose();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  enabled  DOCUMENT ME!
+     */
+    public void setEnableTargetResource(final boolean enabled) {
+        targetResourceRelationshipPanel.setEnabled(enabled);
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
+    }
 }

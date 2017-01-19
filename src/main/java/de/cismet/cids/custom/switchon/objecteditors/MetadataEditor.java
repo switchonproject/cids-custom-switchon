@@ -408,8 +408,8 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
         dialog.setTitle(contactEditor.getTitle());
         dialog.showDialog();
 
-        // contactEditor.getPersistedCidsBeans().size() should be 0 or 1
-        for (final CidsBean persistedContact : contactEditor.getPersistedCidsBeans()) {
+        // contactEditor.getModifiedCidsBeans().size() should be 0 or 1
+        for (final CidsBean persistedContact : contactEditor.getModifiedCidsBeans()) {
             try {
                 cidsBean.setProperty("contact", persistedContact);
             } catch (Exception ex) {
@@ -447,6 +447,8 @@ public class MetadataEditor extends AbstractEditorShowableInDialog implements Re
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        basicPropertiesPanel.dispose();
+        additionalTagsPanel.dispose();
     }
 
     /**

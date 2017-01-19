@@ -116,6 +116,9 @@ public class QueryComboBox extends JComboBox {
             if (nullable) {
                 model.addElement(null);
             }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(lwmos + "tags found for '" + metaClassName + "'");
+            }
             for (final MetaObject mo : lwmos) {
                 model.addElement(mo);
             }

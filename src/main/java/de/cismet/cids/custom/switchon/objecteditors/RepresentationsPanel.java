@@ -7,9 +7,11 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.objecteditors;
 
-import java.util.HashSet;
+import java.awt.event.ActionListener;
+
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.event.ListSelectionListener;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -189,12 +191,13 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
         try {
             representation = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "representation");
         } catch (Exception ex) {
-            LOG.error("Metadata-CidsBean could not be created.");
+            LOG.error("Metadata-CidsBean could not be created.", ex);
             return;
         }
 
         final RepresentationEditor representationEditor = new RepresentationEditor();
         representationEditor.setCidsBean(representation);
+        representationEditor.setAvoidPersist(true);
         new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
             representationEditor).showDialog();
 
@@ -228,18 +231,11 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
                         selectedRow));
             final RepresentationEditor representationEditor = new RepresentationEditor();
             representationEditor.setCidsBean(selectedRepresentation);
+            representationEditor.setAvoidPersist(true);
             new ShowEditorInDialog(StaticSwingTools.getParentFrame(this),
                 representationEditor).showDialog();
-
-            // replace the old cidsBean with the persisted cidsBean
-            final HashSet<CidsBean> persistedCidsBeans = representationEditor.getPersistedCidsBeans();
-            if (!persistedCidsBeans.isEmpty()) {
-                // only one cidsBean can be returned
-                representations.remove(selectedRepresentation);
-                representations.add(persistedCidsBeans.iterator().next());
-            }
         }
-    } //GEN-LAST:event_btnEditRepresentationActionPerformed
+    }                                                                                         //GEN-LAST:event_btnEditRepresentationActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -311,5 +307,43 @@ public class RepresentationsPanel extends javax.swing.JPanel implements CidsBean
      */
     public void removeTableSelectionListener(final ListSelectionListener listener) {
         tblRepresentations.getSelectionModel().removeListSelectionListener(listener);
+    }
+
+    /**
+     * Removes all actionListeners from the Add-button and adds the parameter actionListener.
+     *
+     * @param  actionListener  The ActionListener which will be added to the button.
+     */
+    public void replaceActionListenerOfAddButton(final ActionListener actionListener) {
+        removeActionListeners(btnAddRepresentation);
+        btnAddRepresentation.addActionListener(actionListener);
+    }
+
+    /**
+     * Removes all actionListeners from the Edit-button and adds the parameter actionListener.
+     *
+     * @param  actionListener  The ActionListener which will be added to the button.
+     */
+    public void replaceActionListenerOfEditButton(final ActionListener actionListener) {
+        removeActionListeners(btnEditRepresentation);
+        btnEditRepresentation.addActionListener(actionListener);
+    }
+
+    /**
+     * Remove all ActionListeners from a button.
+     *
+     * @param  button  DOCUMENT ME!
+     */
+    private void removeActionListeners(final JButton button) {
+        for (final ActionListener l : button.getActionListeners()) {
+            button.removeActionListener(l);
+        }
+    }
+
+    /**
+     * Clear the selection of the table with the MetaDatas.
+     */
+    public void clearTableSelection() {
+        tblRepresentations.clearSelection();
     }
 }

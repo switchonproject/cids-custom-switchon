@@ -17,7 +17,7 @@ import java.awt.Component;
 import de.cismet.commons.gui.wizard.AbstractWizardPanel;
 
 /**
- * DOCUMENT ME!
+ * In this panel, the user can select the profile: basic, advanced, expert
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$

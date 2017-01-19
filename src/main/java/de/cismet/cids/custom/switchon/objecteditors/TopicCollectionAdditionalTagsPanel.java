@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import de.cismet.cids.custom.switchon.gui.InfoProviderJPanel;
 import de.cismet.cids.custom.switchon.gui.InfoReceiver;
 import de.cismet.cids.custom.switchon.gui.utils.FastBindableReferenceComboFactory;
+import de.cismet.cids.custom.switchon.gui.utils.RendererTools;
 import de.cismet.cids.custom.switchon.utils.TagUtils;
 import de.cismet.cids.custom.switchon.utils.Taggroups;
 
@@ -77,10 +78,9 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
         cmbCollection = FastBindableReferenceComboFactory.createTagsFastBindableReferenceComboBox(Taggroups.COLLECTION);
         btnNewCollection = new javax.swing.JButton();
         final ArrayList<Taggroups> taggroups = new ArrayList<Taggroups>();
-        taggroups.add(Taggroups.GEOGRAPHY);
-        taggroups.add(Taggroups.HYDROLOGICAL_CONCEPT);
         taggroups.add(Taggroups.KEYWORDS_INSPIRE_THEMES_1_0);
-        taggroups.add(Taggroups.KEYWORDS_OPEN);
+        taggroups.add(Taggroups.KEYWORDS_XCUAHSI);
+
         additionalTagsPanel = new de.cismet.cids.custom.switchon.objecteditors.AdditionalTagsPanel(taggroups);
 
         setLayout(new java.awt.GridBagLayout());
@@ -215,17 +215,51 @@ public class TopicCollectionAdditionalTagsPanel extends InfoProviderJPanel imple
                 this.cidsBean);
             additionalTagsPanel.setCidsBean(cidsBean);
             bindingGroup.bind();
+
+//            if (cmbTopic.getSelectedIndex() < 0) {
+//                cmbTopic.setSelectedItem(this.getDefaultTopicCategory());
+//            }
         }
     }
 
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        additionalTagsPanel.dispose();
     }
 
     @Override
     public void setInfoReceiver(final InfoReceiver infoReceiver) {
         super.setInfoReceiver(infoReceiver);
         additionalTagsPanel.setInfoReceiver(infoReceiver);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    protected Object getDefaultTopicCategory() {
+        if (cmbTopic.getModel().getSize() > 10) {
+            if (LOG.isDebugEnabled()) {
+                // select inlandWater
+                LOG.debug("set default topic category to " + cmbTopic.getItemAt(10));
+            }
+            return cmbTopic.getItemAt(10);
+        } else {
+            LOG.warn("could not select default topic 'inlandWaters', number of topics: "
+                        + cmbTopic.getModel().getSize());
+            return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        this.btnNewCollection.setEnabled(!readOnly);
+        this.additionalTagsPanel.setReadOnly(readOnly);
     }
 }

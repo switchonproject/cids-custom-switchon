@@ -14,8 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 
 import java.io.IOException;
@@ -35,7 +33,6 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
@@ -213,11 +210,21 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
         showWait(false);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public CidsBean getCidsBean() {
         return representation;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cidsBean  DOCUMENT ME!
+     */
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         representation = cidsBean;
@@ -285,8 +292,8 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
         } else {
             size = this.getSize();
         }
-        final double scalex = (double)size.getWidth() / bi.getWidth(null);
-        final double scaley = (double)size.getHeight() / bi.getHeight(null);
+        final double scalex = size.getWidth() / bi.getWidth(null);
+        final double scaley = size.getHeight() / bi.getHeight(null);
         final double scale = Math.min(scalex, scaley);
         if (scale <= 1d) {
             return bi.getScaledInstance((int)(bi.getWidth(null) * scale) - insetX,
@@ -298,6 +305,11 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
     @Override
     public void componentResized(final ComponentEvent e) {
         if (!timer.isRunning()) {
@@ -306,16 +318,31 @@ public class RepresentationPreview extends javax.swing.JPanel implements CidsBea
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
     @Override
     public void componentMoved(final ComponentEvent e) {
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
     @Override
     public void componentShown(final ComponentEvent e) {
         timer.setInitialDelay(0);
         timer.start();
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
     @Override
     public void componentHidden(final ComponentEvent e) {
     }

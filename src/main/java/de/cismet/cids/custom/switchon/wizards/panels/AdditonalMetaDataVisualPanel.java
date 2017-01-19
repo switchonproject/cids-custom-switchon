@@ -7,18 +7,38 @@
 ****************************************************/
 package de.cismet.cids.custom.switchon.wizards.panels;
 
+import org.openide.WizardDescriptor;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import de.cismet.cids.custom.switchon.gui.InfoReceiver;
+import de.cismet.cids.custom.switchon.wizards.DefaultPropertySetter;
+import de.cismet.cids.custom.switchon.wizards.MetaDataWizardAction;
+
+import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.dynamics.CidsBeanStore;
+import de.cismet.cids.dynamics.Disposable;
+
 /**
  * DOCUMENT ME!
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class AdditonalMetaDataVisualPanel extends javax.swing.JPanel {
+public class AdditonalMetaDataVisualPanel extends javax.swing.JPanel implements CidsBeanStore,
+    Disposable,
+    InfoReceiver {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             AdditonalMetaDataVisualPanel.class);
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel infoBoxPanel;
+    private de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel metaDataPanel;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -38,15 +58,106 @@ public class AdditonalMetaDataVisualPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 300, Short.MAX_VALUE));
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        metaDataPanel = new de.cismet.cids.custom.switchon.objecteditors.MetaDataPanel();
+        infoBoxPanel = new de.cismet.cids.custom.switchon.wizards.WizardInfoBoxPanel();
+
+        setLayout(new java.awt.GridBagLayout());
+
+        metaDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        add(metaDataPanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        add(infoBoxPanel, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+    @Override
+    public CidsBean getCidsBean() {
+        return metaDataPanel.getCidsBean();
+    }
 
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        metaDataPanel.setCidsBean(cidsBean);
+    }
+
+    @Override
+    public void dispose() {
+        metaDataPanel.dispose();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CidsBean getSelectedMetaData() {
+        return metaDataPanel.getSelectedMetaData();
+    }
+
+    /**
+     * The add button of the metaDataPanel creates a new metadata, selects it in the wizard and then Next is clicked
+     * automatically. Thus the newly added meta data cidsBean will be edited.
+     *
+     * @param  wizardDescriptor  DOCUMENT ME!
+     */
+    public void addButtonShouldSimulateNextButton(final WizardDescriptor wizardDescriptor) {
+        metaDataPanel.replaceActionListenerOfAddButton(new ActionListener() {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    try {
+                        final CidsBean metaData = CidsBean.createNewCidsBeanFromTableName("SWITCHON", "metadata"); // NOI18N
+                        DefaultPropertySetter.setDefaultsToMetaDataCidsBean(metaData);
+
+                        final CidsBean resource = (CidsBean)wizardDescriptor.getProperty(
+                                MetaDataWizardAction.PROP_RESOURCE_BEAN);
+                        resource.getBeanCollectionProperty("metadata").add(metaData); // NOI18N
+                        wizardDescriptor.putProperty(
+                            MetaDataWizardAction.PROP_SELECTED_METADATA_BEAN,
+                            metaData);
+                        wizardDescriptor.doNextClick();
+                    } catch (Exception ex) {
+                        LOG.error(ex, ex);
+                    }
+                }
+            });
+    }
+
+    /**
+     * The edit button of the metaDataPanel should work exactly like clicking the next button.
+     *
+     * @param  wizardDescriptor  DOCUMENT ME!
+     */
+    public void editButtonShouldSimulateNextButton(final WizardDescriptor wizardDescriptor) {
+        metaDataPanel.replaceActionListenerOfEditButton(new ActionListener() {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    wizardDescriptor.doNextClick();
+                }
+            });
+    }
+
+    @Override
+    public void setInformation(final String information) {
+        infoBoxPanel.setInformation(information);
+    }
+
+    @Override
+    public void setError(final String error) {
+        infoBoxPanel.setError(error);
+    }
 }

@@ -8,7 +8,8 @@
 package de.cismet.cids.custom.switchon.gui;
 
 /**
- * DOCUMENT ME!
+ * A {@link InfoProvider} is typically combined with an {@link InfoReceiver}, which shows errors and informations to the
+ * user.
  *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
@@ -37,4 +38,11 @@ public interface InfoProvider {
      * @param  infoReceiver  DOCUMENT ME!
      */
     void setInfoReceiver(InfoReceiver infoReceiver);
+
+    /**
+     * The parameter error will be shown in another Component, typically a InfoReceiver.
+     *
+     * @param  error  DOCUMENT ME!
+     */
+    void provideError(String error);
 }
