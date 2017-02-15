@@ -77,19 +77,6 @@
                 <artifactId>cismet-gui-commons</artifactId>
                 <version>5.0-SNAPSHOT</version>
                 <type>jar</type>
-                <!--
-                    Wrong jfreechart dependency in jasper!
-                -->
-                <exclusions>
-                    <exclusion>
-                        <groupId>jfree</groupId>
-                        <artifactId>jfreechart</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>jfree</groupId>
-                        <artifactId>jcommon</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>de.cismet.commons</groupId>
@@ -104,19 +91,6 @@
                 <artifactId>cismap-commons</artifactId>
                 <version>5.0-SNAPSHOT</version>
                 <type>jar</type>
-                <!--
-                    Wrong jfreechart dependency in jasper!
-                -->
-                <exclusions>
-                    <exclusion>
-                        <groupId>jfree</groupId>
-                        <artifactId>jfreechart</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>jfree</groupId>
-                        <artifactId>jcommon</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>de.cismet.commons</groupId>
@@ -152,19 +126,6 @@
                 <artifactId>cids-navigator</artifactId>
                 <version>5.0-SNAPSHOT</version>
                 <type>jar</type>
-                <!--
-                    Wrong jfreechart dependency in jasper!
-                -->
-                <exclusions>
-                    <exclusion>
-                        <groupId>jfree</groupId>
-                        <artifactId>jfreechart</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>jfree</groupId>
-                        <artifactId>jcommon</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>de.cismet.cids.navigator</groupId>
@@ -223,14 +184,53 @@
         <dependency>
             <groupId>de.cismet.commons</groupId>
             <artifactId>cismet-gui-commons</artifactId>
+            <!--
+                Wrong jfreechart dependency in jasper!
+            -->
+            <exclusions>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jfreechart</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jcommon</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>de.cismet.commons</groupId>
             <artifactId>cismap-commons</artifactId>
+            <!--
+                Wrong jfreechart dependency in jasper!
+            -->
+            <exclusions>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jfreechart</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jcommon</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>de.cismet.cids</groupId>
             <artifactId>cids-server</artifactId>
+            <!--
+                Wrong jfreechart dependency in jasper!
+            -->
+            <exclusions>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jfreechart</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jcommon</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>    
         <dependency>
             <groupId>de.cismet.cids.custom.switchon</groupId>
@@ -239,10 +239,36 @@
         <dependency>
             <groupId>de.cismet.cids.navigator</groupId>
             <artifactId>cids-navigator</artifactId>
+            <!--
+                Wrong jfreechart dependency in jasper!
+            -->
+            <exclusions>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jfreechart</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jcommon</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>de.cismet.cismap</groupId>
             <artifactId>cismap-plugin</artifactId>
+            <!--
+                Wrong jfreechart dependency in jasper!
+            -->
+            <exclusions>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jfreechart</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jcommon</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>de.cismet.custom</groupId>
@@ -353,6 +379,152 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        
+        <!-- BEGIN: TEST dependencies -->
+        <!-- BEGIN: External Test Packages -->
+        <dependency>
+            <groupId>de.cismet.commons</groupId>
+            <artifactId>cismet-commons</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.cismet.commons</groupId>
+            <artifactId>cismet-gui-commons</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+            <!--
+                Wrong jfreechart dependency in jasper!
+            -->
+            <exclusions>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jfreechart</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jcommon</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>de.cismet.commons</groupId>
+            <artifactId>cismap-commons</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+            <!--
+                Wrong jfreechart dependency in jasper!
+            -->
+            <exclusions>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jfreechart</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jcommon</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>de.cismet.cids</groupId>
+            <artifactId>cids-server</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+            <!--
+                Wrong jfreechart dependency in jasper!
+            -->
+            <exclusions>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jfreechart</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jcommon</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>de.cismet.cids.navigator</groupId>
+            <artifactId>cids-navigator</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+            <!--
+                Wrong jfreechart dependency in jasper!
+            -->
+            <exclusions>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jfreechart</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jfree</groupId>
+                    <artifactId>jcommon</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- END: External Test Packages -->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>xmlunit</groupId>
+            <artifactId>xmlunit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tngtech.java</groupId>
+            <artifactId>junit-dataprovider</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.xml.stream</groupId>
+                    <artifactId>stax-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-xml-provider</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.xml.stream</groupId>
+                    <artifactId>stax-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- END: TEST dependencies -->
+        
     </dependencies>
 
     <build>
@@ -367,6 +539,49 @@
                                 <mainClass>Sirius.navigator.Navigator</mainClass>
                             </manifest>
                         </archive>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>resource-dependencies</id>
+                            <phase>process-test-resources</phase>
+                            <goals>
+                                <goal>unpack-dependencies</goal>
+                            </goals>
+                            <configuration>
+                                <includeGroupIds>de.cismet</includeGroupIds>
+                                <includeArtifactIds>cismet-commons,cismet-gui-commons,cismap-commons,cids-server,cids-navigator</includeArtifactIds>
+                                <outputDirectory>${project.build.testOutputDirectory}/</outputDirectory>
+                                <encoding>${project.build.sourceEncoding}</encoding>
+                                <classifier>tests</classifier>
+                                <type>test-jar</type>
+                                <includeScope>test</includeScope>
+                                <failOnMissingClassifierArtifact>true</failOnMissingClassifierArtifact>
+                                <excludes>**/log4j.properties,**/*.class</excludes>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>     
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <dependenciesToScan>
+                            <dependency>de.cismet.commons:cismet-commons</dependency>
+                            <dependency>de.cismet.commons:cismet-gui-commons</dependency>
+                            <dependency>de.cismet.commons:cismap-commons</dependency>
+                            <dependency>de.cismet.cids:cids-server</dependency>
+                            <dependency>de.cismet.cids.navigator:cids-navigator</dependency>
+                        </dependenciesToScan>
+                        <excludes>
+                            <exclude>**/ClassPathInfoTest.java</exclude>
+                            <exclude>**/ClassloadingHelperTest</exclude>
+                            <exclude>**/CidsBeanTest</exclude>
+                            <exclude>**/CidsBeanSerialisationTest</exclude>
+                        </excludes>
                     </configuration>
                 </plugin>   
             </plugins>
