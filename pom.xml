@@ -77,6 +77,19 @@
                 <artifactId>cismet-gui-commons</artifactId>
                 <version>5.0-SNAPSHOT</version>
                 <type>jar</type>
+                <!--
+                    Wrong jfreechart dependency in jasper!
+                -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>jfree</groupId>
+                        <artifactId>jfreechart</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>jfree</groupId>
+                        <artifactId>jcommon</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>de.cismet.commons</groupId>
@@ -91,6 +104,19 @@
                 <artifactId>cismap-commons</artifactId>
                 <version>5.0-SNAPSHOT</version>
                 <type>jar</type>
+                <!--
+                    Wrong jfreechart dependency in jasper!
+                -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>jfree</groupId>
+                        <artifactId>jfreechart</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>jfree</groupId>
+                        <artifactId>jcommon</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>de.cismet.commons</groupId>
@@ -122,15 +148,37 @@
             </dependency>
             
             <dependency>
-                <groupId>de.cismet.cids</groupId>
-                <artifactId>cids-server-rest-types</artifactId>
+                <groupId>de.cismet.cids.navigator</groupId>
+                <artifactId>cids-navigator</artifactId>
                 <version>5.0-SNAPSHOT</version>
+                <type>jar</type>
+                <!--
+                    Wrong jfreechart dependency in jasper!
+                -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>jfree</groupId>
+                        <artifactId>jfreechart</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>jfree</groupId>
+                        <artifactId>jcommon</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
-            
             <dependency>
                 <groupId>de.cismet.cids.navigator</groupId>
                 <artifactId>cids-navigator</artifactId>
                 <version>5.0-SNAPSHOT</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+            
+            <dependency>
+                <groupId>de.cismet.cismap</groupId>
+                <artifactId>cismap-plugin</artifactId>
+                <version>5.0-SNAPSHOT</version>
+                <scope>compile</scope>
             </dependency>
 
             <dependency>
@@ -138,24 +186,31 @@
                 <artifactId>beansbinding</artifactId>
                 <version>5.0-SNAPSHOT</version>
             </dependency>
+            <!-- END: managed cids-dependencies -->  
             
             <!--
-                cismap-plugin managed dependency
+                Require upper bound dependencies error for commons-codec:commons-codec:1.6
             -->
             <dependency>
-                <groupId>de.cismet.cismap</groupId>
-                <artifactId>cismap-plugin</artifactId>
-                <version>5.0-SNAPSHOT</version>
-                <scope>runtime</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>de.cismet.cids.navigator</groupId>
-                        <artifactId>cids-navigator</artifactId>
-                    </exclusion>
-                </exclusions>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.10</version>
             </dependency>
-            <!-- END: managed cids-dependencies -->  
-
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jfree</groupId>
+                <artifactId>jcommon</artifactId>
+                <version>1.0.23</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jfree</groupId>
+                <artifactId>jfreechart</artifactId>
+                <version>1.0.19</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -182,12 +237,12 @@
             <artifactId>cids-custom-switchon-server</artifactId>
         </dependency>
         <dependency>
-            <groupId>de.cismet.cids</groupId>
-            <artifactId>cids-server-rest-types</artifactId>
-        </dependency>
-        <dependency>
             <groupId>de.cismet.cids.navigator</groupId>
             <artifactId>cids-navigator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.cismet.cismap</groupId>
+            <artifactId>cismap-plugin</artifactId>
         </dependency>
         <dependency>
             <groupId>de.cismet.custom</groupId>
@@ -237,6 +292,22 @@
             <groupId>org.jdom</groupId>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jcommon</artifactId>
+        </dependency>
         <!-- END: managed dependencies -->
         
         <!-- BEGIN: Runtime dependencies -->
@@ -248,23 +319,8 @@
         <!-- END: Runtime dependencies -->
         
         <dependency>
-            <groupId>org.jfree</groupId>
-            <artifactId>jfreechart</artifactId>
-            <version>1.0.15</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jfree</groupId>
-            <artifactId>jcommon</artifactId>
-            <version>1.0.17</version>
-        </dependency>
-        <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util</artifactId>
-            <version>${netbeans.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-util-lookup</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
         <dependency>
@@ -276,18 +332,7 @@
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-awt</artifactId>
             <version>${netbeans.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jdesktop</groupId>
-            <artifactId>beansbinding</artifactId>
-            <version>1.2.1</version>
         </dependency>   
-        <dependency>
-            <artifactId>docking</artifactId>
-            <groupId>net.infonode.docking</groupId>
-            <type>jar</type>
-            <version>1.5.0</version>
-        </dependency>
         <dependency>
             <artifactId>piccolo</artifactId>
             <groupId>edu.umd</groupId>
@@ -298,11 +343,15 @@
             <groupId>org.geotools</groupId>
             <artifactId>gt-main</artifactId>
             <version>2.7.4</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.4</version>
+            <exclusions>
+                <!--
+                    replaced by jdom-legacy
+                -->
+                <exclusion>
+                    <groupId>jdom</groupId>
+                    <artifactId>jdom</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
