@@ -377,6 +377,10 @@
                     <groupId>jdom</groupId>
                     <artifactId>jdom</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>javax.media</groupId>
+                    <artifactId>jai_core</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         
