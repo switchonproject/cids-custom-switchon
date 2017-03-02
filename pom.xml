@@ -41,11 +41,7 @@
             <organization>cismet GmbH</organization>
         </developer>
     </developers>
-    
-    <properties>
-        <netbeans.version>RELEASE701</netbeans.version>
-    </properties>
-    
+        
     <dependencyManagement>  
         <!-- IMPORT of cismet-ext-bom -->
         <dependencies>
@@ -334,6 +330,23 @@
             <groupId>org.jfree</groupId>
             <artifactId>jcommon</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-dialogs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-awt</artifactId>
+        </dependency>   
+        <dependency>
+            <artifactId>piccolo</artifactId>
+            <groupId>edu.umd</groupId>
+            <type>jar</type>
+        </dependency> 
         <!-- END: managed dependencies -->
         
         <!-- BEGIN: Runtime dependencies -->
@@ -343,28 +356,7 @@
             <scope>runtime</scope>
         </dependency>
         <!-- END: Runtime dependencies -->
-        
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-util</artifactId>
-            <version>${netbeans.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-dialogs</artifactId>
-            <version>${netbeans.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-awt</artifactId>
-            <version>${netbeans.version}</version>
-        </dependency>   
-        <dependency>
-            <artifactId>piccolo</artifactId>
-            <groupId>edu.umd</groupId>
-            <type>jar</type>
-            <version>1.2</version>
-        </dependency>       
+              
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-main</artifactId>
