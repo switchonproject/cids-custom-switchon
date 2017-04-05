@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.cismet</groupId>
         <artifactId>cismet-parent</artifactId>
-        <version>5.0</version>
+        <version>5.0.1</version>
     </parent>
 
     <groupId>de.cismet.cids.custom.switchon</groupId>
@@ -48,7 +48,7 @@
             <dependency>
                 <groupId>de.cismet</groupId>
                 <artifactId>cismet-ext-bom</artifactId>
-                <version>5.0</version>
+                <version>5.0.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -85,13 +85,13 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismap-commons</artifactId>
-                <version>5.0</version>
+                <version>5.0.1</version>
                 <type>jar</type>
             </dependency>
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismap-commons</artifactId>
-                <version>5.0</version>
+                <version>5.0.1</version>
                 <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
@@ -113,20 +113,20 @@
             <dependency>
                 <groupId>de.cismet.cids.custom.switchon</groupId>
                 <artifactId>cids-custom-switchon-server</artifactId>
-                <version>5.0</version>
+                <version>5.0.1</version>
                 <type>jar</type>
             </dependency>
             
             <dependency>
                 <groupId>de.cismet.cids.navigator</groupId>
                 <artifactId>cids-navigator</artifactId>
-                <version>5.0</version>
+                <version>5.0.1</version>
                 <type>jar</type>
             </dependency>
             <dependency>
                 <groupId>de.cismet.cids.navigator</groupId>
                 <artifactId>cids-navigator</artifactId>
-                <version>5.0</version>
+                <version>5.0.1</version>
                 <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
