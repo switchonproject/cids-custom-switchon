@@ -26,16 +26,12 @@ import com.sun.jersey.client.apache.config.DefaultApacheHttpClientConfig;
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import com.sun.jersey.multipart.FormDataMultiPart;
-import com.sun.jersey.multipart.MultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.apache.log4j.PropertyConfigurator;
-
-import org.openide.util.Exceptions;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -78,7 +74,7 @@ import de.cismet.netutil.Proxy;
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public class ZenodoUploader {
+final class ZenodoUploader {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -115,7 +111,7 @@ public class ZenodoUploader {
      * @throws  IOException  DOCUMENT ME!
      * @throws  Exception    DOCUMENT ME!
      */
-    public ZenodoUploader(final InputStream propertyFileStream, final InputStream resourcesFileStream)
+    private ZenodoUploader(final InputStream propertyFileStream, final InputStream resourcesFileStream)
             throws IOException, Exception {
         final InputStreamReader isr = new InputStreamReader(propertyFileStream);
         final BufferedReader br = new BufferedReader(isr);
@@ -176,7 +172,7 @@ public class ZenodoUploader {
      *
      * @return  DOCUMENT ME!
      */
-    protected MultivaluedMap createUserParameters() {
+    private MultivaluedMap createUserParameters() {
         final MultivaluedMap queryParams = new MultivaluedMapImpl();
         queryParams.add("access_token", this.zenodoApiKey);
         return queryParams;
@@ -396,31 +392,33 @@ public class ZenodoUploader {
                     continue;
                 }
 
-                System.exit(0);
-
                 final JsonNode emptyDeposition = this.createDeposition();
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.info("empty deposition " + emptyDeposition.get("id").asLong() + " created");
                 }
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug(MAPPER.writeValueAsString(emptyDeposition));
-                }
+                // if (LOGGER.isDebugEnabled()) {
+                // LOGGER.debug(MAPPER.writeValueAsString(emptyDeposition));
+                // }
 
-                final File file = new File("b:\\zenodo.zip");
-
-                final JsonNode depositionFile = this.uploadDepositionFile(
-                        emptyDeposition,
-                        file,
-                        this.getMediaType(file));
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.info("deposition file '" + file.getName() + "' uploaded. checksum: "
-                                + depositionFile.get("checksum").asText());
-                }
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug(MAPPER.writeValueAsString(depositionFile));
+                for (final File file : downloadResources) {
+                    final JsonNode depositionFile = this.uploadDepositionFile(
+                            emptyDeposition,
+                            file,
+                            this.getMediaType(file));
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.info("deposition file '" + file.getName() + "' uploaded. checksum: "
+                                    + depositionFile.get("checksum").asText());
+                    }
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug(MAPPER.writeValueAsString(depositionFile));
+                    }
                 }
 
                 i++;
+
+                if (i == 3) {
+                    System.exit(0);
+                }
             } catch (Throwable ex) {
                 LOGGER.error("error while processing  resource #" + i + " - "
                             + resourceId + ": " + ex.getMessage(),
@@ -441,7 +439,7 @@ public class ZenodoUploader {
      *
      * @return  a <code>WebResource</code> ready to perform an operation (GET, POST, PUT...)
      */
-    protected WebResource createWebResource(final String path) {
+    private WebResource createWebResource(final String path) {
         // remove leading '/' if present
         final String resource;
         if ((path == null) || path.isEmpty()) {
@@ -453,7 +451,7 @@ public class ZenodoUploader {
         }
 
         // create new client and webresource from the given resource
-        if (!clientCache.containsKey(path)) {
+        if (clientCache.isEmpty()) {
             LOGGER.info("adding new client for path '" + path + "' and resource '" + resource + "' to cache");
             final DefaultApacheHttpClientConfig clientConfig = new DefaultApacheHttpClientConfig();
             if (proxy.isEnabled()) {
@@ -520,7 +518,7 @@ public class ZenodoUploader {
      *
      * @throws  RemoteException  DOCUMENT ME!
      */
-    protected String getBasicAuthString() throws RemoteException {
+    private String getBasicAuthString() throws RemoteException {
         return "Bearer " + this.zenodoApiKey;
     }
 
@@ -531,7 +529,7 @@ public class ZenodoUploader {
      *
      * @return  DOCUMENT ME!
      */
-    protected WebResource.Builder createMediaTypeHeaders(final WebResource.Builder builder) {
+    private WebResource.Builder createMediaTypeHeaders(final WebResource.Builder builder) {
         return builder.type(MediaType.APPLICATION_JSON_TYPE).accept(MediaType.APPLICATION_JSON_TYPE);
     }
 
@@ -542,7 +540,7 @@ public class ZenodoUploader {
      *
      * @return  DOCUMENT ME!
      */
-    protected WebResource.Builder createMediaTypeHeaders(final WebResource webResource) {
+    private WebResource.Builder createMediaTypeHeaders(final WebResource webResource) {
         return webResource.type(MediaType.APPLICATION_JSON_TYPE).accept(MediaType.APPLICATION_JSON_TYPE);
     }
 
