@@ -23,10 +23,15 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.client.apache.ApacheHttpClient;
 import com.sun.jersey.client.apache.config.ApacheHttpClientConfig;
 import com.sun.jersey.client.apache.config.DefaultApacheHttpClientConfig;
+import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.MultiPart;
+import com.sun.jersey.multipart.file.FileDataBodyPart;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.BufferedReader;
@@ -34,6 +39,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import java.net.URLConnection;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
@@ -59,8 +66,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.netutil.Proxy;
-
-import static de.cismet.cidsx.client.connector.RESTfulInterfaceConnector.ENTITIES_API;
 
 /**
  * DOCUMENT ME!
@@ -196,7 +201,7 @@ public class ZenodoUploader {
     }
 
     /**
-     * DOCUMENT ME!
+     * Creates an empty deposition.
      *
      * @return  DOCUMENT ME!
      *
@@ -209,40 +214,115 @@ public class ZenodoUploader {
         WebResource.Builder builder = this.createAuthorisationHeader(webResource);
         builder = this.createMediaTypeHeaders(builder);
         final JsonNode objectNode = builder.post(ObjectNode.class, MAPPER.createObjectNode());
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("empty deposition " + objectNode.get("id").asLong() + " created");
-        }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(MAPPER.writeValueAsString(objectNode));
-        }
-
         return objectNode;
     }
 
     /**
      * DOCUMENT ME!
      *
+     * @param   deposition  DOCUMENT ME!
+     * @param   file        DOCUMENT ME!
+     * @param   mediaType   DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
+     *
+     * @throws  RemoteException  DOCUMENT ME!
+     * @throws  IOException      DOCUMENT ME!
      */
-    private int performUpload() {
-        int i = 0;
+    private JsonNode uploadDepositionFile(final JsonNode deposition, final File file, final MediaType mediaType)
+            throws RemoteException, IOException {
+        final MultivaluedMap queryParameters = this.createUserParameters();
 
-        for (final int resourceId : resourceIds) {
-            try {
-                final MetaObject metaObject = SessionManager.getProxy()
-                            .getMetaObject(resourceId, resourceClass.getId(), DOMAIN);
-                final CidsBean cidsBean = metaObject.getBean();
+        final WebResource webResource = this.createWebResource(DEPOSITIONS_API + "/" + deposition.get("id") + "/files")
+                    .queryParams(queryParameters);
+        final WebResource.Builder builder = this.createAuthorisationHeader(webResource);
+        builder.type(MediaType.MULTIPART_FORM_DATA_TYPE).accept(MediaType.APPLICATION_JSON_TYPE);
+
+        // upload file to zenodo. tricky and error prone.
+        final FileDataBodyPart filePart = new FileDataBodyPart("file", file);
+        // here we set the real file name!
+        filePart.setContentDisposition(
+            FormDataContentDisposition.name("file").fileName(file.getName()).build());
+
+        filePart.setMediaType(mediaType);
+        // This part is ignored by the zenodo API ??!!
+        // http://developers.zenodo.org/?shell#deposition-files
+        final FormDataMultiPart multiPartData = new FormDataMultiPart();
+        multiPartData.field(
+            "filename",
+            file.getName(),
+            MediaType.TEXT_PLAIN_TYPE);
+        multiPartData.bodyPart(filePart);
+
+        final JsonNode objectNode = builder.post(ObjectNode.class, multiPartData);
+        return objectNode;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   file  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  IOException  DOCUMENT ME!
+     */
+    private MediaType getMediaType(final File file) throws IOException {
+        String mediaType = Files.probeContentType(file.toPath());
+        if ((mediaType == null) || mediaType.isEmpty()) {
+            mediaType = URLConnection.guessContentTypeFromName(file.getName());
+            if ((mediaType == null) || mediaType.isEmpty()) {
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("CidsBean " + metaObject.getID() + " - '" + metaObject.getName() + "' loaded");
+                    LOGGER.warn("cannot detect media type of file '" + file.getName() + "'");
                 }
-
-                i++;
-            } catch (Throwable ex) {
-                LOGGER.error("error while rpcessing resource #" + i + " - " + resourceId, ex);
+                return MediaType.APPLICATION_OCTET_STREAM_TYPE;
             }
         }
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("media type of file '" + file.getName() + " detected: " + mediaType);
+        }
+        return MediaType.valueOf(mediaType);
+    }
 
-        LOGGER.info(i + " resources processed");
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    private int performUpload() throws Exception {
+        final int i = 0;
+
+        final JsonNode emptyDeposition = this.createDeposition();
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.info("empty deposition " + emptyDeposition.get("id").asLong() + " created");
+        }
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(MAPPER.writeValueAsString(emptyDeposition));
+        }
+
+        final File file = new File("b:\\zenodo.zip");
+
+        final JsonNode depositionFile = this.uploadDepositionFile(emptyDeposition, file, this.getMediaType(file));
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.info("deposition file '" + file.getName() + "' uploaded. checksum: "
+                        + depositionFile.get("checksum").asText());
+        }
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(MAPPER.writeValueAsString(depositionFile));
+        }
+
+        /*for (final int resourceId : resourceIds) {
+         *  try {     final MetaObject metaObject = SessionManager.getProxy()                 .getMetaObject(resourceId,
+         * resourceClass.getId(), DOMAIN);     final CidsBean cidsBean = metaObject.getBean();     if
+         * (LOGGER.isDebugEnabled()) {         LOGGER.debug("CidsBean " + metaObject.getID() + " - '" +
+         * metaObject.getName() + "' loaded");     }
+         *
+         * i++; } catch (Throwable ex) {     LOGGER.error("error while rpcessing resource #" + i + " - " + resourceId,
+         * ex); } }
+         *
+         *LOGGER.info(i + " resources processed");*/
         return i;
     }
 
@@ -382,9 +462,10 @@ public class ZenodoUploader {
 
             zenodoUploader = new ZenodoUploader(propertiesFileStream, resourcesFileStream);
 
-            zenodoUploader.createDeposition();
+            zenodoUploader.performUpload();
         } catch (Throwable t) {
             ZenodoUploader.LOGGER.fatal(t.getMessage(), t);
+            System.exit(1);
         }
     }
 
