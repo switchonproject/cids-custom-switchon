@@ -29,10 +29,13 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.MultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.apache.log4j.PropertyConfigurator;
+
+import org.openide.util.Exceptions;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -40,6 +43,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLConnection;
 
 import java.nio.charset.StandardCharsets;
@@ -287,42 +292,143 @@ public class ZenodoUploader {
     /**
      * DOCUMENT ME!
      *
+     * @param   resourceBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private ArrayList<File> downloadResources(final CidsBean resourceBean) {
+        final ArrayList<File> files = new ArrayList<File>();
+        final List<CidsBean> representationBeans = resourceBean.getBeanCollectionProperty("representation");
+        final int i = 0;
+        for (final CidsBean representationBean : representationBeans) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("processing representation #" + i + " ' "
+                            + representationBean.getProperty("name") + "' of resource '"
+                            + resourceBean.getProperty("name") + "'");
+            }
+
+            if (((CidsBean)representationBean.getProperty("type")).getProperty("name").toString().equalsIgnoreCase(
+                            "original data")) {
+                if (((CidsBean)representationBean.getProperty("function")).getProperty("name").toString()
+                            .equalsIgnoreCase("download")) {
+                    try {
+                        final File file = this.downloadResource(representationBean);
+                        if (file != null) {
+                            files.add(file);
+                            if (LOGGER.isDebugEnabled()) {
+                                LOGGER.debug("successfully downloaded file from '"
+                                            + representationBean.getProperty("contentlocation")
+                                            + "' to " + file.getAbsolutePath());
+                            }
+                        }
+                    } catch (IOException ex) {
+                        LOGGER.error("could not download representation #" + i + "' "
+                                    + representationBean.getProperty("name") + "' of resource '"
+                                    + resourceBean.getProperty("name") + "' from URL '"
+                                    + representationBean.getProperty("contentlocation") + "': " + ex.getMessage());
+                    }
+                } else if (LOGGER.isDebugEnabled()) {
+                    LOGGER.warn("ignoring non-downloadable representation ("
+                                + ((CidsBean)representationBean.getProperty("function")).getProperty("name")
+                                + "): " + representationBean.getProperty("contenttype"));
+                }
+            } else if (LOGGER.isDebugEnabled()) {
+                LOGGER.warn("ignoring non-downloadable representation ("
+                            + ((CidsBean)representationBean.getProperty("function")).getProperty("name")
+                            + "): " + representationBean.getProperty("contenttype"));
+            }
+        }
+
+        return files;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   representationBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  MalformedURLException  DOCUMENT ME!
+     * @throws  IOException            DOCUMENT ME!
+     */
+    private File downloadResource(final CidsBean representationBean) throws MalformedURLException, IOException {
+        final URL fileUrl = new URL(representationBean.getProperty("contentlocation").toString());
+        final String filename = fileUrl.getFile();
+        if ((filename == null) || filename.isEmpty()) {
+            LOGGER.warn("could not downlod non-file from url: " + representationBean.getProperty("contentlocation"));
+            return null;
+        }
+
+        final File file = new File(this.tempDirectory, filename);
+        FileUtils.copyURLToFile(fileUrl, file, TIMEOUT, TIMEOUT);
+
+        return file;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      *
      * @throws  Exception  DOCUMENT ME!
      */
     private int performUpload() throws Exception {
-        final int i = 0;
+        int i = 0;
 
-        final JsonNode emptyDeposition = this.createDeposition();
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.info("empty deposition " + emptyDeposition.get("id").asLong() + " created");
-        }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(MAPPER.writeValueAsString(emptyDeposition));
+        for (final int resourceId : resourceIds) {
+            try {
+                final MetaObject metaObject = SessionManager.getProxy()
+                            .getMetaObject(resourceId,
+                                resourceClass.getId(), DOMAIN);
+                final CidsBean resourceBean = metaObject.getBean();
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("resource " + metaObject.getID() + " - '"
+                                + metaObject.getName() + "' with "
+                                + resourceBean.getBeanCollectionProperty("representation").size()
+                                + " representations loaded");
+                }
+
+                final ArrayList<File> downloadResources = this.downloadResources(resourceBean);
+                if (downloadResources.isEmpty()) {
+                    LOGGER.error("no valid representations for resource " + metaObject.getID() + " - '"
+                                + metaObject.getName() + "', skipping resource!");
+                    continue;
+                }
+
+                System.exit(0);
+
+                final JsonNode emptyDeposition = this.createDeposition();
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.info("empty deposition " + emptyDeposition.get("id").asLong() + " created");
+                }
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug(MAPPER.writeValueAsString(emptyDeposition));
+                }
+
+                final File file = new File("b:\\zenodo.zip");
+
+                final JsonNode depositionFile = this.uploadDepositionFile(
+                        emptyDeposition,
+                        file,
+                        this.getMediaType(file));
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.info("deposition file '" + file.getName() + "' uploaded. checksum: "
+                                + depositionFile.get("checksum").asText());
+                }
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug(MAPPER.writeValueAsString(depositionFile));
+                }
+
+                i++;
+            } catch (Throwable ex) {
+                LOGGER.error("error while processing  resource #" + i + " - "
+                            + resourceId + ": " + ex.getMessage(),
+                    ex);
+            }
         }
 
-        final File file = new File("b:\\zenodo.zip");
-
-        final JsonNode depositionFile = this.uploadDepositionFile(emptyDeposition, file, this.getMediaType(file));
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.info("deposition file '" + file.getName() + "' uploaded. checksum: "
-                        + depositionFile.get("checksum").asText());
-        }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(MAPPER.writeValueAsString(depositionFile));
-        }
-
-        /*for (final int resourceId : resourceIds) {
-         *  try {     final MetaObject metaObject = SessionManager.getProxy()                 .getMetaObject(resourceId,
-         * resourceClass.getId(), DOMAIN);     final CidsBean cidsBean = metaObject.getBean();     if
-         * (LOGGER.isDebugEnabled()) {         LOGGER.debug("CidsBean " + metaObject.getID() + " - '" +
-         * metaObject.getName() + "' loaded");     }
-         *
-         * i++; } catch (Throwable ex) {     LOGGER.error("error while rpcessing resource #" + i + " - " + resourceId,
-         * ex); } }
-         *
-         *LOGGER.info(i + " resources processed");*/
+        LOGGER.info(i + " resources processed");
         return i;
     }
 
