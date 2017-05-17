@@ -89,6 +89,19 @@ final class ZenodoUploader {
 
     private static final Logger LOGGER = Logger.getLogger(ZenodoUploader.class);
 
+    /** Maps SWITCH-ON CC Licenses to to http://licenses.opendefinition.org/ Licenses. */
+    private static final HashMap<String, String> ACCESS_CONDITIONS = new HashMap<String, String>();
+
+    static {
+        ACCESS_CONDITIONS.put("Creative Commons (CC BY)", "CC-BY-4.0");
+        ACCESS_CONDITIONS.put("Creative Commons (CC BY-NC)", "CC-BY-NC-4.0");
+        ACCESS_CONDITIONS.put("Creative Commons (CC BY-NC-ND)", "CC-BY-NC-4.0");
+        ACCESS_CONDITIONS.put("Creative Commons (CC BY-NC-SA)", "CC-BY-NC-4.0");
+        ACCESS_CONDITIONS.put("Creative Commons (CC BY-ND)", "CC-BY-4.0");
+        ACCESS_CONDITIONS.put("Creative Commons (CC BY-SA)", "CC-BY-SA-4.0");
+        ACCESS_CONDITIONS.put("no limitations", "other-pd");
+    }
+
     //~ Instance fields --------------------------------------------------------
 
     private final List<CidsBean> resources = new ArrayList<CidsBean>();
@@ -250,6 +263,29 @@ final class ZenodoUploader {
     /**
      * DOCUMENT ME!
      *
+     * @param   deposition  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  RemoteException          DOCUMENT ME!
+     * @throws  JsonProcessingException  DOCUMENT ME!
+     */
+    private ObjectNode updateDeposition(final ObjectNode deposition) throws RemoteException, JsonProcessingException {
+        final long depositionId = deposition.get("id").asLong();
+
+        final MultivaluedMap queryParameters = this.createUserParameters();
+        final WebResource webResource = this.createWebResource(DEPOSITIONS_API + "/" + depositionId)
+                    .queryParams(queryParameters);
+        WebResource.Builder builder = this.createAuthorisationHeader(webResource);
+        builder = this.createMediaTypeHeaders(builder);
+
+        final ObjectNode objectNode = builder.put(ObjectNode.class, deposition);
+        return objectNode;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param   depositionId  DOCUMENT ME!
      * @param   file          DOCUMENT ME!
      * @param   mediaType     DOCUMENT ME!
@@ -259,7 +295,7 @@ final class ZenodoUploader {
      * @throws  RemoteException  DOCUMENT ME!
      * @throws  IOException      DOCUMENT ME!
      */
-    private JsonNode uploadDepositionFile(final long depositionId, final File file, final MediaType mediaType)
+    private ObjectNode uploadDepositionFile(final long depositionId, final File file, final MediaType mediaType)
             throws RemoteException, IOException {
         final long current = System.currentTimeMillis();
         final MultivaluedMap queryParameters = this.createUserParameters();
@@ -285,7 +321,7 @@ final class ZenodoUploader {
             MediaType.TEXT_PLAIN_TYPE);
         multiPartData.bodyPart(filePart);
 
-        final JsonNode objectNode = builder.post(ObjectNode.class, multiPartData);
+        final ObjectNode objectNode = builder.post(ObjectNode.class, multiPartData);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("file '" + file.getName() + "' (" + (objectNode.get("filesize").asLong() / 1024)
                         + "kb) uploaded in " + ((System.currentTimeMillis() - current) / 1000) + "s");
@@ -409,10 +445,12 @@ final class ZenodoUploader {
     private ObjectNode copyMetadata(final ObjectNode deposition, final CidsBean resourceBean) throws Exception {
         final ObjectNode metadata = (ObjectNode)deposition.get("metadata");
 
+        // type, title, description --------------------------------------------
         metadata.put("upload_type", "dataset");
         metadata.put("title", resourceBean.getProperty("name").toString());
         metadata.put("description", resourceBean.getProperty("description").toString());
 
+        // creator(s) ----------------------------------------------------------
         final ArrayNode creators = metadata.putArray("creators");
         final CidsBean contact = (CidsBean)resourceBean.getProperty("contact");
 
@@ -438,6 +476,7 @@ final class ZenodoUploader {
             }
         }
 
+        // accessconditions ----------------------------------------------------
         final CidsBean accessConditions = (CidsBean)resourceBean.getProperty("accessconditions");
         if (accessConditions.getProperty("name").toString().equalsIgnoreCase("research only")
                     || accessConditions.getProperty("name").toString().equalsIgnoreCase("other")) {
@@ -446,9 +485,44 @@ final class ZenodoUploader {
                         && !resourceBean.getProperty("licensestatement").toString().isEmpty()) {
                 metadata.put("access_conditions", resourceBean.getProperty("licensestatement").toString());
             } else {
-                metadata.put("access_conditions", resourceBean.getProperty("licensestatement").toString());
+                metadata.put("access_conditions", accessConditions.getProperty("description").toString());
+            }
+        } else {
+            metadata.put("access_right", "open");
+            if (ACCESS_CONDITIONS.containsKey(accessConditions.getProperty("name").toString())) {
+                metadata.put("license", ACCESS_CONDITIONS.get(accessConditions.getProperty("name").toString()));
+            } else {
+                metadata.put("license", "other-pd");
             }
         }
+
+        // keywords ------------------------------------------------------------
+        final ArrayNode keywords = metadata.putArray("keywords");
+        for (final CidsBean tagBean : resourceBean.getBeanCollectionProperty("tags")) {
+            keywords.add(tagBean.getProperty("name").toString());
+        }
+
+        // notes ---------------------------------------------------------------
+        for (final CidsBean metadataBean : resourceBean.getBeanCollectionProperty("metadata")) {
+            if (((CidsBean)metadataBean.getProperty("type")).getProperty("name").toString().equalsIgnoreCase(
+                            "lineage meta-data")) {
+                if ((metadataBean.getProperty("description") != null)
+                            && !metadataBean.getProperty("description").toString().isEmpty()) {
+                    metadata.put("notes", metadataBean.getProperty("description").toString());
+                    break;
+                }
+            }
+        }
+
+        // grants --------------------------------------------------------------
+        final ArrayNode grants = metadata.putArray("grants");
+        final ObjectNode grant = grants.addObject();
+        grant.put("id", 603587);
+
+        // communities ---------------------------------------------------------
+        final ArrayNode communities = metadata.putArray("communities");
+        final ObjectNode community = communities.addObject();
+        grant.put("identifier", "switchon");
 
         return deposition;
     }
@@ -507,11 +581,19 @@ final class ZenodoUploader {
                 }
 
                 deposition = this.getDeposition(depositionId);
+                // if (LOGGER.isDebugEnabled()) {
+                // LOGGER.debug(MAPPER.writeValueAsString(deposition));
+                // }
+
+                this.copyMetadata(deposition, resourceBean);
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug(MAPPER.writeValueAsString(deposition));
                 }
 
-                this.copyMetadata(deposition, resourceBean);
+                deposition = this.updateDeposition(deposition);
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug(MAPPER.writeValueAsString(deposition));
+                }
 
                 i++;
 
