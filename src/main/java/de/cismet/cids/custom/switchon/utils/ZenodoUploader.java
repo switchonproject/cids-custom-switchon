@@ -15,6 +15,7 @@ import Sirius.server.middleware.types.MetaObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import com.sun.jersey.api.client.Client;
@@ -38,6 +39,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import java.math.BigDecimal;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -202,6 +205,32 @@ final class ZenodoUploader {
     }
 
     /**
+     * DOCUMENT ME!
+     *
+     * @param   depositionId  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  RemoteException          DOCUMENT ME!
+     * @throws  JsonProcessingException  DOCUMENT ME!
+     */
+    private ObjectNode getDeposition(final long depositionId) throws RemoteException, JsonProcessingException {
+        final MultivaluedMap queryParameters = this.createUserParameters();
+        final WebResource webResource = this.createWebResource(DEPOSITIONS_API + "/" + depositionId)
+                    .queryParams(queryParameters);
+        WebResource.Builder builder = this.createAuthorisationHeader(webResource);
+        builder = this.createMediaTypeHeaders(builder);
+        final ObjectNode objectNode = builder.get(ObjectNode.class);
+
+        // for(final JsonNode objectNode:objectNodes) {
+        // LOGGER.info(objectNode.toString());
+        // System.out.println(new ObjectMapper().writeValueAsString(objectNode));
+        // }
+
+        return objectNode;
+    }
+
+    /**
      * Creates an empty deposition.
      *
      * @return  DOCUMENT ME!
@@ -209,32 +238,33 @@ final class ZenodoUploader {
      * @throws  RemoteException          DOCUMENT ME!
      * @throws  JsonProcessingException  DOCUMENT ME!
      */
-    private JsonNode createDeposition() throws RemoteException, JsonProcessingException {
+    private ObjectNode createDeposition() throws RemoteException, JsonProcessingException {
         final MultivaluedMap queryParameters = this.createUserParameters();
         final WebResource webResource = this.createWebResource(DEPOSITIONS_API).queryParams(queryParameters);
         WebResource.Builder builder = this.createAuthorisationHeader(webResource);
         builder = this.createMediaTypeHeaders(builder);
-        final JsonNode objectNode = builder.post(ObjectNode.class, MAPPER.createObjectNode());
+        final ObjectNode objectNode = builder.post(ObjectNode.class, MAPPER.createObjectNode());
         return objectNode;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param   deposition  DOCUMENT ME!
-     * @param   file        DOCUMENT ME!
-     * @param   mediaType   DOCUMENT ME!
+     * @param   depositionId  DOCUMENT ME!
+     * @param   file          DOCUMENT ME!
+     * @param   mediaType     DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      *
      * @throws  RemoteException  DOCUMENT ME!
      * @throws  IOException      DOCUMENT ME!
      */
-    private JsonNode uploadDepositionFile(final JsonNode deposition, final File file, final MediaType mediaType)
+    private JsonNode uploadDepositionFile(final long depositionId, final File file, final MediaType mediaType)
             throws RemoteException, IOException {
+        final long current = System.currentTimeMillis();
         final MultivaluedMap queryParameters = this.createUserParameters();
 
-        final WebResource webResource = this.createWebResource(DEPOSITIONS_API + "/" + deposition.get("id") + "/files")
+        final WebResource webResource = this.createWebResource(DEPOSITIONS_API + "/" + depositionId + "/files")
                     .queryParams(queryParameters);
         final WebResource.Builder builder = this.createAuthorisationHeader(webResource);
         builder.type(MediaType.MULTIPART_FORM_DATA_TYPE).accept(MediaType.APPLICATION_JSON_TYPE);
@@ -256,6 +286,10 @@ final class ZenodoUploader {
         multiPartData.bodyPart(filePart);
 
         final JsonNode objectNode = builder.post(ObjectNode.class, multiPartData);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("file '" + file.getName() + "' (" + (objectNode.get("filesize").asLong() / 1024)
+                        + "kb) uploaded in " + ((System.currentTimeMillis() - current) / 1000) + "s");
+        }
         return objectNode;
     }
 
@@ -365,6 +399,63 @@ final class ZenodoUploader {
     /**
      * DOCUMENT ME!
      *
+     * @param   deposition    DOCUMENT ME!
+     * @param   resourceBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    private ObjectNode copyMetadata(final ObjectNode deposition, final CidsBean resourceBean) throws Exception {
+        final ObjectNode metadata = (ObjectNode)deposition.get("metadata");
+
+        metadata.put("upload_type", "dataset");
+        metadata.put("title", resourceBean.getProperty("name").toString());
+        metadata.put("description", resourceBean.getProperty("description").toString());
+
+        final ArrayNode creators = metadata.putArray("creators");
+        final CidsBean contact = (CidsBean)resourceBean.getProperty("contact");
+
+        if ((contact.getProperty("name") == null) || contact.getProperty("name").toString().isEmpty()) {
+            if ((contact.getProperty("organisation") == null)
+                        || contact.getProperty("oranisation").toString().isEmpty()) {
+                throw new Exception("resource " + resourceBean.getPrimaryKeyValue() + " '"
+                            + resourceBean.getProperty("name") + "' does not have valid contact information");
+            } else {
+                final ObjectNode creator = creators.addObject();
+                creator.put("name", contact.getProperty("organisation").toString());
+                creator.put("affiliation", contact.getProperty("organisation").toString());
+            }
+        } else {
+            final String[] contactNames = contact.getProperty("name").toString().split(";");
+            for (final String contactName : contactNames) {
+                final ObjectNode creator = creators.addObject();
+                creator.put("name", contactName);
+                if ((contact.getProperty("organisation") != null)
+                            && !contact.getProperty("oranisation").toString().isEmpty()) {
+                    creator.put("affiliation", contact.getProperty("organisation").toString());
+                }
+            }
+        }
+
+        final CidsBean accessConditions = (CidsBean)resourceBean.getProperty("accessconditions");
+        if (accessConditions.getProperty("name").toString().equalsIgnoreCase("research only")
+                    || accessConditions.getProperty("name").toString().equalsIgnoreCase("other")) {
+            metadata.put("access_right", "restricted");
+            if ((resourceBean.getProperty("licensestatement") != null)
+                        && !resourceBean.getProperty("licensestatement").toString().isEmpty()) {
+                metadata.put("access_conditions", resourceBean.getProperty("licensestatement").toString());
+            } else {
+                metadata.put("access_conditions", resourceBean.getProperty("licensestatement").toString());
+            }
+        }
+
+        return deposition;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      *
      * @throws  Exception  DOCUMENT ME!
@@ -392,9 +483,10 @@ final class ZenodoUploader {
                     continue;
                 }
 
-                final JsonNode emptyDeposition = this.createDeposition();
+                ObjectNode deposition = this.createDeposition();
+                final long depositionId = deposition.get("id").asLong();
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.info("empty deposition " + emptyDeposition.get("id").asLong() + " created");
+                    LOGGER.info("empty deposition " + depositionId + " created");
                 }
                 // if (LOGGER.isDebugEnabled()) {
                 // LOGGER.debug(MAPPER.writeValueAsString(emptyDeposition));
@@ -402,7 +494,7 @@ final class ZenodoUploader {
 
                 for (final File file : downloadResources) {
                     final JsonNode depositionFile = this.uploadDepositionFile(
-                            emptyDeposition,
+                            depositionId,
                             file,
                             this.getMediaType(file));
                     if (LOGGER.isDebugEnabled()) {
@@ -413,6 +505,13 @@ final class ZenodoUploader {
                         LOGGER.debug(MAPPER.writeValueAsString(depositionFile));
                     }
                 }
+
+                deposition = this.getDeposition(depositionId);
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug(MAPPER.writeValueAsString(deposition));
+                }
+
+                this.copyMetadata(deposition, resourceBean);
 
                 i++;
 
@@ -489,7 +588,8 @@ final class ZenodoUploader {
             clientCache.put(path, ApacheHttpClient.create(clientConfig));
         }
 
-        final Client client = clientCache.get(path);
+        // hacketyhack
+        final Client client = clientCache.values().iterator().next();
         final UriBuilder uriBuilder = UriBuilder.fromPath(resource);
 
         final WebResource webResource = client.resource(uriBuilder.build());
