@@ -147,16 +147,24 @@ final class ZenodoUploader {
         PropertyConfigurator.configure(properties);
 
         // add trailing '/' to the root resource if not present
-        if ('/' == properties.getProperty("zenodoiApi").charAt(properties.getProperty("zenodoiApi").length() - 1)) {
-            this.zenodoApi = properties.getProperty("zenodoiApi");
+        if ('/' == properties.getProperty("zenodoApi").charAt(properties.getProperty("zenodoApi").length() - 1)) {
+            this.zenodoApi = properties.getProperty("zenodoApi");
         } else {
-            this.zenodoApi = properties.getProperty("zenodoiApi") + "/"; // NOI18N
+            this.zenodoApi = properties.getProperty("zenodoApi") + "/"; // NOI18N
         }
 
         this.zenodoApiKey = properties.getProperty("zenodoApiKey");
 
-        this.proxy = Proxy.fromPreferences();
-        LOGGER.info("connecting to zenodoi API '" + this.zenodoApi + "' through proxy '" + this.proxy.getHost());
+        if (Proxy.fromPreferences() != null) {
+            this.proxy = Proxy.fromPreferences();
+        } else if (Proxy.fromSystem() != null) {
+            this.proxy = Proxy.fromSystem();
+        } else {
+            this.proxy = new Proxy();
+            this.proxy.setEnabled(false);
+        }
+
+        LOGGER.info("connecting to zenodo API '" + this.zenodoApi + "' through proxy '" + this.proxy.getHost());
 
         DevelopmentTools.initSessionManagerFromRestfulConnectionOnLocalhost(
             properties.getProperty("domain"),
@@ -470,7 +478,7 @@ final class ZenodoUploader {
                 final ObjectNode creator = creators.addObject();
                 creator.put("name", contactName);
                 if ((contact.getProperty("organisation") != null)
-                            && !contact.getProperty("oranisation").toString().isEmpty()) {
+                            && !contact.getProperty("organisation").toString().isEmpty()) {
                     creator.put("affiliation", contact.getProperty("organisation").toString());
                 }
             }
@@ -517,12 +525,12 @@ final class ZenodoUploader {
         // grants --------------------------------------------------------------
         final ArrayNode grants = metadata.putArray("grants");
         final ObjectNode grant = grants.addObject();
-        grant.put("id", 603587);
+        grant.put("id", "603587");
 
         // communities ---------------------------------------------------------
         final ArrayNode communities = metadata.putArray("communities");
         final ObjectNode community = communities.addObject();
-        grant.put("identifier", "switchon");
+        community.put("identifier", "switchon");
 
         return deposition;
     }
