@@ -41,7 +41,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -54,6 +53,7 @@ import java.nio.file.StandardOpenOption;
 import java.rmi.RemoteException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +64,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
+
 import de.cismet.cids.custom.switchon.search.server.TagsSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -71,7 +72,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.netutil.Proxy;
-import java.util.Collection;
 
 /**
  * DOCUMENT ME!
@@ -194,62 +194,72 @@ final class ZenodoUploader {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   taggroupName  DOCUMENT ME!
+     * @param   tagName       DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
     private CidsBean fetchTagBean(final String taggroupName, final String tagName) throws Exception {
-        Collection<MetaObject> tags;
-        TagsSearch tagsSearch = new TagsSearch();
+        final Collection<MetaObject> tags;
+        final TagsSearch tagsSearch = new TagsSearch();
         tagsSearch.setTaggroup(taggroupName);
         tagsSearch.setTags(tagName);
         tags = SessionManager.getProxy().customServerSearch(tagsSearch);
-        if(tags == null ||tags.isEmpty() ||tags.size() != 1) {
-            throw new Exception("could not find tag for name '" + tagName 
-                    + "' and taggroup '" + taggroupName + "'!");
+        if ((tags == null) || tags.isEmpty() || (tags.size() != 1)) {
+            throw new Exception("could not find tag for name '" + tagName
+                        + "' and taggroup '" + taggroupName + "'!");
         }
-        
+
         return tags.iterator().next().getBean();
     }
-    
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ConnectionException  DOCUMENT ME!
+     * @throws  Exception            DOCUMENT ME!
+     */
     private CidsBean createMetadataBean() throws ConnectionException, Exception {
-        final CidsBean metadataBean = CidsBean.createNewCidsBeanFromTableName(DOMAIN, METADATA_META_CLASS);       
-        
+        final CidsBean metadataBean = CidsBean.createNewCidsBeanFromTableName(DOMAIN, METADATA_META_CLASS);
+
         metadataBean.setProperty("name", "Zenodo Deposition Resource");
         metadataBean.setProperty("type", fetchTagBean("meta-data type", "deposition meta-data"));
         metadataBean.setProperty("standard", fetchTagBean("meta-data standard", "Zenodo Depositions"));
         metadataBean.setProperty("contenttype", fetchTagBean("content type", "application/json"));
-        
-        return metadataBean;
-    }
-    
-    private CidsBean updateMetadataBean(final CidsBean metadataBean) {
-        
-        /*
-        
-        tagGroupService.getTagList('meta-data standard', 'SWITCH-ON SIM,Zenodo Depositions')
-        
-         tagGroupService.getTagList('meta-data type', 'basic meta-data,lineage meta-data,deposition meta-data').$promise.then(function (tags) {
-        
-        
-        _this.dataset.metadata[2].type.name === 'deposition meta-data'
-        
-        _this.dataset.metadata[2].standard = tags.getTagByName('Zenodo Depositions');
-        
-        tagGroupService.getTag('content type', 'application/json',
-         _this.dataset.metadata[2].contenttype = tag;
-         
 
-         
-         depositionMetadata.contentlocation = deposition.links.record;
-                           depositionMetadata.content = angular.toJson(deposition);
-                           depositionMetadata.description = deposition.doi_url;
-                           depositionMetadata.creationdate = currentdate;
-                           depositionMetadata.uuid = deposition.doi;*/
-        
-        
         return metadataBean;
     }
 
-        
-    
-    
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   metadataBean  DOCUMENT ME!
+     * @param   deposition    DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    private CidsBean updateMetadataBean(final CidsBean metadataBean, final ObjectNode deposition) throws Exception {
+        metadataBean.getMetaObject().setStatus(MetaObject.NEW);
+        metadataBean.setProperty("id", -1);
+        metadataBean.setProperty("creationdate", System.currentTimeMillis());
+
+        metadataBean.setProperty("contentlocation", deposition.get("links").get("record").asText());
+        metadataBean.setProperty("content", MAPPER.writeValueAsString(deposition));
+        metadataBean.setProperty("description", deposition.get("doi_url").asText());
+        metadataBean.setProperty("uuid", deposition.get("doi").asText());
+
+        return metadataBean;
+    }
+
     /**
      * DOCUMENT ME!
      *
@@ -349,13 +359,24 @@ final class ZenodoUploader {
         final ObjectNode objectNode = builder.put(ObjectNode.class, deposition);
         return objectNode;
     }
-    
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   deposition  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  RemoteException          DOCUMENT ME!
+     * @throws  JsonProcessingException  DOCUMENT ME!
+     */
     private ObjectNode publishDeposition(final ObjectNode deposition) throws RemoteException, JsonProcessingException {
         final long depositionId = deposition.get("id").asLong();
 
         final MultivaluedMap queryParameters = this.createUserParameters();
-        final WebResource webResource = this.createWebResource(DEPOSITIONS_API + "/" + depositionId + 
-                "/publish").queryParams(queryParameters);
+        final WebResource webResource = this.createWebResource(DEPOSITIONS_API + "/" + depositionId
+                            + "/actions/publish")
+                    .queryParams(queryParameters);
         WebResource.Builder builder = this.createAuthorisationHeader(webResource);
         builder = this.createMediaTypeHeaders(builder);
 
@@ -617,18 +638,20 @@ final class ZenodoUploader {
     private int performUpload() throws Exception {
         int i = 0;
 
+        CidsBean metadataBean = this.createMetadataBean();
+        ObjectNode deposition = null;
+
         for (final int resourceId : resourceIds) {
             try {
                 final MetaObject metaObject = SessionManager.getProxy()
                             .getMetaObject(resourceId,
                                 resourceClass.getId(), DOMAIN);
                 final CidsBean resourceBean = metaObject.getBean();
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("resource " + metaObject.getID() + " - '"
-                                + metaObject.getName() + "' with "
-                                + resourceBean.getBeanCollectionProperty("representation").size()
-                                + " representations loaded");
-                }
+
+                LOGGER.info(">>>>>>>>>>>>> PROCESSING RESOURCE " + metaObject.getID() + " - '"
+                            + metaObject.getName() + "' WITH "
+                            + resourceBean.getBeanCollectionProperty("representation").size()
+                            + " REPRESENTATIONS <<<<<<<<<<<<<");
 
                 final ArrayList<File> downloadResources = this.downloadResources(resourceBean);
                 if (downloadResources.isEmpty()) {
@@ -637,64 +660,68 @@ final class ZenodoUploader {
                     continue;
                 }
 
-                ObjectNode deposition = this.createDeposition();
+                deposition = this.createDeposition();
                 final long depositionId = deposition.get("id").asLong();
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.info("empty deposition " + depositionId + " created");
+                    LOGGER.debug("empty deposition " + depositionId + " with prereserved doi '"
+                                + deposition.get("metadata").get("prereserve_doi").get("doi").asText()
+                                + "' created");
                 }
                 // if (LOGGER.isDebugEnabled()) {
                 // LOGGER.debug(MAPPER.writeValueAsString(emptyDeposition));
                 // }
 
                 for (final File file : downloadResources) {
-                    final JsonNode depositionFile = this.uploadDepositionFile(
-                            depositionId,
-                            file,
-                            this.getMediaType(file));
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.info("deposition file '" + file.getName() + "' uploaded. checksum: "
-                                    + depositionFile.get("checksum").asText());
-                    }
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug(MAPPER.writeValueAsString(depositionFile));
-                    }
+                    this.uploadDepositionFile(
+                        depositionId,
+                        file,
+                        this.getMediaType(file));
                 }
 
                 deposition = this.getDeposition(depositionId);
-                // if (LOGGER.isDebugEnabled()) {
-                // LOGGER.debug(MAPPER.writeValueAsString(deposition));
-                // }
+
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug(deposition.get("files").size() + " for deposition '" + depositionId + "' uploaded");
+                }
 
                 this.copyMetadata(deposition, resourceBean);
-                //if (LOGGER.isDebugEnabled()) {
-                //    LOGGER.debug(MAPPER.writeValueAsString(deposition));
-                //}
-
                 deposition = this.updateDeposition(deposition);
-                //if (LOGGER.isDebugEnabled()) {
-                //    LOGGER.debug(MAPPER.writeValueAsString(deposition));
-                //}
-                
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("SWITCH-ON Metadata to deposition '" + depositionId + "' copied: "
+                                + deposition.get("metadata").get("creators").size() + " creators, "
+                                + deposition.get("metadata").get("keywords").size() + " keywords, license = '"
+                                + deposition.get("metadata").get("license").size() + "'.");
+                }
+
                 deposition = this.publishDeposition(deposition);
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug(MAPPER.writeValueAsString(deposition));
+                    LOGGER.debug("deposition for resource " + metaObject.getID() + " - '"
+                                + metaObject.getName() + "' with "
+                                + deposition.get("files").size()
+                                + " files published. DOI: " + deposition.get("doi").asText());
                 }
-                
-                
+
+                LOGGER.trace(MAPPER.writeValueAsString(deposition));
+
+                metadataBean = this.updateMetadataBean(metadataBean, deposition);
+                resourceBean.addCollectionElement("metadata", metadataBean);
+                resourceBean.persist();
+
+                LOGGER.info("resource " + metaObject.getID() + " - '"
+                            + metaObject.getName() + " successfully updated. DOI: " + metadataBean.getProperty("uuid"));
 
                 i++;
-
-                if (i == 3) {
-                    System.exit(0);
-                }
             } catch (Throwable ex) {
                 LOGGER.error("error while processing  resource #" + i + " - "
                             + resourceId + ": " + ex.getMessage(),
                     ex);
+                if (deposition != null) {
+                    LOGGER.error(MAPPER.writeValueAsString(deposition));
+                }
             }
         }
 
-        LOGGER.info(i + " resources processed");
+        LOGGER.info(i + " of " + resources.size() + " resources processed");
         return i;
     }
 
