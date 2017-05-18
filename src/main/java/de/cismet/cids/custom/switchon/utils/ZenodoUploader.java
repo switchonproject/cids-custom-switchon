@@ -8,6 +8,7 @@
 package de.cismet.cids.custom.switchon.utils;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -40,7 +41,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import java.math.BigDecimal;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -64,12 +64,14 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
+import de.cismet.cids.custom.switchon.search.server.TagsSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.netutil.Proxy;
+import java.util.Collection;
 
 /**
  * DOCUMENT ME!
@@ -83,7 +85,8 @@ final class ZenodoUploader {
 
     private static final String DEPOSITIONS_API = "deposit/depositions";
     private static final String DOMAIN = "SWITCHON";
-    private static final String META_CLASS = "resource";
+    private static final String RESOURCE_META_CLASS = "resource";
+    private static final String METADATA_META_CLASS = "metadata";
     private static final int TIMEOUT = 10000;
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -182,7 +185,7 @@ final class ZenodoUploader {
 
         LOGGER.info(resourceIds.size() + " resource IDs read");
 
-        this.resourceClass = ClassCacheMultiple.getMetaClass(DOMAIN, META_CLASS);
+        this.resourceClass = ClassCacheMultiple.getMetaClass(DOMAIN, RESOURCE_META_CLASS);
         this.tempDirectory = ZenodoUploader.createTempDirectory();
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("ZenodoUploader TEMP Directory created: " + tempDirectory.getAbsolutePath());
@@ -191,6 +194,62 @@ final class ZenodoUploader {
 
     //~ Methods ----------------------------------------------------------------
 
+    private CidsBean fetchTagBean(final String taggroupName, final String tagName) throws Exception {
+        Collection<MetaObject> tags;
+        TagsSearch tagsSearch = new TagsSearch();
+        tagsSearch.setTaggroup(taggroupName);
+        tagsSearch.setTags(tagName);
+        tags = SessionManager.getProxy().customServerSearch(tagsSearch);
+        if(tags == null ||tags.isEmpty() ||tags.size() != 1) {
+            throw new Exception("could not find tag for name '" + tagName 
+                    + "' and taggroup '" + taggroupName + "'!");
+        }
+        
+        return tags.iterator().next().getBean();
+    }
+    
+    private CidsBean createMetadataBean() throws ConnectionException, Exception {
+        final CidsBean metadataBean = CidsBean.createNewCidsBeanFromTableName(DOMAIN, METADATA_META_CLASS);       
+        
+        metadataBean.setProperty("name", "Zenodo Deposition Resource");
+        metadataBean.setProperty("type", fetchTagBean("meta-data type", "deposition meta-data"));
+        metadataBean.setProperty("standard", fetchTagBean("meta-data standard", "Zenodo Depositions"));
+        metadataBean.setProperty("contenttype", fetchTagBean("content type", "application/json"));
+        
+        return metadataBean;
+    }
+    
+    private CidsBean updateMetadataBean(final CidsBean metadataBean) {
+        
+        /*
+        
+        tagGroupService.getTagList('meta-data standard', 'SWITCH-ON SIM,Zenodo Depositions')
+        
+         tagGroupService.getTagList('meta-data type', 'basic meta-data,lineage meta-data,deposition meta-data').$promise.then(function (tags) {
+        
+        
+        _this.dataset.metadata[2].type.name === 'deposition meta-data'
+        
+        _this.dataset.metadata[2].standard = tags.getTagByName('Zenodo Depositions');
+        
+        tagGroupService.getTag('content type', 'application/json',
+         _this.dataset.metadata[2].contenttype = tag;
+         
+
+         
+         depositionMetadata.contentlocation = deposition.links.record;
+                           depositionMetadata.content = angular.toJson(deposition);
+                           depositionMetadata.description = deposition.doi_url;
+                           depositionMetadata.creationdate = currentdate;
+                           depositionMetadata.uuid = deposition.doi;*/
+        
+        
+        return metadataBean;
+    }
+
+        
+    
+    
     /**
      * DOCUMENT ME!
      *
@@ -288,6 +347,19 @@ final class ZenodoUploader {
         builder = this.createMediaTypeHeaders(builder);
 
         final ObjectNode objectNode = builder.put(ObjectNode.class, deposition);
+        return objectNode;
+    }
+    
+    private ObjectNode publishDeposition(final ObjectNode deposition) throws RemoteException, JsonProcessingException {
+        final long depositionId = deposition.get("id").asLong();
+
+        final MultivaluedMap queryParameters = this.createUserParameters();
+        final WebResource webResource = this.createWebResource(DEPOSITIONS_API + "/" + depositionId + 
+                "/publish").queryParams(queryParameters);
+        WebResource.Builder builder = this.createAuthorisationHeader(webResource);
+        builder = this.createMediaTypeHeaders(builder);
+
+        final ObjectNode objectNode = builder.post(ObjectNode.class, deposition);
         return objectNode;
     }
 
@@ -594,14 +666,21 @@ final class ZenodoUploader {
                 // }
 
                 this.copyMetadata(deposition, resourceBean);
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug(MAPPER.writeValueAsString(deposition));
-                }
+                //if (LOGGER.isDebugEnabled()) {
+                //    LOGGER.debug(MAPPER.writeValueAsString(deposition));
+                //}
 
                 deposition = this.updateDeposition(deposition);
+                //if (LOGGER.isDebugEnabled()) {
+                //    LOGGER.debug(MAPPER.writeValueAsString(deposition));
+                //}
+                
+                deposition = this.publishDeposition(deposition);
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug(MAPPER.writeValueAsString(deposition));
                 }
+                
+                
 
                 i++;
 
