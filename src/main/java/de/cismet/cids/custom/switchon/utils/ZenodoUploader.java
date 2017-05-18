@@ -853,7 +853,7 @@ final class ZenodoUploader {
             if (args.length == 2) {
                 propertiesFileStream = Files.newInputStream(FileSystems.getDefault().getPath(args[0]),
                         StandardOpenOption.READ);
-                resourcesFileStream = Files.newInputStream(FileSystems.getDefault().getPath(args[0]),
+                resourcesFileStream = Files.newInputStream(FileSystems.getDefault().getPath(args[1]),
                         StandardOpenOption.READ);
             } else {
                 propertiesFileStream = ZenodoUploader.class.getResourceAsStream("zenodo.properties");
