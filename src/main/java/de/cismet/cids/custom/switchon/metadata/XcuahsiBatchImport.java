@@ -92,9 +92,9 @@ public final class XcuahsiBatchImport {
         try {
             DevelopmentTools.initSessionManagerFromRestfulConnectionOnLocalhost(
                 "SWITCHON",
-                "Administratoren",
-                "admin",
-                "cismet");
+                "****",
+                "****",
+                "****");
 
             LOG.info("server connection created");
         } catch (Exception ex) {

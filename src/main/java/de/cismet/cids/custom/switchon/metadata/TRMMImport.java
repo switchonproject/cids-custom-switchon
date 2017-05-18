@@ -56,9 +56,9 @@ public class TRMMImport {
         try {
             DevelopmentTools.initSessionManagerFromRestfulConnectionOnLocalhost(
                 "SWITCHON",
-                "Administratoren",
-                "admin",
-                "cismet");
+                "****",
+                "****",
+                "****");
             LOG.info("server connection created");
 
             final MetaClass resourceClass = ClassCacheMultiple.getMetaClass("SWITCHON", "resource");
