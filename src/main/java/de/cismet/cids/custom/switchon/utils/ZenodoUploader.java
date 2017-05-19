@@ -83,6 +83,23 @@ final class ZenodoUploader {
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final char[] ILLEGAL_CHARACTERS = {
+            '/',
+            '\n',
+            '\r',
+            '\t',
+            '\0',
+            '\f',
+            '`',
+            '?',
+            '*',
+            '\\',
+            '<',
+            '>',
+            '|',
+            '\"',
+            ':'
+        };
     private static final String DEPOSITIONS_API = "deposit/depositions";
     private static final String DOMAIN = "SWITCHON";
     private static final String RESOURCE_META_CLASS = "resource";
@@ -411,7 +428,7 @@ final class ZenodoUploader {
         MediaType mediaType;
 
         if (file.length() > MAX_UPLOAD_FILESIZE) {
-            LOGGER.error("The size " + ((file.length() / 1024) / 1024) + "MB of the file '"
+            LOGGER.warn("The size " + ((file.length() / 1024) / 1024) + "MB of the file '"
                         + file.getName() + "' exceeds the maximum size of " + ((MAX_UPLOAD_FILESIZE / 1024) / 1024)
                         + "MB! Uploading '" + file.getName() + ".txt' instead.");
 
@@ -519,7 +536,8 @@ final class ZenodoUploader {
                         LOGGER.error("could not download representation #" + i + "' "
                                     + representationBean.getProperty("name") + "' of resource '"
                                     + resourceBean.getProperty("name") + "' from URL '"
-                                    + representationBean.getProperty("contentlocation") + "': " + ex.getMessage());
+                                    + representationBean.getProperty("contentlocation") + "': " + ex.getMessage(),
+                            ex);
                     }
                 } else if (LOGGER.isDebugEnabled()) {
                     LOGGER.warn("ignoring non-downloadable representation ("
@@ -549,10 +567,18 @@ final class ZenodoUploader {
     private HashMap.SimpleEntry<URL, File> downloadResource(final CidsBean representationBean)
             throws MalformedURLException, IOException {
         final URL fileUrl = new URL(representationBean.getProperty("contentlocation").toString());
-        final String filename = fileUrl.getFile();
+        String filename = fileUrl.getFile();
         if ((filename == null) || filename.isEmpty()) {
             LOGGER.warn("could not download non-file from url: " + representationBean.getProperty("contentlocation"));
             return null;
+        }
+
+        for (final char illegalChar : ILLEGAL_CHARACTERS) {
+            if (filename.indexOf(illegalChar) != -1) {
+                LOGGER.warn("illegal char '" + illegalChar + "'found in file name '" + filename
+                            + "', replacing by '_'.");
+                filename = filename.replace(illegalChar, '_');
+            }
         }
 
         final File file = new File(this.tempDirectory, filename);
@@ -590,10 +616,11 @@ final class ZenodoUploader {
         final ArrayNode creators = metadata.putArray("creators");
         final CidsBean contact = (CidsBean)resourceBean.getProperty("contact");
 
-        if ((contact.getProperty("name") == null) || contact.getProperty("name").toString().isEmpty()) {
-            if ((contact.getProperty("organisation") == null)
+        if ((contact == null) || (contact.getProperty("name") == null)
+                    || contact.getProperty("name").toString().isEmpty()) {
+            if ((contact == null) || (contact.getProperty("organisation") == null)
                         || contact.getProperty("oranisation").toString().isEmpty()) {
-                LOGGER.error("resource " + resourceBean.getPrimaryKeyValue() + " '"
+                LOGGER.warn("resource " + resourceBean.getPrimaryKeyValue() + " '"
                             + resourceBean.getProperty("name")
                             + "' does not have valid contact information. Setting to 'SWITCH-ON Consortium'");
 
@@ -933,6 +960,7 @@ final class ZenodoUploader {
             zenodoUploader = new ZenodoUploader(propertiesFileStream, resourcesFileStream);
 
             zenodoUploader.generateDOIs();
+            System.exit(0);
         } catch (Throwable t) {
             ZenodoUploader.LOGGER.fatal(t.getMessage(), t);
             System.exit(1);
