@@ -558,8 +558,12 @@ final class ZenodoUploader {
         if ((contact.getProperty("name") == null) || contact.getProperty("name").toString().isEmpty()) {
             if ((contact.getProperty("organisation") == null)
                         || contact.getProperty("oranisation").toString().isEmpty()) {
-                throw new Exception("resource " + resourceBean.getPrimaryKeyValue() + " '"
-                            + resourceBean.getProperty("name") + "' does not have valid contact information");
+                LOGGER.error("resource " + resourceBean.getPrimaryKeyValue() + " '"
+                            + resourceBean.getProperty("name") + "' does not have valid contact information. Setting to 'SWITCH-ON Consortium'");
+                
+                final ObjectNode creator = creators.addObject();
+                creator.put("name", "SWITCH-ON Consortium");
+                creator.put("affiliation", "SWITCH-ON Project");
             } else {
                 final ObjectNode creator = creators.addObject();
                 creator.put("name", contact.getProperty("organisation").toString());
@@ -605,7 +609,8 @@ final class ZenodoUploader {
 
         // notes ---------------------------------------------------------------
         for (final CidsBean metadataBean : resourceBean.getBeanCollectionProperty("metadata")) {
-            if (((CidsBean)metadataBean.getProperty("type")).getProperty("name").toString().equalsIgnoreCase(
+            if (metadataBean.getProperty("type") != null 
+                    && ((CidsBean)metadataBean.getProperty("type")).getProperty("name").toString().equalsIgnoreCase(
                             "lineage meta-data")) {
                 if ((metadataBean.getProperty("description") != null)
                             && !metadataBean.getProperty("description").toString().isEmpty()) {
