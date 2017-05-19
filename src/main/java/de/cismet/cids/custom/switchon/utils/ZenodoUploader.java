@@ -508,7 +508,7 @@ final class ZenodoUploader {
                     try {
                         final HashMap.SimpleEntry<URL, File> fileMapping = this.downloadResource(representationBean);
                         if (fileMapping != null) {
-                            fileMappings.entrySet().add(fileMapping);
+                            fileMappings.put(fileMapping.getKey(), fileMapping.getValue());
                             if (LOGGER.isDebugEnabled()) {
                                 LOGGER.debug("successfully downloaded file from '"
                                             + representationBean.getProperty("contentlocation")
@@ -557,7 +557,7 @@ final class ZenodoUploader {
 
         final File file = new File(this.tempDirectory, filename);
         if (file.exists() && file.canRead()) {
-            LOGGER.warn("the file ' " + file.getName() + "' exists already in '" + file.getParent()
+            LOGGER.warn("the file '" + file.getName() + "' exists already in '" + file.getParent()
                         + "' and thus is not downloaded from '" + representationBean.getProperty("contentlocation")
                         + "'");
         } else {
