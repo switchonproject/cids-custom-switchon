@@ -508,10 +508,11 @@ final class ZenodoUploader {
     private HashMap<URL, File> downloadResources(final CidsBean resourceBean) {
         final HashMap<URL, File> fileMappings = new HashMap<URL, File>();
         final List<CidsBean> representationBeans = resourceBean.getBeanCollectionProperty("representation");
-        final int i = 0;
+        int i = 0;
         for (final CidsBean representationBean : representationBeans) {
+            i++;
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("processing representation #" + i + " ' "
+                LOGGER.debug("processing representation #" + i + " '"
                             + representationBean.getProperty("name") + "' of resource '"
                             + resourceBean.getProperty("name") + "'");
             }
