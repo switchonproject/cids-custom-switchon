@@ -84,7 +84,6 @@ final class ZenodoUploader {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final char[] ILLEGAL_CHARACTERS = {
-            '/',
             '\n',
             '\r',
             '\t',
@@ -93,7 +92,6 @@ final class ZenodoUploader {
             '`',
             '?',
             '*',
-            '\\',
             '<',
             '>',
             '|',
@@ -575,7 +573,7 @@ final class ZenodoUploader {
 
         for (final char illegalChar : ILLEGAL_CHARACTERS) {
             if (filename.indexOf(illegalChar) != -1) {
-                LOGGER.warn("illegal char '" + illegalChar + "'found in file name '" + filename
+                LOGGER.warn("illegal char '" + illegalChar + "' found in file name '" + filename
                             + "', replacing by '_'.");
                 filename = filename.replace(illegalChar, '_');
             }
