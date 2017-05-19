@@ -89,6 +89,8 @@ final class ZenodoUploader {
     private static final String METADATA_META_CLASS = "metadata";
     private static final int TIMEOUT = 10000;
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    // 90 MB max file size. See #156
+    private static final long MAX_UPLOAD_FILESIZE = 25 * 1024 * 1024;
 
     private static final Logger LOGGER = Logger.getLogger(ZenodoUploader.class);
 
@@ -186,7 +188,7 @@ final class ZenodoUploader {
         LOGGER.info(resourceIds.size() + " resource IDs read");
 
         this.resourceClass = ClassCacheMultiple.getMetaClass(DOMAIN, RESOURCE_META_CLASS);
-        // reuse existing temp directory and thus already downloaded files!
+        // reuse existing temp directory and thus already downloaded fileMappings!
         this.tempDirectory = ZenodoUploader.createTempDirectory(false);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("ZenodoUploader TEMP Directory created: " + tempDirectory.getAbsolutePath());
@@ -389,16 +391,15 @@ final class ZenodoUploader {
      * DOCUMENT ME!
      *
      * @param   depositionId  DOCUMENT ME!
-     * @param   file          DOCUMENT ME!
-     * @param   mediaType     DOCUMENT ME!
+     * @param   fileEntry     file DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      *
      * @throws  RemoteException  DOCUMENT ME!
      * @throws  IOException      DOCUMENT ME!
      */
-    private ObjectNode uploadDepositionFile(final long depositionId, final File file, final MediaType mediaType)
-            throws RemoteException, IOException {
+    private ObjectNode uploadDepositionFile(final long depositionId,
+            final HashMap.Entry<URL, File> fileEntry) throws RemoteException, IOException {
         final long current = System.currentTimeMillis();
         final MultivaluedMap queryParameters = this.createUserParameters();
 
@@ -407,15 +408,40 @@ final class ZenodoUploader {
         final WebResource.Builder builder = this.createAuthorisationHeader(webResource);
         builder.type(MediaType.MULTIPART_FORM_DATA_TYPE).accept(MediaType.APPLICATION_JSON_TYPE);
 
+        File file = fileEntry.getValue();
+        MediaType mediaType;
+
+        if (file.length() > MAX_UPLOAD_FILESIZE) {
+            LOGGER.error("The size " + ((file.length() / 1024) / 1024) + "MB of the file '"
+                        + file.getName() + "' exceeds the maximum size of " + ((MAX_UPLOAD_FILESIZE / 1024) / 1024)
+                        + "MB! Uploading '" + file.getName() + ".txt' instead.");
+
+            file = new File(file.getParentFile(), file.getName() + ".txt");
+
+            if (!file.exists() || !file.canRead()) {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("creating file '" + file.getName() + ".txt" + "'");
+                }
+                final String message = "This file exceeds the maxium size supported by the zenodo API (100MB). \n"
+                            + "Please download it from " + fileEntry.getKey();
+                Files.write(file.toPath(), message.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+            } else if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("reusing existing file '" + file.getName() + ".txt" + "'");
+            }
+
+            mediaType = MediaType.TEXT_PLAIN_TYPE;
+        } else {
+            mediaType = this.getMediaType(file);
+        }
+
         // upload file to zenodo. tricky and error prone.
-        final FileDataBodyPart filePart = new FileDataBodyPart("file", file);
+        final FileDataBodyPart filePart = new FileDataBodyPart("file", file, mediaType);
         // here we set the real file name!
         filePart.setContentDisposition(
             FormDataContentDisposition.name("file").fileName(file.getName()).build());
 
-        filePart.setMediaType(mediaType);
         // This part is ignored by the zenodo API ??!!
-        // http://developers.zenodo.org/?shell#deposition-files
+        // http://developers.zenodo.org/?shell#deposition-fileMappings
         final FormDataMultiPart multiPartData = new FormDataMultiPart();
         multiPartData.field(
             "filename",
@@ -446,7 +472,8 @@ final class ZenodoUploader {
             mediaType = URLConnection.guessContentTypeFromName(file.getName());
             if ((mediaType == null) || mediaType.isEmpty()) {
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.warn("cannot detect media type of file '" + file.getName() + "'");
+                    LOGGER.debug("cannot detect media type of file '" + file.getName() + "', setting to "
+                                + MediaType.APPLICATION_OCTET_STREAM_TYPE.toString());
                 }
                 return MediaType.APPLICATION_OCTET_STREAM_TYPE;
             }
@@ -464,8 +491,8 @@ final class ZenodoUploader {
      *
      * @return  DOCUMENT ME!
      */
-    private ArrayList<File> downloadResources(final CidsBean resourceBean) {
-        final ArrayList<File> files = new ArrayList<File>();
+    private HashMap<URL, File> downloadResources(final CidsBean resourceBean) {
+        final HashMap<URL, File> fileMappings = new HashMap<URL, File>();
         final List<CidsBean> representationBeans = resourceBean.getBeanCollectionProperty("representation");
         final int i = 0;
         for (final CidsBean representationBean : representationBeans) {
@@ -480,13 +507,13 @@ final class ZenodoUploader {
                 if (((CidsBean)representationBean.getProperty("function")).getProperty("name").toString()
                             .equalsIgnoreCase("download")) {
                     try {
-                        final File file = this.downloadResource(representationBean);
-                        if (file != null) {
-                            files.add(file);
+                        final HashMap.SimpleEntry<URL, File> fileMapping = this.downloadResource(representationBean);
+                        if (fileMapping != null) {
+                            fileMappings.entrySet().add(fileMapping);
                             if (LOGGER.isDebugEnabled()) {
                                 LOGGER.debug("successfully downloaded file from '"
                                             + representationBean.getProperty("contentlocation")
-                                            + "' to " + file.getAbsolutePath());
+                                            + "' to " + fileMapping.getValue().getAbsolutePath());
                             }
                         }
                     } catch (IOException ex) {
@@ -507,7 +534,7 @@ final class ZenodoUploader {
             }
         }
 
-        return files;
+        return fileMappings;
     }
 
     /**
@@ -520,18 +547,26 @@ final class ZenodoUploader {
      * @throws  MalformedURLException  DOCUMENT ME!
      * @throws  IOException            DOCUMENT ME!
      */
-    private File downloadResource(final CidsBean representationBean) throws MalformedURLException, IOException {
+    private HashMap.SimpleEntry<URL, File> downloadResource(final CidsBean representationBean)
+            throws MalformedURLException, IOException {
         final URL fileUrl = new URL(representationBean.getProperty("contentlocation").toString());
         final String filename = fileUrl.getFile();
         if ((filename == null) || filename.isEmpty()) {
-            LOGGER.warn("could not downlod non-file from url: " + representationBean.getProperty("contentlocation"));
+            LOGGER.warn("could not download non-file from url: " + representationBean.getProperty("contentlocation"));
             return null;
         }
 
         final File file = new File(this.tempDirectory, filename);
-        FileUtils.copyURLToFile(fileUrl, file, TIMEOUT, TIMEOUT);
+        if (file.exists() && file.canRead()) {
+            LOGGER.warn("the file ' " + file.getName() + "' exists already in '" + file.getParent()
+                        + "' and thus is not downloaded from '" + representationBean.getProperty("contentlocation")
+                        + "'");
+        } else {
+            FileUtils.copyURLToFile(fileUrl, file, TIMEOUT, TIMEOUT);
+        }
 
-        return file;
+        final HashMap.SimpleEntry<URL, File> fileMapping = new HashMap.SimpleEntry<URL, File>(fileUrl, file);
+        return fileMapping;
     }
 
     /**
@@ -560,8 +595,9 @@ final class ZenodoUploader {
             if ((contact.getProperty("organisation") == null)
                         || contact.getProperty("oranisation").toString().isEmpty()) {
                 LOGGER.error("resource " + resourceBean.getPrimaryKeyValue() + " '"
-                            + resourceBean.getProperty("name") + "' does not have valid contact information. Setting to 'SWITCH-ON Consortium'");
-                
+                            + resourceBean.getProperty("name")
+                            + "' does not have valid contact information. Setting to 'SWITCH-ON Consortium'");
+
                 final ObjectNode creator = creators.addObject();
                 creator.put("name", "SWITCH-ON Consortium");
                 creator.put("affiliation", "SWITCH-ON Project");
@@ -610,8 +646,8 @@ final class ZenodoUploader {
 
         // notes ---------------------------------------------------------------
         for (final CidsBean metadataBean : resourceBean.getBeanCollectionProperty("metadata")) {
-            if (metadataBean.getProperty("type") != null 
-                    && ((CidsBean)metadataBean.getProperty("type")).getProperty("name").toString().equalsIgnoreCase(
+            if ((metadataBean.getProperty("type") != null)
+                        && ((CidsBean)metadataBean.getProperty("type")).getProperty("name").toString().equalsIgnoreCase(
                             "lineage meta-data")) {
                 if ((metadataBean.getProperty("description") != null)
                             && !metadataBean.getProperty("description").toString().isEmpty()) {
@@ -659,7 +695,7 @@ final class ZenodoUploader {
                             + resourceBean.getBeanCollectionProperty("representation").size()
                             + " REPRESENTATIONS <<<<<<<<<<<<<");
 
-                final ArrayList<File> downloadResources = this.downloadResources(resourceBean);
+                final HashMap<URL, File> downloadResources = this.downloadResources(resourceBean);
                 if (downloadResources.isEmpty()) {
                     LOGGER.error("no valid representations for resource " + metaObject.getID() + " - '"
                                 + metaObject.getName() + "', skipping resource!");
@@ -677,11 +713,10 @@ final class ZenodoUploader {
                 // LOGGER.debug(MAPPER.writeValueAsString(emptyDeposition));
                 // }
 
-                for (final File file : downloadResources) {
+                for (final HashMap.Entry<URL, File> fileEntry : downloadResources.entrySet()) {
                     this.uploadDepositionFile(
                         depositionId,
-                        file,
-                        this.getMediaType(file));
+                        fileEntry);
                 }
 
                 deposition = this.getDeposition(depositionId);
@@ -878,6 +913,8 @@ final class ZenodoUploader {
     /**
      * DOCUMENT ME!
      *
+     * @param   distinct  DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      *
      * @throws  IOException  DOCUMENT ME!
@@ -890,12 +927,11 @@ final class ZenodoUploader {
         temp.delete();
         File directory = new File(temp.getParentFile(), "ZenodoUploader");
 
-        if(distinct) {
+        if (distinct) {
             while (directory.exists()) {
-            directory = new File(temp.getAbsolutePath() + (++i));
+                directory = new File(temp.getAbsolutePath() + (++i));
             }
         }
-        
 
         directory.mkdirs();
         return directory;
