@@ -109,7 +109,6 @@ final class ZenodoUploader {
 
     //~ Instance fields --------------------------------------------------------
 
-    private final List<CidsBean> resources = new ArrayList<CidsBean>();
     private final Properties properties;
     private final String zenodoApiKey;
     private final File tempDirectory;
@@ -673,11 +672,35 @@ final class ZenodoUploader {
     /**
      * DOCUMENT ME!
      *
+     * @param   resourceBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String checkResourceForDoi(final CidsBean resourceBean) {
+        final Collection<CidsBean> metadataBeans = resourceBean.getBeanCollectionProperty("metadata");
+        if ((metadataBeans != null) && !metadataBeans.isEmpty()) {
+            for (final CidsBean metadataBean : metadataBeans) {
+                if ((metadataBean != null) && (metadataBean.getProperty("type") != null)
+                            && metadataBean.getProperty("type").toString().equalsIgnoreCase("deposition meta-data")) {
+                    final Object uuid = metadataBean.getProperty("uuid");
+                    if ((uuid != null) && uuid.toString().contains("zenodo")) {
+                        return uuid.toString();
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      *
      * @throws  Exception  DOCUMENT ME!
      */
-    private int performUpload() throws Exception {
+    private int generateDOIs() throws Exception {
         int i = 0;
 
         CidsBean metadataBean = this.createMetadataBean();
@@ -694,6 +717,12 @@ final class ZenodoUploader {
                             + metaObject.getName() + "' WITH "
                             + resourceBean.getBeanCollectionProperty("representation").size()
                             + " REPRESENTATIONS <<<<<<<<<<<<<");
+                final String doi = this.checkResourceForDoi(resourceBean);
+                if ((doi != null) && doi.contains("zenodo")) {
+                    LOGGER.info("DOI for resource " + metaObject.getID() + " - '"
+                                + metaObject.getName() + " already added. DOI: " + doi);
+                    continue;
+                }
 
                 final HashMap<URL, File> downloadResources = this.downloadResources(resourceBean);
                 if (downloadResources.isEmpty()) {
@@ -762,7 +791,7 @@ final class ZenodoUploader {
             }
         }
 
-        LOGGER.info(i + " of " + resources.size() + " resources processed");
+        LOGGER.info(i + " of " + resourceIds.size() + " resources processed");
         return i;
     }
 
@@ -903,7 +932,7 @@ final class ZenodoUploader {
 
             zenodoUploader = new ZenodoUploader(propertiesFileStream, resourcesFileStream);
 
-            zenodoUploader.performUpload();
+            zenodoUploader.generateDOIs();
         } catch (Throwable t) {
             ZenodoUploader.LOGGER.fatal(t.getMessage(), t);
             System.exit(1);
