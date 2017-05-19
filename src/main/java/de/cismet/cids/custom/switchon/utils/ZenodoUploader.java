@@ -186,7 +186,8 @@ final class ZenodoUploader {
         LOGGER.info(resourceIds.size() + " resource IDs read");
 
         this.resourceClass = ClassCacheMultiple.getMetaClass(DOMAIN, RESOURCE_META_CLASS);
-        this.tempDirectory = ZenodoUploader.createTempDirectory();
+        // reuse existing temp directory and thus already downloaded files!
+        this.tempDirectory = ZenodoUploader.createTempDirectory(false);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("ZenodoUploader TEMP Directory created: " + tempDirectory.getAbsolutePath());
         }
@@ -881,19 +882,22 @@ final class ZenodoUploader {
      *
      * @throws  IOException  DOCUMENT ME!
      */
-    private static File createTempDirectory() throws IOException {
+    private static File createTempDirectory(final boolean distinct) throws IOException {
         final File temp;
         int i = 0;
 
         temp = File.createTempFile("SWITCH-ON_", Long.toString(System.nanoTime()));
         temp.delete();
-        File directory = new File(temp.getAbsolutePath() + (++i));
+        File directory = new File(temp.getParentFile(), "ZenodoUploader");
 
-        while (directory.exists()) {
+        if(distinct) {
+            while (directory.exists()) {
             directory = new File(temp.getAbsolutePath() + (++i));
+            }
         }
+        
 
-        directory.mkdir();
+        directory.mkdirs();
         return directory;
     }
 }
